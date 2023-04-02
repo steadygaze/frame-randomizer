@@ -1,0 +1,50 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "coverage": "vitest run --coverage",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "eslint --fix --ext .js,.vue .",
+    "formatlint": "npm run format && npm run lint",
+    "format": "prettier --write --ignore-unknown .",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.10.0",
+    "nuxt": "^3.3.2",
+    "prettier": "^2.8.7",
+    "vitest": "^0.29.8"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard",
+      "plugin:vue/vue3-recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "import",
+      "prettier",
+      "vue"
+    ],
+    "rules": {
+      "no-console": "off",
+      "prettier/prettier": [
+        "error"
+      ]
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
+  }
+}
