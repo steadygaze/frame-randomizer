@@ -3,6 +3,10 @@ import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   imports: {
-    autoimport: false,
+    autoImport: false,
+  },
+  typescript: {
+    strict: true,
+    typeCheck: true,
   },
 })

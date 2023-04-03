@@ -1,5 +1,5 @@
 <template>
-  <li :id="input.datum.id" @click="emitItem">
+  <li :id="input.datum.id.toString()" @click="emitItem">
     <span
       v-for="part in input.searchResult.parts"
       :key="part.part"
@@ -10,17 +10,14 @@
   </li>
 </template>
 
-<script setup>
-const props = defineProps({
-  input: {
-    type: Object,
-    default(rawProps) {
-      return { searchResult: { parts: [] } }
-    },
-  },
-})
+<script setup lang="ts">
+import { SearchDataBundle } from './FuzzyInput.vue'
 
-function emitItem(event) {
+const props = defineProps<{
+  input: SearchDataBundle
+}>()
+
+function emitItem(_event: MouseEvent) {
   console.dir(props.input.datum.text)
 }
 </script>

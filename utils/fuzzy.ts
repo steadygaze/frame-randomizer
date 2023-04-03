@@ -1,4 +1,4 @@
-function naiveFuzzySearch(searchText, text) {
+function naiveFuzzySearch(searchText: string, text: string) {
   let searchTextIndex = 0
   let matchStartIndex = 0
   let matchState = false
@@ -21,7 +21,20 @@ function naiveFuzzySearch(searchText, text) {
   return result
 }
 
-function naiveFuzzySearchParts(searchText, text) {
+export interface SearchPart {
+  part: string
+  matching: boolean
+}
+
+export interface FuzzySearchResult {
+  matchingCharacterCount: number
+  parts: SearchPart[]
+}
+
+function naiveFuzzySearchParts(
+  searchText: string,
+  text: string
+): FuzzySearchResult {
   if (!searchText.length) {
     return {
       matchingCharacterCount: text.length,

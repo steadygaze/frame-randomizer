@@ -1,5 +1,9 @@
 <template>
-  <input v-model="searchInput" placeholder="Fuzzy search" @keydown="handleKey" />
+  <input
+    v-model="searchInput"
+    placeholder="Fuzzy search"
+    @keydown="handleKey"
+  />
   <ol>
     <FuzzyResultItem
       v-for="obj in computedData"
@@ -9,9 +13,19 @@
   </ol>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from 'vue'
-import { naiveFuzzySearchParts } from '~~/utils/fuzzy'
+import { FuzzySearchResult, naiveFuzzySearchParts } from '~~/utils/fuzzy'
+
+export interface RawDatum {
+  id: number
+  text: string
+}
+
+export interface SearchDataBundle {
+  searchResult: FuzzySearchResult
+  datum: RawDatum
+}
 
 let id = 0
 
@@ -26,43 +40,53 @@ const rawData = [
 const searchInput = ref('')
 
 const computedData = computed(() => {
-  const result = []
+  const result: SearchDataBundle[] = []
   rawData.forEach((datum) => {
-    const searchResult = naiveFuzzySearchParts(searchInput.value, datum.text)
+    const searchResult: FuzzySearchResult = naiveFuzzySearchParts(
+      searchInput.value,
+      datum.text
+    )
     if (searchResult.matchingCharacterCount) {
       result.push({ searchResult, datum })
     }
   })
-  result.sort((a, b) => a.searchResult.length - b.searchResult.length)
+  result.sort(
+    (a, b) =>
+      b.searchResult.matchingCharacterCount -
+      a.searchResult.matchingCharacterCount
+  )
   return result
 })
 
-function handleKey(event) {
+function handleKey(event: KeyboardEvent) {
   let submitEntry = null
-  if (event.altKey) {
+  if (event.ctrlKey || event.altKey) {
     switch (event.key) {
-      case "1":
+      case '1':
         submitEntry = computedData.value[0]
-        break;
-      case "2":
+        break
+      case '2':
         submitEntry = computedData.value[1]
-        break;
-      case "3":
+        break
+      case '3':
         submitEntry = computedData.value[2]
-        break;
-      case "4":
+        break
+      case '4':
         submitEntry = computedData.value[3]
-        break;
-      case "5":
+        break
+      case '5':
         submitEntry = computedData.value[4]
-        break;
+        break
       default:
-        break;
+        return
     }
-  } else if (event.key === "Enter") {
+  } else if (event.key === 'Enter') {
     submitEntry = computedData.value[0]
   }
-  console.log(`Input submitted ${submitEntry.text}`)
+
+  if (submitEntry !== null) {
+    console.log(`Input submitted ${submitEntry.datum.text}`)
+  }
 }
 </script>
 

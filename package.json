@@ -6,7 +6,7 @@
     "coverage": "vitest run --coverage",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "lint": "eslint --fix --ext .js,.vue .",
+    "lint": "eslint --fix --ext .js,.ts,.vue .",
     "formatlint": "npm run format && npm run lint",
     "format": "prettier --write --ignore-unknown .",
     "postinstall": "nuxt prepare",
@@ -14,6 +14,7 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "eslint": "^8.37.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",
@@ -27,8 +28,9 @@
   },
   "eslintConfig": {
     "extends": [
-      "standard",
+      "@nuxtjs/eslint-config-typescript",
       "plugin:vue/vue3-recommended",
+      "standard",
       "prettier"
     ],
     "plugins": [
