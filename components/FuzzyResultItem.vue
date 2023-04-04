@@ -1,5 +1,5 @@
 <template>
-  <li :id="input.datum.id.toString()" @click="emitItem">
+  <li :id="input.show.fullName" @click="emitItem">
     <span
       v-for="part in input.searchResult.parts"
       :key="part.part"
@@ -18,7 +18,7 @@ const props = defineProps<{
 }>()
 
 function emitItem(_event: MouseEvent) {
-  console.dir(props.input.datum.text)
+  console.dir(props.input.show.fullName)
 }
 </script>
 

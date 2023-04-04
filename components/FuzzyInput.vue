@@ -7,7 +7,7 @@
   <ol>
     <FuzzyResultItem
       v-for="obj in computedData"
-      :key="obj.datum.id"
+      :key="obj.show.fullName"
       :input="obj"
     ></FuzzyResultItem>
   </ol>
@@ -15,39 +15,29 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useFetch } from '#app'
 import { FuzzySearchResult, naiveFuzzySearchParts } from '~~/utils/fuzzy'
-
-export interface RawDatum {
-  id: number
-  text: string
-}
+import { Show } from '~~/server/api/shows'
 
 export interface SearchDataBundle {
   searchResult: FuzzySearchResult
-  datum: RawDatum
+  show: Show
 }
 
-let id = 0
-
-const rawData = [
-  { id: id++, text: 'hello there, this is some example text' },
-  { id: id++, text: 'here is more example text' },
-  { id: id++, text: 'lorem ipsum sit' },
-  { id: id++, text: 'hello huh' },
-  { id: id++, text: 'wow!' },
-]
+const { data: rawData } = await useFetch('/api/shows')
+const rawShows: Show[] = rawData.value ? rawData.value.shows : []
 
 const searchInput = ref('')
 
 const computedData = computed(() => {
   const result: SearchDataBundle[] = []
-  rawData.forEach((datum) => {
+  rawShows.forEach((show) => {
     const searchResult: FuzzySearchResult = naiveFuzzySearchParts(
       searchInput.value,
-      datum.text
+      show.fullName
     )
     if (searchResult.matchingCharacterCount) {
-      result.push({ searchResult, datum })
+      result.push({ searchResult, show })
     }
   })
   result.sort(
@@ -85,7 +75,7 @@ function handleKey(event: KeyboardEvent) {
   }
 
   if (submitEntry !== null) {
-    console.log(`Input submitted ${submitEntry.datum.text}`)
+    console.log('Input submitted ', submitEntry.show.fullName)
   }
 }
 </script>
