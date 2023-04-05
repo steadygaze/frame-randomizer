@@ -5,6 +5,13 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false,
   },
+  nitro: {
+    esbuild: {
+      options: {
+        target: 'node18'
+      }
+    }
+  },
   typescript: {
     strict: true,
     typeCheck: true,

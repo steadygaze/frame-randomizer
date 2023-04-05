@@ -1,5 +1,5 @@
 /* global defineEventHandler */
-import fs from 'fs'
+import fs from 'fs/promises'
 
 interface ServerSideShow {
   season: number
@@ -16,7 +16,7 @@ export interface Show {
 }
 
 const serverSideShows: ServerSideShow[] = JSON.parse(
-  fs.readFileSync(
+  await fs.readFile(
     `/home/${process.env.USER}/projects/showguesser_data/data.json`,
     { encoding: 'utf-8' }
   )
