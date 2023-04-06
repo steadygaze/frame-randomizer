@@ -1,5 +1,5 @@
 <template>
   <div>
-    <FuzzyInput />
+    <RandomImage />
   </div>
 </template>

@@ -8,9 +8,9 @@ export default defineNuxtConfig({
   nitro: {
     esbuild: {
       options: {
-        target: 'node18'
-      }
-    }
+        target: 'node18',
+      },
+    },
   },
   typescript: {
     strict: true,
