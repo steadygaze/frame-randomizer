@@ -4,13 +4,6 @@ import { promisify } from 'node:util'
 
 const exec = promisify(execAsync)
 
-interface ServerSideShow {
-  season: number
-  episode: number
-  title: string
-  path: string
-}
-
 async function ffprobeLength(videoPath: string) {
   return parseFloat(
     (
@@ -31,22 +24,22 @@ async function ffmpegFrame(
   return command
 }
 
-const serverSideShows: ServerSideShow[] = JSON.parse(
-  await fs.readFile(
-    `/home/${process.env.USER}/projects/showguesser_data/data.json`,
-    { encoding: 'utf-8' }
+const paths = await Promise.all(
+  (
+    await fs.readdir(`/home/${process.env.USER}/Downloads`)
   )
-).shows
-
-const paths = (await fs.readdir(`/home/${process.env.USER}/Downloads`))
-  .filter((p) => !!p.match(/^YP-1S-.*\.mkv$/))
-  .map((p) => {
-    const match = p.match(/\d\dx\d\d/)
-    return {
-      path: `/home/${process.env.USER}/Downloads/${p}`,
-      epNum: match ? match[0] : '',
-    }
-  })
+    .filter((p) => !!p.match(/^YP-1S-.*\.mkv$/))
+    .map(async (p) => {
+      const match = p.match(/\d\dx\d\d/)
+      const path = `/home/${process.env.USER}/Downloads/${p}`
+      const lengthSec = await ffprobeLength(path)
+      return {
+        path,
+        epNum: match ? match[0] : '',
+        lengthSec,
+      }
+    })
+)
 
 console.dir(paths)
 
@@ -55,9 +48,9 @@ export default defineEventHandler(async () => {
   const imagePath = `/home/${process.env.USER}/projects/showguesser/public/${fname}`
   // const videoPath =
   //   serverSideShows[Math.floor(Math.random() * serverSideShows.length)].path
-  const { path, epNum } = paths[Math.floor(Math.random() * paths.length)]
-  const videoLengthSec = await ffprobeLength(path)
-  const randomSeekTimeSec = Math.random() * videoLengthSec
+  const { path, epNum, lengthSec } =
+    paths[Math.floor(Math.random() * paths.length)]
+  const randomSeekTimeSec = Math.random() * lengthSec
   const minute = Math.floor(randomSeekTimeSec / 60)
   const second = Math.floor((randomSeekTimeSec % 60) * 1000) / 1000
   const command = await ffmpegFrame(path, randomSeekTimeSec, imagePath)
