@@ -11,7 +11,7 @@ async function ffmpegFrame(
   timestamp: number | string,
   outputPath: string
 ) {
-  const command = `ffmpeg -ss ${timestamp} -i '${videoPath}' -frames:v 1 -y ${outputPath}`
+  const command = `ffmpeg -ss ${timestamp} -i ${videoPath} -frames:v 1 -y ${outputPath}`
   await exec(command)
   return command
 }
@@ -37,6 +37,7 @@ try {
   }
 }
 
+// eslint-disable-next-line no-undef -- defineEventHandler
 export default defineEventHandler(async () => {
   const fname = `gen${Date.now()}.png`
   const imagePath = `/home/${process.env.USER}/projects/showguesser/public/${fname}`

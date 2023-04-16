@@ -2,6 +2,7 @@ import { exec as execAsync } from 'node:child_process'
 import { promisify } from 'node:util'
 import path from 'node:path'
 import { glob } from 'glob'
+import shellescape from 'shell-escape'
 import config from '~~/config'
 
 const exec = promisify(execAsync)
@@ -11,7 +12,7 @@ interface EpisodeDatum {
   episode: number
   name: string
   overview: string
-  filename: string
+  filename: string // Pre shell escaped.
   lengthSec: number
 }
 
@@ -43,7 +44,7 @@ async function ffprobeLength(videoPath: string) {
   return parseFloat(
     (
       await exec(
-        `ffprobe -i "${videoPath}" -show_entries format=duration -v quiet -of csv="p=0"`
+        `ffprobe -i ${videoPath} -show_entries format=duration -v quiet -of csv="p=0"`
       )
     ).stdout
   )
@@ -59,10 +60,11 @@ async function lsAllFiles(dir: string): Promise<FileEpisodeDatum[]> {
       fileData.push({
         season: parseInt(match?.groups.season),
         episode: parseInt(match?.groups.episode),
-        filename,
+        filename: shellescape([filename]),
       })
     }
   })
+  console.dir(fileData)
   return fileData
 }
 
@@ -78,14 +80,14 @@ function joinFileData(
         initialData.episode === fileData.episode
     )
     if (!found) {
-      const errorMessage = "Couldn't find file for S" +
-          initialData.season +
-          'E' +
-          initialData.episode
+      const errorMessage =
+        "Couldn't find file for S" +
+        initialData.season +
+        'E' +
+        initialData.episode
       if (config.allowMissingEpisodes) {
-        console.warn(errorMessage);
-      }
-      else {
+        console.warn(errorMessage)
+      } else {
         throw new Error(errorMessage)
       }
     } else {
