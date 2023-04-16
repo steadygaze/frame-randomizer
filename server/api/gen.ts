@@ -1,8 +1,10 @@
-import fs from 'fs/promises'
-import { exec as execAsync } from 'node:child_process'
-import { promisify } from 'node:util'
-import { findFiles, lsAllFiles } from '~~/utils/file'
 import config from '~~/config'
+import fs from 'fs/promises'
+import path from 'node:path'
+import { exec as execAsync } from 'node:child_process'
+import { findFiles, lsAllFiles } from '~~/utils/file'
+import { promisify } from 'node:util'
+import { v4 as uuidv4 } from 'uuid'
 
 const exec = promisify(execAsync)
 
@@ -25,7 +27,7 @@ const episodeData = await findFiles(initialEpisodeData, fileData)
 console.dir(episodeData)
 
 try {
-  await fs.mkdir(config.imageOutPath, { recursive: true })
+  await fs.mkdir(config.imageOutputDir, { recursive: true })
 } catch (error) {
   if (error instanceof Object && 'code' in error) {
     // Ignore if dir already exists.
@@ -39,13 +41,17 @@ try {
 
 // eslint-disable-next-line no-undef -- defineEventHandler
 export default defineEventHandler(async () => {
-  const fname = `gen${Date.now()}.png`
-  const imagePath = `/home/${process.env.USER}/projects/showguesser/public/${fname}`
+  const imageId = uuidv4()
+  const imagePath = path.join(
+    config.imageOutputDir,
+    `${imageId}.${config.imageOutputExtension}`
+  )
+  console.log('Image outputted to', imagePath)
   const { filename, lengthSec, season, episode } =
     episodeData[Math.floor(Math.random() * episodeData.length)]
   const randomSeekTimeSec = Math.random() * lengthSec
   const minute = Math.floor(randomSeekTimeSec / 60)
   const second = Math.floor((randomSeekTimeSec % 60) * 1000) / 1000
   const command = await ffmpegFrame(filename, randomSeekTimeSec, imagePath)
-  return { imagePath: fname, command, minute, second, season, episode }
+  return { imageId, command, minute, second, season, episode }
 })

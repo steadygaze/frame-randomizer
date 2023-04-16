@@ -5,14 +5,14 @@
     <p class="command">{{ minute }}m{{ second }}s</p>
     <p class="command">{{ command }}</p>
   </div>
-  <img :src="imagePath" />
+  <img :src="`/api/genimg/${imageId}`" v-if="imageId" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useFetch } from '#app'
 
-const imagePath = ref('')
+const imageId = ref('')
 const command = ref('')
 const minute = ref(0)
 const second = ref(0)
@@ -22,7 +22,7 @@ async function getImage(_event: MouseEvent) {
   const { data: rawData } = await useFetch('/api/gen')
   console.dir(rawData)
   if (rawData && rawData.value) {
-    imagePath.value = rawData.value.imagePath
+    imageId.value = rawData.value.imageId
     command.value = rawData.value.command
     minute.value = rawData.value.minute
     second.value = rawData.value.second
