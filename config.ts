@@ -4,4 +4,5 @@ export default {
   imageOutputDir: '/tmp/image_gen',
   imageOutputExtension: 'png',
   videoSourceDir: `/home/${process.env.USER}/Downloads/gf`,
+  searchVideoDirRecursively: false,
 }

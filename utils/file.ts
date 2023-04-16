@@ -12,7 +12,7 @@ interface EpisodeDatum {
   episode: number
   name: string
   overview: string
-  filename: string // Pre shell escaped.
+  filename: string // Pre shell escaped and quoted.
   lengthSec: number
 }
 
@@ -51,7 +51,10 @@ async function ffprobeLength(videoPath: string) {
 }
 
 async function lsAllFiles(dir: string): Promise<FileEpisodeDatum[]> {
-  const globPattern = path.join(dir, '**/*.{mkv,mp4}')
+  const globPattern = path.join(
+    dir,
+    config.searchVideoDirRecursively ? '**/*.{mkv,mp4}' : '*.{mkv,mp4}'
+  )
   const globbed = await glob(globPattern)
   const fileData: FileEpisodeDatum[] = []
   globbed.forEach((filename, _index, _arr) => {
@@ -64,7 +67,6 @@ async function lsAllFiles(dir: string): Promise<FileEpisodeDatum[]> {
       })
     }
   })
-  console.dir(fileData)
   return fileData
 }
 
@@ -102,10 +104,9 @@ async function findFiles(
   fileData: FileEpisodeDatum[]
 ): Promise<EpisodeDatum[]> {
   return await Promise.all(
-    joinFileData(episodeData, fileData).map((ep) => {
-      return ffprobeLength(ep.filename).then((lengthSec) => {
-        return { ...ep, lengthSec }
-      })
+    joinFileData(episodeData, fileData).map(async (ep) => {
+      const lengthSec = await ffprobeLength(ep.filename)
+      return { ...ep, lengthSec }
     })
   )
 }
