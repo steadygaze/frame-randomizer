@@ -1,8 +1,8 @@
-import config from '~~/config'
 import fs from 'node:fs/promises'
 import fsAsync from 'node:fs'
 import path from 'path'
 import { sendStream } from 'h3'
+import config from '~~/config'
 
 // eslint-disable-next-line no-undef -- defineEventHandler
 export default defineEventHandler(async (event) => {

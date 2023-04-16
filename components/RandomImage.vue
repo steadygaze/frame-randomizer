@@ -5,12 +5,13 @@
     <p class="command">{{ minute }}m{{ second }}s</p>
     <p class="command">{{ command }}</p>
   </div>
-  <img :src="`/api/genimg/${imageId}`" v-if="imageId" />
+  <img v-if="imageId" :src="`/api/genimg/${imageId}`" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useFetch } from '#app'
+import { episodeName } from '~~/utils/utils'
 
 const imageId = ref('')
 const command = ref('')
@@ -27,9 +28,11 @@ async function getImage(_event: MouseEvent) {
     command.value = rawData.value.command
     minute.value = rawData.value.minute
     second.value = rawData.value.second
-    const sPadded = String(rawData.value.season).padStart(2, '0')
-    const ePadded = String(rawData.value.episode).padStart(2, '0')
-    epNum.value = `S${sPadded}E${ePadded} ${rawData.value.name}`
+    epNum.value = episodeName(
+      rawData.value.season,
+      rawData.value.episode,
+      rawData.value.name
+    )
   } else {
     console.error('Fetch failed', rawData)
   }

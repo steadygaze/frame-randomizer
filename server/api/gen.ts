@@ -1,10 +1,10 @@
-import config from '~~/config'
 import fs from 'fs/promises'
 import path from 'node:path'
 import { exec as execAsync } from 'node:child_process'
-import { findFiles, lsAllFiles } from '~~/utils/file'
 import { promisify } from 'node:util'
 import { v4 as uuidv4 } from 'uuid'
+import { findFiles, lsAllFiles } from '~~/utils/file'
+import config from '~~/config'
 
 const exec = promisify(execAsync)
 
@@ -13,7 +13,9 @@ async function ffmpegFrame(
   timestamp: number | string,
   outputPath: string
 ) {
-  await exec(`ffmpeg -ss ${timestamp} -i ${videoPath} -frames:v 1 -y ${outputPath}`)
+  await exec(
+    `ffmpeg -ss ${timestamp} -i ${videoPath} -frames:v 1 -y ${outputPath}`
+  )
 }
 
 const [initialEpisodeDataString, fileData] = await Promise.all([

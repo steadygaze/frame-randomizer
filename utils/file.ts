@@ -3,6 +3,7 @@ import { promisify } from 'node:util'
 import path from 'node:path'
 import { glob } from 'glob'
 import shellescape from 'shell-escape'
+import { episodeName } from './utils'
 import config from '~~/config'
 
 const exec = promisify(execAsync)
@@ -75,6 +76,7 @@ function joinFileData(
   fileData: FileEpisodeDatum[]
 ): JoinedEpisodeDatum[] {
   const filledData: JoinedEpisodeDatum[] = []
+  const missingEpisodes: string[] = []
   episodeData.forEach((initialData) => {
     const found = fileData.find(
       (fileData) =>
@@ -82,20 +84,28 @@ function joinFileData(
         initialData.episode === fileData.episode
     )
     if (!found) {
-      const errorMessage =
-        "Couldn't find file for S" +
-        initialData.season +
-        'E' +
-        initialData.episode
-      if (config.allowMissingEpisodes) {
-        console.warn(errorMessage)
-      } else {
-        throw new Error(errorMessage)
-      }
+      missingEpisodes.push(
+        episodeName(initialData.season, initialData.episode, initialData.name)
+      )
     } else {
       filledData.push({ ...found, ...initialData })
     }
   })
+  if (missingEpisodes.length > 0) {
+    const missingEpisodesStr = missingEpisodes.join(', ')
+    if (config.allowMissingEpisodes) {
+      console.warn(
+        "Couldn't find files for",
+        missingEpisodes.length,
+        'episodes:',
+        missingEpisodesStr
+      )
+    } else {
+      throw new Error(
+        `Couldn't find files for ${missingEpisodes.length} episodes: ${missingEpisodesStr}`
+      )
+    }
+  }
   return filledData
 }
 
