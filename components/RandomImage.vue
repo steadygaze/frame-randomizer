@@ -19,6 +19,7 @@ const second = ref(0)
 const epNum = ref('')
 
 async function getImage(_event: MouseEvent) {
+  window.getSelection()?.removeAllRanges()
   const { data: rawData } = await useFetch('/api/gen')
   console.dir(rawData)
   if (rawData && rawData.value) {
@@ -26,7 +27,11 @@ async function getImage(_event: MouseEvent) {
     command.value = rawData.value.command
     minute.value = rawData.value.minute
     second.value = rawData.value.second
-    epNum.value = `S${rawData.value.season}E${rawData.value.episode}`
+    const sPadded = String(rawData.value.season).padStart(2, '0')
+    const ePadded = String(rawData.value.episode).padStart(2, '0')
+    epNum.value = `S${sPadded}E${ePadded} ${rawData.value.name}`
+  } else {
+    console.error('Fetch failed', rawData)
   }
 }
 </script>

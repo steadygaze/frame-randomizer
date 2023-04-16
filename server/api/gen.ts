@@ -13,9 +13,7 @@ async function ffmpegFrame(
   timestamp: number | string,
   outputPath: string
 ) {
-  const command = `ffmpeg -ss ${timestamp} -i ${videoPath} -frames:v 1 -y ${outputPath}`
-  await exec(command)
-  return command
+  await exec(`ffmpeg -ss ${timestamp} -i ${videoPath} -frames:v 1 -y ${outputPath}`)
 }
 
 const [initialEpisodeDataString, fileData] = await Promise.all([
@@ -47,11 +45,14 @@ export default defineEventHandler(async () => {
     `${imageId}.${config.imageOutputExtension}`
   )
   console.log('Image outputted to', imagePath)
-  const { filename, lengthSec, season, episode } =
+  const { filename, lengthSec, season, episode, name } =
     episodeData[Math.floor(Math.random() * episodeData.length)]
   const randomSeekTimeSec = Math.random() * lengthSec
   const minute = Math.floor(randomSeekTimeSec / 60)
   const second = Math.floor((randomSeekTimeSec % 60) * 1000) / 1000
-  const command = await ffmpegFrame(filename, randomSeekTimeSec, imagePath)
-  return { imageId, command, minute, second, season, episode }
+  await ffmpegFrame(filename, randomSeekTimeSec, imagePath)
+  const command = `vlc --start-time ${
+    Math.floor(randomSeekTimeSec) - 5
+  } ${filename}`
+  return { imageId, command, minute, second, season, episode, name }
 })
