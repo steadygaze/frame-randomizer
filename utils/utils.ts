@@ -1,3 +1,6 @@
+import { v5 as uuidv5 } from 'uuid'
+import config from '~~/config'
+
 function episodeName(
   season: string | number,
   episode: string | number,
@@ -8,4 +11,9 @@ function episodeName(
   return `S${sPadded}E${ePadded} ${name}`
 }
 
-export { episodeName }
+const nameParts = [config.instanceName, config.imageOutputDir].join('___')
+function myUuid(purpose = 'image_generation') {
+  return uuidv5(nameParts + purpose + Date.now(), config.uuidNamespace)
+}
+
+export { episodeName, myUuid }
