@@ -18,14 +18,16 @@ const minute = ref(0)
 const second = ref(0)
 const epNum = ref('')
 
-async function getImage(event: MouseEvent) {
+async function getImage(_event: MouseEvent) {
   const { data: rawData } = await useFetch('/api/gen')
   console.dir(rawData)
-  imagePath.value = rawData.value.imagePath
-  command.value = rawData.value.command
-  minute.value = rawData.value.minute
-  second.value = rawData.value.second
-  epNum.value = rawData.value.epNum
+  if (rawData && rawData.value) {
+    imagePath.value = rawData.value.imagePath
+    command.value = rawData.value.command
+    minute.value = rawData.value.minute
+    second.value = rawData.value.second
+    epNum.value = `S${rawData.value.season}E${rawData.value.episode}`
+  }
 }
 </script>
 
