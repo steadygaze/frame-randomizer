@@ -4,7 +4,7 @@ import path from 'node:path'
 import { glob } from 'glob'
 import shellescape from 'shell-escape'
 import { episodeName } from './utils'
-import config from '~~/config'
+import { RuntimeConfig } from 'nuxt/schema'
 
 const exec = promisify(execAsync)
 
@@ -51,9 +51,9 @@ async function ffprobeLength(videoPath: string) {
   )
 }
 
-async function lsAllFiles(dir: string): Promise<FileEpisodeDatum[]> {
+async function lsAllFiles(config: RuntimeConfig): Promise<FileEpisodeDatum[]> {
   const globPattern = path.join(
-    dir,
+    config.videoSourceDir,
     config.searchVideoDirRecursively ? '**/*.{mkv,mp4}' : '*.{mkv,mp4}'
   )
   const globbed = await glob(globPattern)
@@ -72,6 +72,7 @@ async function lsAllFiles(dir: string): Promise<FileEpisodeDatum[]> {
 }
 
 function joinFileData(
+  config: RuntimeConfig,
   episodeData: InitialEpisodeDatum[],
   fileData: FileEpisodeDatum[]
 ): JoinedEpisodeDatum[] {
@@ -110,11 +111,12 @@ function joinFileData(
 }
 
 async function findFiles(
+  config: RuntimeConfig,
   episodeData: InitialEpisodeDatum[],
   fileData: FileEpisodeDatum[]
 ): Promise<EpisodeDatum[]> {
   return await Promise.all(
-    joinFileData(episodeData, fileData).map(async (ep) => {
+    joinFileData(config, episodeData, fileData).map(async (ep) => {
       const lengthSec = await ffprobeLength(ep.filename)
       return { ...ep, lengthSec }
     })

@@ -1,11 +1,12 @@
-import fs from 'fs/promises'
 import path from 'node:path'
 import { exec as execAsync } from 'node:child_process'
 import { promisify } from 'node:util'
-import { findFiles, lsAllFiles } from '~~/utils/file'
+import { RuntimeConfig } from 'nuxt/schema'
+import { getEpisodeData } from '../load'
 import { myUuid } from '~~/utils/utils'
-import config from '~~/config'
 
+// eslint-disable-next-line no-undef -- useRuntimeConfig is autoimported
+const config = useRuntimeConfig() as RuntimeConfig
 const exec = promisify(execAsync)
 
 async function ffmpegFrame(
@@ -18,35 +19,16 @@ async function ffmpegFrame(
   )
 }
 
-// eslint-disable-next-line no-undef -- defineEventHandler
+// eslint-disable-next-line no-undef -- defineLazyEventHandler is autoimported
 export default defineLazyEventHandler(async () => {
+  const episodeData = await getEpisodeData(config)
 
-  const [initialEpisodeDataString, fileData] = await Promise.all([
-    fs.readFile(config.episodeDataPath, { encoding: 'utf-8' }),
-    lsAllFiles(config.videoSourceDir),
-  ])
-  const initialEpisodeData = JSON.parse(initialEpisodeDataString).entries
-  const episodeData = await findFiles(initialEpisodeData, fileData)
-  console.log('Loaded', episodeData.length, 'episodes')
-
-  try {
-    await fs.mkdir(config.imageOutputDir, { recursive: true })
-  } catch (error) {
-    if (error instanceof Object && 'code' in error) {
-      // Ignore if dir already exists.
-      if (error.code !== 'EEXIST') {
-        throw error
-      }
-    } else {
-      throw error
-    }
-  }
-
+  // eslint-disable-next-line no-undef -- defineEventHandler is autoimported
   return defineEventHandler(async () => {
-    const imageId = myUuid()
+    const imageId = myUuid(config)
     const imagePath = path.join(
       config.imageOutputDir,
-      `${imageId}.${config.imageOutputExtension}`
+      `${imageId}.${config.public.imageOutputExtension}`
     )
     console.log('Image outputted to', imagePath)
     const { filename, lengthSec, season, episode, name } =
@@ -59,5 +41,5 @@ export default defineLazyEventHandler(async () => {
       Math.floor(randomSeekTimeSec) - 5
     } ${filename}`
     return { imageId, command, minute, second, season, episode, name }
-  });
+  })
 })

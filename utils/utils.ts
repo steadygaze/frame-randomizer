@@ -1,5 +1,5 @@
+import { RuntimeConfig } from 'nuxt/schema'
 import { v5 as uuidv5 } from 'uuid'
-import config from '~~/config'
 
 function episodeName(
   season: string | number,
@@ -11,9 +11,13 @@ function episodeName(
   return `S${sPadded}E${ePadded} ${name}`
 }
 
-const nameParts = [config.instanceName, config.imageOutputDir].join('___')
-function myUuid(purpose = 'image_generation') {
-  return uuidv5(nameParts + purpose + Date.now(), config.uuidNamespace)
+function myUuid(config: RuntimeConfig, purpose = 'image_generation') {
+  return uuidv5(
+    [config.instanceName, config.imageOutputDir, purpose, Date.now()].join(
+      '___'
+    ),
+    config.uuidNamespace
+  )
 }
 
 export { episodeName, myUuid }
