@@ -27,25 +27,6 @@
     "vitest": "^0.29.8",
     "vue-tsc": "^1.2.0"
   },
-  "eslintConfig": {
-    "extends": [
-      "@nuxtjs/eslint-config-typescript",
-      "plugin:vue/vue3-recommended",
-      "standard",
-      "prettier"
-    ],
-    "plugins": [
-      "import",
-      "prettier",
-      "vue"
-    ],
-    "rules": {
-      "no-console": "off",
-      "prettier/prettier": [
-        "error"
-      ]
-    }
-  },
   "prettier": {
     "singleQuote": true,
     "semi": false
