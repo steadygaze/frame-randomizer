@@ -11,14 +11,14 @@
 </template>
 
 <script setup lang="ts">
-import { SearchDataBundle } from './FuzzyInput.vue'
+import { SearchDataBundle } from "./FuzzyInput.vue";
 
 const props = defineProps<{
-  input: SearchDataBundle
-}>()
+  input: SearchDataBundle;
+}>();
 
 function emitItem(_event: MouseEvent) {
-  console.dir(props.input.show.fullName)
+  console.dir(props.input.show.fullName);
 }
 </script>
 
