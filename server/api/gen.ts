@@ -5,7 +5,6 @@ import { RuntimeConfig } from 'nuxt/schema'
 import { getEpisodeData } from '../load'
 import { myUuid } from '~~/utils/utils'
 
-// eslint-disable-next-line no-undef -- useRuntimeConfig is autoimported
 const config = useRuntimeConfig() as RuntimeConfig
 const exec = promisify(execAsync)
 
@@ -19,11 +18,9 @@ async function ffmpegFrame(
   )
 }
 
-// eslint-disable-next-line no-undef -- defineLazyEventHandler is autoimported
 export default defineLazyEventHandler(async () => {
   const episodeData = await getEpisodeData(config)
 
-  // eslint-disable-next-line no-undef -- defineEventHandler is autoimported
   return defineEventHandler(async () => {
     const imageId = myUuid(config)
     const imagePath = path.join(

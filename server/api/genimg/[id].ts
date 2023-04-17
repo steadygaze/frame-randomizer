@@ -4,10 +4,8 @@ import path from 'path'
 import { sendStream } from 'h3'
 import { RuntimeConfig } from 'nuxt/schema'
 
-// eslint-disable-next-line no-undef -- useRuntimeConfig is autoimported
 const config = useRuntimeConfig() as RuntimeConfig
 
-// eslint-disable-next-line no-undef -- defineEventHandler is autoimported
 export default defineEventHandler(async (event) => {
   const imageId = event.context?.params?.id
   if (!imageId) {

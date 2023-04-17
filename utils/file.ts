@@ -3,8 +3,8 @@ import { promisify } from 'node:util'
 import path from 'node:path'
 import { glob } from 'glob'
 import shellescape from 'shell-escape'
-import { episodeName } from './utils'
 import { RuntimeConfig } from 'nuxt/schema'
+import { episodeName } from './utils'
 
 const exec = promisify(execAsync)
 
