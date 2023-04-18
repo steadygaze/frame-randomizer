@@ -3,7 +3,7 @@
     <button @click="getImage">Get Image</button>
     <p class="command">{{ epNum }}</p>
     <p class="command">{{ minute }}m{{ second }}s</p>
-    <p class="command">{{ command }}</p>
+    <pre class="command">{{ command }}</pre>
   </div>
   <img v-if="imageId" :src="`/api/genimg/${imageId}`" />
 </template>
@@ -56,9 +56,20 @@ img {
 
 .flowIt {
   display: flex;
-  margin-bottom: 2px;
+  margin-bottom: 0.4rem;
+  height: 4rem;
 }
 .flowIt * {
   margin-right: 1em;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+button {
+  width: 6rem;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 </style>
