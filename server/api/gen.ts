@@ -35,7 +35,7 @@ export default defineLazyEventHandler(async () => {
     const second = Math.floor((randomSeekTimeSec % 60) * 1000) / 1000;
     await ffmpegFrame(filename, randomSeekTimeSec, imagePath);
     const command = `vlc --start-time ${
-      Math.floor(randomSeekTimeSec) - 5
+      Math.floor(randomSeekTimeSec) - config.replayPreSec
     } ${filename}`;
     return { imageId, command, minute, second, season, episode, name };
   });
