@@ -7,7 +7,7 @@
   <ol>
     <FuzzyResultItem
       v-for="obj in computedData"
-      :key="obj.show.fullName"
+      :key="obj.episode.fullName"
       :input="obj"
     ></FuzzyResultItem>
   </ol>
@@ -17,27 +17,39 @@
 import { computed, ref } from "vue";
 import { useFetch } from "#app";
 import { FuzzySearchResult, naiveFuzzySearchParts } from "~~/utils/fuzzy";
-import { Show } from "~~/server/api/shows";
+import { ClientEpisodeData } from "~~/server/api/list";
+import { episodeName } from "~/utils/utils";
+
+export interface ProcessedEpisodeData {
+  season: number;
+  episode: number;
+  name: string;
+  fullName: string;
+}
 
 export interface SearchDataBundle {
   searchResult: FuzzySearchResult;
-  show: Show;
+  episode: ProcessedEpisodeData;
 }
 
-const { data: rawData } = await useFetch("/api/shows");
-const rawShows: Show[] = rawData.value ? rawData.value.shows : [];
+const { data: rawData } = await useFetch("/api/list");
+const rawEpisodeData: ProcessedEpisodeData[] = rawData.value
+  ? rawData.value.episodeData.map((ep: ClientEpisodeData) => {
+      return { ...ep, fullName: episodeName(ep.season, ep.episode, ep.name) };
+    })
+  : [];
 
 const searchInput = ref("");
 
 const computedData = computed(() => {
   const result: SearchDataBundle[] = [];
-  rawShows.forEach((show) => {
+  rawEpisodeData.forEach((ep) => {
     const searchResult: FuzzySearchResult = naiveFuzzySearchParts(
       searchInput.value,
-      show.fullName
+      ep.fullName
     );
     if (searchResult.matchingCharacterCount) {
-      result.push({ searchResult, show });
+      result.push({ searchResult, episode: ep });
     }
   });
   result.sort(
@@ -75,7 +87,7 @@ function handleKey(event: KeyboardEvent) {
   }
 
   if (submitEntry !== null) {
-    console.log("Input submitted ", submitEntry.show.fullName);
+    console.log("Input submitted ", submitEntry.episode.fullName);
   }
 }
 </script>
