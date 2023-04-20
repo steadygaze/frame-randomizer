@@ -1,8 +1,9 @@
 import fs from "fs/promises";
 import { RuntimeConfig } from "nuxt/schema";
+import once from "lodash.once";
 import { findFiles, lsAllFiles } from "~~/utils/file";
 
-async function getEpisodeData(config: RuntimeConfig) {
+async function getEpisodeDataUncached(config: RuntimeConfig) {
   const [initialEpisodeDataString, fileData] = await Promise.all([
     fs.readFile(config.episodeDataPath, { encoding: "utf-8" }),
     lsAllFiles(config),
@@ -22,5 +23,7 @@ async function getEpisodeData(config: RuntimeConfig) {
   console.log("Loaded", episodeData.length, "episodes");
   return episodeData;
 }
+
+const getEpisodeData = once(getEpisodeDataUncached);
 
 export { getEpisodeData };

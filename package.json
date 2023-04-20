@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@types/lodash.once": "^4.1.7",
     "@types/shell-escape": "^0.2.1",
     "@types/uuid": "^9.0.1",
     "eslint": "^8.37.0",
@@ -30,6 +31,7 @@
   },
   "dependencies": {
     "glob": "^10.1.0",
+    "lodash.once": "^4.1.1",
     "shell-escape": "^0.2.0",
     "uuid": "^9.0.0"
   }

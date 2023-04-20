@@ -8,7 +8,7 @@ import { episodeName } from "./utils";
 
 const exec = promisify(execAsync);
 
-interface EpisodeDatum {
+export interface EpisodeDatum {
   season: number;
   episode: number;
   name: string;
@@ -62,8 +62,8 @@ async function lsAllFiles(config: RuntimeConfig): Promise<FileEpisodeDatum[]> {
     const match = seasonEpisodeRegex.exec(path.basename(filename));
     if (match && match.length > 0 && match.groups) {
       fileData.push({
-        season: parseInt(match?.groups.season),
-        episode: parseInt(match?.groups.episode),
+        season: parseInt(match.groups.season),
+        episode: parseInt(match.groups.episode),
         filename: shellescape([filename]),
       });
     }
@@ -115,12 +115,24 @@ async function findFiles(
   episodeData: InitialEpisodeDatum[],
   fileData: FileEpisodeDatum[]
 ): Promise<EpisodeDatum[]> {
-  return await Promise.all(
-    joinFileData(config, episodeData, fileData).map(async (ep) => {
-      const lengthSec = await ffprobeLength(ep.filename);
-      return { ...ep, lengthSec };
-    })
-  );
+  return (
+    await Promise.all(
+      joinFileData(config, episodeData, fileData).map(async (ep) => {
+        try {
+          const lengthSec = await ffprobeLength(ep.filename);
+          return [{ ...ep, lengthSec }];
+        } catch (error) {
+          console.error(
+            "Failed to load",
+            episodeName(ep.season, ep.episode, ep.name),
+            "at",
+            ep.filename
+          );
+          return [];
+        }
+      })
+    )
+  ).flat();
 }
 
 export { findFiles, lsAllFiles };
