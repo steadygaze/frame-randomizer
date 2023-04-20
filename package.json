@@ -3,15 +3,16 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
+    "check": "npm run format && npm run lint && npm run vuetsc",
     "coverage": "vitest run --coverage",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "lint": "eslint --fix --ext .js,.ts,.vue .",
-    "formatlint": "npm run format && npm run lint",
     "format": "prettier --write --ignore-unknown .",
     "postinstall": "nuxt prepare",
     "preview": "nuxt preview",
-    "test": "vitest"
+    "test": "vitest",
+    "vuetsc": "vue-tsc"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
