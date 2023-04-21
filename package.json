@@ -36,6 +36,7 @@
     "vue-tsc": "^1.2.0"
   },
   "dependencies": {
+    "fuse.js": "^6.6.2",
     "glob": "^10.1.0",
     "lodash.once": "^4.1.1",
     "shell-escape": "^0.2.0",

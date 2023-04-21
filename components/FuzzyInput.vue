@@ -6,9 +6,9 @@
   />
   <ol>
     <FuzzyResultItem
-      v-for="obj in computedData"
-      :key="obj.episode.fullName"
-      :input="obj"
+      v-for="fuseMatch in computedData"
+      :key="fuseMatch.item.fullName"
+      :fuse-match="fuseMatch"
     ></FuzzyResultItem>
   </ol>
 </template>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useFetch } from "#app";
-import { FuzzySearchResult, naiveFuzzySearchParts } from "~~/utils/fuzzy";
+import Fuse from "fuse.js";
 import { ClientEpisodeData } from "~~/server/api/list";
 import { episodeName } from "~/utils/utils";
 
@@ -25,39 +25,42 @@ export interface ProcessedEpisodeData {
   episode: number;
   name: string;
   fullName: string;
-}
-
-export interface SearchDataBundle {
-  searchResult: FuzzySearchResult;
-  episode: ProcessedEpisodeData;
+  overview: string;
 }
 
 const { data: rawData } = await useFetch("/api/list");
-const rawEpisodeData: ProcessedEpisodeData[] = rawData.value
+const episodeData: ProcessedEpisodeData[] = rawData.value
   ? rawData.value.episodeData.map((ep: ClientEpisodeData) => {
       return { ...ep, fullName: episodeName(ep.season, ep.episode, ep.name) };
     })
   : [];
 
+const fuse = new Fuse(episodeData, {
+  includeScore: true,
+  includeMatches: true,
+  ignoreLocation: true,
+  keys: [
+    {
+      name: "name",
+      weight: 1.0,
+    },
+    {
+      name: "overview",
+      weight: 0.25,
+    },
+  ],
+  minMatchCharLength: 3,
+  threshold: 0.25,
+});
+
 const searchInput = ref("");
 
 const computedData = computed(() => {
-  const result: SearchDataBundle[] = [];
-  rawEpisodeData.forEach((ep) => {
-    const searchResult: FuzzySearchResult = naiveFuzzySearchParts(
-      searchInput.value,
-      ep.fullName
-    );
-    if (searchResult.matchingCharacterCount) {
-      result.push({ searchResult, episode: ep });
-    }
-  });
-  result.sort(
-    (a, b) =>
-      b.searchResult.matchingCharacterCount -
-      a.searchResult.matchingCharacterCount
-  );
-  return result;
+  if (searchInput.value.length === 0) {
+    return [];
+  }
+  const searchResult = fuse.search(searchInput.value);
+  return searchResult;
 });
 
 function handleKey(event: KeyboardEvent) {
@@ -87,7 +90,7 @@ function handleKey(event: KeyboardEvent) {
   }
 
   if (submitEntry !== null) {
-    console.log("Input submitted ", submitEntry.episode.fullName);
+    console.log("Input submitted ", submitEntry.item.fullName);
   }
 }
 </script>

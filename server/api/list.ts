@@ -6,14 +6,15 @@ export interface ClientEpisodeData {
   season: number;
   episode: number;
   name: string;
+  overview: string;
 }
 
 const config = useRuntimeConfig() as RuntimeConfig;
 
 async function getClientEpisodeDataInit(config: RuntimeConfig) {
   const episodeData = await getEpisodeData(config);
-  return episodeData.map(({ season, episode, name }) => {
-    return { season, episode, name };
+  return episodeData.map(({ season, episode, name, overview }) => {
+    return { season, episode, name, overview };
   });
 }
 

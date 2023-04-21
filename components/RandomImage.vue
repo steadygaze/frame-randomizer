@@ -1,8 +1,7 @@
 <template>
   <div class="flowIt">
     <button @click="getImage">Get Image</button>
-    <p class="command">{{ epNum }}</p>
-    <p class="command">{{ minute }}m{{ second }}s</p>
+    <p class="command">{{ epNum }} @ {{ minute }}m{{ second }}s</p>
     <pre class="command">{{ command }}</pre>
   </div>
   <img v-if="imageId" :src="`/api/genimg/${imageId}`" />
@@ -45,10 +44,8 @@ async function getImage(_event: MouseEvent) {
 }
 
 img {
-  width: 80%;
+  width: 100%;
   height: auto;
-  /* width: auto;
-  height: 80%; */
 
   margin-left: auto;
   margin-right: auto;
