@@ -4,12 +4,11 @@
     :class="{ highlight: props.highlight }"
     @click="emitItem"
   >
-    <span>{{ mySeasonEpisodeTag }}</span
-    >&nbsp;
+    <span>{{ mySeasonEpisodeTag + " " }} </span>
     <span
       v-for="(part, index) in chunkedName"
       :key="index"
-      :class="{ matching: part?.matching }"
+      :class="{ matching: part?.matching, title: true }"
     >
       {{ part?.part }} </span
     ><br />
@@ -68,20 +67,27 @@ function emitItem(_event: MouseEvent) {
 }
 
 .highlight {
-  background-color: lightgray;
+  background-color: black;
+  color: white;
+}
+
+.title {
+  font-style: italic;
 }
 
 li {
   border: 1px solid black;
   padding: 4px;
+  font-family: monospace;
 }
 
 li:hover {
-  background-color: lightgray;
+  background-color: black;
+  color: white;
   cursor: pointer;
 }
 
 li:active {
-  background-color: darkgray;
+  background-color: #aaa;
 }
 </style>

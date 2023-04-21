@@ -16,6 +16,7 @@
         :fuse-match="fuseMatch"
         :show-synopsis="showSynopsis"
         :highlight="highlightIndex === index"
+        @mouseover="handleMouseover(index)"
       ></FuzzyResultItem>
     </ol>
   </div>
@@ -44,9 +45,10 @@ const episodeData: ProcessedEpisodeData[] = rawData.value
   : [];
 
 const fuse = new Fuse(episodeData, {
-  includeScore: true,
-  includeMatches: true,
   ignoreLocation: true,
+  includeMatches: true,
+  includeScore: true,
+  isCaseSensitive: false,
   keys: [
     {
       name: "name",
@@ -97,11 +99,13 @@ function handleKey(event: KeyboardEvent) {
         if (highlightIndex.value < computedData.value.length - 1) {
           ++highlightIndex.value;
         }
+        event.preventDefault();
         break;
       case "ArrowUp":
         if (highlightIndex.value > 0) {
           --highlightIndex.value;
         }
+        event.preventDefault();
         break;
       default:
         // Regular text input; reset to beginning.
@@ -112,6 +116,10 @@ function handleKey(event: KeyboardEvent) {
   if (submitEntry !== null) {
     console.log("Input submitted ", submitEntry.item.fullName);
   }
+}
+
+function handleMouseover(index: number) {
+  highlightIndex.value = index;
 }
 </script>
 
@@ -129,7 +137,7 @@ li:nth-child(10) {
 }
 li:nth-child(-n + 10):before {
   content: "Mod-" counter(searchCounter);
-  color: gray;
+  color: #888;
   margin-right: 0.4rem;
 }
 

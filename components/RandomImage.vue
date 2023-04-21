@@ -2,7 +2,7 @@
   <div>
     <div class="flowIt">
       <button
-        :class="imageIsLoading ? 'loading' : ''"
+        :class="{loading: imageIsLoading}"
         :disabled="imageIsLoading"
         @click="getImage"
       >
