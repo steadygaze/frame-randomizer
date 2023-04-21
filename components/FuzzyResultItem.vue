@@ -9,12 +9,14 @@
     >
       {{ part?.part }} </span
     ><br />
-    <span
-      v-for="part in chunkedOverview"
-      :key="part?.part"
-      :class="part?.matching ? 'matching' : 'not-matching'"
-    >
-      {{ part?.part }}
+    <span v-if="showSynopsis">
+      <span
+        v-for="part in chunkedOverview"
+        :key="part?.part"
+        :class="part?.matching ? 'matching' : 'not-matching'"
+      >
+        {{ part?.part }}
+      </span>
     </span>
   </li>
 </template>
@@ -30,6 +32,7 @@ type FuseResult<T> = Fuse.FuseResult<T>;
 
 const props = defineProps<{
   fuseMatch: FuseResult<ProcessedEpisodeData>;
+  showSynopsis: boolean;
 }>();
 
 function findAndChunkKeyMatches(key: keyof ProcessedEpisodeData): SearchPart[] {
@@ -39,12 +42,10 @@ function findAndChunkKeyMatches(key: keyof ProcessedEpisodeData): SearchPart[] {
     : [{ part: props.fuseMatch.item[key] as string, matching: false }];
 }
 
-const chunkedName = computed(() => {
-  const r = findAndChunkKeyMatches("name");
-  console.dir(r);
-  return r;
-});
-const chunkedOverview = computed(() => findAndChunkKeyMatches("overview"));
+const chunkedName = computed(() => findAndChunkKeyMatches("name"));
+const chunkedOverview = computed(() =>
+  props.showSynopsis ? findAndChunkKeyMatches("overview") : []
+);
 
 const mySeasonEpisodeTag = computed(() =>
   seasonEpisodeTag(props.fuseMatch.item.season, props.fuseMatch.item.episode)
@@ -59,5 +60,19 @@ function emitItem(_event: MouseEvent) {
 .matching {
   font-weight: bold;
   text-decoration: underline;
+}
+
+li {
+  border: 1px solid black;
+  padding: 4px;
+}
+
+li:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+li:active {
+  background-color: darkgray;
 }
 </style>

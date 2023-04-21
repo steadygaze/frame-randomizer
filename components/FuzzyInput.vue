@@ -1,16 +1,23 @@
 <template>
-  <input
-    v-model="searchInput"
-    placeholder="Fuzzy search"
-    @keydown="handleKey"
-  />
-  <ol>
-    <FuzzyResultItem
-      v-for="fuseMatch in computedData"
-      :key="fuseMatch.item.fullName"
-      :fuse-match="fuseMatch"
-    ></FuzzyResultItem>
-  </ol>
+  <div id="fuzzyInput">
+    <input
+      v-model="searchInput"
+      placeholder="Fuzzy search"
+      @keydown="handleKey"
+    />
+    <label>
+      <input v-model="showSynopsis" type="checkbox" />
+      Show synopsis
+    </label>
+    <ol>
+      <FuzzyResultItem
+        v-for="fuseMatch in computedData"
+        :key="fuseMatch.item.fullName"
+        :fuse-match="fuseMatch"
+        :show-synopsis="showSynopsis"
+      ></FuzzyResultItem>
+    </ol>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -54,6 +61,7 @@ const fuse = new Fuse(episodeData, {
 });
 
 const searchInput = ref("");
+const showSynopsis = ref(true);
 
 const computedData = computed(() => {
   if (searchInput.value.length === 0) {
@@ -104,9 +112,16 @@ ol {
 li {
   counter-increment: searchCounter;
 }
-li:before {
-  content: "Alt-" counter(searchCounter);
+li:nth-child(10) {
+  counter-reset: searchCounter -1;
+}
+li:nth-child(-n + 10):before {
+  content: "Mod-" counter(searchCounter);
   color: gray;
   margin-right: 0.4rem;
+}
+
+#fuzzyInput {
+  padding: 1px;
 }
 </style>
