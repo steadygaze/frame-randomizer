@@ -25,7 +25,7 @@ body {
 
 #input {
   overflow-y: auto;
-  background-color: gainsboro;
+  background-color: #eee;
   width: 100%;
   height: 98vh;
   flex: 1 0 400px;

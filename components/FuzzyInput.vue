@@ -11,10 +11,11 @@
     </label>
     <ol>
       <FuzzyResultItem
-        v-for="fuseMatch in computedData"
+        v-for="(fuseMatch, index) in computedData"
         :key="fuseMatch.item.fullName"
         :fuse-match="fuseMatch"
         :show-synopsis="showSynopsis"
+        :highlight="highlightIndex === index"
       ></FuzzyResultItem>
     </ol>
   </div>
@@ -62,14 +63,9 @@ const fuse = new Fuse(episodeData, {
 
 const searchInput = ref("");
 const showSynopsis = ref(true);
+const highlightIndex = ref(0);
 
-const computedData = computed(() => {
-  if (searchInput.value.length === 0) {
-    return [];
-  }
-  const searchResult = fuse.search(searchInput.value);
-  return searchResult;
-});
+const computedData = computed(() => fuse.search(searchInput.value));
 
 function handleKey(event: KeyboardEvent) {
   let submitEntry = null;
@@ -94,7 +90,23 @@ function handleKey(event: KeyboardEvent) {
         return;
     }
   } else if (event.key === "Enter") {
-    submitEntry = computedData.value[0];
+    submitEntry = computedData.value[highlightIndex.value];
+  } else {
+    switch (event.key) {
+      case "ArrowDown":
+        if (highlightIndex.value < computedData.value.length - 1) {
+          ++highlightIndex.value;
+        }
+        break;
+      case "ArrowUp":
+        if (highlightIndex.value > 0) {
+          --highlightIndex.value;
+        }
+        break;
+      default:
+        // Regular text input; reset to beginning.
+        highlightIndex.value = 0;
+    }
   }
 
   if (submitEntry !== null) {
