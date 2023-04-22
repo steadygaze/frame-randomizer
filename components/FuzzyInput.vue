@@ -1,5 +1,5 @@
 <template>
-  <div id="fuzzyInput">
+  <div class="fuzzyInput">
     <input
       v-model="searchInput"
       placeholder="Fuzzy search"
@@ -168,7 +168,7 @@ li:nth-child(-n + 10):before {
   margin-right: 0.4rem;
 }
 
-#fuzzyInput {
-  padding: 1px;
+.fuzzyInput {
+  padding: 4px;
 }
 </style>

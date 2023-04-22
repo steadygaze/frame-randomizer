@@ -1,44 +1,49 @@
 <template>
   <div id="main">
-    <div id="input">
+    <div id="inputpane">
       <FuzzyInput />
     </div>
-    <div id="image">
+    <div id="imagepane">
       <RandomImage />
     </div>
   </div>
 </template>
 
 <style>
+html,
 body {
+  height: 100%;
+  width: 100%;
   margin: 0;
+}
+
+body > * {
+  /* The parent div that Nuxt adds. */
+  height: 100%;
+  width: 100%;
 }
 
 #main {
   background-color: white;
   display: flex;
   flex-direction: row;
-  margin: 4px;
-  align-items: stretch;
-  align-content: stretch;
+  height: 100%;
+  width: 100%;
 }
 
-#input {
+#inputpane {
   overflow-y: auto;
   background-color: #eee;
   width: 100%;
-  height: 98vh;
+  height: 100%;
   flex: 1 0 400px;
-  padding: 1px;
-  border: 1px solid black;
+  padding: 0;
+  margin: 0;
 }
 
-#image {
-  width: 100%;
+#imagepane {
   flex: 3 0 80%;
-  padding: 1px;
-  border: 1px solid black;
-  height: 98vh;
+  padding: 4px;
 }
 
 @media screen and (max-width: 800px) {

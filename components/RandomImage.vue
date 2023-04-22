@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="flowIt">
       <button
         :class="{ loading: imageIsLoading }"
@@ -59,9 +59,14 @@ onMounted(() => getImage(null));
   color: white;
 }
 
-img {
+.wrapper {
   width: 100%;
   height: 100%;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: scale-down;
 }
 
