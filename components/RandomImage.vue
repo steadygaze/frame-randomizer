@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="flowIt">
+      <h1>{{ siteName }}</h1>
       <button
         :class="{ loading: imageIsLoading }"
         :disabled="imageIsLoading"
@@ -17,11 +18,13 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { useFetch } from "#app";
+import { useFetch, useRuntimeConfig } from "#app";
 import { storeToRefs } from "pinia";
 import { episodeName } from "~~/utils/utils";
 import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 
+const config = useRuntimeConfig();
+const siteName = ref(config.public.instanceName);
 const store = useEpisodeDataStore();
 const { imageId } = storeToRefs(store);
 
@@ -62,6 +65,8 @@ onMounted(() => getImage(null));
 .wrapper {
   width: 100%;
   height: 100%;
+  padding: 4px;
+  box-sizing: border-box;
 }
 
 img {
@@ -77,7 +82,7 @@ img {
   align-items: center;
 }
 .flowIt * {
-  margin-right: 1em;
+  margin-right: 8px;
 }
 
 pre {

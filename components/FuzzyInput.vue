@@ -5,10 +5,10 @@
       placeholder="Fuzzy search"
       @keydown="handleKey"
     />
-    <label>
-      <input v-model="useSynopsis" type="checkbox" />
-      Use synopsis
-    </label>
+    <div id="synopsisCheckboxContainer">
+      <input id="synopsisCheckbox" v-model="useSynopsis" type="checkbox" />
+      <label for="synopsisCheckbox">Use synopsis</label>
+    </div>
     <ol>
       <FuzzyResultItem
         v-for="(fuseMatch, index) in computedData"
@@ -168,7 +168,20 @@ li:nth-child(-n + 10):before {
   margin-right: 0.4rem;
 }
 
+@media screen and (max-width: 800px) {
+  li:before {
+    /* Hide keyboard shortcut hints on mobile. */
+    content: "" !important;
+    margin-right: 0 !important;
+  }
+}
+
 .fuzzyInput {
   padding: 4px;
+}
+
+#synopsisCheckboxContainer {
+  /* Group checkbox and label so they break on the same line. */
+  display: inline-block;
 }
 </style>
