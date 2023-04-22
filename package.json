@@ -1,6 +1,7 @@
 {
   "name": "nuxt-app",
   "private": true,
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "build": "nuxt build",
     "check": "npm run format && npm run lint && npm run vuetsc",
