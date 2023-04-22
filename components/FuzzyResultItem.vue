@@ -1,9 +1,5 @@
 <template>
-  <li
-    :id="fuseMatch.item.fullName"
-    :class="{ highlight: props.highlight }"
-    @click="emitItem"
-  >
+  <li :id="fuseMatch.item.fullName" :class="{ highlight: props.highlight }">
     <span>{{ mySeasonEpisodeTag + " " }} </span>
     <span
       v-for="(part, index) in chunkedName"
@@ -54,10 +50,6 @@ const chunkedOverview = computed(() =>
 const mySeasonEpisodeTag = computed(() =>
   seasonEpisodeTag(props.fuseMatch.item.season, props.fuseMatch.item.episode)
 );
-
-function emitItem(_event: MouseEvent) {
-  console.dir(props.fuseMatch.item.fullName);
-}
 </script>
 
 <style scoped>

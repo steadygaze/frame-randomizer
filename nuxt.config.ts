@@ -1,10 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from "nuxt/config";
 
+const instanceName = "Showguesser";
+
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: instanceName,
+    },
+  },
   imports: {
     autoImport: false,
   },
+  modules: ["@pinia/nuxt"],
   nitro: {
     esbuild: {
       options: {
@@ -23,7 +31,7 @@ export default defineNuxtConfig({
 
     public: {
       imageOutputExtension: "png",
-      instanceName: "Showguesser Instance",
+      instanceName,
     },
   },
   typescript: {

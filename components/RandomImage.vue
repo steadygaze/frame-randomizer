@@ -2,7 +2,7 @@
   <div>
     <div class="flowIt">
       <button
-        :class="{loading: imageIsLoading}"
+        :class="{ loading: imageIsLoading }"
         :disabled="imageIsLoading"
         @click="getImage"
       >
@@ -18,9 +18,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useFetch } from "#app";
+import { storeToRefs } from "pinia";
 import { episodeName } from "~~/utils/utils";
+import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 
-const imageId = ref("");
+const store = useEpisodeDataStore();
+const { imageId } = storeToRefs(store);
+
 const command = ref("");
 const minute = ref(0);
 const second = ref(0);
@@ -32,7 +36,7 @@ async function getImage(_event: MouseEvent | null) {
   window.getSelection()?.removeAllRanges();
   const { data: rawData } = await useFetch("/api/gen");
   if (rawData && rawData.value) {
-    imageId.value = rawData.value.imageId;
+    store.imageId = rawData.value.imageId;
     command.value = rawData.value.command;
     minute.value = rawData.value.minute;
     second.value = rawData.value.second;
