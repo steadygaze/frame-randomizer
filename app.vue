@@ -16,6 +16,8 @@ body {
   width: 100%;
   margin: 0;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: black;
+  overflow: hidden; /* No page-level scrollbars. */
 }
 
 body > * {
@@ -30,6 +32,9 @@ body > * {
   flex-direction: row;
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
 #inputpane {
@@ -37,17 +42,22 @@ body > * {
   background-color: #eee;
   width: 100%;
   max-width: 500px;
+  min-width: 200px;
   height: 100%;
-  flex: 1 3 30%;
+  flex: 1 3 20%;
   padding: 0;
   margin: 0;
 }
 
 #imagepane {
   flex: 10 0 60%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background-color: black;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-aspect-ratio: 12/10) {
   #main {
     flex-direction: column;
   }

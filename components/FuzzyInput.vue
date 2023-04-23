@@ -17,7 +17,8 @@
     <input
       ref="searchTextInput"
       v-model="searchInput"
-      placeholder="Fuzzy search"
+      type="text"
+      placeholder="Fuzzy search..."
       :disabled="answerIsLoading || !waitingForGuess"
       @keydown="handleKey"
     />
@@ -276,9 +277,11 @@ li:nth-child(-n + 10):before {
   margin-right: 0.4rem;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (hover: none) {
   li:before {
-    /* Hide keyboard shortcut hints on mobile. */
+    /* Hide keyboard shortcut hints on mobile. There is no media query for
+     * detecting a physical keyboard, therefore we approximate by detecting
+     * whether there is a mouse/fine pointing device. */
     content: "" !important;
     margin-right: 0 !important;
   }
@@ -295,19 +298,25 @@ li:nth-child(-n + 10):before {
 
 .logoBar {
   display: flex;
-  /* margin-bottom: 0.4rem; */
+  flex-wrap: wrap;
   align-items: flex-end;
-  gap: 10px;
+  column-gap: 10px;
+}
+
+input[type="text"] {
+  padding: 4px;
+  margin-right: 2px;
 }
 
 button {
-  width: 6rem;
-  height: 3rem;
+  width: 8em;
+  height: 3.5em;
   position: relative;
 }
 
 button:focus {
   background-color: #ccc;
+  border-radius: default;
 }
 
 .button-text {

@@ -1,7 +1,5 @@
 <template>
-  <div class="wrapper">
-    <img v-if="imageId" :src="`/api/genimg/${imageId}`" />
-  </div>
+  <img v-if="imageId" :src="`/api/genimg/${imageId}`" />
 </template>
 
 <script setup lang="ts">
@@ -17,16 +15,10 @@ const { imageId } = storeToRefs(store);
   color: white;
 }
 
-.wrapper {
+img {
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
-}
-
-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: scale-down;
+  object-fit: contain;
 }
 
 pre {
