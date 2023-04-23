@@ -15,6 +15,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 body > * {
@@ -46,7 +47,7 @@ body > * {
   flex: 10 0 60%;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
   #main {
     flex-direction: column;
   }

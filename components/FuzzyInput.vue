@@ -1,8 +1,24 @@
 <template>
   <div class="fuzzyInput">
+    <div class="logoBar">
+      <h1 id="logo">{{ siteName }}</h1>
+      <button
+        ref="getImageButton"
+        :class="{ loading: imageIsLoading }"
+        :disabled="imageIsLoading || waitingForGuess"
+        @click="getImage"
+      >
+        <span class="button-text">New Image</span>
+      </button>
+    </div>
+    <div id="readout">
+      <p>{{ readout }}</p>
+    </div>
     <input
+      ref="searchTextInput"
       v-model="searchInput"
       placeholder="Fuzzy search"
+      :disabled="answerIsLoading || !waitingForGuess"
       @keydown="handleKey"
     />
     <div id="synopsisCheckboxContainer">
@@ -24,15 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useFetch } from "#app";
+import { computed, nextTick, onMounted, ref } from "vue";
+import { useFetch, useRuntimeConfig } from "#app";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
 import { useEpisodeDataStore } from "~~/store/episodeDataStore";
-
-const store = useEpisodeDataStore();
-const { initEpisodeData } = store;
-const { imageId, episodeData } = storeToRefs(store);
+import { floatIntPartPad } from "~~/utils/utils";
 
 type FuseOptions<ProcessedEpisodeData> =
   Fuse.IFuseOptions<ProcessedEpisodeData>;
@@ -44,6 +57,18 @@ export interface ProcessedEpisodeData {
   fullName: string;
   overview: string;
 }
+
+const config = useRuntimeConfig();
+const siteName = ref(config.public.instanceName);
+const store = useEpisodeDataStore();
+const { initEpisodeData } = store;
+const { imageId, episodeData } = storeToRefs(store);
+const readout = ref(
+  "Enter text to search episodes and guess the episode that the frame is from."
+);
+const waitingForGuess = ref(false);
+const searchTextInput = ref<HTMLInputElement>();
+const getImageButton = ref<HTMLButtonElement>();
 
 await initEpisodeData();
 
@@ -75,15 +100,42 @@ const fuseNameOnly = new Fuse(episodeData.value as ProcessedEpisodeData[], {
   keys: ["name"],
 });
 
+const answerIsLoading = ref(false);
+const highlightIndex = ref(0);
+const imageIsLoading = ref(false);
 const searchInput = ref("");
 const useSynopsis = ref(true);
-const highlightIndex = ref(0);
 
 const computedData = computed(() =>
   useSynopsis.value
     ? fuseSynopsis.search(searchInput.value)
     : fuseNameOnly.search(searchInput.value)
 );
+
+async function getImage(_event: MouseEvent | null) {
+  document.body.style.cursor = "wait";
+  imageIsLoading.value = true;
+  window.getSelection()?.removeAllRanges();
+  const { data: rawData } = await useFetch("/api/gen");
+  if (rawData && rawData.value) {
+    store.imageId = rawData.value.imageId;
+  } else {
+    console.error("Fetch failed", rawData);
+  }
+  imageIsLoading.value = false;
+  waitingForGuess.value = true;
+  readout.value =
+    "Enter text to search episodes and guess the episode that the frame is from.";
+  if (searchTextInput.value && searchTextInput.value) {
+    await nextTick();
+    searchTextInput.value.focus();
+  }
+  document.body.style.cursor = "unset";
+}
+
+onMounted(() => {
+  getImage(null);
+});
 
 function handleKey(event: KeyboardEvent) {
   let submitIndex = null;
@@ -110,7 +162,7 @@ function handleKey(event: KeyboardEvent) {
       submitIndex = 9;
     }
   } else if (event.key === "Enter") {
-    submitIndex = highlightIndex.value;
+    submitIndex = computedData.value.length > 0 ? highlightIndex.value : -1;
   } else {
     switch (event.key) {
       case "ArrowDown":
@@ -141,19 +193,75 @@ function handleMouseover(index: number) {
 }
 
 async function submitAnswer(index: number) {
-  if (index < 0 || index >= computedData.value.length) {
+  if (index < -1 || index >= computedData.value.length) {
     throw new RangeError(`Index ${index} out of range`);
   }
-  console.log("Submitting input", computedData.value[index].item.fullName);
-  const result = await useFetch(`/api/checkimg/${imageId.value}`);
-  console.dir(result);
+  waitingForGuess.value = false;
+  answerIsLoading.value = true;
+  document.body.style.cursor = "wait";
+  let query;
+  let item;
+  if (index < 0) {
+    query = { season: -1, episode: -1 };
+  } else {
+    item = computedData.value[index].item;
+    console.log("Submitting input", item.fullName);
+    query = { season: item.season, episode: item.episode };
+  }
+  const { data, error } = await useFetch(`/api/checkimg/${imageId.value}`, {
+    query,
+  });
+
+  if (error.value) {
+    if (error.value.statusCode === 404) {
+      readout.value = `Answer not found. It may have expired. Try again.`;
+    }
+    readout.value = `Error getting answer: ${error.value.message}. Try again?`;
+    return;
+  }
+
+  const correct = data.value?.correct;
+  const seekTimeSec = data.value?.seekTime;
+  const minute = seekTimeSec ? Math.floor(seekTimeSec / 60) : -1;
+  const second = floatIntPartPad(
+    seekTimeSec ? Math.floor((seekTimeSec % 60) * 1000) / 1000 : -1
+  );
+  if (index < 0) {
+    const correctSeason = data.value?.season;
+    const correctEpisode = data.value?.episode;
+    const correctItem = episodeData.value?.find(
+      (ep) => ep.season === correctSeason && ep.episode === correctEpisode
+    );
+    readout.value = `${correctItem?.fullName} @ ${minute}:${second}`;
+  } else if (correct) {
+    readout.value = `Correct: ${item?.fullName} @ ${minute}:${second}`;
+  } else {
+    const correctSeason = data.value?.season;
+    const correctEpisode = data.value?.episode;
+    const correctItem = episodeData.value?.find(
+      (ep) => ep.season === correctSeason && ep.episode === correctEpisode
+    );
+    readout.value = `${item?.fullName} is incorrect. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
+  }
+  searchInput.value = "";
+  answerIsLoading.value = false;
+  document.body.style.cursor = "unset";
+  if (getImageButton.value && getImageButton.value) {
+    await nextTick();
+    getImageButton.value.focus();
+  }
 }
 </script>
 
 <style scoped>
+.fuzzyInput {
+  padding: 4px;
+}
+
 ol {
   list-style: none;
   counter-reset: searchCounter;
+  margin: 0;
   padding: 0;
 }
 li {
@@ -168,7 +276,7 @@ li:nth-child(-n + 10):before {
   margin-right: 0.4rem;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
   li:before {
     /* Hide keyboard shortcut hints on mobile. */
     content: "" !important;
@@ -176,12 +284,62 @@ li:nth-child(-n + 10):before {
   }
 }
 
-.fuzzyInput {
-  padding: 4px;
-}
-
 #synopsisCheckboxContainer {
   /* Group checkbox and label so they break on the same line. */
   display: inline-block;
+}
+
+#logo {
+  margin: 1px 0;
+}
+
+.logoBar {
+  display: flex;
+  /* margin-bottom: 0.4rem; */
+  align-items: flex-end;
+  gap: 10px;
+}
+
+button {
+  width: 6rem;
+  height: 3rem;
+  position: relative;
+}
+
+button:focus {
+  background-color: #ccc;
+}
+
+.button-text {
+  margin: auto;
+}
+
+.loading .button-text {
+  visibility: hidden;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  border: 8px solid transparent;
+  border-top-color: black;
+  border-radius: 50%;
+  animation: loading-spinner 1s ease infinite;
+}
+
+@keyframes loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
 }
 </style>

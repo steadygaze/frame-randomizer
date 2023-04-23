@@ -25,7 +25,7 @@ import { computed } from "vue";
 import Fuse from "fuse.js";
 import { ProcessedEpisodeData } from "./FuzzyInput.vue";
 import { seasonEpisodeTag } from "~~/utils/utils";
-import { SearchPart, chunkMatchText } from "~/utils/fuzzy";
+import { SearchPart, chunkMatchText } from "~~/utils/fuzzy";
 
 type FuseResult<T> = Fuse.FuseResult<T>;
 
@@ -69,8 +69,7 @@ const mySeasonEpisodeTag = computed(() =>
 
 li {
   border: 1px solid black;
-  padding: 4px;
-  font-family: monospace;
+  padding: 6px 4px;
 }
 
 li:hover {
