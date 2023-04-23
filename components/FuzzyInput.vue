@@ -303,6 +303,10 @@ li:nth-child(-n + 10):before {
   column-gap: 10px;
 }
 
+#readout {
+  min-height: 3.5em;
+}
+
 input[type="text"] {
   padding: 4px;
   margin-right: 2px;
