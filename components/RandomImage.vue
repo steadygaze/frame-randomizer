@@ -1,11 +1,16 @@
 <template>
-  <img v-if="imageId" :src="`/api/genimg/${imageId}`" />
+  <img
+    v-if="imageId"
+    :src="`/api/getimg/${imageId}.${config.imageOutputExtension}`"
+  />
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { useRuntimeConfig } from "nuxt/app";
 import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 
+const config = useRuntimeConfig();
 const store = useEpisodeDataStore();
 const { imageId } = storeToRefs(store);
 </script>
