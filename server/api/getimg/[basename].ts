@@ -10,7 +10,6 @@ const traversingPathRe = /[/\\]|\.\./;
 
 export default defineEventHandler(async (event) => {
   const imageBasename = event.context?.params?.basename;
-  console.log(imageBasename);
   if (!imageBasename) {
     throw createError({ statusCode: 404 });
   }
