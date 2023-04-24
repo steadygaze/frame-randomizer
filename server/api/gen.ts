@@ -17,7 +17,7 @@ async function ffmpegFrame(
 ) {
   const ts = Date.now();
   await exec(
-    `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -y ${outputPath}`
+    `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -f image2 -update true -y ${outputPath}`
   );
   const delta = Date.now() - ts;
   console.log("Image outputted in", delta, "ms to", outputPath);
