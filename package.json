@@ -12,7 +12,7 @@
     "generate": "nuxt generate",
     "lint": "eslint --fix --ext .js,.ts,.vue .",
     "postinstall": "nuxt prepare",
-    "precommit": "nuxt build pcdist && npm run test && npm run formatcheck && npm run lint && npm run vuetsc",
+    "precommit": "npm run formatcheck && npm run lint && npm run vuetsc && npm run test && nuxt build pcdist",
     "prepare": "husky install",
     "preview": "nuxt preview",
     "test": "vitest run",
