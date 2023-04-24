@@ -1,8 +1,5 @@
 <template>
-  <img
-    v-if="imageId"
-    :src="`/api/getimg/${imageId}.${config.imageOutputExtension}`"
-  />
+  <img v-if="imageId" :src="`/api/getimg/${imageId}.${extension}`" />
 </template>
 
 <script setup lang="ts">
@@ -10,9 +7,8 @@ import { storeToRefs } from "pinia";
 import { useRuntimeConfig } from "nuxt/app";
 import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 
-const config = useRuntimeConfig();
-const store = useEpisodeDataStore();
-const { imageId } = storeToRefs(store);
+const extension = useRuntimeConfig().public.imageOutputExtension;
+const { imageId } = storeToRefs(useEpisodeDataStore());
 </script>
 
 <style scoped>
