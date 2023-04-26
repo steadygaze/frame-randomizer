@@ -14,17 +14,20 @@
     <div id="readout">
       <p>{{ readout }}</p>
     </div>
-    <input
-      ref="searchTextInput"
-      v-model="searchInput"
-      type="text"
-      placeholder="Fuzzy search..."
-      :disabled="answerIsLoading || !waitingForGuess"
-      @keydown="handleKey"
-    />
-    <div id="synopsisCheckboxContainer">
-      <input id="synopsisCheckbox" v-model="useSynopsis" type="checkbox" />
-      <label for="synopsisCheckbox">Use synopsis</label>
+    <div id="inputRow">
+      <input
+        id="searchInput"
+        ref="searchTextInput"
+        v-model="searchInput"
+        type="text"
+        placeholder="Fuzzy search..."
+        :disabled="answerIsLoading || !waitingForGuess"
+        @keydown="handleKey"
+      />
+      <div id="synopsisCheckboxContainer">
+        <input id="synopsisCheckbox" v-model="useSynopsis" type="checkbox" />
+        <label for="synopsisCheckbox">Use synopsis</label>
+      </div>
     </div>
     <ol>
       <FuzzyResultItem
@@ -244,7 +247,7 @@ async function submitAnswer(index: number) {
 
 <style scoped>
 .fuzzyInput {
-  padding: 4px;
+  padding: 8px;
 }
 
 ol {
@@ -277,9 +280,21 @@ li:nth-child(-n + 10):before {
   }
 }
 
+#inputRow {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+#searchInput {
+  flex: 1 1 auto;
+  padding: 8px;
+}
+
 #synopsisCheckboxContainer {
   /* Group checkbox and label so they break on the same line. */
   display: inline-block;
+  flex: 0 0 auto;
 }
 
 #logo {
@@ -295,11 +310,6 @@ li:nth-child(-n + 10):before {
 
 #readout {
   min-height: 3.5em;
-}
-
-input[type="text"] {
-  padding: 4px;
-  margin-right: 2px;
 }
 
 button {
