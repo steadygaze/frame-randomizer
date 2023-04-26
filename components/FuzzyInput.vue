@@ -33,7 +33,7 @@
         :fuse-match="fuseMatch"
         :show-synopsis="useSynopsis"
         :highlight="highlightIndex === index"
-        @mouseover="handleMouseover(index)"
+        @mousemove="handleMouseover(index)"
         @click="submitAnswer(index)"
       ></FuzzyResultItem>
     </ol>
@@ -141,26 +141,14 @@ onMounted(() => {
 function handleKey(event: KeyboardEvent) {
   let submitIndex = null;
   if (event.ctrlKey || event.altKey) {
-    if (computedData.value.length > 0 && event.key === "1") {
-      submitIndex = 0;
-    } else if (computedData.value.length > 1 && event.key === "2") {
-      submitIndex = 1;
-    } else if (computedData.value.length > 2 && event.key === "3") {
-      submitIndex = 2;
-    } else if (computedData.value.length > 3 && event.key === "4") {
-      submitIndex = 3;
-    } else if (computedData.value.length > 4 && event.key === "5") {
-      submitIndex = 4;
-    } else if (computedData.value.length > 5 && event.key === "6") {
-      submitIndex = 5;
-    } else if (computedData.value.length > 6 && event.key === "7") {
-      submitIndex = 6;
-    } else if (computedData.value.length > 7 && event.key === "8") {
-      submitIndex = 7;
-    } else if (computedData.value.length > 8 && event.key === "9") {
-      submitIndex = 8;
-    } else if (computedData.value.length > 9 && event.key === "0") {
-      submitIndex = 9;
+    if (event.key >= "0" && event.key <= "9") {
+      const index =
+        event.key === "0" ? 9 : event.key.charCodeAt(0) - "1".charCodeAt(0);
+      if (computedData.value.length > index) {
+        submitIndex = index;
+      } else {
+        readout.value = `No entry ${event.key} in search results.`;
+      }
     }
   } else if (event.key === "Enter") {
     submitIndex = computedData.value.length > 0 ? highlightIndex.value : -1;
@@ -215,7 +203,7 @@ async function submitAnswer(index: number) {
 
   if (error.value) {
     if (error.value.statusCode === 404) {
-      readout.value = `Answer not found. It may have expired. Try again.`;
+      readout.value = "Answer not found. It may have expired. Try again.";
     }
     readout.value = `Error getting answer: ${error.value.message}. Try again?`;
     return;
@@ -264,17 +252,19 @@ ol {
   counter-reset: searchCounter;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-flow: row wrap;
 }
 li {
   counter-increment: searchCounter;
+  flex: 1 1 350px;
 }
 li:nth-child(10) {
   counter-reset: searchCounter -1;
 }
 li:nth-child(-n + 10):before {
-  content: "Mod-" counter(searchCounter);
+  content: "Mod-" counter(searchCounter) " ";
   color: #888;
-  margin-right: 0.4rem;
 }
 
 @media screen and (hover: none) {

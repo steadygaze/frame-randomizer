@@ -73,9 +73,8 @@ li {
 }
 
 li:hover {
-  background-color: black;
-  color: white;
   cursor: pointer;
+  /* Other changes covered by .highlight. */
 }
 
 li:active {
