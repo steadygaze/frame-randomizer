@@ -13,8 +13,10 @@ export interface ProcessedEpisodeData {
 }
 
 export const useEpisodeDataStore = defineStore("episodeData", () => {
-  const imageId = ref(0);
   const episodeData = ref(null as ProcessedEpisodeData[] | null);
+  const imageId = ref(0);
+  const imageIsLoading = ref(true);
+  const readout = ref("Welcome! The first image will load shortly.");
 
   const initEpisodeData = async () => {
     const { data: rawData } = await useFetch("/api/list");
@@ -28,5 +30,5 @@ export const useEpisodeDataStore = defineStore("episodeData", () => {
       : [];
   };
 
-  return { imageId, episodeData, initEpisodeData };
+  return { episodeData, imageId, imageIsLoading, readout, initEpisodeData };
 });

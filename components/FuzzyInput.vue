@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useFetch, useRuntimeConfig } from "#app";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
@@ -66,10 +66,7 @@ const config = useRuntimeConfig();
 const siteName = ref(config.public.instanceName);
 const store = useEpisodeDataStore();
 const { initEpisodeData } = store;
-const { imageId, episodeData } = storeToRefs(store);
-const readout = ref(
-  "Enter text to search episodes and guess the episode that the frame is from."
-);
+const { episodeData, imageId, imageIsLoading, readout } = storeToRefs(store);
 const waitingForGuess = ref(false);
 const searchTextInput = ref<HTMLInputElement>();
 const getImageButton = ref<HTMLButtonElement>();
@@ -106,7 +103,6 @@ const fuseNameOnly = new Fuse(episodeData.value as ProcessedEpisodeData[], {
 
 const answerIsLoading = ref(false);
 const highlightIndex = ref(0);
-const imageIsLoading = ref(false);
 const searchInput = ref("");
 const useSynopsis = ref(true);
 
@@ -117,7 +113,6 @@ const computedData = computed(() =>
 );
 
 async function getImage(_event: MouseEvent | null) {
-  document.body.style.cursor = "wait";
   imageIsLoading.value = true;
   window.getSelection()?.removeAllRanges();
   const { data: rawData } = await useFetch("/api/gen");
@@ -126,16 +121,26 @@ async function getImage(_event: MouseEvent | null) {
   } else {
     console.error("Fetch failed", rawData);
   }
-  imageIsLoading.value = false;
-  waitingForGuess.value = true;
-  readout.value =
-    "Enter text to search episodes and guess the episode that the frame is from.";
-  if (searchTextInput.value && searchTextInput.value) {
-    await nextTick();
-    searchTextInput.value.focus();
-  }
-  document.body.style.cursor = "unset";
+  // RandomImage knows when image loading (not just getting the image path from
+  // the API) is done and will reactively notify us.
 }
+
+watch(imageIsLoading, async (imageIsLoading) => {
+  if (imageIsLoading) {
+    // Switched from not loading to loading.
+    document.body.style.cursor = "wait";
+  } else {
+    // Switched from loading to done loading.
+    document.body.style.cursor = "unset";
+    waitingForGuess.value = true;
+    readout.value =
+      "Enter text to search episodes and guess the episode that the frame is from.";
+    if (searchTextInput.value && searchTextInput.value) {
+      await nextTick();
+      searchTextInput.value.focus();
+    }
+  }
+});
 
 onMounted(() => {
   getImage(null);

@@ -1,5 +1,9 @@
 <template>
-  <img v-if="imageId" :src="`/api/getimg/${imageId}.${extension}`" />
+  <img
+    v-if="imageId"
+    :src="`/api/getimg/${imageId}.${extension}`"
+    @load="handleLoad"
+  />
 </template>
 
 <script setup lang="ts">
@@ -8,7 +12,11 @@ import { useRuntimeConfig } from "nuxt/app";
 import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 
 const extension = useRuntimeConfig().public.imageOutputExtension;
-const { imageId } = storeToRefs(useEpisodeDataStore());
+const { imageId, imageIsLoading } = storeToRefs(useEpisodeDataStore());
+
+function handleLoad() {
+  imageIsLoading.value = false; // Reactively notifies other components.
+}
 </script>
 
 <style scoped>
