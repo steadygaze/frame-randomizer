@@ -32,10 +32,28 @@ interface InitialEpisodeDatum {
   overview: string;
 }
 
+interface Timings {
+  // Episode starts (from 0:00) with an intro sequence that should be skipped.
+  openingIntro?: {
+    end?: number | string | boolean;
+  };
+  // Episode starts with a cold open that should not be skipped followed by an
+  // intro sequence that should be skipped.
+  coldOpen?: {
+    introStart?: number | string;
+  };
+  // Episode ends with a credits sequence (to the end of the video file) that
+  // should be skipped.
+  endCredits?: {
+    start?: number | string;
+  };
+}
+
 interface FileEpisodeDatum {
   season: number;
   episode: number;
   filename: string;
+  timings?: Timings;
 }
 
 const seasonEpisodeRegex =
