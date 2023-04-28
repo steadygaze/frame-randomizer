@@ -36,6 +36,8 @@ export default defineLazyEventHandler(async () => {
       episodeData[Math.floor(Math.random() * episodeData.length)];
     const seekTime = Math.random() * lengthSec;
     await Promise.all([
+      // If we returned the image path to the client without awaiting on ffmpeg,
+      // they might try to load the image before it's done generating.
       ffmpegFrame(filename, seekTime, imagePath),
       // We do await on storing the answer despite this not affecting the query
       // result to prevent a rare data race between the answer being stored and
