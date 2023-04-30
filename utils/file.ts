@@ -25,35 +25,50 @@ interface JoinedEpisodeDatum {
   filename: string;
 }
 
-interface InitialEpisodeDatum {
-  season: number;
-  episode: number;
-  name: string;
-  overview: string;
-}
+// Input timecode, with number as seconds from the start, string as HH:MM:SS.
+type InputTimecode = number | string;
 
 interface Timings {
   // Episode starts (from 0:00) with an intro sequence that should be skipped.
   openingIntro?: {
-    end?: number | string | boolean;
+    end?: InputTimecode;
   };
   // Episode starts with a cold open that should not be skipped followed by an
   // intro sequence that should be skipped.
   coldOpen?: {
-    introStart?: number | string;
+    introStart?: InputTimecode;
+    introEnd?: InputTimecode;
+    introLength?: InputTimecode;
   };
-  // Episode ends with a credits sequence (to the end of the video file) that
+  // Episode ends (to the end of the video file) with a credits sequence that
   // should be skipped.
   endCredits?: {
-    start?: number | string;
+    start?: InputTimecode;
   };
+  // Miscellaneous list of time ranges that should be skipped.
+  skipRange?: {
+    start?: InputTimecode;
+    end?: InputTimecode;
+  }[];
+}
+
+interface ConfigEpisodeDatum {
+  season: number;
+  episode: number;
+  name: string;
+  overview: string;
+  timings?: Timings;
 }
 
 interface FileEpisodeDatum {
   season: number;
   episode: number;
   filename: string;
-  timings?: Timings;
+}
+
+interface EpisodeConfig {
+  entries: ConfigEpisodeDatum[];
+  commonTimings?: Timings;
 }
 
 const seasonEpisodeRegex =
@@ -91,7 +106,7 @@ async function lsAllFiles(config: RuntimeConfig): Promise<FileEpisodeDatum[]> {
 
 function joinFileData(
   config: RuntimeConfig,
-  episodeData: InitialEpisodeDatum[],
+  episodeData: ConfigEpisodeDatum[],
   fileData: FileEpisodeDatum[]
 ): JoinedEpisodeDatum[] {
   const filledData: JoinedEpisodeDatum[] = [];
@@ -130,9 +145,10 @@ function joinFileData(
 
 async function findFiles(
   config: RuntimeConfig,
-  episodeData: InitialEpisodeDatum[],
+  episodeConfig: EpisodeConfig,
   fileData: FileEpisodeDatum[]
 ): Promise<EpisodeDatum[]> {
+  const episodeData = episodeConfig.entries;
   return (
     await Promise.all(
       joinFileData(config, episodeData, fileData).map(async (ep) => {
