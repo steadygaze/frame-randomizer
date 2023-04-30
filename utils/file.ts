@@ -4,9 +4,14 @@ import path from "node:path";
 import { glob } from "glob";
 import shellescape from "shell-escape";
 import { RuntimeConfig } from "nuxt/schema";
-import { episodeName } from "./utils";
+import { episodeName, timecodeToSec } from "./utils";
 
 const exec = promisify(execAsync);
+
+interface TimeRange {
+  start: number;
+  length: number;
+}
 
 export interface EpisodeDatum {
   season: number;
@@ -15,14 +20,8 @@ export interface EpisodeDatum {
   overview: string;
   filename: string; // Pre shell escaped and quoted.
   lengthSec: number;
-}
-
-interface JoinedEpisodeDatum {
-  season: number;
-  episode: number;
-  name: string;
-  overview: string;
-  filename: string;
+  genLength: number;
+  skipRanges: TimeRange[];
 }
 
 // Input timecode, with number as seconds from the start, string as HH:MM:SS.
@@ -50,6 +49,15 @@ interface Timings {
     start?: InputTimecode;
     end?: InputTimecode;
   }[];
+}
+
+interface JoinedEpisodeDatum {
+  season: number;
+  episode: number;
+  name: string;
+  overview: string;
+  filename: string;
+  timings?: Timings;
 }
 
 interface ConfigEpisodeDatum {
@@ -148,23 +156,60 @@ async function findFiles(
   episodeConfig: EpisodeConfig,
   fileData: FileEpisodeDatum[]
 ): Promise<EpisodeDatum[]> {
-  const episodeData = episodeConfig.entries;
+  const { entries, commonTimings } = episodeConfig;
   return (
     await Promise.all(
-      joinFileData(config, episodeData, fileData).map(async (ep) => {
-        try {
-          const lengthSec = await ffprobeLength(ep.filename);
-          return [{ ...ep, lengthSec }];
-        } catch (error) {
-          console.error(
-            "Failed to load",
-            episodeName(ep.season, ep.episode, ep.name),
-            "at",
-            ep.filename
+      joinFileData(config, entries, fileData).map(
+        async ({
+          season,
+          episode,
+          name,
+          overview,
+          filename,
+          timings,
+        }: JoinedEpisodeDatum) => {
+          const skipRanges: TimeRange[] = [];
+          if (timings) {
+            if (timings.openingIntro || commonTimings?.openingIntro) {
+              skipRanges.push({
+                start: 0,
+                length: timecodeToSec(
+                  timings.openingIntro?.end ||
+                    commonTimings?.openingIntro?.end ||
+                    0
+                ),
+              });
+            }
+          }
+          const genLength = skipRanges.reduce(
+            (sum, range) => sum + range.length,
+            0
           );
-          return [];
+          try {
+            const lengthSec = await ffprobeLength(filename);
+            return [
+              {
+                season,
+                episode,
+                name,
+                overview,
+                filename,
+                skipRanges,
+                genLength,
+                lengthSec,
+              },
+            ];
+          } catch (error) {
+            console.error(
+              "Failed to load",
+              episodeName(season, episode, name),
+              "at",
+              filename
+            );
+            return [];
+          }
         }
-      })
+      )
     )
   ).flat();
 }

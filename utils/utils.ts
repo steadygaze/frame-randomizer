@@ -49,3 +49,22 @@ export function floatIntPartPad(
     Math.max(fPartPlaces - numFPartDigits, 0)
   )}`;
 }
+
+const timecodeRegex =
+  /^((?<hours>\d+)(:|h)(?=\d{2}(:|m)))?((?<minutes>\d+)(:|m))?(?<seconds>\d{2}(.\d+)?)s?$/;
+
+export function timecodeToSec(timecode: number | string): number {
+  if (typeof timecode === "number") {
+    return timecode;
+  }
+
+  const match = timecodeRegex.exec(timecode);
+  if (match && match.length > 0 && match.groups) {
+    const hours = parseInt(match.groups.hours || "0");
+    const minutes = parseInt(match.groups.minutes || "0");
+    const seconds = parseFloat(match.groups.seconds || "0");
+    return hours * 3600 + minutes * 60 + seconds;
+  }
+
+  throw new Error("Couldn't parse \"" + timecode + '" as timecode');
+}
