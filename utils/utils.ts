@@ -42,7 +42,7 @@ export function floatIntPartPad(
       : initialStrNumber.padStart(2, "0");
   }
   const numIPartDigits = decimalIndex;
-  const numFPartDigits = initialStrNumber.length + decimalIndex - 1;
+  const numFPartDigits = initialStrNumber.length - (decimalIndex + 1);
   return `${"0".repeat(
     Math.max(iPartPlaces - numIPartDigits, 0)
   )}${initialStrNumber}${"0".repeat(
