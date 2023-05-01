@@ -43,6 +43,20 @@ export default defineNuxtConfig({
     videoSourceDir: `/home/${process.env.USER}/Downloads/mlp`,
   },
 
+  security: {
+    headers: {
+      // Allow devtools to work.
+      crossOriginEmbedderPolicy:
+        process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
+    },
+    rateLimiter: {
+      interval: "hour",
+      throwError: false,
+      // One generated image and guess every 5 seconds.
+      tokensPerInterval: 720 * 2,
+    },
+  },
+
   typescript: {
     strict: true,
     typeCheck: true,
