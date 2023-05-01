@@ -24,6 +24,18 @@ describe("floatIntPartPad", () => {
 });
 
 describe("timecodeToSec", () => {
+  it("should change undefined to zero", () => {
+    expect(timecodeToSec(undefined)).toEqual(0);
+  });
+
+  it("should change null to zero", () => {
+    expect(timecodeToSec(null)).toEqual(0);
+  });
+
+  it("should change null to zero", () => {
+    expect(() => timecodeToSec(undefined, true)).toThrowError("required");
+  });
+
   it("should return an int unmodified", () => {
     expect(timecodeToSec(12)).toEqual(12);
   });
