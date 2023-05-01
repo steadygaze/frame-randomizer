@@ -10,10 +10,17 @@ export default defineNuxtConfig({
       title: instanceName,
     },
   },
+
+  devtools: {
+    enabled: false, // Toggle this to enable devtools.
+  },
+
   imports: {
     autoImport: false,
   },
+
   modules: ["@pinia/nuxt", "nuxt-security"],
+
   nitro: {
     esbuild: {
       options: {
@@ -21,6 +28,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   runtimeConfig: {
     allowMissingEpisodes: true,
     episodeDataPath: `/home/${process.env.USER}/projects/showguesser_data/mlp3.json`,
@@ -34,6 +42,7 @@ export default defineNuxtConfig({
     uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",
     videoSourceDir: `/home/${process.env.USER}/Downloads/mlp`,
   },
+
   typescript: {
     strict: true,
     typeCheck: true,

@@ -20,6 +20,7 @@
     "vuetsc": "vue-tsc"
   },
   "devDependencies": {
+    "@nuxt/devtools": "^0.4.5",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/lodash.merge": "^4.6.7",
     "@types/lodash.once": "^4.1.7",
