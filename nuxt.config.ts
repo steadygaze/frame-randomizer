@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false,
   },
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "nuxt-security"],
   nitro: {
     esbuild: {
       options: {
