@@ -213,6 +213,9 @@ async function submitAnswer(index: number) {
     if (error.value.statusCode === 404) {
       readout.value = "Answer not found. It may have expired. Try again.";
     }
+    if (error.value.statusCode === 429) {
+      readout.value = "Request limit reached. Try again later.";
+    }
     readout.value = `Error getting answer: ${error.value.message}. Try again?`;
     return;
   }
