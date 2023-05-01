@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateSkipRanges } from "./file";
+import { generateSkipRanges, offsetTimeBySkipRanges } from "./file";
 
 describe("generateSkipRanges", () => {
   it("should convert episode skip ranges", () => {
@@ -108,5 +108,41 @@ describe("generateSkipRanges", () => {
       { start: 8, length: 20 },
       { start: 118, length: 12 },
     ]);
+  });
+});
+
+describe("offsetTimeBySkipRanges", () => {
+  it("should return time unmodified if skip ranges is empty", () => {
+    expect(offsetTimeBySkipRanges(100, [])).toEqual(100);
+  });
+
+  it("should return time unmodified if skip range is after time", () => {
+    expect(offsetTimeBySkipRanges(10, [{ start: 123, length: 18 }])).toEqual(
+      10
+    );
+  });
+
+  it("should offset by one skip range", () => {
+    expect(offsetTimeBySkipRanges(10, [{ start: 5, length: 8 }])).toEqual(18);
+  });
+
+  it("should offset by multiple skip ranges", () => {
+    expect(
+      offsetTimeBySkipRanges(100, [
+        { start: 5, length: 8 },
+        { start: 27, length: 3 },
+        { start: 70, length: 6 },
+      ])
+    ).toEqual(100 + 8 + 3 + 6);
+  });
+
+  it("should stop offsetting by later irrelevant skip ranges", () => {
+    expect(
+      offsetTimeBySkipRanges(30, [
+        { start: 5, length: 8 },
+        { start: 27, length: 3 },
+        { start: 70, length: 6 },
+      ])
+    ).toEqual(30 + 8 + 3);
   });
 });

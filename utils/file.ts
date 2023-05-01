@@ -294,25 +294,16 @@ export async function findFiles(
           filename,
           timings,
         }: JoinedEpisodeDatum) => {
-          const skipRanges: TimeRange[] = [];
-          if (timings) {
-            if (timings.openingIntro || commonTimings?.openingIntro) {
-              skipRanges.push({
-                start: 0,
-                length: timecodeToSec(
-                  timings.openingIntro?.end ||
-                    commonTimings?.openingIntro?.end ||
-                    0
-                ),
-              });
-            }
-          }
-          const genLength = skipRanges.reduce(
-            (sum, range) => sum + range.length,
-            0
-          );
           try {
             const lengthSec = await ffprobeLength(filename);
+            const skipRanges: TimeRange[] = generateSkipRanges(
+              lengthSec,
+              timings,
+              commonTimings
+            );
+            const genLength =
+              lengthSec -
+              skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
             return [
               {
                 season,
@@ -338,4 +329,19 @@ export async function findFiles(
       )
     )
   ).flat();
+}
+
+export function offsetTimeBySkipRanges(
+  unoffsetTime: number,
+  skipRanges: TimeRange[]
+) {
+  let offsetTime = unoffsetTime;
+  for (
+    let i = 0;
+    i < skipRanges.length && skipRanges[i].start < offsetTime;
+    ++i
+  ) {
+    offsetTime += skipRanges[i].length;
+  }
+  return offsetTime;
 }

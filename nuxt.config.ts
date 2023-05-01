@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     allowMissingEpisodes: true,
-    episodeDataPath: `/home/${process.env.USER}/projects/showguesser_data/mlp.json`,
+    episodeDataPath: `/home/${process.env.USER}/projects/showguesser_data/mlp3.json`,
     imageOutputDir: "/tmp/image_gen",
     replayPreSec: 4,
     uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",

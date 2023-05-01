@@ -5,10 +5,20 @@ import { RuntimeConfig } from "nuxt/schema";
 import { getEpisodeData } from "../load";
 import { myUuid } from "~~/utils/utils";
 import { StoredAnswer } from "~/server/types";
+import { EpisodeDatum, offsetTimeBySkipRanges } from "~/utils/file";
 
 const config = useRuntimeConfig() as RuntimeConfig;
 const exec = promisify(execAsync);
 const storage = useStorage("genimg");
+
+function randomTimeInEpisode(episode: EpisodeDatum) {
+  const randomUnoffsetTime = Math.random() * episode.genLength;
+  const offsetTime = Math.min(
+    offsetTimeBySkipRanges(randomUnoffsetTime, episode.skipRanges),
+    episode.lengthSec
+  );
+  return offsetTime;
+}
 
 async function ffmpegFrame(
   videoPath: string,
@@ -32,19 +42,18 @@ export default defineLazyEventHandler(async () => {
       config.imageOutputDir,
       `${imageId}.${config.public.imageOutputExtension}`
     );
-    const { filename, lengthSec, season, episode } =
-      episodeData[Math.floor(Math.random() * episodeData.length)];
-    const seekTime = Math.random() * lengthSec;
+    const episode = episodeData[Math.floor(Math.random() * episodeData.length)];
+    const seekTime = randomTimeInEpisode(episode);
     await Promise.all([
       // If we returned the image path to the client without awaiting on ffmpeg,
       // they might try to load the image before it's done generating.
-      ffmpegFrame(filename, seekTime, imagePath),
+      ffmpegFrame(episode.filename, seekTime, imagePath),
       // We do await on storing the answer despite this not affecting the query
       // result to prevent a rare data race between the answer being stored and
       // the client checking their guess.
       storage.setItem(imageId, {
-        season,
-        episode,
+        season: episode.season,
+        episode: episode.episode,
         seekTime,
       } as StoredAnswer),
     ]);
