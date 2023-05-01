@@ -3,6 +3,7 @@ import { defineNuxtConfig } from "nuxt/config";
 
 const instanceName = "Showguesser";
 
+/* eslint sort-keys: "error" */
 export default defineNuxtConfig({
   app: {
     head: {
@@ -24,15 +25,14 @@ export default defineNuxtConfig({
     allowMissingEpisodes: true,
     episodeDataPath: `/home/${process.env.USER}/projects/showguesser_data/mlp3.json`,
     imageOutputDir: "/tmp/image_gen",
-    replayPreSec: 4,
-    uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",
-    searchVideoDirRecursively: false,
-    videoSourceDir: `/home/${process.env.USER}/Downloads/mlp`,
-
     public: {
       imageOutputExtension: "png",
       instanceName,
     },
+    replayPreSec: 4,
+    searchVideoDirRecursively: false,
+    uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",
+    videoSourceDir: `/home/${process.env.USER}/Downloads/mlp`,
   },
   typescript: {
     strict: true,
