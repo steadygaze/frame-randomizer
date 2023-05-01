@@ -89,6 +89,12 @@ interface EpisodeConfig {
 const seasonEpisodeRegex =
   /^.*?([sS](eason)?)?(?<season>\d+)(.|([eE](pisode)?)?)(?<episode>\d+).*?\.(mkv|mp4)$/;
 
+/**
+ * Get the length of a video file in seconds using ffprobe.
+ *
+ * @param videoPath Path to video file.
+ * @returns Length of the video in seconds.
+ */
 async function ffprobeLength(videoPath: string) {
   return parseFloat(
     (
@@ -99,6 +105,12 @@ async function ffprobeLength(videoPath: string) {
   );
 }
 
+/**
+ * List video files in the configured search path.
+ *
+ * @param config Nuxt runtime config.
+ * @returns All video files that appear to have season and episode number.
+ */
 export async function lsAllFiles(
   config: RuntimeConfig
 ): Promise<FileEpisodeDatum[]> {
@@ -121,6 +133,14 @@ export async function lsAllFiles(
   return fileData;
 }
 
+/**
+ * Matches episode data from configs with files found.
+ *
+ * @param config Nuxt runtime config.
+ * @param episodeData Data for episodes present in configs.
+ * @param fileData Data for episodes from files.
+ * @returns Unified data structure matching episodes and files.
+ */
 function joinFileData(
   config: RuntimeConfig,
   episodeData: ConfigEpisodeDatum[],
@@ -160,17 +180,34 @@ function joinFileData(
   return filledData;
 }
 
-function parseRange(range: InputTimeRange) {
+/**
+ * Parses/normalizes a user-provided range from config.
+ *
+ * Timestamps can be given as either numbers (second offset from beginning) or
+ * timecodes (HH:MM:SS).
+ *
+ * @param range Input time range, before parsing.
+ * @returns Parsed time range.
+ */
+function parseRange(range: InputTimeRange): TimeRange {
   const start = timecodeToSec(range?.start);
   if (range.end) {
     return { start, length: timecodeToSec(range?.end) - start };
-  } else if (range.length) {
-    return { start, length: timecodeToSec(range?.length) };
-  } else {
-    throw new Error("One of length or end is required");
   }
+  if (range.length) {
+    return { start, length: timecodeToSec(range?.length) };
+  }
+  throw new Error("One of length or end is required");
 }
 
+/**
+ * Generates a list of skip ranges from the timing config.
+ *
+ * @param episodeLength Length of the episode in seconds.
+ * @param episodeTimings Timings config for the episode, if present.
+ * @param commonTimings Common timings config for all episodes, if present.
+ * @returns Sorted list of time ranges that should be skipped/not used.
+ */
 export function generateSkipRanges(
   episodeLength: number,
   episodeTimings: Timings | undefined,
@@ -232,6 +269,14 @@ export function generateSkipRanges(
   return skipRanges;
 }
 
+/**
+ * Load video file info based on configs.
+ *
+ * @param config Nuxt runtime config.
+ * @param episodeConfig Parsed show/episode config.
+ * @param fileData Results of globbing for files and parsing season/episode from filename.
+ * @returns Fully loaded data structure used to generate frames.
+ */
 export async function findFiles(
   config: RuntimeConfig,
   episodeConfig: EpisodeConfig,
