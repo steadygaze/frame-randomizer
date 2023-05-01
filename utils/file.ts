@@ -4,13 +4,24 @@ import path from "node:path";
 import { glob } from "glob";
 import shellescape from "shell-escape";
 import { RuntimeConfig } from "nuxt/schema";
+import merge from "lodash.merge";
 import { episodeName, timecodeToSec } from "./utils";
 
 const exec = promisify(execAsync);
 
+// Input timecode, with number as seconds from the start, string as HH:MM:SS.
+type InputTimecode = number | string;
+
 interface TimeRange {
   start: number;
   length: number;
+}
+
+// Input time range, using either offset or end timecode.
+interface InputTimeRange {
+  start: InputTimecode;
+  end?: InputTimecode;
+  length?: InputTimecode;
 }
 
 export interface EpisodeDatum {
@@ -23,9 +34,6 @@ export interface EpisodeDatum {
   genLength: number;
   skipRanges: TimeRange[];
 }
-
-// Input timecode, with number as seconds from the start, string as HH:MM:SS.
-type InputTimecode = number | string;
 
 interface Timings {
   // Episode starts (from 0:00) with an intro sequence that should be skipped.
@@ -45,10 +53,7 @@ interface Timings {
     start?: InputTimecode;
   };
   // Miscellaneous list of time ranges that should be skipped.
-  skipRange?: {
-    start?: InputTimecode;
-    end?: InputTimecode;
-  }[];
+  skipRanges?: InputTimeRange[];
 }
 
 interface JoinedEpisodeDatum {
@@ -76,6 +81,8 @@ interface FileEpisodeDatum {
 
 interface EpisodeConfig {
   entries: ConfigEpisodeDatum[];
+  // Timings that are the same for every episode (e.g. credits always start at
+  // MM:SS, intro is always MM:SS long, etc.).
   commonTimings?: Timings;
 }
 
@@ -92,7 +99,9 @@ async function ffprobeLength(videoPath: string) {
   );
 }
 
-async function lsAllFiles(config: RuntimeConfig): Promise<FileEpisodeDatum[]> {
+export async function lsAllFiles(
+  config: RuntimeConfig
+): Promise<FileEpisodeDatum[]> {
   const globPattern = path.join(
     config.videoSourceDir,
     config.searchVideoDirRecursively ? "**/*.{mkv,mp4}" : "*.{mkv,mp4}"
@@ -151,7 +160,79 @@ function joinFileData(
   return filledData;
 }
 
-async function findFiles(
+function parseRange(range: InputTimeRange) {
+  const start = timecodeToSec(range?.start);
+  if (range.end) {
+    return { start, length: timecodeToSec(range?.end) - start };
+  } else if (range.length) {
+    return { start, length: timecodeToSec(range?.length) };
+  } else {
+    throw new Error("One of length or end is required");
+  }
+}
+
+export function generateSkipRanges(
+  episodeLength: number,
+  episodeTimings: Timings | undefined,
+  commonTimings: Timings | undefined
+): TimeRange[] {
+  const skipRanges: TimeRange[] = [];
+  if (!episodeTimings && !commonTimings) {
+    return skipRanges;
+  }
+
+  const mergedTimings = merge({}, commonTimings, episodeTimings);
+
+  if (mergedTimings.openingIntro && mergedTimings.openingIntro.end) {
+    skipRanges.push({
+      start: 0,
+      length: timecodeToSec(mergedTimings.openingIntro.end),
+    });
+  }
+
+  if (mergedTimings.coldOpen && mergedTimings.coldOpen.introStart) {
+    const start = timecodeToSec(mergedTimings.coldOpen.introStart, true);
+    const both =
+      mergedTimings.coldOpen.introLength && mergedTimings.coldOpen.introEnd;
+    if (
+      (both && episodeTimings?.coldOpen?.introLength) ||
+      (!both && mergedTimings.coldOpen.introLength)
+    ) {
+      skipRanges.push({
+        start,
+        length: timecodeToSec(mergedTimings.coldOpen.introLength),
+      });
+    } else if (
+      (both && episodeTimings?.coldOpen?.introEnd) ||
+      (!both && mergedTimings.coldOpen.introEnd)
+    ) {
+      skipRanges.push({
+        start,
+        length: timecodeToSec(mergedTimings.coldOpen.introEnd) - start,
+      });
+    } else {
+      throw new Error("One of introLength or introEnd is required");
+    }
+  }
+
+  if (mergedTimings.endCredits) {
+    const start = timecodeToSec(mergedTimings.endCredits.start, true);
+    skipRanges.push({ start, length: episodeLength - start });
+  }
+
+  if (commonTimings?.skipRanges) {
+    skipRanges.push(...commonTimings.skipRanges.map(parseRange));
+  }
+  if (episodeTimings?.skipRanges) {
+    skipRanges.push(...episodeTimings.skipRanges.map(parseRange));
+  }
+
+  skipRanges.sort((rangeA, rangeB) => rangeA.start - rangeB.start);
+
+  return skipRanges;
+}
+
+export async function findFiles(
   config: RuntimeConfig,
   episodeConfig: EpisodeConfig,
   fileData: FileEpisodeDatum[]
@@ -213,5 +294,3 @@ async function findFiles(
     )
   ).flat();
 }
-
-export { findFiles, lsAllFiles };

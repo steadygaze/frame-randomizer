@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@types/lodash.merge": "^4.6.7",
     "@types/lodash.once": "^4.1.7",
     "@types/shell-escape": "^0.2.1",
     "@types/uuid": "^9.0.1",
@@ -41,6 +42,7 @@
     "@pinia/nuxt": "^0.4.9",
     "fuse.js": "^6.6.2",
     "glob": "^10.1.0",
+    "lodash.merge": "^4.6.2",
     "lodash.once": "^4.1.1",
     "pinia": "^2.0.35",
     "shell-escape": "^0.2.0",

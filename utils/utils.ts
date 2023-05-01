@@ -53,7 +53,16 @@ export function floatIntPartPad(
 const timecodeRegex =
   /^((?<hours>\d+)(:|h)(?=\d{2}(:|m)))?((?<minutes>\d+)(:|m))?(?<seconds>\d{2}(.\d+)?)s?$/;
 
-export function timecodeToSec(timecode: number | string): number {
+export function timecodeToSec(
+  timecode: number | string | undefined | null,
+  required = false
+): number {
+  if (timecode === undefined || timecode === null) {
+    if (required) {
+      throw new Error("timecode is required but found undefined/null");
+    }
+    return 0;
+  }
   if (typeof timecode === "number") {
     return timecode;
   }
