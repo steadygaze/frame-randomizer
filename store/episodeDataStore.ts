@@ -1,6 +1,6 @@
-import { useFetch } from "#app";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useFetch } from "#app";
 import { episodeName } from "~/utils/utils";
 import { ClientEpisodeData } from "~~/server/api/list";
 

@@ -45,9 +45,9 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from "vue";
-import { useFetch, useRuntimeConfig } from "#app";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
+import { useFetch, useRuntimeConfig } from "#app";
 import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 import { floatIntPartPad } from "~~/utils/utils";
 
