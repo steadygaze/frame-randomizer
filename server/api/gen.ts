@@ -3,6 +3,7 @@ import { exec as execAsync } from "node:child_process";
 import { promisify } from "node:util";
 import { RuntimeConfig } from "nuxt/schema";
 import { getEpisodeData } from "../load";
+import { ProducerQueue } from "../queue";
 import { myUuid } from "~~/utils/utils";
 import { StoredAnswer } from "~/server/types";
 import { EpisodeDatum, offsetTimeBySkipRanges } from "~/utils/file";
@@ -30,13 +31,13 @@ async function ffmpegFrame(
     `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -f image2 -update true -y ${outputPath}`
   );
   const delta = Date.now() - ts;
-  console.log("Image outputted in", delta, "ms to", outputPath);
+  console.log("New image generated in", delta, "ms at", outputPath);
 }
 
 export default defineLazyEventHandler(async () => {
   const episodeData = await getEpisodeData(config);
 
-  return defineEventHandler(async () => {
+  async function generateFrame() {
     const imageId = myUuid(config);
     const imagePath = path.join(
       config.imageOutputDir,
@@ -58,5 +59,20 @@ export default defineLazyEventHandler(async () => {
       } as StoredAnswer),
     ]);
     return { imageId };
+  }
+
+  const queue = new ProducerQueue(generateFrame, {
+    length: config.imagePregenCount,
+  });
+
+  return defineEventHandler(async () => {
+    const start = Date.now();
+    const result = await queue.next();
+    console.log(
+      "Request waited",
+      Date.now() - start,
+      "ms for image generation and callback queue"
+    );
+    return result;
   });
 });

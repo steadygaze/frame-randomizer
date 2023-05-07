@@ -31,6 +31,7 @@ export default defineNuxtConfig({
     episodeDataPath: undefined,
     // Where generated images will be outputted to and served from.
     imageOutputDir: "/tmp/image_gen",
+    imagePregenCount: 10,
     public: {
       imageOutputExtension: "png",
       // Instance name shown to users.
