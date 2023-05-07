@@ -26,12 +26,11 @@ async function ffmpegFrame(
   timecode: number | string,
   outputPath: string
 ) {
-  const ts = Date.now();
+  const start = Date.now();
   await exec(
-    `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -f image2 -update true -y ${outputPath}`
+    `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -update true -lossless 0 -quality 90 -y ${outputPath}`
   );
-  const delta = Date.now() - ts;
-  console.log("New image generated in", delta, "ms at", outputPath);
+  console.log("New image generated in", Date.now() - start, "ms at", outputPath);
 }
 
 async function addExpiry(id: string) {

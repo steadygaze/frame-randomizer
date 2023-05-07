@@ -33,21 +33,22 @@ export default defineNuxtConfig({
     imageCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
     imageExpiryMs: 10 * 60 * 1000, // 10 minutes.
     // Where generated images will be outputted to and served from.
-    imageOutputDir: "/tmp/image_gen",
+    imageOutputDir: "/tmp/genimg",
     imagePregenCount: 10,
     public: {
-      imageOutputExtension: "png",
+      imageOutputExtension: "webp",
       // Instance name shown to users.
       instanceName: undefined,
     },
-    // Look in subdirectories.
+    // Whether to search subdirectories of videoSourceDir. Directory path is not
+    // considered when deciding season/episode number, only filename.
     searchVideoDirRecursively: false,
     // Used to give generated images random names. Recommend setting this to a
     // different one for your own instance from:
     // https://www.uuidtools.com/generate/v4
     uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",
-    // Where source videos are found. Should include the season and episode
-    // numbers in SxxExx or xx,xx format or similar.
+    // Where source videos are found. Files should include the season and
+    // episode numbers in SxxExx or xx,xx format or similar.
     videoSourceDir: undefined,
   },
 
