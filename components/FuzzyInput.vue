@@ -217,32 +217,32 @@ async function submitAnswer(index: number) {
       readout.value = "Request limit reached. Try again later.";
     }
     readout.value = `Error getting answer: ${error.value.message}. Try again?`;
-    return;
+  } else {
+    const correct = data.value?.correct;
+    const seekTimeSec = data.value?.seekTime;
+    const minute = seekTimeSec ? Math.floor(seekTimeSec / 60) : -1;
+    const second = floatIntPartPad(
+      seekTimeSec ? Math.floor((seekTimeSec % 60) * 1000) / 1000 : -1
+    );
+    if (index < 0) {
+      const correctSeason = data.value?.season;
+      const correctEpisode = data.value?.episode;
+      const correctItem = episodeData.value?.find(
+        (ep) => ep.season === correctSeason && ep.episode === correctEpisode
+      );
+      readout.value = `${correctItem?.fullName} @ ${minute}:${second}`;
+    } else if (correct) {
+      readout.value = `Correct: ${item?.fullName} @ ${minute}:${second}`;
+    } else {
+      const correctSeason = data.value?.season;
+      const correctEpisode = data.value?.episode;
+      const correctItem = episodeData.value?.find(
+        (ep) => ep.season === correctSeason && ep.episode === correctEpisode
+      );
+      readout.value = `${item?.fullName} is incorrect. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
+    }
   }
 
-  const correct = data.value?.correct;
-  const seekTimeSec = data.value?.seekTime;
-  const minute = seekTimeSec ? Math.floor(seekTimeSec / 60) : -1;
-  const second = floatIntPartPad(
-    seekTimeSec ? Math.floor((seekTimeSec % 60) * 1000) / 1000 : -1
-  );
-  if (index < 0) {
-    const correctSeason = data.value?.season;
-    const correctEpisode = data.value?.episode;
-    const correctItem = episodeData.value?.find(
-      (ep) => ep.season === correctSeason && ep.episode === correctEpisode
-    );
-    readout.value = `${correctItem?.fullName} @ ${minute}:${second}`;
-  } else if (correct) {
-    readout.value = `Correct: ${item?.fullName} @ ${minute}:${second}`;
-  } else {
-    const correctSeason = data.value?.season;
-    const correctEpisode = data.value?.episode;
-    const correctItem = episodeData.value?.find(
-      (ep) => ep.season === correctSeason && ep.episode === correctEpisode
-    );
-    readout.value = `${item?.fullName} is incorrect. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
-  }
   searchInput.value = "";
   answerIsLoading.value = false;
   document.body.style.cursor = "unset";
