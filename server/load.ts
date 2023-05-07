@@ -4,6 +4,7 @@ import once from "lodash.once";
 import { findFiles, lsAllFiles } from "~/utils/file";
 
 async function getEpisodeDataUncached(runtimeConfig: RuntimeConfig) {
+  const start = Date.now();
   const [episodeConfigString, fileData] = await Promise.all([
     fs.readFile(runtimeConfig.episodeDataPath, { encoding: "utf-8" }),
     lsAllFiles(runtimeConfig),
@@ -22,7 +23,13 @@ async function getEpisodeDataUncached(runtimeConfig: RuntimeConfig) {
   ]);
   const episodeConfig = JSON.parse(episodeConfigString);
   const episodeData = await findFiles(runtimeConfig, episodeConfig, fileData);
-  console.log("Loaded", episodeData.length, "episodes");
+  console.log(
+    "Loaded",
+    episodeData.length,
+    "episodes in",
+    Date.now() - start,
+    "ms"
+  );
   return episodeData;
 }
 

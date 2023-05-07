@@ -30,7 +30,12 @@ async function ffmpegFrame(
   await exec(
     `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -update true -lossless 0 -quality 90 -y ${outputPath}`
   );
-  console.log("New image generated in", Date.now() - start, "ms at", outputPath);
+  console.log(
+    "New image generated in",
+    Date.now() - start,
+    "ms at",
+    outputPath
+  );
 }
 
 async function addExpiry(id: string) {
