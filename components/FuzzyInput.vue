@@ -134,7 +134,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
     document.body.style.cursor = "unset";
     waitingForGuess.value = true;
     readout.value =
-      "Enter text to search episodes and guess the episode that the frame is from.";
+      "Guess the episode that the frame is from using the search box. Frame is randomly selected from all episodes with equal probability.";
     if (searchTextInput.value && searchTextInput.value) {
       await nextTick();
       searchTextInput.value.focus();
