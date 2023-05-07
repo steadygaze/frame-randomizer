@@ -29,6 +29,9 @@ export default defineNuxtConfig({
     allowMissingEpisodes: true,
     // Where the episode data config is.
     episodeDataPath: undefined,
+    // How often to check imageOutputDir and answer storage for expired images.
+    imageCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
+    imageExpiryMs: 10 * 60 * 1000, // 10 minutes.
     // Where generated images will be outputted to and served from.
     imageOutputDir: "/tmp/image_gen",
     imagePregenCount: 10,

@@ -34,6 +34,16 @@ async function ffmpegFrame(
   console.log("New image generated in", delta, "ms at", outputPath);
 }
 
+async function addExpiry(id: string) {
+  console.log("Now adding expiry to", id);
+  const answer = (await storage.getItem(id)) as StoredAnswer;
+  // Rare race condition between cleaning up answer and setting expiry.
+  await storage.setItem(id, {
+    ...answer,
+    expiryTs: Date.now() + config.imageExpiryMs,
+  });
+}
+
 export default defineLazyEventHandler(async () => {
   const episodeData = await getEpisodeData(config);
 
@@ -73,6 +83,8 @@ export default defineLazyEventHandler(async () => {
       Date.now() - start,
       "ms for image generation and callback queue"
     );
+    // Don't await on adding an expiry time, because it won't affect the result.
+    addExpiry(result.imageId);
     return result;
   });
 });
