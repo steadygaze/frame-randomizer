@@ -1,16 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from "nuxt/config";
 
-const instanceName = "Showguesser";
-
 /* eslint sort-keys: "error" */
 export default defineNuxtConfig({
-  app: {
-    head: {
-      title: instanceName,
-    },
-  },
-
   devtools: {
     enabled: false, // Toggle this to enable devtools.
   },
@@ -29,18 +21,30 @@ export default defineNuxtConfig({
     },
   },
 
+  // These can be set per the instructions in
+  // https://nuxt.com/docs/guide/directory-structure/env. All options that are
+  // undefined here are required to be set in env params.
   runtimeConfig: {
+    // Whether to error out if episodes are missing, or simply print a warning.
     allowMissingEpisodes: true,
-    episodeDataPath: `/home/${process.env.USER}/projects/showguesser_data/mlp3.json`,
+    // Where the episode data config is.
+    episodeDataPath: undefined,
+    // Where generated images will be outputted to and served from.
     imageOutputDir: "/tmp/image_gen",
     public: {
       imageOutputExtension: "png",
-      instanceName,
+      // Instance name shown to users.
+      instanceName: undefined,
     },
-    replayPreSec: 4,
+    // Look in subdirectories.
     searchVideoDirRecursively: false,
+    // Used to give generated images random names. Recommend setting this to a
+    // different one for your own instance from:
+    // https://www.uuidtools.com/generate/v4
     uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",
-    videoSourceDir: `/home/${process.env.USER}/Downloads/mlp`,
+    // Where source videos are found. Should include the season and episode
+    // numbers in SxxExx or xx,xx format or similar.
+    videoSourceDir: undefined,
   },
 
   security: {

@@ -9,6 +9,15 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import { useHead, useRuntimeConfig } from "#app";
+
+const config = useRuntimeConfig();
+useHead({
+  title: config.public.instanceName,
+});
+</script>
+
 <style>
 html,
 body {

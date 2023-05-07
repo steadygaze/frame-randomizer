@@ -63,7 +63,7 @@ export interface ProcessedEpisodeData {
 }
 
 const config = useRuntimeConfig();
-const siteName = ref(config.public.instanceName);
+const siteName = config.public.instanceName;
 const store = useEpisodeDataStore();
 const { initEpisodeData } = store;
 const { episodeData, imageId, imageIsLoading, readout } = storeToRefs(store);
