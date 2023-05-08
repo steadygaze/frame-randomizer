@@ -32,6 +32,7 @@ export default defineNuxtConfig({
     // How often to check imageOutputDir and answer storage for expired images.
     imageCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
     imageExpiryMs: 10 * 60 * 1000, // 10 minutes.
+    imageGenMaxParallelism: 3,
     // Where generated images will be outputted to and served from.
     imageOutputDir: "/tmp/genimg",
     imagePregenCount: 10,

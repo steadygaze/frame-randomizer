@@ -103,6 +103,7 @@ async function getFrameProducerQueueUncached(
 
   return new ProducerQueue(generateFrame, {
     length: config.imagePregenCount,
+    maxPending: config.imageGenMaxParallelism,
   });
 }
 
