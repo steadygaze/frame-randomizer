@@ -1,20 +1,31 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+<!--
+Before filling out this form:
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+- Search open issues and pull requests to make sure that someone else hasn't already requested this feature, and that someone isn't already about to contribute it.
+- Note that the software and support is provided for free without any warranties.
+- Thanks for taking the time to file a feature request!
+-->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+# Problem
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+<!-- A clear and concise description of what the problem is. E.g. I'm always frustrated when [...] -->
+
+# Solution
+
+<!-- A clear and concise description of what you want to happen. -->
+
+# Alternatives considered
+
+<!-- A clear and concise description of any alternative solutions or features you've considered. -->
+
+# Additional context
+
+<!-- Add any other context or screenshots about the feature request here. -->
