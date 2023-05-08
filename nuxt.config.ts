@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     imageGenMaxParallelism: 3,
     // Where generated images will be outputted to and served from.
     imageOutputDir: "/tmp/genimg",
-    imagePregenCount: 10,
+    imagePregenCount: 3,
     public: {
       imageOutputExtension: "webp",
       // Instance name shown to users.
