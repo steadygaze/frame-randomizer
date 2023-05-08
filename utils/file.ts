@@ -345,3 +345,17 @@ export function offsetTimeBySkipRanges(
   }
   return offsetTime;
 }
+
+/**
+ * Get the expected server-side path for an ID.
+ *
+ * @param config Nuxt runtime config.
+ * @param id Image ID.
+ * @returns Expected image path.
+ */
+export function imagePathForId(config: RuntimeConfig, id: string) {
+  return path.join(
+    config.imageOutputDir,
+    `${id}.${config.public.imageOutputExtension}`
+  );
+}

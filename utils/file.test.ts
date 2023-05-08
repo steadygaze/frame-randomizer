@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { generateSkipRanges, offsetTimeBySkipRanges } from "./file";
+import {
+  generateSkipRanges,
+  imagePathForId,
+  offsetTimeBySkipRanges,
+} from "./file";
+import { PublicRuntimeConfig, RuntimeConfig } from "nuxt/schema";
 
 describe("generateSkipRanges", () => {
   it("should convert episode skip ranges", () => {
@@ -144,5 +149,19 @@ describe("offsetTimeBySkipRanges", () => {
         { start: 70, length: 6 },
       ])
     ).toEqual(30 + 8 + 3);
+  });
+});
+
+describe("imagePathForId", () => {
+  it("should generate the expected format", () => {
+    expect(
+      imagePathForId(
+        {
+          imageOutputDir: "/path/to/output/dir",
+          public: { imageOutputExtension: "webp" } as PublicRuntimeConfig,
+        } as RuntimeConfig,
+        "01234567-89ab-cdef-0123-456789abcdef"
+      )
+    );
   });
 });

@@ -1,4 +1,3 @@
-import path from "node:path";
 import { exec as execAsync } from "node:child_process";
 import { promisify } from "node:util";
 import { RuntimeConfig } from "nuxt/schema";
@@ -6,7 +5,11 @@ import { getEpisodeData } from "../load";
 import { ProducerQueue } from "../queue";
 import { myUuid } from "~~/utils/utils";
 import { StoredAnswer } from "~/server/types";
-import { EpisodeDatum, offsetTimeBySkipRanges } from "~/utils/file";
+import {
+  EpisodeDatum,
+  imagePathForId,
+  offsetTimeBySkipRanges,
+} from "~/utils/file";
 
 const config = useRuntimeConfig() as RuntimeConfig;
 const exec = promisify(execAsync);
@@ -53,10 +56,7 @@ export default defineLazyEventHandler(async () => {
 
   async function generateFrame() {
     const imageId = myUuid(config);
-    const imagePath = path.join(
-      config.imageOutputDir,
-      `${imageId}.${config.public.imageOutputExtension}`
-    );
+    const imagePath = imagePathForId(config, imageId);
     const episode = episodeData[Math.floor(Math.random() * episodeData.length)];
     const seekTime = randomTimeInEpisode(episode);
     await Promise.all([

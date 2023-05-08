@@ -1,15 +1,12 @@
 import fs from "node:fs/promises";
-import path from "path";
 import { RuntimeConfig } from "nuxt/schema";
+import { imagePathForId } from "~/utils/file";
 
 const config = useRuntimeConfig() as RuntimeConfig;
 const storage = useStorage("genimg");
 
 export async function cleanupAnswer(id: string) {
-  const filePath = path.join(
-    config.imageOutputDir,
-    `${id}.${config.public.imageOutputExtension}`
-  );
+  const filePath = imagePathForId(config, id);
   await Promise.all([
     fs.rm(filePath).catch((error) => {
       console.error(
