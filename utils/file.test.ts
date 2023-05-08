@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { PublicRuntimeConfig, RuntimeConfig } from "nuxt/schema";
 import {
   generateSkipRanges,
   imagePathForId,
   offsetTimeBySkipRanges,
 } from "./file";
-import { PublicRuntimeConfig, RuntimeConfig } from "nuxt/schema";
 
 describe("generateSkipRanges", () => {
   it("should convert episode skip ranges", () => {

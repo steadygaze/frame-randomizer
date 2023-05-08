@@ -1,5 +1,5 @@
 import { RuntimeConfig } from "nuxt/schema";
-import { getEpisodeData } from "../load";
+import { getFrameProducerQueue } from "../load";
 
 async function clearImageStorage() {
   await useStorage("genimg").clear();
@@ -7,6 +7,6 @@ async function clearImageStorage() {
 
 export default defineNitroPlugin(() => {
   // Side effect: result will be cached and ready.
-  getEpisodeData(useRuntimeConfig() as RuntimeConfig);
+  getFrameProducerQueue(useRuntimeConfig() as RuntimeConfig);
   clearImageStorage();
 });
