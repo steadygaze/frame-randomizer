@@ -183,8 +183,8 @@ function joinFileData(
 /**
  * Parses/normalizes a user-provided range from config.
  *
- * Timestamps can be given as either numbers (second offset from beginning) or
- * timecodes (HH:MM:SS).
+ * Timestamps can be given as either numbers (offset from the beginning in
+ * seconds) or string timecodes ("HH:MM:SS").
  *
  * @param range Input time range, before parsing.
  * @returns Parsed time range.
@@ -331,6 +331,18 @@ export async function findFiles(
   ).flat();
 }
 
+/**
+ * Offsets a time in an episode by skipping all the given time ranges.
+ *
+ * For example, if an unoffset time 10 is passed in but the range 3-5 is
+ * skipped, the result time will be 12. This is used to randomly generates a
+ * time not in a skipped range, by generating a time [0, episode length minus
+ * skipped time] then passing it to this.
+ *
+ * @param unoffsetTime Initial time before offsetting.
+ * @param skipRanges List of time ranges to skip.
+ * @returns New time, offset by all the skip ranges before it.
+ */
 export function offsetTimeBySkipRanges(
   unoffsetTime: number,
   skipRanges: TimeRange[]
