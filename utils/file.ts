@@ -80,7 +80,7 @@ interface FileEpisodeDatum {
 }
 
 interface EpisodeConfig {
-  entries: ConfigEpisodeDatum[];
+  episodes: ConfigEpisodeDatum[];
   // Timings that are the same for every episode (e.g. credits always start at
   // MM:SS, intro is always MM:SS long, etc.).
   commonTimings?: Timings;
@@ -282,10 +282,10 @@ export async function findFiles(
   episodeConfig: EpisodeConfig,
   fileData: FileEpisodeDatum[]
 ): Promise<EpisodeDatum[]> {
-  const { entries, commonTimings } = episodeConfig;
+  const { episodes, commonTimings } = episodeConfig;
   return (
     await Promise.all(
-      joinFileData(config, entries, fileData).map(
+      joinFileData(config, episodes, fileData).map(
         async ({
           season,
           episode,
