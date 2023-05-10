@@ -24,10 +24,14 @@ export default defineNuxtConfig({
   // These can be set per the instructions in
   // https://nuxt.com/docs/guide/directory-structure/env. All options that are
   // undefined here are required to be set in env params.
+  //
+  // This is unstable software; required options, option availability, and
+  // option interpretation can change between versions. Check the changelog or
+  // commit history when upgrading
   runtimeConfig: {
     // Whether to error out if episodes are missing, or simply print a warning.
     allowMissingEpisodes: true,
-    // Where the episode data config is.
+    // Required. Where the episode data config is. See README.md for more info.
     episodeDataPath: undefined,
     // How often to check imageOutputDir and answer storage for expired images.
     imageCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
@@ -36,10 +40,26 @@ export default defineNuxtConfig({
     // Where generated images will be outputted to and served from.
     imageOutputDir: "/tmp/genimg",
     imagePregenCount: 3,
+    // Per Nuxt documentation, these values will be sent to client-side code.
     public: {
       imageOutputExtension: "webp",
-      // Instance name shown to users.
+      // Instance info that will be shown in the About section. This allows HTML
+      // tags; use this if you want to include HTML. You might want to include a
+      // way for users to contact you if there are problems.
+      instanceInfoHtml: undefined,
+      // Instance info, but allowing plain text only; use this for safety if you
+      // don't need to include HTML.
+      instanceInfoText: undefined,
+      // Required. Instance name shown to users.
       instanceName: undefined,
+      // Name of the media; shown to users in the description.
+      mediaName: undefined,
+      // Link to your version of the source code. If you build and run a
+      // modified version of this software to users over a network, the AGPL
+      // requires you to provide users with a link to view/download your
+      // modified version. If you don't provide a different link here, you
+      // attest that your instance's code is unmodified.
+      sourceCodeUrl: "https://github.com/steadygaze/frame-randomizer/",
     },
     // Whether to search subdirectories of videoSourceDir. Directory path is not
     // considered when deciding season/episode number, only filename.
@@ -48,8 +68,8 @@ export default defineNuxtConfig({
     // different one for your own instance from:
     // https://www.uuidtools.com/generate/v4
     uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",
-    // Where source videos are found. Files should include the season and
-    // episode numbers in SxxExx or xx,xx format or similar.
+    // Required. Where source videos are found. Files should include the season
+    // and episode numbers in SxxExx or xx,xx format or similar.
     videoSourceDir: undefined,
   },
 

@@ -11,6 +11,8 @@
       >
         <span class="button-text">New Frame</span>
       </button>
+      <button @click="showAbout = !showAbout">About</button>
+      <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
     </div>
     <div id="readout">
       <p>{{ readout }}</p>
@@ -106,6 +108,7 @@ const answerIsLoading = ref(false);
 const highlightIndex = ref(0);
 const searchInput = ref("");
 const useSynopsis = ref(true);
+const showAbout = ref(false);
 
 const computedData = computed(() =>
   useSynopsis.value
@@ -135,7 +138,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
     document.body.style.cursor = "unset";
     waitingForGuess.value = true;
     readout.value =
-      "Guess the episode that the frame is from using the search box. Frame is randomly selected from all episodes with equal probability.";
+      "Guess the episode that the frame is randomly selected from using the search box.";
     if (searchTextInput.value && searchTextInput.value) {
       await nextTick();
       searchTextInput.value.focus();
@@ -324,9 +327,8 @@ li:nth-child(-n + 10):before {
 }
 
 button {
-  width: 8em;
   height: 3.5em;
-  position: relative;
+  padding: 0.9em;
 }
 
 button:focus {

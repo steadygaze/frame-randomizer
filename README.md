@@ -2,7 +2,7 @@
 
 This is a web app that generates and serves random frames from a TV show or similar content, as both a curiosity and a guessing game. It is free software licensed under the AGPL, meaning anyone can set up their own instance for their favorite show, as long as they make the source code (if modified) freely available.
 
-Note that this software is agnostic of what show is randomized from. The content served is the site operator's sole responsibility. If you have concerns about a specific instance, contact the site operator; don't contact the maintainers of this project.
+Note that this software is agnostic of what show is randomized from. The content served is the instance operator's sole responsibility. If you have concerns about the content served by a specific instance, contact the site operator instead of the maintainers of this project.
 
 ## Setting up your own
 
@@ -59,6 +59,10 @@ Once these configs are set, grab a built version from releases on Github or buil
 ```shell
 source app.env && node path/to/server/index.mjs
 ```
+
+### Stability
+
+Currently, the software is in an unstable state; required options, option availability, and option interpretation can change between versions. Check the changelog or commit history when upgrading
 
 ## Development
 
