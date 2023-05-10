@@ -12,9 +12,7 @@ const storage = useStorage("genimg");
 
 export default defineNitroPlugin(() => {
   setInterval(async () => {
-    console.log("Image cleanup started");
     const start = Date.now();
-
     const ext = config.public.imageOutputExtension;
     const globPattern = path.join(config.imageOutputDir, `*.${ext}`);
     const [keys, images1, images2] = await Promise.all([
