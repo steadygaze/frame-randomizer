@@ -298,6 +298,8 @@ li:nth-child(-n + 10):before {
 #searchInput {
   flex: 1 1 auto;
   padding: 8px;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 #synopsisCheckboxContainer {
