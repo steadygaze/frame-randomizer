@@ -3,12 +3,13 @@
     <div class="logoBar">
       <h1 id="logo">{{ siteName }}</h1>
       <button
-        ref="getImageButton"
+        id="newFrameButton"
+        ref="newFrameButton"
         :class="{ loading: imageIsLoading }"
         :disabled="imageIsLoading || waitingForGuess"
         @click="getImage"
       >
-        <span class="button-text">New Image</span>
+        <span class="button-text">New Frame</span>
       </button>
     </div>
     <div id="readout">
@@ -20,7 +21,7 @@
         ref="searchTextInput"
         v-model="searchInput"
         type="text"
-        placeholder="Fuzzy search..."
+        :placeholder="waitingForGuess ? 'Fuzzy search...' : 'Get new frame?'"
         :disabled="answerIsLoading || !waitingForGuess"
         @keydown="handleKey"
       />
@@ -69,7 +70,7 @@ const { initEpisodeData } = store;
 const { episodeData, imageId, imageIsLoading, readout } = storeToRefs(store);
 const waitingForGuess = ref(false);
 const searchTextInput = ref<HTMLInputElement>();
-const getImageButton = ref<HTMLButtonElement>();
+const newFrameButton = ref<HTMLButtonElement>();
 
 await initEpisodeData();
 
@@ -246,9 +247,9 @@ async function submitAnswer(index: number) {
   searchInput.value = "";
   answerIsLoading.value = false;
   document.body.style.cursor = "unset";
-  if (getImageButton.value && getImageButton.value) {
+  if (newFrameButton.value && newFrameButton.value) {
     await nextTick();
-    getImageButton.value.focus();
+    newFrameButton.value.focus();
   }
 }
 </script>
