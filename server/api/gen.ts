@@ -6,7 +6,7 @@ const config = useRuntimeConfig() as RuntimeConfig;
 const storage = useStorage("genimg");
 
 async function addExpiry(id: string) {
-  console.log("Now adding expiry to", id);
+  console.log("Now adding expiry on serving to", id);
   const answer = (await storage.getItem(id)) as StoredAnswer;
   // Rare race condition between cleaning up answer and setting expiry.
   await storage.setItem(id, {
