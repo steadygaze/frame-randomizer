@@ -15,11 +15,11 @@
     <p>
       To provide a guess, type at least three characters in the search box to
       fuzzily search episode names and descriptions. Keep typing until the
-      desired episode is at the top, or use the <code>arrow keys</code> plus
-      <code>Enter</code>, the mouse, or <code>Ctrl + number</code> or
-      <code>Alt + number</code> to select a specific entry. The "Use synopsis"
-      checkbox can be used to enable or disable showing and searching the
-      episode descriptions.
+      desired episode is at the top, or use the
+      <code>up/down arrow keys</code> plus <code>Enter</code>, the mouse, or
+      <code>Ctrl + number</code> or <code>Alt + number</code> to select a
+      specific entry. The "Use synopsis" checkbox can be used to enable or
+      disable showing and searching the episode descriptions.
     </p>
     <p>
       If you'd rather not guess and instead just enjoy the frames being
@@ -30,9 +30,9 @@
       v-if="config.public.instanceInfoHtml || config.public.instanceInfoText"
     >
       <h3>Instance information</h3>
-      <p>
-        The instance operator has provided the following information specific to
-        this instance.
+      <p class="grayedText">
+        (The instance operator has provided the following information specific
+        to this instance.)
       </p>
       <!-- eslint-disable vue/no-v-html -- Provided by instance operator. -->
       <p
@@ -53,23 +53,23 @@
       <a :href="originalSourceUrl"><code>frame-randomizer</code></a
       >. Know your rights! This software is provided to you under the terms of
       the Affero GNU Public License 3.0 (AGPLv3). That means you, the user, have
-      a right to access a copy of its source code, including the modified
-      version, if a modified version of the original is running.
+      a right to access a copy of its source code, including the code run by
+      this instance, if a modified version is running.
       <span v-if="modifiedSource">
         You can find a copy of the code for this instance
-        <a :href="sourceCodeUrl">here</a>.
+        <a :href="config.public.sourceCodeUrl">here</a>.
       </span>
-      <span v-else id="modifiedSourceDisclaimer">
+      <span v-else class="grayedText">
         (The instance operator did not provide an instance-specific source code
         URL, and therefore attests that their server software is unmodified.)
       </span>
     </p>
     <p>
-      With some degree of setup work and technical knowledge, you can even run
-      an instance of the server on your own computer, either to play with a show
-      that has no existing instance for it, to set up your own instance for
-      others to use, or to play locally without the network latency involved in
-      serving the images.
+      With some setup work and technical knowledge, you can even run an instance
+      of the server on your own computer, either to play with a show that has no
+      existing instance for it, to set up your own instance for others to use,
+      or to play locally without the network latency involved in serving the
+      images.
     </p>
     <p>
       Note that this software is agnostic of what show is randomized from. The
@@ -83,11 +83,9 @@
 
 <script setup lang="ts">
 import { useRuntimeConfig } from "#app";
-import { ref } from "vue";
 
-const originalSourceUrl = "https://github.com/steadygaze/frame-randomizer/";
+const originalSourceUrl = "https://github.com/steadygaze/frame-randomizer";
 const config = useRuntimeConfig();
-const sourceCodeUrl = ref(config.public.sourceCodeLink || originalSourceUrl);
 const modifiedSource =
   config.public.sourceCodeUrl &&
   config.public.sourceCodeUrl !== originalSourceUrl;
@@ -118,7 +116,7 @@ button {
   padding: 0.5em 1em;
 }
 
-#modifiedSourceDisclaimer {
+.grayedText {
   color: #555;
 }
 
