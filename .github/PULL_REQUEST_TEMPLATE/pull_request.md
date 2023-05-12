@@ -12,6 +12,7 @@ Thanks for your contribution!
 - If it's a big change, consider creating a feature request to discuss the change first.
 - Make sure all tests and lint checks pass (`npm run check`).
 - Make sure you're comfortable with the terms of the contributor license agreement, found in `CLA.md`.
+- If you added any new dependencies, make sure they are really needed, and can't be replaced by built-in functions or a new, straightforward utility function.
 -->
 
 # Summary
