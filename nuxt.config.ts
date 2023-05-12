@@ -37,7 +37,9 @@ export default defineNuxtConfig({
     imageCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
     imageExpiryMs: 10 * 60 * 1000, // 10 minutes.
     imageGenMaxParallelism: 3,
-    // Where generated images will be outputted to and served from.
+    // Where generated images will be outputted to and served from. Apparently
+    // orphaned images will be cleaned out of this directory, so don't point it
+    // to somewhere that has important data!
     imageOutputDir: "/tmp/genimg",
     imagePregenCount: 3,
     // Per Nuxt documentation, these values will be sent to client-side code.
