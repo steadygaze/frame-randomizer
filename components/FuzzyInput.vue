@@ -2,17 +2,20 @@
   <div class="fuzzyInput">
     <div class="logoBar">
       <h1 id="logo">{{ siteName }}</h1>
-      <button
-        id="newFrameButton"
-        ref="newFrameButton"
-        :class="{ loading: imageIsLoading }"
-        :disabled="imageIsLoading || waitingForGuess"
-        @click="getImage"
-      >
-        <span class="button-text">New Frame</span>
-      </button>
-      <button @click="showAbout = !showAbout">About</button>
-      <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
+      <div id="bigButtonRow">
+        <button
+          id="newFrameButton"
+          ref="newFrameButton"
+          :class="{ loading: imageIsLoading }"
+          class="buttonWithSpinner"
+          :disabled="imageIsLoading || waitingForGuess"
+          @click="getImage"
+        >
+          <span class="buttonWithSpinnerText">New Frame</span>
+        </button>
+        <button @click="showAbout = !showAbout">About</button>
+        <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
+      </div>
     </div>
     <div id="readout">
       <p>{{ readout }}</p>
@@ -326,6 +329,10 @@ li:nth-child(-n + 10):before {
   min-height: 3.5em;
 }
 
+#bigButtonRow button {
+  margin-right: 2px;
+}
+
 button {
   height: 3.5em;
   padding: 0.9em;
@@ -336,11 +343,15 @@ button:focus {
   border-radius: default;
 }
 
-.button-text {
+.buttonWithSpinner {
+  position: relative;
+}
+
+.buttonWithSpinnerText {
   margin: auto;
 }
 
-.loading .button-text {
+.loading .buttonWithSpinnerText {
   visibility: hidden;
 }
 
