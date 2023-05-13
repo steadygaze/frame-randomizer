@@ -1,8 +1,26 @@
 import { QueryObject, getQuery } from "ufo";
-import { cleanupAnswer } from "~/server/answer";
 import { StoredAnswer } from "~/server/types";
 
 const answerStorage = useStorage("answer");
+
+/**
+ * Cleans up the given answer.
+ * @param id ID to clean up.
+ * @returns Promise to await on completion.
+ */
+export async function cleanupAnswer(id: string): Promise<void> {
+  await Promise.all([
+    answerStorage.removeItem(id).catch((error) => {
+      console.error(
+        "Failed to clean up stored answer for image",
+        id,
+        "due to:",
+        error,
+      );
+    }),
+  ]);
+  console.log("Cleaned up stored answer for", id);
+}
 
 /**
  * Gets an int from query params.
@@ -32,5 +50,5 @@ export default defineEventHandler(async (event) => {
   cleanupAnswer(id);
 
   const correct = answer.season === season && answer.episode === episode;
-  return { correct, ...answer };
+  return { ...answer, correct };
 });
