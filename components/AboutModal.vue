@@ -52,9 +52,12 @@
       is running an instance of
       <a :href="originalSourceUrl"><code>frame-randomizer</code></a
       >. Know your rights! This software is provided to you under the terms of
-      the Affero GNU Public License 3.0 (AGPLv3). That means you, the user, have
-      a right to access a copy of its source code, including the code run by
-      this instance, if a modified version is running.
+      the
+      <a href="https://www.gnu.org/licenses/agpl-3.0.html"
+        >Affero GNU Public License 3.0 (AGPLv3)</a
+      >. That means you, the user, have a right to access a copy of its source
+      code, including the code run by this instance, if a modified version is
+      running.
       <span v-if="modifiedSource">
         You can find a copy of the code for this instance
         <a :href="config.public.sourceCodeUrl">here</a>.
