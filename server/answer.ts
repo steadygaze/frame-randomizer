@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import { RuntimeConfig } from "nuxt/schema";
-import { imagePathForId } from "~/utils/file";
+import { imagePathForId } from "./file";
 
 const config = useRuntimeConfig() as RuntimeConfig;
 const storage = useStorage("genimg");

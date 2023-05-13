@@ -1,5 +1,5 @@
 import { RuntimeConfig } from "nuxt/schema";
-import { checkKeys } from "~/utils/utils";
+import { checkKeys } from "~/server/utils";
 
 const REQUIRED_KEYS = ["episodeDataPath", "videoSourceDir"];
 const REQUIRED_PUBLIC_KEYS = ["instanceName"];

@@ -11,8 +11,8 @@ import {
   imagePathForId,
   lsAllFiles,
   offsetTimeBySkipRanges,
-} from "~/utils/file";
-import { myUuid } from "~/utils/utils";
+} from "./file";
+import { myUuid } from "./utils";
 
 const exec = promisify(execAsync);
 

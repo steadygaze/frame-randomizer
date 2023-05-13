@@ -5,7 +5,8 @@ import { glob } from "glob";
 import shellescape from "shell-escape";
 import { RuntimeConfig } from "nuxt/schema";
 import merge from "lodash.merge";
-import { episodeName, timecodeToSec } from "./utils";
+import { episodeName } from "../utils/utils";
+import { timecodeToSec } from "./utils";
 
 const exec = promisify(execAsync);
 
