@@ -4,7 +4,13 @@ import { StoredAnswer } from "~/server/types";
 
 const storage = useStorage("genimg");
 
-function getInt(query: QueryObject, key: keyof QueryObject) {
+/**
+ * Gets an int from query params.
+ * @param query Query object from Nitro.
+ * @param key Query param name.
+ * @returns Integer from the given query param.
+ */
+function getInt(query: QueryObject, key: keyof QueryObject): number {
   const rawValue = query[key] as string;
   return rawValue ? parseInt(rawValue) : -1;
 }

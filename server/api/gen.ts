@@ -5,7 +5,14 @@ import { StoredAnswer } from "~/server/types";
 const config = useRuntimeConfig() as RuntimeConfig;
 const storage = useStorage("genimg");
 
-async function addExpiry(id: string) {
+/**
+ * Adds an expiration time to an answer.
+ *
+ * Generally, once an image is served, its answer can expire. (Pregenerated images can't expire of course.)
+ * @param id ID to add expiry to.
+ * @returns Promise to await on completion.
+ */
+async function addExpiry(id: string): Promise<void> {
   console.log("Now adding expiry on serving to", id);
   const answer = (await storage.getItem(id)) as StoredAnswer;
   // Rare race condition between cleaning up answer and setting expiry.

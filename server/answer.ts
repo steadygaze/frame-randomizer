@@ -5,7 +5,12 @@ import { imagePathForId } from "./file";
 const config = useRuntimeConfig() as RuntimeConfig;
 const storage = useStorage("genimg");
 
-export async function cleanupAnswer(id: string) {
+/**
+ * Cleans up the given answer.
+ * @param id ID to clean up.
+ * @returns Promise to await on completion.
+ */
+export async function cleanupAnswer(id: string): Promise<void> {
   const filePath = imagePathForId(config, id);
   await Promise.all([
     fs.rm(filePath).catch((error) => {

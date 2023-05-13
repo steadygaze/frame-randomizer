@@ -92,7 +92,6 @@ const seasonEpisodeRegex =
 
 /**
  * Get the length of a video file in seconds using ffprobe.
- *
  * @param videoPath Path to video file.
  * @returns Length of the video in seconds.
  */
@@ -108,7 +107,6 @@ async function ffprobeLength(videoPath: string) {
 
 /**
  * List video files in the configured search path.
- *
  * @param config Nuxt runtime config.
  * @returns All video files that appear to have season and episode number.
  */
@@ -136,7 +134,6 @@ export async function lsAllFiles(
 
 /**
  * Matches episode data from configs with files found.
- *
  * @param config Nuxt runtime config.
  * @param episodeData Data for episodes present in configs.
  * @param fileData Data for episodes from files.
@@ -186,7 +183,6 @@ function joinFileData(
  *
  * Timestamps can be given as either numbers (offset from the beginning in
  * seconds) or string timecodes ("HH:MM:SS").
- *
  * @param range Input time range, before parsing.
  * @returns Parsed time range.
  */
@@ -203,7 +199,6 @@ function parseRange(range: InputTimeRange): TimeRange {
 
 /**
  * Generates a list of skip ranges from the timing config.
- *
  * @param episodeLength Length of the episode in seconds.
  * @param episodeTimings Timings config for the episode, if present.
  * @param commonTimings Common timings config for all episodes, if present.
@@ -272,7 +267,6 @@ export function generateSkipRanges(
 
 /**
  * Load video file info based on configs.
- *
  * @param config Nuxt runtime config.
  * @param episodeConfig Parsed show/episode config.
  * @param fileData Results of globbing for files and parsing season/episode from filename.
@@ -339,7 +333,6 @@ export async function findFiles(
  * skipped, the result time will be 12. This is used to randomly generates a
  * time not in a skipped range, by generating a time [0, episode length minus
  * skipped time] then passing it to this.
- *
  * @param unoffsetTime Initial time before offsetting.
  * @param skipRanges List of time ranges to skip.
  * @returns New time, offset by all the skip ranges before it.
@@ -361,7 +354,6 @@ export function offsetTimeBySkipRanges(
 
 /**
  * Get the expected server-side path for an ID.
- *
  * @param config Nuxt runtime config.
  * @param id Image ID.
  * @returns Expected image path.

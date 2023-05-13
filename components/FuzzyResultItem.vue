@@ -35,6 +35,12 @@ const props = defineProps<{
   highlight: boolean;
 }>();
 
+/**
+ * Given a match object with match indices, constructs a list of substrings to
+ * display.
+ * @param key What key was searched/matched.
+ * @returns List of displayable substrings, augmented with match status.
+ */
 function findAndChunkKeyMatches(key: keyof ProcessedEpisodeData): SearchPart[] {
   const nameMatch = props.fuseMatch.matches?.find((match) => match.key === key);
   return nameMatch

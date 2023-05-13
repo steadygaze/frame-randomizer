@@ -11,7 +11,14 @@ export interface ClientEpisodeData {
 
 const config = useRuntimeConfig() as RuntimeConfig;
 
-async function getClientEpisodeDataInit(config: RuntimeConfig) {
+/**
+ * Gets episode data to return to clients. This is constant once loaded.
+ * @param config Runtime config options.
+ * @returns A list of all episodes.
+ */
+async function getClientEpisodeDataInit(
+  config: RuntimeConfig
+): Promise<ClientEpisodeData[]> {
   const episodeData = await getEpisodeData(config);
   return episodeData.map(({ season, episode, name, overview }) => {
     return { season, episode, name, overview };

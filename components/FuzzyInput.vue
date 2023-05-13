@@ -42,7 +42,7 @@
         :fuse-match="fuseMatch"
         :show-synopsis="useSynopsis"
         :highlight="highlightIndex === index"
-        @mousemove="handleMouseover(index)"
+        @mousemove="changeHighlightedIndex(index)"
         @click="submitAnswer(index)"
       ></FuzzyResultItem>
     </ol>
@@ -119,6 +119,10 @@ const computedData = computed(() =>
     : fuseNameOnly.search(searchInput.value)
 );
 
+/**
+ * Request an image from the API.
+ * @param _event Mouse event (unused).
+ */
 async function getImage(_event: MouseEvent | null) {
   imageIsLoading.value = true;
   window.getSelection()?.removeAllRanges();
@@ -153,6 +157,13 @@ onMounted(() => {
   getImage(null);
 });
 
+/**
+ * Handle keyboard inputs to the search box.
+ *
+ * Up/down arrow keys change the highlighted item. Enter submits the highlighted
+ * item. Ctrl or Alt + number submits that numbered entry.
+ * @param event Keyboard event.
+ */
 function handleKey(event: KeyboardEvent) {
   let submitIndex = null;
   if (event.ctrlKey || event.altKey) {
@@ -192,10 +203,18 @@ function handleKey(event: KeyboardEvent) {
   }
 }
 
-function handleMouseover(index: number) {
+/**
+ * Highlight search result item when moused over.
+ * @param index Search result index to highlight.
+ */
+function changeHighlightedIndex(index: number) {
   highlightIndex.value = index;
 }
 
+/**
+ * Submits an answer to the server and checks if it's correct.
+ * @param index Search result index to submit.
+ */
 async function submitAnswer(index: number) {
   if (index < -1 || index >= computedData.value.length) {
     throw new RangeError(`Index ${index} out of range`);

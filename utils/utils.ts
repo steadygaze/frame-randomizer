@@ -1,12 +1,25 @@
+/**
+ * Generates a "SxxExx" string.
+ * @param season Season number.
+ * @param episode Episode number.
+ * @returns Season/episode tag string.
+ */
 export function seasonEpisodeTag(
   season: string | number,
   episode: string | number
-) {
+): string {
   const sPadded = String(season).padStart(2, "0");
   const ePadded = String(episode).padStart(2, "0");
   return `S${sPadded}E${ePadded}`;
 }
 
+/**
+ * Generates a fully notated episode name, with season/episode number.
+ * @param season Season number.
+ * @param episode Episode number.
+ * @param name Name of the episode.
+ * @returns Full episode name with season/episode number.
+ */
 export function episodeName(
   season: string | number,
   episode: string | number,

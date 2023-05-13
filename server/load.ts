@@ -16,7 +16,15 @@ import { myUuid } from "./utils";
 
 const exec = promisify(execAsync);
 
-async function getEpisodeDataUncached(runtimeConfig: RuntimeConfig) {
+/**
+ * Gets episode data from the specified config file, and joins it with file
+ * information.
+ * @param runtimeConfig Runtime config options.
+ * @returns Episode data list, with an entry for each episode.
+ */
+async function getEpisodeDataUncached(
+  runtimeConfig: RuntimeConfig
+): Promise<EpisodeDatum[]> {
   const start = Date.now();
   const [episodeConfigString, fileData] = await Promise.all([
     fs.readFile(runtimeConfig.episodeDataPath, { encoding: "utf-8" }),
@@ -48,7 +56,16 @@ async function getEpisodeDataUncached(runtimeConfig: RuntimeConfig) {
 
 const getEpisodeData = once(getEpisodeDataUncached);
 
-function randomTimeInEpisode(episode: EpisodeDatum) {
+/**
+ * Generates a random time in an episode in seconds, considering skip ranges.
+ *
+ * For example, if an episode is 60 seconds long, and the first 10 seconds are
+ * skipped, we will generate a number between 0 and 50, and then return that
+ * number plus 10.
+ * @param episode Episode data object.
+ * @returns Random time, in seconds.
+ */
+function randomTimeInEpisode(episode: EpisodeDatum): number {
   const randomUnoffsetTime = Math.random() * episode.genLength;
   const offsetTime = Math.min(
     offsetTimeBySkipRanges(randomUnoffsetTime, episode.skipRanges),
@@ -57,12 +74,20 @@ function randomTimeInEpisode(episode: EpisodeDatum) {
   return offsetTime;
 }
 
+/**
+ * Calls ffmpeg to run the command to extract a particular frame.
+ * @param videoPath Path to video file.
+ * @param timecode Timecode accepted by ffmpeg (seconds, or XX:XX format).
+ * @param outputPath Path to output the image to (including file extension).
+ * @param inject Additional args to inject into the command.
+ * @returns Promise to await on completion.
+ */
 async function ffmpegFrame(
   videoPath: string,
   timecode: number | string,
   outputPath: string,
   inject: string | undefined
-) {
+): Promise<void> {
   const start = Date.now();
   await exec(
     `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
@@ -77,12 +102,25 @@ async function ffmpegFrame(
   );
 }
 
+/**
+ * Gets a frame producer queue, which manages generating new frames, returning
+ * pregenerated frames, etc.
+ * @param config Runtime config options.
+ * @returns Producer queue on the image IDs generated.
+ */
 async function getFrameProducerQueueUncached(
   config: RuntimeConfig
 ): Promise<ProducerQueue<{ imageId: string }>> {
   const episodeData = await getEpisodeData(config);
   const storage = useStorage("genimg");
 
+  /**
+   * Performs all jobs associated with generating a frame.
+   *
+   * This includes generating the frame, and storing the "answer" (what episode
+   * the frame is from) in storage.
+   * @returns ID of the image generated.
+   */
   async function generateFrame() {
     const imageId = myUuid(config);
     const imagePath = imagePathForId(config, imageId);

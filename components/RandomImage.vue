@@ -14,6 +14,9 @@ import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 const extension = useRuntimeConfig().public.imageOutputExtension;
 const { imageId, imageIsLoading } = storeToRefs(useEpisodeDataStore());
 
+/**
+ *
+ */
 function handleLoad() {
   imageIsLoading.value = false; // Reactively notifies other components.
 }

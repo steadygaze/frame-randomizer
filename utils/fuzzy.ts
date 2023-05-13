@@ -11,6 +11,15 @@ export interface FuseMatch {
   key: string;
 }
 
+/**
+ * Takes Fuse match indices and converts them to a displayable form.
+ *
+ * This is basically a list of substrings, and whether the substring was
+ * matching. This will then be passed to FuzzyResultItem, which will generate a
+ * bunch of span tags.
+ * @param match Match objects returned from Fuse.
+ * @returns Displayable form.
+ */
 export function chunkMatchText(match: Fuse.FuseResultMatch): SearchPart[] {
   if (match.indices.length <= 0) {
     throw new Error("No matches");
