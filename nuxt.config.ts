@@ -33,6 +33,9 @@ export default defineNuxtConfig({
     allowMissingEpisodes: true,
     // Required. Where the episode data config is. See README.md for more info.
     episodeDataPath: undefined,
+    // If given, this will be injected into the ffmpeg command used to generate
+    // the images. Useful for specifying image encoding/quality options.
+    ffmpegImageCommandInject: undefined,
     // How often to check imageOutputDir and answer storage for expired images.
     imageCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
     imageExpiryMs: 10 * 60 * 1000, // 10 minutes.

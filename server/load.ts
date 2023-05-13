@@ -60,11 +60,14 @@ function randomTimeInEpisode(episode: EpisodeDatum) {
 async function ffmpegFrame(
   videoPath: string,
   timecode: number | string,
-  outputPath: string
+  outputPath: string,
+  inject: string | undefined
 ) {
   const start = Date.now();
   await exec(
-    `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -update true -lossless 0 -quality 90 -y ${outputPath}`
+    `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
+      inject || ""
+    } -y ${outputPath}`
   );
   console.log(
     "New image generated in",
@@ -88,7 +91,12 @@ async function getFrameProducerQueueUncached(
     await Promise.all([
       // If we returned the image path to the client without awaiting on ffmpeg,
       // they might try to load the image before it's done generating.
-      ffmpegFrame(episode.filename, seekTime, imagePath),
+      ffmpegFrame(
+        episode.filename,
+        seekTime,
+        imagePath,
+        config.ffmpegImageCommandInject
+      ),
       // We do await on storing the answer despite this not affecting the query
       // result to prevent a rare data race between the answer being stored and
       // the client checking their guess.
