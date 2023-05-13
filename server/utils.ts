@@ -13,7 +13,7 @@ const timecodeRegex =
  */
 export function myUuid(config: RuntimeConfig, purpose = "image_generation") {
   return uuidv5(
-    [config.instanceName, config.imageOutputDir, purpose, Date.now()].join(
+    [config.instanceName, config.frameOutputDir, purpose, Date.now()].join(
       "___"
     ),
     config.uuidNamespace

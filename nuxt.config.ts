@@ -34,19 +34,23 @@ export default defineNuxtConfig({
     // Required. Where the episode data config is. See README.md for more info.
     episodeDataPath: undefined,
     // If given, this will be injected into the ffmpeg command used to generate
-    // the images. Useful for specifying image encoding/quality options.
+    // the images. Useful for specifying image encoding/quality options. Consult
+    // ffmpeg documentation (https://ffmpeg.org/ffmpeg-codecs.html).
     ffmpegImageCommandInject: undefined,
     // How often to check imageOutputDir and answer storage for expired images.
-    imageCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
-    imageExpiryMs: 10 * 60 * 1000, // 10 minutes.
-    imageGenMaxParallelism: 3,
+    frameCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
+    frameExpiryMs: 10 * 60 * 1000, // 10 minutes.
+    // Limit number of simultaneously generated frames to this amount.
+    frameGenMaxParallelism: 3,
     // Where generated images will be outputted to and served from. Apparently
     // orphaned images will be cleaned out of this directory, so don't point it
     // to somewhere that has important data!
-    imageOutputDir: "/tmp/genimg",
-    imagePregenCount: 3,
+    frameOutputDir: "/tmp/genimg",
+    framePregenCount: 3,
     // Per Nuxt documentation, these values will be sent to client-side code.
     public: {
+      // What extension to output images as. Naturally, these have different
+      // tradeoffs in terms of output filesize, generation/encoding time, etc.
       imageOutputExtension: "webp",
       // Instance info that will be shown in the About section. This allows HTML
       // tags; use this if you want to include HTML. You might want to include a
@@ -67,8 +71,8 @@ export default defineNuxtConfig({
       sourceCodeUrl: "https://github.com/steadygaze/frame-randomizer/",
     },
     // Whether to search subdirectories of videoSourceDir. Directory path is not
-    // considered when deciding season/episode number, only filename.
-    searchVideoDirRecursively: false,
+    // considered when matching files with the right episode, only filename.
+    searchVideoDirRecursively: true,
     // Used to give generated images random names. Recommend setting this to a
     // different one for your own instance from:
     // https://www.uuidtools.com/generate/v4

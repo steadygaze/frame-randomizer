@@ -30,7 +30,7 @@ async function getEpisodeDataUncached(
     fs.readFile(runtimeConfig.episodeDataPath, { encoding: "utf-8" }),
     lsAllFiles(runtimeConfig),
     fs
-      .mkdir(runtimeConfig.imageOutputDir, { recursive: true })
+      .mkdir(runtimeConfig.frameOutputDir, { recursive: true })
       .catch((error) => {
         if (error instanceof Object && "code" in error) {
           // Ignore if dir already exists.
@@ -148,8 +148,8 @@ async function getFrameProducerQueueUncached(
   }
 
   return new ProducerQueue(generateFrame, {
-    length: config.imagePregenCount,
-    maxPending: config.imageGenMaxParallelism,
+    length: config.framePregenCount,
+    maxPending: config.frameGenMaxParallelism,
   });
 }
 

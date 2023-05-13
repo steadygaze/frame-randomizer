@@ -1,8 +1,8 @@
 <template>
   <img
     v-if="imageId"
-    :src="`/api/getimg/${imageId}.${extension}`"
-    @load="handleLoad"
+    :src="`/api/frame/get/${imageId}.${extension}`"
+    @load="endLoading"
   />
 </template>
 
@@ -15,9 +15,9 @@ const extension = useRuntimeConfig().public.imageOutputExtension;
 const { imageId, imageIsLoading } = storeToRefs(useEpisodeDataStore());
 
 /**
- *
+ * Set loading state to false on load.
  */
-function handleLoad() {
+function endLoading() {
   imageIsLoading.value = false; // Reactively notifies other components.
 }
 </script>

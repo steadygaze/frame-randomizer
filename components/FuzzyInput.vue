@@ -126,7 +126,7 @@ const computedData = computed(() =>
 async function getImage(_event: MouseEvent | null) {
   imageIsLoading.value = true;
   window.getSelection()?.removeAllRanges();
-  const { data: rawData } = await useFetch("/api/gen");
+  const { data: rawData } = await useFetch("/api/frame/gen");
   if (rawData && rawData.value) {
     store.imageId = rawData.value.imageId;
   } else {
@@ -231,7 +231,7 @@ async function submitAnswer(index: number) {
     console.log("Submitting input", item.fullName);
     query = { season: item.season, episode: item.episode };
   }
-  const { data, error } = await useFetch(`/api/checkimg/${imageId.value}`, {
+  const { data, error } = await useFetch(`/api/frame/check/${imageId.value}`, {
     query,
   });
 

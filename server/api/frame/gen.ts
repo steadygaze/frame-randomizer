@@ -1,5 +1,5 @@
 import { RuntimeConfig } from "nuxt/schema";
-import { getFrameProducerQueue } from "../load";
+import { getFrameProducerQueue } from "../../load";
 import { StoredAnswer } from "~/server/types";
 
 const config = useRuntimeConfig() as RuntimeConfig;
@@ -18,7 +18,7 @@ async function addExpiry(id: string): Promise<void> {
   // Rare race condition between cleaning up answer and setting expiry.
   await storage.setItem(id, {
     ...answer,
-    expiryTs: Date.now() + config.imageExpiryMs,
+    expiryTs: Date.now() + config.frameExpiryMs,
   });
 }
 

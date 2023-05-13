@@ -14,7 +14,7 @@ export default defineNitroPlugin(() => {
   setInterval(async () => {
     const start = Date.now();
     const ext = config.public.imageOutputExtension;
-    const globPattern = path.join(config.imageOutputDir, `*.${ext}`);
+    const globPattern = path.join(config.frameOutputDir, `*.${ext}`);
     const [keys, images1, images2] = await Promise.all([
       storage.getKeys(),
       // List the files twice to avoid race conditions with storage cleanup.
@@ -60,5 +60,5 @@ export default defineNitroPlugin(() => {
 
     await Promise.all(cleanups);
     console.log("Image cleanup done in", Date.now() - start, "ms");
-  }, config.imageCleanupIntervalMs);
+  }, config.frameCleanupIntervalMs);
 });

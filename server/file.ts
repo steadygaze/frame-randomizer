@@ -360,7 +360,7 @@ export function offsetTimeBySkipRanges(
  */
 export function imagePathForId(config: RuntimeConfig, id: string) {
   return path.join(
-    config.imageOutputDir,
+    config.frameOutputDir,
     `${id}.${config.public.imageOutputExtension}`
   );
 }

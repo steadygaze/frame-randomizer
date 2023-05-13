@@ -1,6 +1,6 @@
 import { RuntimeConfig } from "nuxt/schema";
 import once from "lodash.once";
-import { getEpisodeData } from "../load";
+import { getEpisodeData } from "../../load";
 
 export interface ClientEpisodeData {
   season: number;

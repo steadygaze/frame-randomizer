@@ -157,7 +157,7 @@ describe("imagePathForId", () => {
     expect(
       imagePathForId(
         {
-          imageOutputDir: "/path/to/output/dir",
+          frameOutputDir: "/path/to/output/dir",
           public: { imageOutputExtension: "webp" } as PublicRuntimeConfig,
         } as RuntimeConfig,
         "01234567-89ab-cdef-0123-456789abcdef"

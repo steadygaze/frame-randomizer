@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     // Prevent path traversal security vulnerability.
     throw createError({ statusCode: 400 });
   }
-  const filePath = path.join(config.imageOutputDir, imageBasename);
+  const filePath = path.join(config.frameOutputDir, imageBasename);
   await fs.access(filePath);
   return sendStream(event, fsAsync.createReadStream(filePath));
 });
