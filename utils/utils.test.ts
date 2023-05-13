@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { floatIntPartPad, timecodeToSec } from "./utils";
+import { floatIntPartPad, timecodeToSec, checkKeys } from "./utils";
 
 describe("floatIntPartPad", () => {
   it("should pad a float <10", () => {
@@ -33,7 +33,7 @@ describe("timecodeToSec", () => {
   });
 
   it("should change null to zero", () => {
-    expect(() => timecodeToSec(undefined, true)).toThrowError("required");
+    expect(() => timecodeToSec(undefined, true)).toThrow("required");
   });
 
   it("should return an int unmodified", () => {
@@ -74,5 +74,45 @@ describe("timecodeToSec", () => {
 
   it("should parse a HH:MM:SS timecode", () => {
     expect(timecodeToSec("21h12m23.45s")).toEqual(76343.45);
+  });
+});
+
+describe("checkKeys", () => {
+  it("should do nothing for empty input", () => {
+    expect(checkKeys([], { k1: "str", k2: "str", k3: "str" })).toEqual(
+      undefined
+    );
+  });
+
+  it("should do nothing for empty input and empty object", () => {
+    expect(checkKeys([], {})).toEqual(undefined);
+  });
+
+  it("should do nothing if all keys are present", () => {
+    expect(
+      checkKeys(["k1", "k2", "k3"], { k1: "str", k2: "str", k3: "str" })
+    ).toEqual(undefined);
+  });
+
+  it("should do nothing if all keys are present from a subset", () => {
+    expect(checkKeys(["k1"], { k1: "str", k2: "str", k3: "str" })).toEqual(
+      undefined
+    );
+  });
+
+  it("should detect a missing key", () => {
+    expect(() => checkKeys(["k1"], { k2: "str", k3: "str" })).toThrow("k1");
+  });
+
+  it("should detect an empty key", () => {
+    expect(() => checkKeys(["k1"], { k1: "", k2: "str", k3: "str" })).toThrow(
+      "k1"
+    );
+  });
+
+  it("should detect and list multiple missing keys", () => {
+    expect(() => checkKeys(["k1", "k2", "k3"], { k3: "str" })).toThrow(
+      /k1.*k2/
+    );
   });
 });

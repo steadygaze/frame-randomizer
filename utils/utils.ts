@@ -1,5 +1,6 @@
 import { RuntimeConfig } from "nuxt/schema";
 import { v5 as uuidv5 } from "uuid";
+import difference from "lodash.difference";
 
 export function seasonEpisodeTag(
   season: string | number,
@@ -76,4 +77,16 @@ export function timecodeToSec(
   }
 
   throw new Error("Couldn't parse \"" + timecode + '" as timecode');
+}
+
+export function checkKeys(keys: string[], obj: any) {
+  const missingKeys = difference(
+    keys,
+    Object.keys(obj).filter((k) => obj[k])
+  );
+  if (missingKeys.length > 0) {
+    throw new Error(
+      `Missing required config options: ${missingKeys.join(", ")}`
+    );
+  }
 }
