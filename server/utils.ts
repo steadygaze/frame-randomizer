@@ -2,6 +2,15 @@ import { RuntimeConfig } from "nuxt/schema";
 import { v5 as uuidv5 } from "uuid";
 import difference from "lodash.difference";
 
+const timecodeRegex =
+  /^((?<hours>\d+)(:|h)(?=\d{2}(:|m)))?((?<minutes>\d+)(:|m))?(?<seconds>\d{2}(.\d+)?)s?$/;
+
+/**
+ * Generates a UUID using uuidv5 and information about the instance.
+ * @param config Has information used to generate UUID.
+ * @param purpose What the UUID will be used for, to differentiate it from other UUIDs generated.
+ * @returns Standard UUID.
+ */
 export function myUuid(config: RuntimeConfig, purpose = "image_generation") {
   return uuidv5(
     [config.instanceName, config.imageOutputDir, purpose, Date.now()].join(
@@ -11,30 +20,12 @@ export function myUuid(config: RuntimeConfig, purpose = "image_generation") {
   );
 }
 
-export function floatIntPartPad(
-  myNumber: number | string,
-  iPartPlaces = 2,
-  fPartPlaces = 3
-) {
-  const initialStrNumber = String(myNumber);
-  const decimalIndex = initialStrNumber.indexOf(".");
-  if (decimalIndex < 0) {
-    return fPartPlaces > 0
-      ? `${initialStrNumber.padStart(2, "0")}.${"0".repeat(fPartPlaces)}`
-      : initialStrNumber.padStart(2, "0");
-  }
-  const numIPartDigits = decimalIndex;
-  const numFPartDigits = initialStrNumber.length - (decimalIndex + 1);
-  return `${"0".repeat(
-    Math.max(iPartPlaces - numIPartDigits, 0)
-  )}${initialStrNumber}${"0".repeat(
-    Math.max(fPartPlaces - numFPartDigits, 0)
-  )}`;
-}
-
-const timecodeRegex =
-  /^((?<hours>\d+)(:|h)(?=\d{2}(:|m)))?((?<minutes>\d+)(:|m))?(?<seconds>\d{2}(.\d+)?)s?$/;
-
+/**
+ * Converts a timecode to a number of seconds.
+ * @param timecode String like "XX:XX.XXX", "1h10m34s", or similar.
+ * @param required Whether to throw an error if timecode is absent.
+ * @returns Equivalent in seconds.
+ */
 export function timecodeToSec(
   timecode: number | string | undefined | null,
   required = false
@@ -60,7 +51,12 @@ export function timecodeToSec(
   throw new Error("Couldn't parse \"" + timecode + '" as timecode');
 }
 
-export function checkKeys(keys: string[], obj: any) {
+/**
+ * Checks whether an object has the given keys. If not, throw an error.
+ * @param keys Keys to check for.
+ * @param obj Object to check.
+ */
+export function checkKeys(keys: string[], obj: any): void {
   const missingKeys = difference(
     keys,
     Object.keys(obj).filter((k) => obj[k])

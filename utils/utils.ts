@@ -1,6 +1,3 @@
-import { RuntimeConfig } from "nuxt/schema";
-import { v5 as uuidv5 } from "uuid";
-
 export function seasonEpisodeTag(
   season: string | number,
   episode: string | number
@@ -18,15 +15,13 @@ export function episodeName(
   return `${seasonEpisodeTag(season, episode)} ${name}`;
 }
 
-export function myUuid(config: RuntimeConfig, purpose = "image_generation") {
-  return uuidv5(
-    [config.instanceName, config.imageOutputDir, purpose, Date.now()].join(
-      "___"
-    ),
-    config.uuidNamespace
-  );
-}
-
+/**
+ * Generates a string representation of a number, padded with zeros to the given length.
+ * @param myNumber Number to pad.
+ * @param iPartPlaces How many places to show in the integer part. If needed, the number will be padded with zeros.
+ * @param fPartPlaces How many places to show in the fractional/decimal part. If needed, the number
+ * @returns Padded string representation of the number.
+ */
 export function floatIntPartPad(
   myNumber: number | string,
   iPartPlaces = 2,
