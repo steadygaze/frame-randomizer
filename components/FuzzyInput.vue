@@ -35,7 +35,7 @@
         <label for="synopsisCheckbox">Use synopsis</label>
       </div>
     </div>
-    <ol>
+    <ol class="resultItemList">
       <FuzzyResultItem
         v-for="(fuseMatch, index) in computedData"
         :key="fuseMatch.item.fullName"
@@ -284,7 +284,7 @@ async function submitAnswer(index: number) {
   padding: 8px;
 }
 
-ol {
+ol.resultItemList {
   list-style: none;
   counter-reset: searchCounter;
   margin: 0;
@@ -292,14 +292,14 @@ ol {
   display: flex;
   flex-flow: row wrap;
 }
-li {
+ol.resultItemList li {
   counter-increment: searchCounter;
   flex: 1 1 350px;
 }
-li:nth-child(10) {
+ol.resultItemList li:nth-child(10) {
   counter-reset: searchCounter -1;
 }
-li:nth-child(-n + 10):before {
+ol.resultItemList li:nth-child(-n + 10):before {
   content: "Mod-" counter(searchCounter) " ";
   color: #888;
 }
