@@ -31,7 +31,7 @@ export default defineLazyEventHandler(async () => {
     console.log(
       "Request waited",
       Date.now() - start,
-      "ms for image generation and callback queue"
+      "ms for image generation and callback queue",
     );
     // Don't await on adding an expiry time, because it won't affect the result.
     addExpiry(result.imageId);

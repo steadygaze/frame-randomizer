@@ -40,9 +40,9 @@ export default defineNitroPlugin(() => {
               "Failed to clean up orphaned image",
               imagePath,
               "due to:",
-              error
+              error,
             );
-          })
+          }),
         );
       }
     }

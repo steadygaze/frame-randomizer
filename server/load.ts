@@ -23,7 +23,7 @@ const exec = promisify(execAsync);
  * @returns Episode data list, with an entry for each episode.
  */
 async function getEpisodeDataUncached(
-  runtimeConfig: RuntimeConfig
+  runtimeConfig: RuntimeConfig,
 ): Promise<EpisodeDatum[]> {
   const start = Date.now();
   const [episodeConfigString, fileData] = await Promise.all([
@@ -49,7 +49,7 @@ async function getEpisodeDataUncached(
     episodeData.length,
     "episodes in",
     Date.now() - start,
-    "ms"
+    "ms",
   );
   return episodeData;
 }
@@ -69,7 +69,7 @@ function randomTimeInEpisode(episode: EpisodeDatum): number {
   const randomUnoffsetTime = Math.random() * episode.genLength;
   const offsetTime = Math.min(
     offsetTimeBySkipRanges(randomUnoffsetTime, episode.skipRanges),
-    episode.lengthSec
+    episode.lengthSec,
   );
   return offsetTime;
 }
@@ -86,19 +86,19 @@ async function ffmpegFrame(
   videoPath: string,
   timecode: number | string,
   outputPath: string,
-  inject: string | undefined
+  inject: string | undefined,
 ): Promise<void> {
   const start = Date.now();
   await exec(
     `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
       inject || ""
-    } -y ${outputPath}`
+    } -y ${outputPath}`,
   );
   console.log(
     "New image generated in",
     Date.now() - start,
     "ms at",
-    outputPath
+    outputPath,
   );
 }
 
@@ -109,7 +109,7 @@ async function ffmpegFrame(
  * @returns Producer queue on the image IDs generated.
  */
 async function getFrameProducerQueueUncached(
-  config: RuntimeConfig
+  config: RuntimeConfig,
 ): Promise<ProducerQueue<{ imageId: string }>> {
   const episodeData = await getEpisodeData(config);
   const storage = useStorage("genimg");
@@ -133,7 +133,7 @@ async function getFrameProducerQueueUncached(
         episode.filename,
         seekTime,
         imagePath,
-        config.ffmpegImageCommandInject
+        config.ffmpegImageCommandInject,
       ),
       // We do await on storing the answer despite this not affecting the query
       // result to prevent a rare data race between the answer being stored and

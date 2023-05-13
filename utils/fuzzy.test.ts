@@ -8,7 +8,7 @@ describe("chunkMatchText (match text chunker)", () => {
         indices: [[0, 2]],
         value: "Old Man's War",
         key: "title",
-      })
+      }),
     ).toEqual([
       { part: "Old", matching: true },
       { part: " Man's War", matching: false },
@@ -21,7 +21,7 @@ describe("chunkMatchText (match text chunker)", () => {
         indices: [[10, 12]],
         value: "Old Man's War",
         key: "title",
-      })
+      }),
     ).toEqual([
       { part: "Old Man's ", matching: false },
       { part: "War", matching: true },
@@ -37,7 +37,7 @@ describe("chunkMatchText (match text chunker)", () => {
         ],
         value: "The DaVinci Code",
         key: "title",
-      })
+      }),
     ).toEqual([
       { part: "The ", matching: false },
       { part: "D", matching: true },
@@ -56,7 +56,7 @@ describe("chunkMatchText (match text chunker)", () => {
         ],
         value: "The DaVinci Code",
         key: "title",
-      })
+      }),
     ).toEqual([
       { part: "The D", matching: true },
       { part: "aVinci Co", matching: false },
@@ -74,7 +74,7 @@ describe("chunkMatchText (match text chunker)", () => {
         ],
         value: "The DaVinci Code",
         key: "title",
-      })
+      }),
     ).toEqual([
       { part: "The D", matching: true },
       { part: "a", matching: false },

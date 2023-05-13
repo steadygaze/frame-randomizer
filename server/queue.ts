@@ -18,7 +18,7 @@ export class ProducerQueue<Type> {
 
   constructor(
     produceFn: () => Promise<Type>,
-    { length, maxPending }: ProducerQueueOptions
+    { length, maxPending }: ProducerQueueOptions,
   ) {
     this.consumerPendingLogTs = 0;
     this.maxPending = maxPending;
@@ -44,7 +44,7 @@ export class ProducerQueue<Type> {
       if (now > this.producerPendingLogTs) {
         this.producerPendingLogTs = now + LOG_WAIT_MS;
         console.log(
-          `Producer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`
+          `Producer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`,
         );
       }
       await sleep(SPIN_WAIT_DELAY_MS);
@@ -59,7 +59,7 @@ export class ProducerQueue<Type> {
       if (now > this.consumerPendingLogTs) {
         this.consumerPendingLogTs = now + LOG_WAIT_MS;
         console.log(
-          `Consumer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`
+          `Consumer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`,
         );
       }
       await sleep(SPIN_WAIT_DELAY_MS);

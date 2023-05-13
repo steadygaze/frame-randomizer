@@ -18,7 +18,7 @@ export async function cleanupAnswer(id: string): Promise<void> {
         "Failed to clean up used image",
         filePath,
         "due to:",
-        error
+        error,
       );
     }),
     storage.removeItem(id).catch((error) => {
@@ -26,7 +26,7 @@ export async function cleanupAnswer(id: string): Promise<void> {
         "Failed to clean up stored answer for image",
         filePath,
         "due to:",
-        error
+        error,
       );
     }),
   ]);

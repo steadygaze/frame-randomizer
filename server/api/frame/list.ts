@@ -17,7 +17,7 @@ const config = useRuntimeConfig() as RuntimeConfig;
  * @returns A list of all episodes.
  */
 async function getClientEpisodeDataInit(
-  config: RuntimeConfig
+  config: RuntimeConfig,
 ): Promise<ClientEpisodeData[]> {
   const episodeData = await getEpisodeData(config);
   return episodeData.map(({ season, episode, name, overview }) => {

@@ -99,9 +99,9 @@ async function ffprobeLength(videoPath: string) {
   return parseFloat(
     (
       await exec(
-        `ffprobe -i ${videoPath} -show_entries format=duration -v quiet -of csv="p=0"`
+        `ffprobe -i ${videoPath} -show_entries format=duration -v quiet -of csv="p=0"`,
       )
-    ).stdout
+    ).stdout,
   );
 }
 
@@ -111,11 +111,11 @@ async function ffprobeLength(videoPath: string) {
  * @returns All video files that appear to have season and episode number.
  */
 export async function lsAllFiles(
-  config: RuntimeConfig
+  config: RuntimeConfig,
 ): Promise<FileEpisodeDatum[]> {
   const globPattern = path.join(
     config.videoSourceDir,
-    config.searchVideoDirRecursively ? "**/*.{mkv,mp4}" : "*.{mkv,mp4}"
+    config.searchVideoDirRecursively ? "**/*.{mkv,mp4}" : "*.{mkv,mp4}",
   );
   const globbed = await glob(globPattern);
   const fileData: FileEpisodeDatum[] = [];
@@ -142,7 +142,7 @@ export async function lsAllFiles(
 function joinFileData(
   config: RuntimeConfig,
   episodeData: ConfigEpisodeDatum[],
-  fileData: FileEpisodeDatum[]
+  fileData: FileEpisodeDatum[],
 ): JoinedEpisodeDatum[] {
   const filledData: JoinedEpisodeDatum[] = [];
   const missingEpisodes: string[] = [];
@@ -150,11 +150,11 @@ function joinFileData(
     const found = fileData.find(
       (fileData) =>
         initialData.season === fileData.season &&
-        initialData.episode === fileData.episode
+        initialData.episode === fileData.episode,
     );
     if (!found) {
       missingEpisodes.push(
-        episodeName(initialData.season, initialData.episode, initialData.name)
+        episodeName(initialData.season, initialData.episode, initialData.name),
       );
     } else {
       filledData.push({ ...found, ...initialData });
@@ -167,11 +167,11 @@ function joinFileData(
         "Couldn't find files for",
         missingEpisodes.length,
         "episodes:",
-        missingEpisodesStr
+        missingEpisodesStr,
       );
     } else {
       throw new Error(
-        `Couldn't find files for ${missingEpisodes.length} episodes: ${missingEpisodesStr}`
+        `Couldn't find files for ${missingEpisodes.length} episodes: ${missingEpisodesStr}`,
       );
     }
   }
@@ -207,7 +207,7 @@ function parseRange(range: InputTimeRange): TimeRange {
 export function generateSkipRanges(
   episodeLength: number,
   episodeTimings: Timings | undefined,
-  commonTimings: Timings | undefined
+  commonTimings: Timings | undefined,
 ): TimeRange[] {
   const skipRanges: TimeRange[] = [];
   if (!episodeTimings && !commonTimings) {
@@ -275,7 +275,7 @@ export function generateSkipRanges(
 export async function findFiles(
   config: RuntimeConfig,
   episodeConfig: EpisodeConfig,
-  fileData: FileEpisodeDatum[]
+  fileData: FileEpisodeDatum[],
 ): Promise<EpisodeDatum[]> {
   const { episodes, commonTimings } = episodeConfig;
   return (
@@ -294,7 +294,7 @@ export async function findFiles(
             const skipRanges: TimeRange[] = generateSkipRanges(
               lengthSec,
               timings,
-              commonTimings
+              commonTimings,
             );
             const genLength =
               lengthSec -
@@ -316,12 +316,12 @@ export async function findFiles(
               "Failed to load",
               episodeName(season, episode, name),
               "at",
-              filename
+              filename,
             );
             return [];
           }
-        }
-      )
+        },
+      ),
     )
   ).flat();
 }
@@ -339,7 +339,7 @@ export async function findFiles(
  */
 export function offsetTimeBySkipRanges(
   unoffsetTime: number,
-  skipRanges: TimeRange[]
+  skipRanges: TimeRange[],
 ) {
   let offsetTime = unoffsetTime;
   for (
@@ -361,6 +361,6 @@ export function offsetTimeBySkipRanges(
 export function imagePathForId(config: RuntimeConfig, id: string) {
   return path.join(
     config.frameOutputDir,
-    `${id}.${config.public.imageOutputExtension}`
+    `${id}.${config.public.imageOutputExtension}`,
   );
 }

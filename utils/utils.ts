@@ -6,7 +6,7 @@
  */
 export function seasonEpisodeTag(
   season: string | number,
-  episode: string | number
+  episode: string | number,
 ): string {
   const sPadded = String(season).padStart(2, "0");
   const ePadded = String(episode).padStart(2, "0");
@@ -23,7 +23,7 @@ export function seasonEpisodeTag(
 export function episodeName(
   season: string | number,
   episode: string | number,
-  name: string
+  name: string,
 ): string {
   return `${seasonEpisodeTag(season, episode)} ${name}`;
 }
@@ -38,7 +38,7 @@ export function episodeName(
 export function floatIntPartPad(
   myNumber: number | string,
   iPartPlaces = 2,
-  fPartPlaces = 3
+  fPartPlaces = 3,
 ) {
   const initialStrNumber = String(myNumber);
   const decimalIndex = initialStrNumber.indexOf(".");
@@ -50,8 +50,8 @@ export function floatIntPartPad(
   const numIPartDigits = decimalIndex;
   const numFPartDigits = initialStrNumber.length - (decimalIndex + 1);
   return `${"0".repeat(
-    Math.max(iPartPlaces - numIPartDigits, 0)
+    Math.max(iPartPlaces - numIPartDigits, 0),
   )}${initialStrNumber}${"0".repeat(
-    Math.max(fPartPlaces - numFPartDigits, 0)
+    Math.max(fPartPlaces - numFPartDigits, 0),
   )}`;
 }

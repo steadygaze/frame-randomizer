@@ -58,7 +58,7 @@ describe("timecodeToSec", () => {
 describe("checkKeys", () => {
   it("should do nothing for empty input", () => {
     expect(checkKeys([], { k1: "str", k2: "str", k3: "str" })).toEqual(
-      undefined
+      undefined,
     );
   });
 
@@ -68,13 +68,13 @@ describe("checkKeys", () => {
 
   it("should do nothing if all keys are present", () => {
     expect(
-      checkKeys(["k1", "k2", "k3"], { k1: "str", k2: "str", k3: "str" })
+      checkKeys(["k1", "k2", "k3"], { k1: "str", k2: "str", k3: "str" }),
     ).toEqual(undefined);
   });
 
   it("should do nothing if all keys are present from a subset", () => {
     expect(checkKeys(["k1"], { k1: "str", k2: "str", k3: "str" })).toEqual(
-      undefined
+      undefined,
     );
   });
 
@@ -84,13 +84,13 @@ describe("checkKeys", () => {
 
   it("should detect an empty key", () => {
     expect(() => checkKeys(["k1"], { k1: "", k2: "str", k3: "str" })).toThrow(
-      "k1"
+      "k1",
     );
   });
 
   it("should detect and list multiple missing keys", () => {
     expect(() => checkKeys(["k1", "k2", "k3"], { k3: "str" })).toThrow(
-      /k1.*k2/
+      /k1.*k2/,
     );
   });
 });

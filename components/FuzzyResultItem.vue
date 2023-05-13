@@ -50,11 +50,11 @@ function findAndChunkKeyMatches(key: keyof ProcessedEpisodeData): SearchPart[] {
 
 const chunkedName = computed(() => findAndChunkKeyMatches("name"));
 const chunkedOverview = computed(() =>
-  props.showSynopsis ? findAndChunkKeyMatches("overview") : []
+  props.showSynopsis ? findAndChunkKeyMatches("overview") : [],
 );
 
 const mySeasonEpisodeTag = computed(() =>
-  seasonEpisodeTag(props.fuseMatch.item.season, props.fuseMatch.item.episode)
+  seasonEpisodeTag(props.fuseMatch.item.season, props.fuseMatch.item.episode),
 );
 </script>
 

@@ -14,9 +14,9 @@ const timecodeRegex =
 export function myUuid(config: RuntimeConfig, purpose = "image_generation") {
   return uuidv5(
     [config.instanceName, config.frameOutputDir, purpose, Date.now()].join(
-      "___"
+      "___",
     ),
-    config.uuidNamespace
+    config.uuidNamespace,
   );
 }
 
@@ -28,7 +28,7 @@ export function myUuid(config: RuntimeConfig, purpose = "image_generation") {
  */
 export function timecodeToSec(
   timecode: number | string | undefined | null,
-  required = false
+  required = false,
 ): number {
   if (timecode === undefined || timecode === null) {
     if (required) {
@@ -59,11 +59,11 @@ export function timecodeToSec(
 export function checkKeys(keys: string[], obj: any): void {
   const missingKeys = difference(
     keys,
-    Object.keys(obj).filter((k) => obj[k])
+    Object.keys(obj).filter((k) => obj[k]),
   );
   if (missingKeys.length > 0) {
     throw new Error(
-      `Missing required config options: ${missingKeys.join(", ")}`
+      `Missing required config options: ${missingKeys.join(", ")}`,
     );
   }
 }

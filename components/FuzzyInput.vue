@@ -116,7 +116,7 @@ const showAbout = ref(false);
 const computedData = computed(() =>
   useSynopsis.value
     ? fuseSynopsis.search(searchInput.value)
-    : fuseNameOnly.search(searchInput.value)
+    : fuseNameOnly.search(searchInput.value),
 );
 
 /**
@@ -248,13 +248,13 @@ async function submitAnswer(index: number) {
     const seekTimeSec = data.value?.seekTime;
     const minute = seekTimeSec ? Math.floor(seekTimeSec / 60) : -1;
     const second = floatIntPartPad(
-      seekTimeSec ? Math.floor((seekTimeSec % 60) * 1000) / 1000 : -1
+      seekTimeSec ? Math.floor((seekTimeSec % 60) * 1000) / 1000 : -1,
     );
     if (index < 0) {
       const correctSeason = data.value?.season;
       const correctEpisode = data.value?.episode;
       const correctItem = episodeData.value?.find(
-        (ep) => ep.season === correctSeason && ep.episode === correctEpisode
+        (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
       readout.value = `${correctItem?.fullName} @ ${minute}:${second}`;
     } else if (correct) {
@@ -263,7 +263,7 @@ async function submitAnswer(index: number) {
       const correctSeason = data.value?.season;
       const correctEpisode = data.value?.episode;
       const correctItem = episodeData.value?.find(
-        (ep) => ep.season === correctSeason && ep.episode === correctEpisode
+        (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
       readout.value = `${item?.fullName} is incorrect. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
     }
