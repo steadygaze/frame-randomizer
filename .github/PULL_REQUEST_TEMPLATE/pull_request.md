@@ -38,5 +38,3 @@ Thanks for your contribution!
 # Additional context
 
 <!-- Any additional context. Also, did you carefully create individual commits that you want preserved with rebase or merge commit merging, or would you rather your haphazard commits be squashed away? -->
-
-**I agree to the terms of the contributor license agreement, found in `CLA.md`, for this and future contributions.**
