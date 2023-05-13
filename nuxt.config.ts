@@ -68,7 +68,7 @@ export default defineNuxtConfig({
       // requires you to provide users with a link to view/download your
       // modified version. If you don't provide a different link here, you
       // attest that your instance's code is unmodified.
-      sourceCodeUrl: "https://github.com/steadygaze/frame-randomizer/",
+      sourceCodeUrl: "https://github.com/steadygaze/frame-randomizer",
     },
     // Whether to search subdirectories of videoSourceDir. Directory path is not
     // considered when matching files with the right episode, only filename.
