@@ -54,7 +54,8 @@ export default defineNuxtConfig({
       imageOutputExtension: "webp",
       // Instance info that will be shown in the About section. This allows HTML
       // tags; use this if you want to include HTML. You might want to include a
-      // way for users to contact you if there are problems.
+      // way for users to contact you if there are problems, attribution or
+      // acknowledgement to your data source (e.g. TMDB) or contributors, etc.
       instanceInfoHtml: undefined,
       // Instance info, but allowing plain text only; use this for safety if you
       // don't need to include HTML.
