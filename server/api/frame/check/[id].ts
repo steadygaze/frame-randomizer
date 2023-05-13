@@ -2,7 +2,7 @@ import { QueryObject, getQuery } from "ufo";
 import { cleanupAnswer } from "~/server/answer";
 import { StoredAnswer } from "~/server/types";
 
-const storage = useStorage("genimg");
+const answerStorage = useStorage("answer");
 
 /**
  * Gets an int from query params.
@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
   const season = getInt(query, "season");
   const episode = getInt(query, "episode");
 
-  const answer = (await storage.getItem(id)) as StoredAnswer | null;
+  const answer = (await answerStorage.getItem(id)) as StoredAnswer | null;
   if (!answer) {
     throw createError({ statusCode: 404 });
   }

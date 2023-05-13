@@ -3,7 +3,8 @@ import { RuntimeConfig } from "nuxt/schema";
 import { imagePathForId } from "./file";
 
 const config = useRuntimeConfig() as RuntimeConfig;
-const storage = useStorage("genimg");
+const answerStorage = useStorage("answer");
+const frameFileStateStorage = useStorage("frameFileState");
 
 /**
  * Cleans up the given answer.
@@ -21,7 +22,15 @@ export async function cleanupAnswer(id: string): Promise<void> {
         error,
       );
     }),
-    storage.removeItem(id).catch((error) => {
+    answerStorage.removeItem(id).catch((error) => {
+      console.error(
+        "Failed to clean up stored answer for image",
+        filePath,
+        "due to:",
+        error,
+      );
+    }),
+    frameFileStateStorage.removeItem(id).catch((error) => {
       console.error(
         "Failed to clean up stored answer for image",
         filePath,

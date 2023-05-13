@@ -112,7 +112,8 @@ async function getFrameProducerQueueUncached(
   config: RuntimeConfig,
 ): Promise<ProducerQueue<{ imageId: string }>> {
   const episodeData = await getEpisodeData(config);
-  const storage = useStorage("genimg");
+  const answerStorage = useStorage("answer");
+  const frameFileStateStorage = useStorage("frameFileState");
 
   /**
    * Performs all jobs associated with generating a frame.
@@ -135,13 +136,17 @@ async function getFrameProducerQueueUncached(
         imagePath,
         config.ffmpegImageCommandInject,
       ),
+      // Record that we generated this file. We have to await on this because
+      // otherwise it can race with setting the expiry time on serving.
+      frameFileStateStorage.setItem(imageId, { expiryTs: null }),
       // We do await on storing the answer despite this not affecting the query
       // result to prevent a rare data race between the answer being stored and
       // the client checking their guess.
-      storage.setItem(imageId, {
+      answerStorage.setItem(imageId, {
         season: episode.season,
         episode: episode.episode,
         seekTime,
+        expiryTs: null,
       } as StoredAnswer),
     ]);
     return { imageId };

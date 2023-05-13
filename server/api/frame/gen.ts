@@ -1,9 +1,10 @@
 import { RuntimeConfig } from "nuxt/schema";
 import { getFrameProducerQueue } from "../../load";
-import { StoredAnswer } from "~/server/types";
+import { StoredAnswer, StoredFileState } from "~/server/types";
 
 const config = useRuntimeConfig() as RuntimeConfig;
-const storage = useStorage("genimg");
+const answerStorage = useStorage("answer");
+const frameFileStateStorage = useStorage("frameFileState");
 
 /**
  * Adds an expiration time to an answer.
@@ -14,12 +15,17 @@ const storage = useStorage("genimg");
  */
 async function addExpiry(id: string): Promise<void> {
   console.log("Now adding expiry on serving to", id);
-  const answer = (await storage.getItem(id)) as StoredAnswer;
+  const answer = (await answerStorage.getItem(id)) as StoredAnswer;
   // Rare race condition between cleaning up answer and setting expiry.
-  await storage.setItem(id, {
-    ...answer,
-    expiryTs: Date.now() + config.frameExpiryMs,
-  });
+  await Promise.all([
+    answerStorage.setItem(id, {
+      ...answer,
+      expiryTs: Date.now() + config.answerExpiryMs,
+    } as StoredAnswer),
+    frameFileStateStorage.setItem(id, {
+      expiryTs: Date.now() + config.frameExpiryMs,
+    } as StoredFileState),
+  ]);
 }
 
 export default defineLazyEventHandler(async () => {

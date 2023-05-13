@@ -19,6 +19,16 @@ export default defineNuxtConfig({
         target: "node18",
       },
     },
+
+    storage: {
+      answer: {
+        driver: "memory",
+      },
+
+      frameFileState: {
+        driver: "memory",
+      },
+    },
   },
 
   // These can be set per the instructions in
@@ -31,15 +41,20 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Whether to error out if episodes are missing, or simply print a warning.
     allowMissingEpisodes: true,
+    // How long to keep an answer around for after a frame is served.
+    answerExpiryMs: 60 * 60 * 1000, // 1 hour.
+    // How often to check frameOutputDir, frame state storage, and answer
+    // storage for expired or orphaned images.
+    cleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
     // Required. Where the episode data config is. See README.md for more info.
     episodeDataPath: undefined,
     // If given, this will be injected into the ffmpeg command used to generate
     // the images. Useful for specifying image encoding/quality options. Consult
     // ffmpeg documentation (https://ffmpeg.org/ffmpeg-codecs.html).
     ffmpegImageCommandInject: undefined,
-    // How often to check imageOutputDir and answer storage for expired images.
-    frameCleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
-    frameExpiryMs: 10 * 60 * 1000, // 10 minutes.
+    // How long to keep a frame image around for after a the API points a user
+    // to it.
+    frameExpiryMs: 5 * 60 * 1000, // 5 minutes.
     // Limit number of simultaneously generated frames to this amount.
     frameGenMaxParallelism: 3,
     // Where generated images will be outputted to and served from. Apparently
