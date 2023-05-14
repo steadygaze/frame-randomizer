@@ -13,6 +13,7 @@
         >
           <span class="buttonWithSpinnerText">New Frame</span>
         </button>
+        <button @click="resetStats">Reset</button>
         <button @click="showAbout = !showAbout">About</button>
         <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
       </div>
@@ -283,6 +284,14 @@ async function submitAnswer(index: number) {
     await nextTick();
     newFrameButton.value.focus();
   }
+}
+
+/**
+ * Reset counters to zero.
+ */
+function resetStats() {
+  correctCounter.value = 0;
+  totalCounter.value = 0;
 }
 </script>
 
