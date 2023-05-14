@@ -17,6 +17,7 @@
         <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
       </div>
     </div>
+    <LiveStats></LiveStats>
     <div id="readout">
       <p>{{ readout }}</p>
     </div>
@@ -54,6 +55,8 @@ import { computed, nextTick, onMounted, ref, watch } from "vue";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "#app";
+import LiveStats from "./LiveStats.vue";
+import { useAppStateStore } from "~~/store/appStateStore";
 import { useEpisodeDataStore } from "~~/store/episodeDataStore";
 import { floatIntPartPad } from "~~/utils/utils";
 
@@ -70,10 +73,12 @@ export interface ProcessedEpisodeData {
 
 const config = useRuntimeConfig();
 const siteName = config.public.instanceName;
-const store = useEpisodeDataStore();
-const { initEpisodeData } = store;
-const { mediaName, episodeData, imageId, imageIsLoading, readout } =
-  storeToRefs(store);
+const episodeDataStore = useEpisodeDataStore();
+const { initEpisodeData } = episodeDataStore;
+const { mediaName, episodeData } = storeToRefs(episodeDataStore);
+const appStateStore = useAppStateStore();
+const { correctCounter, totalCounter, imageId, imageIsLoading, readout } =
+  storeToRefs(appStateStore);
 const waitingForGuess = ref(false);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -129,7 +134,7 @@ async function getImage(_event: MouseEvent | null) {
   window.getSelection()?.removeAllRanges();
   const { data: rawData } = await useFetch("/api/frame/gen");
   if (rawData && rawData.value) {
-    store.imageId = rawData.value.imageId;
+    imageId.value = rawData.value.imageId;
   } else {
     console.error("Fetch failed", rawData);
   }
@@ -244,6 +249,7 @@ async function submitAnswer(index: number) {
       readout.value = `Error getting answer: ${error.value.message}. Try again?`;
     }
   } else {
+    ++totalCounter.value;
     const correct = data.value?.correct;
     const seekTimeSec = data.value?.seekTime;
     const minute = seekTimeSec ? Math.floor(seekTimeSec / 60) : -1;
@@ -259,6 +265,7 @@ async function submitAnswer(index: number) {
       readout.value = `${correctItem?.fullName} @ ${minute}:${second}`;
     } else if (correct) {
       readout.value = `Correct: ${item?.fullName} @ ${minute}:${second}`;
+      ++correctCounter.value;
     } else {
       const correctSeason = data.value?.season;
       const correctEpisode = data.value?.episode;

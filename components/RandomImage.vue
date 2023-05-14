@@ -9,10 +9,10 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "nuxt/app";
-import { useEpisodeDataStore } from "~~/store/episodeDataStore";
+import { useAppStateStore } from "~~/store/appStateStore";
 
 const extension = useRuntimeConfig().public.imageOutputExtension;
-const { imageId, imageIsLoading } = storeToRefs(useEpisodeDataStore());
+const { imageId, imageIsLoading } = storeToRefs(useAppStateStore());
 
 /**
  * Set loading state to false on load.
