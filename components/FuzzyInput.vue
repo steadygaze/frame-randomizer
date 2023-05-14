@@ -28,7 +28,9 @@
         ref="searchTextInput"
         v-model="searchInput"
         type="text"
-        :placeholder="waitingForGuess ? 'Fuzzy search...' : 'Get new frame?'"
+        :placeholder="
+          waitingForGuess ? 'Fuzzy search (3+ characters)...' : 'Get new frame?'
+        "
         :disabled="answerIsLoading || !waitingForGuess"
         @keydown="handleKey"
       />
