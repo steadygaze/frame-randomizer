@@ -64,6 +64,10 @@ export default defineNuxtConfig({
     framePregenCount: 3,
     // Per Nuxt documentation, these values will be sent to client-side code.
     public: {
+      // Whether to include the disclaimer required by TMDB for use of its API
+      // (see
+      // https://developer.themoviedb.org/docs/faq#what-are-the-attribution-requirements).
+      attributeTmdb: false,
       // What extension to output images as. Naturally, these have different
       // tradeoffs in terms of output filesize, generation/encoding time, etc.
       imageOutputExtension: "webp",

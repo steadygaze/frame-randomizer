@@ -80,6 +80,22 @@
       concerns about the content served by an instance, contact the operator of
       that instance and not the maintainers of the software.
     </p>
+    <section v-if="config.public.attributeTmdb">
+      <h3>TMDB attribution</h3>
+      <p>
+        <em>
+          This product uses the
+          <a href="https://developer.themoviedb.org/docs">TMDB API</a> but is
+          not endorsed or certified by
+          <a href="https://www.themoviedb.org/">TMDB</a>.
+        </em>
+      </p>
+      <a href="https://www.themoviedb.org"> <img src="/tmdb_logo.svg" /></a>
+      <p>
+        Episode data, such as names and descriptions, was sourced from TMDB for
+        use in this site.
+      </p>
+    </section>
     <button @click="$emit('close')">Okay</button>
   </section>
 </template>
