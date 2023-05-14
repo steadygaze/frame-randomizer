@@ -90,7 +90,9 @@
           <a href="https://www.themoviedb.org/">TMDB</a>.
         </em>
       </p>
-      <a href="https://www.themoviedb.org"> <img src="/tmdb_logo.svg" /></a>
+      <a href="https://www.themoviedb.org">
+        <img src="/tmdb_logo.svg" alt="TMDB logo"
+      /></a>
       <p>
         Episode data, such as names and descriptions, was sourced from TMDB for
         use in this instance.
