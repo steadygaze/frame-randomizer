@@ -50,9 +50,9 @@
         >({{ config.public.instanceName }})</span
       >
       is running an instance of
-      <a :href="originalSourceUrl"><code>frame-randomizer</code></a
-      >. Know your rights! This software is provided to you under the terms of
-      the
+      <a :href="originalSourceUrl"><code>frame-randomizer</code></a>
+      <code>(v{{ config.public.softwareVersion }})</code>. Know your rights!
+      This software is provided to you under the terms of the
       <a href="https://www.gnu.org/licenses/agpl-3.0.html"
         >Affero GNU Public License 3.0 (AGPLv3)</a
       >. That means you, the user, have a right to access a copy of its source
@@ -93,7 +93,7 @@
       <a href="https://www.themoviedb.org"> <img src="/tmdb_logo.svg" /></a>
       <p>
         Episode data, such as names and descriptions, was sourced from TMDB for
-        use in this site.
+        use in this instance.
       </p>
     </section>
     <button @click="$emit('close')">Okay</button>

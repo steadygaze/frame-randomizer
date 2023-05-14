@@ -15,6 +15,7 @@ import { useHead, useRuntimeConfig } from "#app";
 const config = useRuntimeConfig();
 useHead({
   title: config.public.instanceName,
+  meta: [{ name: "description", content: config.public.metaDescription }],
 });
 </script>
 
