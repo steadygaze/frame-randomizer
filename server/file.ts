@@ -36,6 +36,11 @@ export interface EpisodeDatum {
   skipRanges: TimeRange[];
 }
 
+export interface EpisodesConfig {
+  name: string;
+  episodes: EpisodeDatum[];
+}
+
 interface Timings {
   // Episode starts (from 0:00) with an intro sequence that should be skipped.
   openingIntro?: {
@@ -80,7 +85,8 @@ interface FileEpisodeDatum {
   filename: string;
 }
 
-interface EpisodeConfig {
+interface InputEpisodesConfig {
+  name: string;
   episodes: ConfigEpisodeDatum[];
   // Timings that are the same for every episode (e.g. credits always start at
   // MM:SS, intro is always MM:SS long, etc.).
@@ -274,56 +280,59 @@ export function generateSkipRanges(
  */
 export async function findFiles(
   config: RuntimeConfig,
-  episodeConfig: EpisodeConfig,
+  episodeConfig: InputEpisodesConfig,
   fileData: FileEpisodeDatum[],
-): Promise<EpisodeDatum[]> {
-  const { episodes, commonTimings } = episodeConfig;
-  return (
-    await Promise.all(
-      joinFileData(config, episodes, fileData).map(
-        async ({
-          season,
-          episode,
-          name,
-          overview,
-          filename,
-          timings,
-        }: JoinedEpisodeDatum) => {
-          try {
-            const lengthSec = await ffprobeLength(filename);
-            const skipRanges: TimeRange[] = generateSkipRanges(
-              lengthSec,
-              timings,
-              commonTimings,
-            );
-            const genLength =
-              lengthSec -
-              skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
-            return [
-              {
-                season,
-                episode,
-                name,
-                overview,
-                filename,
-                skipRanges,
-                genLength,
+): Promise<EpisodesConfig> {
+  const { name, episodes, commonTimings } = episodeConfig;
+  return {
+    name,
+    episodes: (
+      await Promise.all(
+        joinFileData(config, episodes, fileData).map(
+          async ({
+            season,
+            episode,
+            name,
+            overview,
+            filename,
+            timings,
+          }: JoinedEpisodeDatum) => {
+            try {
+              const lengthSec = await ffprobeLength(filename);
+              const skipRanges: TimeRange[] = generateSkipRanges(
                 lengthSec,
-              },
-            ];
-          } catch (error) {
-            console.error(
-              "Failed to load",
-              episodeName(season, episode, name),
-              "at",
-              filename,
-            );
-            return [];
-          }
-        },
-      ),
-    )
-  ).flat();
+                timings,
+                commonTimings,
+              );
+              const genLength =
+                lengthSec -
+                skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
+              return [
+                {
+                  season,
+                  episode,
+                  name,
+                  overview,
+                  filename,
+                  skipRanges,
+                  genLength,
+                  lengthSec,
+                },
+              ];
+            } catch (error) {
+              console.error(
+                "Failed to load",
+                episodeName(season, episode, name),
+                "at",
+                filename,
+              );
+              return [];
+            }
+          },
+        ),
+      )
+    ).flat(),
+  };
 }
 
 /**

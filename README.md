@@ -14,6 +14,7 @@ You need to supply a config file for the show. (Comments are not allowed in norm
 
 ```json
 {
+  "name": "My Great TV Show", // Name of the show.
   // List of episodes.
   "episodes": [
     {
@@ -30,7 +31,6 @@ You need to supply a config file for the show. (Comments are not allowed in norm
       }
     } // Rest of the episodes...
   ],
-  "name": "My Great TV Show", // Name of the show.
   "commonTimings": {
     // Common timings for all episodes.
     "credits": {

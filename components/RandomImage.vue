@@ -21,7 +21,7 @@ function endLoading() {
   imageIsLoading.value = false; // Reactively notifies other components.
   // Ping server to clean up the image. We don't care about the result. Set
   // keepalive to still clean up in case the user closes the tab.
-  useFetch(`/api/frame/cleanup/${imageId.value}`, {keepalive: true});
+  useFetch(`/api/frame/cleanup/${imageId.value}`, { keepalive: true });
 }
 </script>
 

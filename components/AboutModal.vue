@@ -7,8 +7,8 @@
     <h3>Instructions</h3>
     <p>
       This site generates and shows a completely random frame<span
-        v-if="config.public.mediaName"
-        >{{ " from " + config.public.mediaName }}</span
+        v-if="mediaName"
+        >{{ " from " + mediaName }}</span
       >, selecting from all episodes with equal probability. Play a guessing
       game to test your trivia knowledge, or just enjoy the generated frames.
     </p>
@@ -85,7 +85,12 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useRuntimeConfig } from "#app";
+import { useEpisodeDataStore } from "~~/store/episodeDataStore";
+
+const store = useEpisodeDataStore();
+const { mediaName } = storeToRefs(store);
 
 const originalSourceUrl = "https://github.com/steadygaze/frame-randomizer";
 const config = useRuntimeConfig();

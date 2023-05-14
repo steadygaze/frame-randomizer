@@ -7,6 +7,7 @@ import { ProducerQueue } from "./queue";
 import { StoredAnswer } from "./types";
 import {
   EpisodeDatum,
+  EpisodesConfig as EpisodeData,
   findFiles,
   imagePathForId,
   lsAllFiles,
@@ -24,7 +25,7 @@ const exec = promisify(execAsync);
  */
 async function getEpisodeDataUncached(
   runtimeConfig: RuntimeConfig,
-): Promise<EpisodeDatum[]> {
+): Promise<EpisodeData> {
   const start = Date.now();
   const [episodeConfigString, fileData] = await Promise.all([
     fs.readFile(runtimeConfig.episodeDataPath, { encoding: "utf-8" }),
@@ -46,7 +47,7 @@ async function getEpisodeDataUncached(
   const episodeData = await findFiles(runtimeConfig, episodeConfig, fileData);
   console.log(
     "Loaded",
-    episodeData.length,
+    episodeData.episodes.length,
     "episodes in",
     Date.now() - start,
     "ms",
@@ -111,7 +112,7 @@ async function ffmpegFrame(
 async function getFrameProducerQueueUncached(
   config: RuntimeConfig,
 ): Promise<ProducerQueue<{ imageId: string }>> {
-  const episodeData = await getEpisodeData(config);
+  const { episodes } = await getEpisodeData(config);
   const answerStorage = useStorage("answer");
   const frameFileStateStorage = useStorage("frameFileState");
 
@@ -125,7 +126,7 @@ async function getFrameProducerQueueUncached(
   async function generateFrame() {
     const imageId = myUuid(config);
     const imagePath = imagePathForId(config, imageId);
-    const episode = episodeData[Math.floor(Math.random() * episodeData.length)];
+    const episode = episodes[Math.floor(Math.random() * episodes.length)];
     const seekTime = randomTimeInEpisode(episode);
     await Promise.all([
       // If we returned the image path to the client without awaiting on ffmpeg,

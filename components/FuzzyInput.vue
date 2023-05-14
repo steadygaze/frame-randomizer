@@ -72,7 +72,8 @@ const config = useRuntimeConfig();
 const siteName = config.public.instanceName;
 const store = useEpisodeDataStore();
 const { initEpisodeData } = store;
-const { episodeData, imageId, imageIsLoading, readout } = storeToRefs(store);
+const { mediaName, episodeData, imageId, imageIsLoading, readout } =
+  storeToRefs(store);
 const waitingForGuess = ref(false);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -144,8 +145,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
     // Switched from loading to done loading.
     document.body.style.cursor = "unset";
     waitingForGuess.value = true;
-    readout.value =
-      "Guess the episode that the frame is randomly selected from using the search box.";
+    readout.value = `Guess the ${mediaName.value} episode that the frame is randomly selected from using the search box.`;
     if (searchTextInput.value && searchTextInput.value) {
       await nextTick();
       searchTextInput.value.focus();
