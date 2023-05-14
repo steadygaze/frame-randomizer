@@ -43,6 +43,8 @@ You need to supply a config file for the show. (Comments are not allowed in norm
 
 ### Running
 
+Make sure that you have a recent enough version of Node.js available. At the time of this writing, the Debian stable version is `12`, while this project requires the Node.js `18`. You can use a tool like [Node Version Manager](https://github.com/nvm-sh/nvm) to fetch the right Node.js version.
+
 Consult the `RuntimeConfig` section of `nuxt.config.ts` for all the settings that are available. Each will be configurable as environment variables. For example, you might create a simple script:
 
 `app.env`:
@@ -58,18 +60,23 @@ export PORT=3000
 Once these configs are set, grab a built version from releases on Github or build a custom one using the development instructions. Inside, running `server/index.mjs` will start the server.
 
 ```shell
-source app.env && node path/to/server/index.mjs
+# Simple version.
+$ source app.env && node path/to/server/index.mjs
+# Launch in a subshell so variables don't persist between runs. Otherwise, you
+# may not realize that variables that you remove from app.env are still set in
+# the current shell.
+$ (source app.env && node path/to/server/index.mjs)
+# sh version; don't have to (and can't) include "export" in app.env.
+$ sh -ac '. ./app.env && node path/to/server/index.mjs'
 ```
 
 ### Stability
 
-Currently, the software is in an unstable state; required options, option availability, and option interpretation can change between versions. Check the changelog or commit history when upgrading
+Currently, the software is in an unstable state; required options, option availability, and option interpretation can change between versions. Check the changelog or commit history when upgrading or merging from upstream.
 
 ## Development
 
 This app is built on Nuxt 3; check out the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-Note that by contributing to this project, you agree to this project's Contributor License Agreement (CLA.md).
 
 ### Setup
 
