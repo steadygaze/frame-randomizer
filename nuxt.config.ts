@@ -52,6 +52,10 @@ export default defineNuxtConfig({
     // the images. Useful for specifying image encoding/quality options. Consult
     // ffmpeg documentation (https://ffmpeg.org/ffmpeg-codecs.html).
     ffmpegImageCommandInject: undefined,
+    // Path to ffmpeg binary, or "ffmpeg" to use the one from the system PATH.
+    ffmpegPath: "ffmpeg",
+    // Path to ffmpeg binary, or "ffmpeg" to use the one from the system PATH.
+    ffprobePath: "ffprobe",
     // How long to keep a frame image around for after a the API points a user
     // to it.
     frameExpiryMs: 5 * 60 * 1000, // 5 minutes.

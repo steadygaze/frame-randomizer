@@ -77,6 +77,7 @@ function randomTimeInEpisode(episode: EpisodeDatum): number {
 
 /**
  * Calls ffmpeg to run the command to extract a particular frame.
+ * @param ffmpeg Path to ffmpeg.
  * @param videoPath Path to video file.
  * @param timecode Timecode accepted by ffmpeg (seconds, or XX:XX format).
  * @param outputPath Path to output the image to (including file extension).
@@ -84,6 +85,7 @@ function randomTimeInEpisode(episode: EpisodeDatum): number {
  * @returns Promise to await on completion.
  */
 async function ffmpegFrame(
+  ffmpeg: string,
   videoPath: string,
   timecode: number | string,
   outputPath: string,
@@ -91,7 +93,7 @@ async function ffmpegFrame(
 ): Promise<void> {
   const start = Date.now();
   await exec(
-    `ffmpeg -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
+    `${ffmpeg} -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
       inject || ""
     } -y ${outputPath}`,
   );
@@ -132,6 +134,7 @@ async function getFrameProducerQueueUncached(
       // If we returned the image path to the client without awaiting on ffmpeg,
       // they might try to load the image before it's done generating.
       ffmpegFrame(
+        config.ffmpegPath,
         episode.filename,
         seekTime,
         imagePath,

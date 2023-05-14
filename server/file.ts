@@ -98,14 +98,15 @@ const seasonEpisodeRegex =
 
 /**
  * Get the length of a video file in seconds using ffprobe.
+ * @param ffprobe Path to ffprobe.
  * @param videoPath Path to video file.
  * @returns Length of the video in seconds.
  */
-async function ffprobeLength(videoPath: string) {
+async function ffprobeLength(ffprobe: string, videoPath: string) {
   return parseFloat(
     (
       await exec(
-        `ffprobe -i ${videoPath} -show_entries format=duration -v quiet -of csv="p=0"`,
+        `${ffprobe} -i ${videoPath} -show_entries format=duration -v quiet -of csv="p=0"`,
       )
     ).stdout,
   );
@@ -298,7 +299,10 @@ export async function findFiles(
             timings,
           }: JoinedEpisodeDatum) => {
             try {
-              const lengthSec = await ffprobeLength(filename);
+              const lengthSec = await ffprobeLength(
+                config.ffprobePath,
+                filename,
+              );
               const skipRanges: TimeRange[] = generateSkipRanges(
                 lengthSec,
                 timings,
