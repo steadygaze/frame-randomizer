@@ -13,7 +13,12 @@
         >
           <span class="buttonWithSpinnerText">New Frame</span>
         </button>
-        <button @click="resetStats">Reset</button>
+        <button
+          :disabled="imageIsLoading || waitingForGuess"
+          @click="resetStats"
+        >
+          Reset
+        </button>
         <button @click="showAbout = !showAbout">About</button>
         <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
       </div>
