@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "check": "npm run format && npm run lint && npm run tsc && npm run vue-tsc",
+    "cm": "cz",
     "coverage": "vitest run --coverage",
     "dev": "nuxt dev",
     "format": "prettier --write --ignore-unknown .",
@@ -56,6 +57,11 @@
     "pinia": "^2.0.35",
     "shell-escape": "^0.2.0",
     "uuid": "^9.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "lint-staged": {
     "*": [
