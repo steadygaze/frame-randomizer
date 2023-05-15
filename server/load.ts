@@ -6,8 +6,8 @@ import once from "lodash.once";
 import { ProducerQueue } from "./queue";
 import { StoredAnswer } from "./types";
 import {
-  EpisodeDatum,
-  EpisodesConfig as EpisodeData,
+  EpisodeData,
+  ShowData,
   findFiles,
   imagePathForId,
   lsAllFiles,
@@ -23,12 +23,12 @@ const exec = promisify(execAsync);
  * @param runtimeConfig Runtime config options.
  * @returns Episode data list, with an entry for each episode.
  */
-async function getEpisodeDataUncached(
+async function getShowdataUncached(
   runtimeConfig: RuntimeConfig,
-): Promise<EpisodeData> {
+): Promise<ShowData> {
   const start = Date.now();
   const [episodeConfigString, fileData] = await Promise.all([
-    fs.readFile(runtimeConfig.episodeDataPath, { encoding: "utf-8" }),
+    fs.readFile(runtimeConfig.showDataPath, { encoding: "utf-8" }),
     lsAllFiles(runtimeConfig),
     fs
       .mkdir(runtimeConfig.frameOutputDir, { recursive: true })
@@ -55,7 +55,7 @@ async function getEpisodeDataUncached(
   return episodeData;
 }
 
-const getEpisodeData = once(getEpisodeDataUncached);
+const getShowData = once(getShowdataUncached);
 
 /**
  * Generates a random time in an episode in seconds, considering skip ranges.
@@ -66,7 +66,7 @@ const getEpisodeData = once(getEpisodeDataUncached);
  * @param episode Episode data object.
  * @returns Random time, in seconds.
  */
-function randomTimeInEpisode(episode: EpisodeDatum): number {
+function randomTimeInEpisode(episode: EpisodeData): number {
   const randomUnoffsetTime = Math.random() * episode.genLength;
   const offsetTime = Math.min(
     offsetTimeBySkipRanges(randomUnoffsetTime, episode.skipRanges),
@@ -114,7 +114,7 @@ async function ffmpegFrame(
 async function getFrameProducerQueueUncached(
   config: RuntimeConfig,
 ): Promise<ProducerQueue<{ imageId: string }>> {
-  const { episodes } = await getEpisodeData(config);
+  const { episodes } = await getShowData(config);
   const answerStorage = useStorage("answer");
   const frameFileStateStorage = useStorage("frameFileState");
 
@@ -164,4 +164,4 @@ async function getFrameProducerQueueUncached(
 
 const getFrameProducerQueue = once(getFrameProducerQueueUncached);
 
-export { getEpisodeData, getFrameProducerQueue };
+export { getShowData, getFrameProducerQueue };

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useFetch } from "#app";
 import { episodeName } from "~/utils/utils";
-import { ClientEpisodeDatum } from "~/server/api/frame/list";
+import { ClientEpisodeData } from "~/server/api/frame/list";
 
 export interface ProcessedEpisodeData {
   season: number;
@@ -12,16 +12,16 @@ export interface ProcessedEpisodeData {
   overview: string;
 }
 
-export const useEpisodeDataStore = defineStore("episodeData", () => {
+export const useShowDataStore = defineStore("episodeData", () => {
   const episodeData = ref([] as ProcessedEpisodeData[]);
-  const mediaName = ref("");
+  const showName = ref("");
 
-  const initEpisodeData = async () => {
+  const initShowData = async () => {
     const { data: rawData } = await useFetch("/api/frame/list");
     if (rawData.value) {
-      mediaName.value = rawData.value.name;
+      showName.value = rawData.value.name;
       episodeData.value = rawData.value.episodes.map(
-        (ep: ClientEpisodeDatum) => {
+        (ep: ClientEpisodeData) => {
           return {
             ...ep,
             fullName: episodeName(ep.season, ep.episode, ep.name),
@@ -32,8 +32,8 @@ export const useEpisodeDataStore = defineStore("episodeData", () => {
   };
 
   return {
-    mediaName,
+    showName,
     episodeData,
-    initEpisodeData,
+    initShowData,
   };
 });

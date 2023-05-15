@@ -25,7 +25,7 @@ interface InputTimeRange {
   length?: InputTimecode;
 }
 
-export interface EpisodeDatum {
+export interface EpisodeData {
   season: number;
   episode: number;
   name: string;
@@ -36,9 +36,9 @@ export interface EpisodeDatum {
   skipRanges: TimeRange[];
 }
 
-export interface EpisodesConfig {
+export interface ShowData {
   name: string;
-  episodes: EpisodeDatum[];
+  episodes: EpisodeData[];
 }
 
 interface Timings {
@@ -62,7 +62,7 @@ interface Timings {
   skipRanges?: InputTimeRange[];
 }
 
-interface JoinedEpisodeDatum {
+interface JoinedEpisodeData {
   season: number;
   episode: number;
   name: string;
@@ -71,7 +71,7 @@ interface JoinedEpisodeDatum {
   timings?: Timings;
 }
 
-interface ConfigEpisodeDatum {
+interface ConfigEpisodeData {
   season: number;
   episode: number;
   name: string;
@@ -79,15 +79,15 @@ interface ConfigEpisodeDatum {
   timings?: Timings;
 }
 
-interface FileEpisodeDatum {
+interface FileEpisodeData {
   season: number;
   episode: number;
   filename: string;
 }
 
-interface InputEpisodesConfig {
+interface InputShowData {
   name: string;
-  episodes: ConfigEpisodeDatum[];
+  episodes: ConfigEpisodeData[];
   // Timings that are the same for every episode (e.g. credits always start at
   // MM:SS, intro is always MM:SS long, etc.).
   commonTimings?: Timings;
@@ -119,13 +119,13 @@ async function ffprobeLength(ffprobe: string, videoPath: string) {
  */
 export async function lsAllFiles(
   config: RuntimeConfig,
-): Promise<FileEpisodeDatum[]> {
+): Promise<FileEpisodeData[]> {
   const globPattern = path.join(
     config.videoSourceDir,
     config.searchVideoDirRecursively ? "**/*.{mkv,mp4}" : "*.{mkv,mp4}",
   );
   const globbed = await glob(globPattern);
-  const fileData: FileEpisodeDatum[] = [];
+  const fileData: FileEpisodeData[] = [];
   globbed.forEach((filename, _index, _arr) => {
     const match = seasonEpisodeRegex.exec(path.basename(filename));
     if (match && match.length > 0 && match.groups) {
@@ -148,10 +148,10 @@ export async function lsAllFiles(
  */
 function joinFileData(
   config: RuntimeConfig,
-  episodeData: ConfigEpisodeDatum[],
-  fileData: FileEpisodeDatum[],
-): JoinedEpisodeDatum[] {
-  const filledData: JoinedEpisodeDatum[] = [];
+  episodeData: ConfigEpisodeData[],
+  fileData: FileEpisodeData[],
+): JoinedEpisodeData[] {
+  const filledData: JoinedEpisodeData[] = [];
   const missingEpisodes: string[] = [];
   episodeData.forEach((initialData) => {
     const found = fileData.find(
@@ -275,29 +275,23 @@ export function generateSkipRanges(
 /**
  * Load video file info based on configs.
  * @param config Nuxt runtime config.
- * @param episodeConfig Parsed show/episode config.
+ * @param showData Parsed show/episode config.
  * @param fileData Results of globbing for files and parsing season/episode from filename.
  * @returns Fully loaded data structure used to generate frames.
  */
 export async function findFiles(
   config: RuntimeConfig,
-  episodeConfig: InputEpisodesConfig,
-  fileData: FileEpisodeDatum[],
-): Promise<EpisodesConfig> {
-  const { name, episodes, commonTimings } = episodeConfig;
+  showData: InputShowData,
+  fileData: FileEpisodeData[],
+): Promise<ShowData> {
+  const { name, episodes, commonTimings } = showData;
   return {
     name,
     episodes: (
       await Promise.all(
         joinFileData(config, episodes, fileData).map(
-          async ({
-            season,
-            episode,
-            name,
-            overview,
-            filename,
-            timings,
-          }: JoinedEpisodeDatum) => {
+          async (joinedEp: JoinedEpisodeData) => {
+            const { season, episode, filename, timings } = joinedEp;
             try {
               const lengthSec = await ffprobeLength(
                 config.ffprobePath,
@@ -313,11 +307,7 @@ export async function findFiles(
                 skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
               return [
                 {
-                  season,
-                  episode,
-                  name,
-                  overview,
-                  filename,
+                  ...joinedEp,
                   skipRanges,
                   genLength,
                   lengthSec,

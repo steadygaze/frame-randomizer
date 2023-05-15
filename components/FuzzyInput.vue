@@ -65,7 +65,7 @@ import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "#app";
 import LiveStats from "./LiveStats.vue";
 import { useAppStateStore } from "~~/store/appStateStore";
-import { useEpisodeDataStore } from "~~/store/episodeDataStore";
+import { useShowDataStore } from "~~/store/showDataStore";
 import { floatIntPartPad } from "~~/utils/utils";
 
 type FuseOptions<ProcessedEpisodeData> =
@@ -81,9 +81,9 @@ export interface ProcessedEpisodeData {
 
 const config = useRuntimeConfig();
 const siteName = config.public.instanceName;
-const episodeDataStore = useEpisodeDataStore();
-const { initEpisodeData } = episodeDataStore;
-const { mediaName, episodeData } = storeToRefs(episodeDataStore);
+const showDataStore = useShowDataStore();
+const { initShowData } = showDataStore;
+const { showName, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
 const { correctCounter, totalCounter, imageId, imageIsLoading, readout } =
   storeToRefs(appStateStore);
@@ -91,7 +91,7 @@ const waitingForGuess = ref(false);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
 
-await initEpisodeData();
+await initShowData();
 
 const fuseOptions: FuseOptions<ProcessedEpisodeData> = {
   ignoreLocation: true,
@@ -158,7 +158,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
     // Switched from loading to done loading.
     document.body.style.cursor = "unset";
     waitingForGuess.value = true;
-    readout.value = `Guess the ${mediaName.value} episode that the frame is randomly selected from using the search box.`;
+    readout.value = `Guess the ${showName.value} episode that the frame is randomly selected from using the search box.`;
     if (searchTextInput.value && searchTextInput.value) {
       await nextTick();
       searchTextInput.value.focus();

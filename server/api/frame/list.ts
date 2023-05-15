@@ -1,17 +1,17 @@
 import { RuntimeConfig } from "nuxt/schema";
 import once from "lodash.once";
-import { getEpisodeData } from "../../load";
+import { getShowData } from "../../load";
 
-export interface ClientEpisodeDatum {
+export interface ClientEpisodeData {
   season: number;
   episode: number;
   name: string;
   overview: string;
 }
 
-export interface ClientEpisodeData {
+export interface ClientShowData {
   name: string;
-  episodes: ClientEpisodeDatum[];
+  episodes: ClientEpisodeData[];
 }
 
 const config = useRuntimeConfig() as RuntimeConfig;
@@ -23,8 +23,8 @@ const config = useRuntimeConfig() as RuntimeConfig;
  */
 async function getClientEpisodeDataInit(
   config: RuntimeConfig,
-): Promise<ClientEpisodeData> {
-  const { name, episodes } = await getEpisodeData(config);
+): Promise<ClientShowData> {
+  const { name, episodes } = await getShowData(config);
   return {
     name,
     episodes: episodes.map(({ season, episode, name, overview }) => {

@@ -1,7 +1,7 @@
 import { RuntimeConfig } from "nuxt/schema";
 import { checkKeys } from "~/server/utils";
 
-const REQUIRED_KEYS = ["episodeDataPath", "videoSourceDir"];
+const REQUIRED_KEYS = ["showDataPath", "videoSourceDir"];
 const REQUIRED_PUBLIC_KEYS = ["instanceName"];
 
 // Checks if config options are ok and throws an error if they aren't.

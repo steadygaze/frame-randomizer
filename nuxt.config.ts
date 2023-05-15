@@ -46,8 +46,6 @@ export default defineNuxtConfig({
     // How often to check frameOutputDir, frame state storage, and answer
     // storage for expired or orphaned images.
     cleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
-    // Required. Where the episode data config is. See README.md for more info.
-    episodeDataPath: undefined,
     // If given, this will be injected into the ffmpeg command used to generate
     // the images. Useful for specifying image encoding/quality options. Consult
     // ffmpeg documentation (https://ffmpeg.org/ffmpeg-codecs.html).
@@ -99,6 +97,9 @@ export default defineNuxtConfig({
     // Whether to search subdirectories of videoSourceDir. Directory path is not
     // considered when matching files with the right episode, only filename.
     searchVideoDirRecursively: true,
+    // Required. Where the show data is. See README.md and server/load.ts for
+    // more info.
+    showDataPath: undefined,
     // Used to give generated images random names. Recommend setting this to a
     // different one for your own instance from:
     // https://www.uuidtools.com/generate/v4
