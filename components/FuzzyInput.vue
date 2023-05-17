@@ -270,7 +270,7 @@ async function submitAnswer(index: number) {
       const correctItem = episodeData.value?.find(
         (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
-      readout.value = `${correctItem?.fullName} @ ${minute}:${second}`;
+      readout.value = `Skipped. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
     } else if (correct) {
       readout.value = `Correct: ${item?.fullName} @ ${minute}:${second}`;
       ++correctCounter.value;
