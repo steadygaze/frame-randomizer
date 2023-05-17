@@ -161,7 +161,9 @@ watch(imageIsLoading, async (imageIsLoading) => {
     // Switched from loading to done loading.
     document.body.style.cursor = "unset";
     waitingForGuess.value = true;
-    readout.value = `Guess the ${showName.value} episode that the frame is randomly selected from using the search box.`;
+    readout.value = `Guess the ${
+      showName.value ? showName.value + " " : ""
+    }episode that the frame is randomly selected from using the search box.`;
     if (searchTextInput.value && searchTextInput.value) {
       await nextTick();
       searchTextInput.value.focus();
