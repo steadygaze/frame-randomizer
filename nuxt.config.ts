@@ -3,6 +3,31 @@ import { defineNuxtConfig } from "nuxt/config";
 
 /* eslint sort-keys: "error" */
 export default defineNuxtConfig({
+  app: {
+    head: {
+      link: [
+        {
+          href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${
+            process.env.FR_FAVICON_EMOJI || "🎞️"
+          }</text></svg>`,
+          rel: "icon",
+        },
+      ],
+      meta: [
+        {
+          content: "width=device-width, initial-scale=1",
+          name: "viewport",
+        },
+        {
+          charset: "utf-8",
+        },
+      ],
+      noscript: [
+        "Unfortunately, this site requires JavaScript. However, in principle, a no-JavaScript version could be made…",
+      ],
+    },
+  },
+
   devtools: {
     enabled: false, // Toggle this to enable devtools.
   },
