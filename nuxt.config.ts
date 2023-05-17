@@ -144,7 +144,8 @@ export default defineNuxtConfig({
       interval: "hour",
       throwError: false,
       // One generated image and guess every 5 seconds.
-      tokensPerInterval: 720 * 2,
+      tokensPerInterval:
+        parseInt(process.env.FR_REQUEST_LIMIT || "0") || 720 * 2,
     },
   },
 
