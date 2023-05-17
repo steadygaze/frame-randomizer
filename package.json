@@ -1,5 +1,6 @@
 {
   "name": "nuxt-app",
+  "version": "0.0.1",
   "private": true,
   "license": "AGPL-3.0-or-later",
   "scripts": {
@@ -16,9 +17,13 @@
     "precommit": "npm run formatcheck && npm run lint && npm run tsc && npm run vue-tsc && npm run test && nuxt build pcdist",
     "prepare": "husky install",
     "preview": "nuxt preview",
-    "tsc": "tsc --noEmit",
+    "release": "standard-version",
+    "release:major": "standard-version --release-as major",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
     "test": "vitest run",
     "testw": "vitest watch",
+    "tsc": "tsc --noEmit",
     "vue-tsc": "vue-tsc"
   },
   "devDependencies": {
@@ -43,6 +48,7 @@
     "lint-staged": "^13.2.2",
     "nuxt": "^3.4.3",
     "prettier": "^2.8.7",
+    "standard-version": "^9.5.0",
     "ufo": "^1.1.1",
     "vitest": "^0.29.8",
     "vue-tsc": "^1.2.0"
