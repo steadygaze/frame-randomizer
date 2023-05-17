@@ -5,6 +5,7 @@ import { glob } from "glob";
 import shellescape from "shell-escape";
 import { RuntimeConfig } from "nuxt/schema";
 import merge from "lodash.merge";
+import pLimit from "p-limit";
 import { episodeName } from "../utils/utils";
 import { timecodeToSec } from "./utils";
 
@@ -285,6 +286,7 @@ export async function findFiles(
   fileData: FileEpisodeData[],
 ): Promise<ShowData> {
   const { name, episodes, commonTimings } = showData;
+  const limit = pLimit(config.ffprobeInitialLoadLimit || Infinity);
   return {
     name,
     episodes: (
@@ -293,9 +295,8 @@ export async function findFiles(
           async (joinedEp: JoinedEpisodeData) => {
             const { season, episode, filename, timings } = joinedEp;
             try {
-              const lengthSec = await ffprobeLength(
-                config.ffprobePath,
-                filename,
+              const lengthSec = await limit(() =>
+                ffprobeLength(config.ffprobePath, filename),
               );
               const skipRanges: TimeRange[] = generateSkipRanges(
                 lengthSec,

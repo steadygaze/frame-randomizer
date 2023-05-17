@@ -77,6 +77,10 @@ export default defineNuxtConfig({
     ffmpegImageCommandInject: undefined,
     // Path to ffmpeg binary, or "ffmpeg" to use the one from the system PATH.
     ffmpegPath: "ffmpeg",
+    // On server initialization, ffprobe is used to find how long each episode
+    // is. Limit ffprobe invocations to this number at a time. 0 or Infinity for
+    // no limit.
+    ffprobeInitialLoadLimit: Infinity,
     // Path to ffmpeg binary, or "ffmpeg" to use the one from the system PATH.
     ffprobePath: "ffprobe",
     // How long to keep a frame image around for after a the API points a user
