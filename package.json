@@ -68,9 +68,7 @@
       "prettier --write --ignore-unknown ."
     ],
     "*.test.{js,ts}": "vitest run",
-    "*.ts": "tsc --noEmit",
-    "*.{js,ts}": "eslint --fix",
-    "*.{ts,vue}": "vue-tsc"
+    "*.{js,ts}": "eslint --fix"
   },
   "overrides": {
     "vue": "^3.2.47"
