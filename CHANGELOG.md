@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/steadygaze/frame-randomizer/compare/v0.0.1...v0.0.2) (2023-05-20)
+
+### Features
+
+- format instructions as list ([3badb38](https://github.com/steadygaze/frame-randomizer/commit/3badb38346634c1f827639c1c8f01993025194d7))
+- make fuzzy search options configurable ([c635005](https://github.com/steadygaze/frame-randomizer/commit/c635005b23e9849659b2f3c893bf9fc9f25cbef1))
+- skip black frames and single colors ([7740237](https://github.com/steadygaze/frame-randomizer/commit/7740237031b8a74bb9ad769cb4608bbc206f800b))
+
+### Bug Fixes
+
+- always show scrollbar to avoid visual noise ([51c55e7](https://github.com/steadygaze/frame-randomizer/commit/51c55e71cfe2fc056ad9c11bf0bff4a801a8d0e5))
+- disable autocomplete on search input ([2226167](https://github.com/steadygaze/frame-randomizer/commit/222616727ef2629cef8b9a3a001626f231696366))
+
 ### 0.0.1 (2023-05-17)
 
 ### Features
