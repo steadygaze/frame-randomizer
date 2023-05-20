@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import path from "node:path";
 import { defineNuxtConfig } from "nuxt/config";
 
 /* eslint sort-keys: "error" */
@@ -47,11 +48,27 @@ export default defineNuxtConfig({
 
     storage: {
       answer: {
-        driver: "memory",
+        base:
+          process.env.FR_STORAGE_DRIVER === "fs"
+            ? path.join(
+                process.env.FR_STORAGE_FS_BASE_PATH ||
+                  "/tmp/frame_randomizer/storage",
+                "answer",
+              )
+            : undefined,
+        driver: process.env.FR_STORAGE_DRIVER || "memory",
       },
 
       frameFileState: {
-        driver: "memory",
+        base:
+          process.env.FR_STORAGE_DRIVER === "fs"
+            ? path.join(
+                process.env.FR_STORAGE_FS_BASE_PATH ||
+                  "/tmp/frame_randomizer/storage",
+                "frame_file",
+              )
+            : undefined,
+        driver: process.env.FR_STORAGE_DRIVER || "memory",
       },
     },
   },
@@ -98,7 +115,7 @@ export default defineNuxtConfig({
     // Where generated images will be outputted to and served from. Apparently
     // orphaned images will be cleaned out of this directory, so don't point it
     // to somewhere that has important data!
-    frameOutputDir: "/tmp/genimg",
+    frameOutputDir: "/tmp/frame_randomizer/frames",
     // Number of images to pregenerate. These will be ready for serving right
     // away, and will be replaced as soon as they're served.
     framePregenCount: 3,
