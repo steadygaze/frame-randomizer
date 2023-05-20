@@ -86,6 +86,13 @@ export default defineNuxtConfig({
     // How long to keep a frame image around for after a the API points a user
     // to it.
     frameExpiryMs: 5 * 60 * 1000, // 5 minutes.
+    // If frameRequiredStandardDeviation is set, a minimum standard deviation is
+    // required. If image generation fails this many times, give up and use the
+    // last generated image, waiving the standard deviation requirement. While
+    // it will prevent frame generation from hanging on frame generation
+    // indefinitely, hitting the limit will still increase frame generation
+    // times significantly.
+    frameGenMaxAttempts: 5,
     // Limit number of simultaneously generated frames to this amount.
     frameGenMaxParallelism: 3,
     // Where generated images will be outputted to and served from. Apparently
@@ -93,6 +100,12 @@ export default defineNuxtConfig({
     // to somewhere that has important data!
     frameOutputDir: "/tmp/genimg",
     framePregenCount: 3,
+    // Require a standard deviation (from ImageMagick's identify command) of
+    // more than this amount. If unsure, consider testing with identify on some
+    // borderline frames. Set to 0 to disable.
+    frameRequiredStandardDeviation: 2500.0,
+    // Path to ImageMagick identify command.
+    imageMagickIdentifyPath: "identify",
     // Per Nuxt documentation, these values will be sent to client-side code.
     public: {
       // Whether to include the disclaimer required by TMDB for use of its API

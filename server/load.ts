@@ -77,30 +77,46 @@ function randomTimeInEpisode(episode: EpisodeData): number {
 
 /**
  * Calls ffmpeg to run the command to extract a particular frame.
- * @param ffmpeg Path to ffmpeg.
+ * @param config Nuxt runtime config.
  * @param videoPath Path to video file.
  * @param timecode Timecode accepted by ffmpeg (seconds, or XX:XX format).
  * @param outputPath Path to output the image to (including file extension).
- * @param inject Additional args to inject into the command.
  * @returns Promise to await on completion.
  */
 async function ffmpegFrame(
-  ffmpeg: string,
+  config: RuntimeConfig,
   videoPath: string,
   timecode: number | string,
   outputPath: string,
-  inject: string | undefined,
 ): Promise<void> {
+  const ffmpeg = config.ffmpegPath;
+  const identify = config.imageMagickIdentifyPath;
+  const inject = config.ffmpegImageCommandInject;
+  const maxRejects = config.frameGenMaxAttempts;
+  const stddev = config.frameRequiredStandardDeviation;
+
   const start = Date.now();
-  await exec(
-    `${ffmpeg} -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
-      inject || ""
-    } -y ${outputPath}`,
+  let rejected = -1;
+  do {
+    ++rejected;
+    await exec(
+      `${ffmpeg} -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
+        inject || ""
+      } -y ${outputPath}`,
+    );
+  } while (
+    /* eslint-disable-next-line no-unmodified-loop-condition -- Other conditions modified. */
+    stddev > 0 &&
+    rejected < maxRejects &&
+    parseInt(
+      (await exec(`${identify} -format '%[standard_deviation]' ${outputPath}`))
+        .stdout,
+    ) > stddev
   );
   console.log(
     "New image generated in",
     Date.now() - start,
-    "ms at",
+    `ms (${rejected} of ${maxRejects} rejects) at`,
     outputPath,
   );
 }
@@ -133,13 +149,7 @@ async function getFrameProducerQueueUncached(
     await Promise.all([
       // If we returned the image path to the client without awaiting on ffmpeg,
       // they might try to load the image before it's done generating.
-      ffmpegFrame(
-        config.ffmpegPath,
-        episode.filename,
-        seekTime,
-        imagePath,
-        config.ffmpegImageCommandInject,
-      ),
+      ffmpegFrame(config, episode.filename, seekTime, imagePath),
       // Record that we generated this file. We have to await on this because
       // otherwise it can race with setting the expiry time on serving.
       frameFileStateStorage.setItem(imageId, { expiryTs: null }),

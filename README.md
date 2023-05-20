@@ -8,6 +8,14 @@ Note that this software is agnostic of what show is randomized from. The content
 
 If you just want to set up an instance, you need to supply a JSON config file with information about your show, a recent version of Node.js, and have episodes accessible on disk. These instructions are for Linux, but it may be possible to set up a server on other platforms.
 
+### Prepare external dependencies
+
+The built version doesn't require running `npm install`, instead pre-bundling all dependencies needed thanks to Nuxt. However, the following dependencies aren't packaged with it.
+
+- **Node.js**. Make sure that you have a recent enough version of Node.js available. At the time of this writing, the Debian stable version is `12`, while this project requires the Node.js `18`. You can use a tool like [Node Version Manager](https://github.com/nvm-sh/nvm) to prepare the right Node.js version.
+- **ffmpeg**, **ffprobe**. `ffmpeg` is invoked on-demand to extract frames. `ffprobe` is used to determine the length of each episode, to be able to generate a random time in the episode.
+- ImageMagick **identify**. `identify` (from ImageMagick) is used to determine if a frame isn't interesting enough to show, for example, if it's a black screen/part of a fade, is just a single solid color, etc. If this feature is disabled, identify isn't used.
+
 ### Show config
 
 You need to supply a config file for the show. (Comments are not allowed in normal JSON; they are just used to document this example.) The `episodes` section can be downloaded from [TMDB](https://www.themoviedb.org/) using its API and the tool [`frame-randomizer-create`](https://github.com/steadygaze/frame-randomizer-create/).
@@ -42,8 +50,6 @@ You need to supply a config file for the show. (Comments are not allowed in norm
 ```
 
 ### Running
-
-Make sure that you have a recent enough version of Node.js available. At the time of this writing, the Debian stable version is `12`, while this project requires the Node.js `18`. You can use a tool like [Node Version Manager](https://github.com/nvm-sh/nvm) to fetch the right Node.js version.
 
 Consult the `RuntimeConfig` section of `nuxt.config.ts` for all the settings that are available. Each will be configurable as environment variables. For example, you might create a simple script:
 
