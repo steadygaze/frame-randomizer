@@ -33,6 +33,7 @@
         ref="searchTextInput"
         v-model="searchInput"
         type="text"
+        autocomplete="off"
         :placeholder="
           waitingForGuess ? 'Fuzzy search (3+ characters)...' : 'Get new frame?'
         "
