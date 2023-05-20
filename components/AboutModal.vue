@@ -12,20 +12,31 @@
       >, selecting from all episodes with equal probability. Play a guessing
       game to test your trivia knowledge, or just enjoy the generated frames.
     </p>
-    <p>
-      To provide a guess, type at least three characters in the search box to
-      fuzzily search episode names and descriptions. Keep typing until the
-      desired episode is at the top, or use the
-      <code>up/down arrow keys</code> plus <code>Enter</code>, the mouse, or
-      <code>Ctrl + number</code> or <code>Alt + number</code> to select a
-      specific entry. The "Use synopsis" checkbox can be used to enable or
-      disable showing and searching the episode descriptions.
-    </p>
-    <p>
-      If you'd rather not guess and instead just enjoy the frames being
-      generated, simply press <code>Enter</code> with the search box selected to
-      submit an empty input.
-    </p>
+
+    <ul>
+      <li>
+        To provide a guess, type at least three characters in the search box to
+        fuzzily search episode names and descriptions. Keep typing until the
+        desired episode is at the top, or use the
+        <code>up/down arrow keys</code> plus <code>Enter</code>, the mouse, or
+        <code>Ctrl + number</code> or <code>Alt + number</code> to select a
+        specific entry.
+      </li>
+      <li>
+        The "Use synopsis" checkbox can be used to enable or disable showing and
+        searching the episode descriptions.
+      </li>
+      <li>
+        If you want to skip guessing, either because you're stumped or you just
+        want to enjoy the frames being generated, simply submit an empty input
+        by pressing <code>Enter</code> with the search box selected.
+      </li>
+      <li>
+        Images are destroyed as soon as they're loaded, so reloading an image
+        (for example, attempting to open it in a new tab) won't work. You can
+        still right click and save an image normally, though.
+      </li>
+    </ul>
     <section
       v-if="config.public.instanceInfoHtml || config.public.instanceInfoText"
     >
@@ -140,6 +151,10 @@ defineEmits<{ (e: "close"): void }>();
 
 button {
   padding: 0.5em 1em;
+}
+
+ul {
+  padding-left: 1.4em;
 }
 
 .grayedText {
