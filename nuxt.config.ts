@@ -114,6 +114,20 @@ export default defineNuxtConfig({
       // (see
       // https://developer.themoviedb.org/docs/faq#what-are-the-attribution-requirements).
       attributeTmdb: false,
+      // Number of characters required for a match. If the user inputs a search
+      // shorter than this, nothing will happen.
+      // https://fusejs.io/api/options.html#minmatchcharlength
+      fuzzySearchMinMatchLength: 3,
+      // The threshold used by Fuse for what is considered a match. Increasing
+      // this will relax the match strictness.
+      // https://fusejs.io/api/options.html#threshold.
+      fuzzySearchThreshold: 0.2,
+      // Weight assigned to the episode name, relative to synopsis.
+      // https://fusejs.io/examples.html#weighted-search
+      fuzzySearchWeightName: 1.0,
+      // Weight assigned to the episode overview/synopsis, relative to name.
+      // https://fusejs.io/examples.html#weighted-search
+      fuzzySearchWeightSynopsis: 0.25,
       // What extension to output images as. Naturally, these have different
       // tradeoffs in terms of output filesize, generation/encoding time, etc.
       imageOutputExtension: "webp",

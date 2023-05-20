@@ -15,9 +15,10 @@
 
     <ul>
       <li>
-        To provide a guess, type at least three characters in the search box to
-        fuzzily search episode names and descriptions. Keep typing until the
-        desired episode is at the top, or use the
+        To provide a guess, type at least
+        {{ config.public.fuzzySearchMinMatchLength }} characters in the search
+        box to fuzzily search episode names and descriptions. Keep typing until
+        the desired episode is at the top, or use the
         <code>up/down arrow keys</code> plus <code>Enter</code>, the mouse, or
         <code>Ctrl + number</code> or <code>Alt + number</code> to select a
         specific entry.

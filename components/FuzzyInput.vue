@@ -35,7 +35,9 @@
         type="text"
         autocomplete="off"
         :placeholder="
-          waitingForGuess ? 'Fuzzy search (3+ characters)...' : 'Get new frame?'
+          waitingForGuess
+            ? `Fuzzy search (${config.public.fuzzySearchMinMatchLength}+ characters)...`
+            : 'Get new frame?'
         "
         :disabled="answerIsLoading || !waitingForGuess"
         @keydown="handleKey"
@@ -99,8 +101,8 @@ const fuseOptions: FuseOptions<ProcessedEpisodeData> = {
   includeMatches: true,
   includeScore: true,
   isCaseSensitive: false,
-  minMatchCharLength: 3,
-  threshold: 0.2,
+  minMatchCharLength: config.public.fuzzySearchMinMatchLength,
+  threshold: config.public.fuzzySearchThreshold,
 };
 
 const fuseSynopsis = new Fuse(episodeData.value as ProcessedEpisodeData[], {
@@ -108,11 +110,11 @@ const fuseSynopsis = new Fuse(episodeData.value as ProcessedEpisodeData[], {
   keys: [
     {
       name: "name",
-      weight: 1.0,
+      weight: config.public.fuzzySearchWeightName,
     },
     {
       name: "overview",
-      weight: 0.25,
+      weight: config.public.fuzzySearchWeightSynopsis,
     },
   ],
 });
