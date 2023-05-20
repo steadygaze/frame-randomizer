@@ -99,6 +99,8 @@ export default defineNuxtConfig({
     // orphaned images will be cleaned out of this directory, so don't point it
     // to somewhere that has important data!
     frameOutputDir: "/tmp/genimg",
+    // Number of images to pregenerate. These will be ready for serving right
+    // away, and will be replaced as soon as they're served.
     framePregenCount: 3,
     // Require a standard deviation (from ImageMagick's identify command) of
     // more than this amount. If unsure, consider testing with identify on some

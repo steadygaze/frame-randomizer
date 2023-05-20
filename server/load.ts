@@ -111,7 +111,7 @@ async function ffmpegFrame(
     parseInt(
       (await exec(`${identify} -format '%[standard_deviation]' ${outputPath}`))
         .stdout,
-    ) > stddev
+    ) < stddev
   );
   console.log(
     "New image generated in",
