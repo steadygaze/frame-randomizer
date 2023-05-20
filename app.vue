@@ -48,7 +48,7 @@ body > * {
 }
 
 #inputpane {
-  overflow-y: auto;
+  overflow-y: scroll; /* Otherwise scrollbar appears/disappears as searches happen, which is distracting. */
   background-color: #eee;
   width: 100%;
   max-width: 500px;
