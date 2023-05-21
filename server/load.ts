@@ -75,43 +75,48 @@ function randomTimeInEpisode(episode: EpisodeData): number {
   return offsetTime;
 }
 
+interface RandomEpisode {
+  episode: EpisodeData;
+  seekTime: number | string;
+}
+
 /**
  * Calls ffmpeg to run the command to extract a particular frame.
  * @param config Nuxt runtime config.
- * @param videoPath Path to video file.
- * @param timecode Timecode accepted by ffmpeg (seconds, or XX:XX format).
+ * @param chooseFrame Function to call to try another frame.
  * @param outputPath Path to output the image to (including file extension).
  * @returns Promise to await on completion.
  */
 async function ffmpegFrame(
   config: RuntimeConfig,
-  videoPath: string,
-  timecode: number | string,
+  chooseFrame: () => RandomEpisode,
   outputPath: string,
-): Promise<void> {
+): Promise<RandomEpisode> {
   const ffmpeg = config.ffmpegPath;
   const identify = config.imageMagickIdentifyPath;
   const inject = config.ffmpegImageCommandInject;
   const maxRejects = config.frameGenMaxAttempts;
-  const stddev = config.frameRequiredStandardDeviation;
+  const requiredStddev = config.frameRequiredStandardDeviation;
 
   const start = Date.now();
   let rejected = -1;
+  let random;
   do {
     ++rejected;
+    random = chooseFrame();
     await exec(
-      `${ffmpeg} -ss ${timecode} -i ${videoPath} -frames:v 1 -update true ${
-        inject || ""
-      } -y ${outputPath}`,
+      `${ffmpeg} -ss ${random.seekTime} -i ${
+        random.episode.filename
+      } -frames:v 1 -update true ${inject || ""} -y ${outputPath}`,
     );
   } while (
     /* eslint-disable-next-line no-unmodified-loop-condition -- Other conditions modified. */
-    stddev > 0 &&
+    requiredStddev > 0 &&
     rejected < maxRejects &&
     parseInt(
       (await exec(`${identify} -format '%[standard_deviation]' ${outputPath}`))
         .stdout,
-    ) < stddev
+    ) < requiredStddev
   );
   console.log(
     "New image generated in",
@@ -119,6 +124,7 @@ async function ffmpegFrame(
     `ms (${rejected} of ${maxRejects} rejects) at`,
     outputPath,
   );
+  return random;
 }
 
 /**
@@ -135,6 +141,16 @@ async function getFrameProducerQueueUncached(
   const frameFileStateStorage = useStorage("frameFileState");
 
   /**
+   * Generate a random episode and a random time in the episode.
+   * @returns Episode data and seek time.
+   */
+  function chooseRandomFrame(): RandomEpisode {
+    const episode = episodes[Math.floor(Math.random() * episodes.length)];
+    const seekTime = randomTimeInEpisode(episode);
+    return { episode, seekTime };
+  }
+
+  /**
    * Performs all jobs associated with generating a frame.
    *
    * This includes generating the frame, and storing the "answer" (what episode
@@ -144,15 +160,20 @@ async function getFrameProducerQueueUncached(
   async function generateFrame() {
     const imageId = myUuid(config);
     const imagePath = imagePathForId(config, imageId);
-    const episode = episodes[Math.floor(Math.random() * episodes.length)];
-    const seekTime = randomTimeInEpisode(episode);
+
+    // Record that we generated this file.
+    const storeImageIdP = frameFileStateStorage.setItem(imageId, {
+      expiryTs: null,
+    });
+    const { episode, seekTime } = await ffmpegFrame(
+      config,
+      chooseRandomFrame,
+      imagePath,
+    );
+
     await Promise.all([
       // If we returned the image path to the client without awaiting on ffmpeg,
       // they might try to load the image before it's done generating.
-      ffmpegFrame(config, episode.filename, seekTime, imagePath),
-      // Record that we generated this file. We have to await on this because
-      // otherwise it can race with setting the expiry time on serving.
-      frameFileStateStorage.setItem(imageId, { expiryTs: null }),
       // We do await on storing the answer despite this not affecting the query
       // result to prevent a rare data race between the answer being stored and
       // the client checking their guess.
@@ -162,6 +183,9 @@ async function getFrameProducerQueueUncached(
         seekTime,
         expiryTs: null,
       } as StoredAnswer),
+      // We have to await on this because otherwise it can race with setting the
+      // expiry time when serving.
+      storeImageIdP,
     ]);
     return { imageId };
   }
