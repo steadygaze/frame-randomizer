@@ -8,6 +8,7 @@ import merge from "lodash.merge";
 import pLimit from "p-limit";
 import { episodeName } from "../utils/utils";
 import { timecodeToSec } from "./utils";
+import logger from "./logger";
 
 const exec = promisify(execAsync);
 
@@ -171,11 +172,8 @@ function joinFileData(
   if (missingEpisodes.length > 0) {
     const missingEpisodesStr = missingEpisodes.join(", ");
     if (config.allowMissingEpisodes) {
-      console.warn(
-        "Couldn't find files for",
-        missingEpisodes.length,
-        "episodes:",
-        missingEpisodesStr,
+      logger.warn(
+        `Couldn't find files for ${missingEpisodes.length} episodes: ${missingEpisodesStr}`,
       );
     } else {
       throw new Error(
@@ -315,11 +313,12 @@ export async function findFiles(
                 },
               ];
             } catch (error) {
-              console.error(
-                "Failed to load",
-                episodeName(season, episode, name),
-                "at",
-                filename,
+              logger.error(
+                `Failed to load ${episodeName(
+                  season,
+                  episode,
+                  name,
+                )} at ${filename}`,
               );
               return [];
             }

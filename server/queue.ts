@@ -1,4 +1,6 @@
 import { promisify } from "node:util";
+import logger from "./logger";
+
 const LOG_WAIT_MS = 10 * 1000;
 const SPIN_WAIT_DELAY_MS = 1;
 const sleep = promisify(setTimeout);
@@ -43,7 +45,7 @@ export class ProducerQueue<Type> {
       const now = Date.now();
       if (now > this.producerPendingLogTs) {
         this.producerPendingLogTs = now + LOG_WAIT_MS;
-        console.log(
+        logger.info(
           `Producer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`,
         );
       }
@@ -58,7 +60,7 @@ export class ProducerQueue<Type> {
       const now = Date.now();
       if (now > this.consumerPendingLogTs) {
         this.consumerPendingLogTs = now + LOG_WAIT_MS;
-        console.log(
+        logger.info(
           `Consumer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`,
         );
       }

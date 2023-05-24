@@ -14,6 +14,7 @@ import {
   offsetTimeBySkipRanges,
 } from "./file";
 import { myUuid } from "./utils";
+import logger from "./logger";
 
 const exec = promisify(execAsync);
 
@@ -45,12 +46,10 @@ async function getShowdataUncached(
   ]);
   const episodeConfig = JSON.parse(episodeConfigString);
   const episodeData = await findFiles(runtimeConfig, episodeConfig, fileData);
-  console.log(
-    "Loaded",
-    episodeData.episodes.length,
-    "episodes in",
-    Date.now() - start,
-    "ms",
+  logger.info(
+    `Loaded ${episodeData.episodes.length} episodes in ${
+      Date.now() - start
+    } ms`,
   );
   return episodeData;
 }
@@ -118,11 +117,10 @@ async function ffmpegFrame(
         .stdout,
     ) < requiredStddev
   );
-  console.log(
-    "New image generated in",
-    Date.now() - start,
-    `ms (${rejected} of ${maxRejects} rejects) at`,
-    outputPath,
+  logger.info(
+    `New image generated in ${
+      Date.now() - start
+    } ms (${rejected} of ${maxRejects} rejects) at ${outputPath}`,
   );
   return random;
 }

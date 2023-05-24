@@ -1,6 +1,7 @@
 import { RuntimeConfig } from "nuxt/schema";
 import { getFrameProducerQueue } from "../../load";
 import { StoredAnswer, StoredFileState } from "~/server/types";
+import logger from "~/server/logger";
 
 const config = useRuntimeConfig() as RuntimeConfig;
 const answerStorage = useStorage("answer");
@@ -14,7 +15,7 @@ const frameFileStateStorage = useStorage("frameFileState");
  * @returns Promise to await on completion.
  */
 async function addExpiry(id: string): Promise<void> {
-  console.log("Now adding expiry on serving to", id);
+  logger.info(`Now adding expiry on serving to ${id}`);
   const answer = (await answerStorage.getItem(id)) as StoredAnswer;
   // Rare race condition between cleaning up answer and setting expiry.
   await Promise.all([
@@ -34,10 +35,10 @@ export default defineLazyEventHandler(async () => {
   return defineEventHandler(async () => {
     const start = Date.now();
     const result = await queue.next();
-    console.log(
-      "Request waited",
-      Date.now() - start,
-      "ms for image generation and callback queue",
+    logger.info(
+      `Request waited ${
+        Date.now() - start
+      } ms for image generation and callback queue`,
     );
     // Don't await on adding an expiry time, because it won't affect the result.
     addExpiry(result.imageId);

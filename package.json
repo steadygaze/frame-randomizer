@@ -65,7 +65,8 @@
     "p-limit": "^4.0.0",
     "pinia": "^2.0.35",
     "shell-escape": "^0.2.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "winston": "^3.8.2"
   },
   "config": {
     "commitizen": {

@@ -6,6 +6,7 @@ import { RuntimeConfig } from "nuxt/schema";
 import intersection from "lodash.intersection";
 import { StoredAnswer, StoredFileState } from "../types";
 import { imagePathForId } from "../file";
+import logger from "../logger";
 
 const config = useRuntimeConfig() as RuntimeConfig;
 const sleep = promisify(setTimeout);
@@ -22,13 +23,10 @@ async function cleanupAnswers() {
       const answerInput = await answerStorage.getItem(answerId);
       const answer = answerInput as StoredAnswer | null;
       if (answer && answer.expiryTs && answer.expiryTs < Date.now()) {
-        console.log("Cleaning up expired answer", answerId);
+        logger.info(`Cleaning up expired answer ${answerId}`);
         await answerStorage.removeItem(answerId).catch((error) => {
-          console.error(
-            "Failed to clean up stored answer for image",
-            answerId,
-            "due to:",
-            error,
+          logger.error(
+            `Failed to clean up stored answer for image ${answerId} due to: ${error}`,
           );
         });
       }
@@ -59,14 +57,11 @@ async function cleanupOrphanedImages(
           match.groups &&
           !frameFileIds.includes(match.groups.key)
         ) {
-          console.log("Cleaning up apparently orphaned image", frameFile);
+          logger.info(`Cleaning up apparently orphaned image ${frameFile}`);
           return [
             fs.rm(frameFile).catch((error) => {
-              console.error(
-                "Failed to clean up orphaned image",
-                frameFile,
-                "due to:",
-                error,
+              logger.error(
+                `Failed to clean up orphaned image ${frameFile} due to: ${error}`,
               );
             }),
           ];
@@ -93,16 +88,13 @@ async function cleanupExpiredImages(frameFileIds: string[]) {
         storedFileState?.expiryTs >= Date.now()
       ) {
         const frameFile = imagePathForId(config, fileId);
-        console.log("Cleaning up expired image", frameFile);
+        logger.info(`Cleaning up expired image ${frameFile}`);
         await Promise.all([
           frameFileStateStorage.removeItem(fileId),
           fs.rm(frameFile).catch((error) => {
             if (error.code !== "ENOENT") {
-              console.error(
-                "Failed to clean up expired image",
-                frameFile,
-                "due to:",
-                error,
+              logger.error(
+                `Failed to clean up expired image ${frameFile} due to: ${error}`,
               );
             }
           }),
@@ -135,6 +127,6 @@ export default defineNitroPlugin(() => {
   setInterval(async () => {
     const start = Date.now();
     await Promise.all([cleanupAnswers(), cleanupOrphanedAndExpiredImages()]);
-    console.log("Image cleanup done in", Date.now() - start, "ms");
+    logger.info(`Image cleanup done in ${Date.now() - start} ms`);
   }, config.cleanupIntervalMs);
 });
