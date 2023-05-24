@@ -56,6 +56,20 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    "/api/frame/get/**": {
+      headers: {
+        // private: browser cache only, no CDN or Cloudflare cache.
+        // immutable: image path is a UUID that will not change.
+        // max-age: one week default, a reasonable guess for how long a user
+        // might want the image to stick around
+        "cache-control": `private, immutable, max-age=${
+          process.env.FR_FRAME_CACHE_AGE || 60 * 60 * 24 * 7
+        }`,
+      },
+    },
+  },
+
   // These can be set per the instructions in
   // https://nuxt.com/docs/guide/directory-structure/env. All options that are
   // undefined here are required to be set in env params.
