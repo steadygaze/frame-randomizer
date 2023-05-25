@@ -258,6 +258,9 @@ async function submitAnswer(index: number) {
       readout.value = "Answer not found. It may have expired. Try again.";
     } else if (error.value.statusCode === 429) {
       readout.value = "Request limit reached. Try again later.";
+    } else if (error.value.message.startsWith("NetworkError")) {
+      readout.value =
+        "Network error, or server may be down for maintenance. Check connection and try again.";
     } else {
       readout.value = `Error getting answer: ${error.value.message}. Try again?`;
     }
