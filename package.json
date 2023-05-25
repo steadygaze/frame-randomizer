@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.9",
+    "chalk": "^5.2.0",
     "fuse.js": "^6.6.2",
     "glob": "^10.1.0",
     "lodash.difference": "^4.5.0",

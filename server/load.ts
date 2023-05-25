@@ -120,7 +120,8 @@ async function ffmpegFrame(
   logger.info(
     `New image generated in ${
       Date.now() - start
-    } ms (${rejected} of ${maxRejects} rejects) at ${outputPath}`,
+    } ms (${rejected} of ${maxRejects} rejects)`,
+    { file: outputPath },
   );
   return random;
 }
