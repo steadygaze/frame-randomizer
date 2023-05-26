@@ -21,7 +21,7 @@ const config = useRuntimeConfig() as RuntimeConfig;
  * @param config Runtime config options.
  * @returns A list of all episodes.
  */
-async function getClientEpisodeDataInit(
+async function getClientShowDataInit(
   config: RuntimeConfig,
 ): Promise<ClientShowData> {
   const { name, episodes } = await getShowData(config);
@@ -33,10 +33,10 @@ async function getClientEpisodeDataInit(
   };
 }
 
-const getClientEpisodeData = once(getClientEpisodeDataInit);
+const getClientShowData = once(getClientShowDataInit);
 
 export default defineLazyEventHandler(async () => {
-  const episodeData = await getClientEpisodeData(config);
+  const episodeData = await getClientShowData(config);
 
   return defineEventHandler(() => {
     return episodeData;
