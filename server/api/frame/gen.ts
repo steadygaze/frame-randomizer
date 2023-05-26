@@ -15,7 +15,7 @@ const frameFileStateStorage = useStorage("frameFileState");
  * @returns Promise to await on completion.
  */
 async function addExpiry(id: string): Promise<void> {
-  logger.info(`Now adding expiry on serving to ${id}`);
+  logger.info(`Adding expiry on serving`, { id });
   const answer = (await answerStorage.getItem(id)) as StoredAnswer;
   // Rare race condition between cleaning up answer and setting expiry.
   await Promise.all([

@@ -12,12 +12,10 @@ const answerStorage = useStorage("answer");
 export async function cleanupAnswer(id: string): Promise<void> {
   await Promise.all([
     answerStorage.removeItem(id).catch((error) => {
-      logger.error(
-        `Failed to clean up stored answer for image ${id} due to: ${error}`,
-      );
+      logger.error(`Failed to clean up stored answer: ${error}`, { id });
     }),
   ]);
-  logger.info(`Cleaned up stored answer for ${id}`);
+  logger.info(`Cleaned up stored answer`, { id });
 }
 
 /**

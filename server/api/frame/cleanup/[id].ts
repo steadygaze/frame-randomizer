@@ -15,12 +15,12 @@ export default defineEventHandler((event) => {
   frameFileStateStorage.removeItem(id);
 
   const frameFile = imagePathForId(config, id);
-  logger.info(`Clean up image file after loading at ${frameFile}`);
+  logger.info(`Clean up image file after loading`, { file: frameFile });
   fs.rm(frameFile).catch((error) => {
     if (error.code !== "ENOENT") {
-      logger.error(
-        `Failed to clean up fetched image ${frameFile} due to: ${error}`,
-      );
+      logger.error(`Failed to clean up fetched image: ${error}`, {
+        file: frameFile,
+      });
     }
   });
 

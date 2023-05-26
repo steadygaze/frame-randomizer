@@ -23,11 +23,11 @@ async function cleanupAnswers() {
       const answerInput = await answerStorage.getItem(answerId);
       const answer = answerInput as StoredAnswer | null;
       if (answer && answer.expiryTs && answer.expiryTs < Date.now()) {
-        logger.info(`Cleaning up expired answer ${answerId}`);
+        logger.info(`Cleaning up expired answer`, { id: answerId });
         await answerStorage.removeItem(answerId).catch((error) => {
-          logger.error(
-            `Failed to clean up stored answer for image ${answerId} due to: ${error}`,
-          );
+          logger.error(`Failed to clean up stored answer: ${error}`, {
+            id: answerId,
+          });
         });
       }
     }),
@@ -57,12 +57,14 @@ async function cleanupOrphanedImages(
           match.groups &&
           !frameFileIds.includes(match.groups.key)
         ) {
-          logger.info(`Cleaning up apparently orphaned image ${frameFile}`);
+          logger.info(`Cleaning up apparently orphaned image`, {
+            file: frameFile,
+          });
           return [
             fs.rm(frameFile).catch((error) => {
-              logger.error(
-                `Failed to clean up orphaned image ${frameFile} due to: ${error}`,
-              );
+              logger.error(`Failed to clean up orphaned image: ${error}`, {
+                file: frameFile,
+              });
             }),
           ];
         }
@@ -88,14 +90,14 @@ async function cleanupExpiredImages(frameFileIds: string[]) {
         storedFileState?.expiryTs >= Date.now()
       ) {
         const frameFile = imagePathForId(config, fileId);
-        logger.info(`Cleaning up expired image ${frameFile}`);
+        logger.info(`Cleaning up expired image`, { file: frameFile });
         await Promise.all([
           frameFileStateStorage.removeItem(fileId),
           fs.rm(frameFile).catch((error) => {
             if (error.code !== "ENOENT") {
-              logger.error(
-                `Failed to clean up expired image ${frameFile} due to: ${error}`,
-              );
+              logger.error(`Failed to clean up expired image: ${error}`, {
+                file: frameFile,
+              });
             }
           }),
         ]);

@@ -117,12 +117,10 @@ async function ffmpegFrame(
         .stdout,
     ) < requiredStddev
   );
-  logger.info(
-    `New image generated in ${
-      Date.now() - start
-    } ms (${rejected} of ${maxRejects} rejects)`,
-    { file: outputPath },
-  );
+  logger.info(`New image generated in ${Date.now() - start} ms`, {
+    file: outputPath,
+    rejected,
+  });
   return random;
 }
 
