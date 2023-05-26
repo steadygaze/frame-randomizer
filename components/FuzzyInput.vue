@@ -185,9 +185,8 @@ onMounted(() => {
 function handleKey(event: KeyboardEvent) {
   let submitIndex = null;
   if (event.ctrlKey || event.altKey) {
-    if (event.key >= "0" && event.key <= "9") {
-      const index =
-        event.key === "0" ? 9 : event.key.charCodeAt(0) - "1".charCodeAt(0);
+    if (event.key >= "1" && event.key <= "9") {
+      const index = event.key.charCodeAt(0) - "1".charCodeAt(0);
       if (computedData.value.length > index) {
         submitIndex = index;
       } else {
@@ -327,10 +326,7 @@ ol.resultItemList li {
   counter-increment: searchCounter;
   flex: 1 1 350px;
 }
-ol.resultItemList li:nth-child(10) {
-  counter-reset: searchCounter -1;
-}
-ol.resultItemList li:nth-child(-n + 10):before {
+ol.resultItemList li:nth-child(-n + 9):before {
   content: "Mod-" counter(searchCounter) " ";
   color: #888;
 }
