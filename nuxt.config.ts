@@ -81,7 +81,7 @@ export default defineNuxtConfig({
     // Whether to error out if episodes are missing, or simply print a warning.
     allowMissingEpisodes: true,
     // How long to keep an answer around for after a frame is served.
-    answerExpiryMs: 60 * 60 * 1000, // 1 hour.
+    answerExpiryMs: 4 * 60 * 60 * 1000, // 4 hours.
     // How often to check frameOutputDir, frame state storage, and answer
     // storage for expired or orphaned images.
     cleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
