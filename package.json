@@ -67,6 +67,7 @@
     "pinia": "^2.0.35",
     "shell-escape": "^0.2.0",
     "uuid": "^9.0.0",
+    "vue-gtag": "^2.0.1",
     "winston": "^3.8.2"
   },
   "config": {

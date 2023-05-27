@@ -142,6 +142,8 @@ export default defineNuxtConfig({
       // Weight assigned to the episode overview/synopsis, relative to name.
       // https://fusejs.io/examples.html#weighted-search
       fuzzySearchWeightSynopsis: 0.25,
+      // Google analytics measurement ID (for gtag.js).
+      googleAnalyticsMeasurementId: "G-L3KW1G5L7T",
       // What extension to output images as. Naturally, these have different
       // tradeoffs in terms of output filesize, generation/encoding time, etc.
       imageOutputExtension: "webp",
