@@ -1,9 +1,6 @@
-import { promisify } from "node:util";
+// eslint-disable-next-line import/named -- Can't find LimitFunction for some reason.
+import pLimit, { LimitFunction } from "p-limit";
 import logger from "./logger";
-
-const LOG_WAIT_MS = 10 * 1000;
-const SPIN_WAIT_DELAY_MS = 1;
-const sleep = promisify(setTimeout);
 
 export interface ProducerQueueOptions {
   length: number;
@@ -11,62 +8,42 @@ export interface ProducerQueueOptions {
 }
 
 export class ProducerQueue<Type> {
-  consumerPendingLogTs: number;
   maxPending: number;
-  producerPendingLogTs: number;
   pendingCount: number;
   produceFn: () => Promise<Type>;
   queue: Array<Promise<Type>>;
+  limit: LimitFunction;
 
   constructor(
     produceFn: () => Promise<Type>,
     { length, maxPending }: ProducerQueueOptions,
   ) {
-    this.consumerPendingLogTs = 0;
     this.maxPending = maxPending;
     this.pendingCount = 0;
     this.produceFn = produceFn;
-    this.producerPendingLogTs = 0;
     this.queue = [];
+
+    this.limit = pLimit(this.maxPending);
     for (let i = 0; i < length; ++i) {
-      this.readyEnqueueJob();
+      this.enqueueJob();
     }
-  }
 
-  async produce(): Promise<Type> {
-    ++this.pendingCount;
-    const result = await this.produceFn();
-    --this.pendingCount;
-    return result;
-  }
-
-  async readyEnqueueJob() {
-    while (this.pendingCount >= this.maxPending) {
-      const now = Date.now();
-      if (now > this.producerPendingLogTs) {
-        this.producerPendingLogTs = now + LOG_WAIT_MS;
-        logger.info(
-          `Producer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`,
+    setInterval(() => {
+      const pendingCount = this.limit.pendingCount;
+      if (pendingCount > 0) {
+        logger.warn(
+          `Jobs queueing due to job limit: ${pendingCount} queued, ${this.limit.activeCount} active`,
         );
       }
-      await sleep(SPIN_WAIT_DELAY_MS);
-    }
-    this.queue.push(this.produce());
+    }, 10000);
   }
 
-  async next(): Promise<Type> {
-    this.readyEnqueueJob();
-    while (this.queue.length <= 0) {
-      const now = Date.now();
-      if (now > this.consumerPendingLogTs) {
-        this.consumerPendingLogTs = now + LOG_WAIT_MS;
-        logger.info(
-          `Consumer(s) waiting due to hitting pending job limit (${this.maxPending} jobs)`,
-        );
-      }
-      await sleep(SPIN_WAIT_DELAY_MS);
-      // There doesn't seem to be a way to FIFO-queue waiting, unfortunately.
-    }
+  enqueueJob() {
+    this.queue.push(this.limit(() => this.produceFn()));
+  }
+
+  next(): Promise<Type> {
+    this.enqueueJob();
     return this.queue.shift()!;
   }
 }
