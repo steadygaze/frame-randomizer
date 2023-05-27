@@ -182,6 +182,9 @@ export default defineNuxtConfig({
   },
 
   security: {
+    corsHandler: {
+      origin: ["static.cloudflareinsights.com"],
+    },
     headers: {
       // Allow devtools to work.
       crossOriginEmbedderPolicy:
