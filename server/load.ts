@@ -34,14 +34,14 @@ async function getShowdataUncached(
     fs
       .mkdir(runtimeConfig.frameOutputDir, { recursive: true })
       .catch((error) => {
-        if (error instanceof Object && "code" in error) {
-          // Ignore if dir already exists.
-          if (error.code !== "EEXIST") {
-            throw error;
-          }
-        } else {
+        if (
+          !(error instanceof Object) ||
+          !("code" in error) ||
+          error.code !== "EEXIST"
+        ) {
           throw error;
         }
+        // Ignore if dir already exists.
       }),
   ]);
   const episodeConfig = JSON.parse(episodeConfigString);
