@@ -58,7 +58,7 @@
         <label for="synopsisCheckbox">Use synopsis</label>
       </div>
     </div>
-    <ol class="resultItemList">
+    <ol id="resultItemList" class="resultItemList">
       <FuzzyResultItem
         v-for="(fuseMatch, index) in computedData"
         :key="fuseMatch.item.fullName"
@@ -207,6 +207,21 @@ onMounted(() => {
 });
 
 /**
+ * Scroll to the currently selected search result item.
+ */
+function scrollToSelected() {
+  const selector = `#resultItemList li:nth-child(${highlightIndex.value + 1})`;
+  const selected = document.querySelector(selector);
+  if (selected) {
+    selected.scrollIntoView(false);
+  } else {
+    console.error(
+      `Tried to scroll to result ${highlightIndex.value} but couldn't find it with selector "${selector}"`,
+    );
+  }
+}
+
+/**
  * Handle keyboard inputs to the search box.
  *
  * Up/down arrow keys change the highlighted item. Enter submits the highlighted
@@ -231,12 +246,14 @@ function handleKey(event: KeyboardEvent) {
       case "ArrowDown":
         if (highlightIndex.value < computedData.value.length - 1) {
           ++highlightIndex.value;
+          scrollToSelected();
         }
         event.preventDefault();
         break;
       case "ArrowUp":
         if (highlightIndex.value > 0) {
           --highlightIndex.value;
+          scrollToSelected();
         }
         event.preventDefault();
         break;
