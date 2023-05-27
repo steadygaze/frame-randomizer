@@ -28,7 +28,7 @@ async function getShowdataUncached(
   runtimeConfig: RuntimeConfig,
 ): Promise<ShowData> {
   const start = Date.now();
-  const [episodeConfigString, fileData] = await Promise.all([
+  const [rawShowDataString, fileData] = await Promise.all([
     fs.readFile(runtimeConfig.showDataPath, { encoding: "utf-8" }),
     lsAllFiles(runtimeConfig),
     fs
@@ -44,14 +44,12 @@ async function getShowdataUncached(
         // Ignore if dir already exists.
       }),
   ]);
-  const episodeConfig = JSON.parse(episodeConfigString);
-  const episodeData = await findFiles(runtimeConfig, episodeConfig, fileData);
+  const rawShowData = JSON.parse(rawShowDataString);
+  const showData = await findFiles(runtimeConfig, rawShowData, fileData);
   logger.info(
-    `Loaded ${episodeData.episodes.length} episodes in ${
-      Date.now() - start
-    } ms`,
+    `Loaded ${showData.episodes.length} episodes in ${Date.now() - start} ms`,
   );
-  return episodeData;
+  return showData;
 }
 
 const getShowData = once(getShowdataUncached);
