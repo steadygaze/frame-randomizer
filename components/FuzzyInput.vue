@@ -60,7 +60,7 @@
     </div>
     <ol id="resultItemList" class="resultItemList">
       <FuzzyResultItem
-        v-for="(fuseMatch, index) in computedData"
+        v-for="(fuseMatch, index) in searchResults"
         :key="fuseMatch.item.fullName"
         :fuse-match="fuseMatch"
         :show-synopsis="useSynopsis"
@@ -147,11 +147,35 @@ const searchInput = ref("");
 const useSynopsis = ref(true);
 const showAbout = ref(false);
 
-const computedData = computed(() =>
-  useSynopsis.value
+const seasonEpisodeInputRe = /^s?(?<season>\d+)[xe](?<episode>\d+)$/i;
+
+const searchResults = computed(() => {
+  const fuseResults = useSynopsis.value
     ? fuseSynopsis.search(searchInput.value)
-    : fuseNameOnly.search(searchInput.value),
-);
+    : fuseNameOnly.search(searchInput.value);
+  const match = seasonEpisodeInputRe.exec(searchInput.value);
+  if (!match || match.length <= 0 || !match.groups) {
+    return fuseResults;
+  }
+  // sXXeXX search; add result to top. If the same episode somehow also matches
+  // in the fuzzy search, it will appear twice, but that's ok.
+  const inputSeason = parseInt(match.groups.season);
+  const inputEpisode = parseInt(match.groups.episode);
+  if (isNaN(inputSeason) || isNaN(inputEpisode)) {
+    return fuseResults;
+  }
+  const episodeDataIndex = episodeData.value.findIndex(
+    (ep) => ep.season === inputSeason && ep.episode === inputEpisode,
+  );
+  return episodeDataIndex === -1
+    ? fuseResults
+    : [
+        {
+          item: episodeData.value[episodeDataIndex],
+          refIndex: episodeDataIndex,
+        },
+      ].concat(fuseResults);
+});
 
 /**
  * Request an image from the API.
@@ -233,18 +257,18 @@ function handleKey(event: KeyboardEvent) {
   if (event.ctrlKey || event.altKey) {
     if (event.key >= "1" && event.key <= "9") {
       const index = event.key.charCodeAt(0) - "1".charCodeAt(0);
-      if (computedData.value.length > index) {
+      if (searchResults.value.length > index) {
         submitIndex = index;
       } else {
         readout.value = `No entry ${event.key} in search results.`;
       }
     }
   } else if (event.key === "Enter") {
-    submitIndex = computedData.value.length > 0 ? highlightIndex.value : -1;
+    submitIndex = searchResults.value.length > 0 ? highlightIndex.value : -1;
   } else {
     switch (event.key) {
       case "ArrowDown":
-        if (highlightIndex.value < computedData.value.length - 1) {
+        if (highlightIndex.value < searchResults.value.length - 1) {
           ++highlightIndex.value;
           scrollToSelected();
         }
@@ -281,7 +305,7 @@ function changeHighlightedIndex(index: number) {
  * @param index Search result index to submit.
  */
 async function submitAnswer(index: number) {
-  if (index < -1 || index >= computedData.value.length) {
+  if (index < -1 || index >= searchResults.value.length) {
     throw new RangeError(`Index ${index} out of range`);
   }
   waitingForGuess.value = false;
@@ -292,7 +316,7 @@ async function submitAnswer(index: number) {
   if (index < 0) {
     query = { season: -1, episode: -1 };
   } else {
-    item = computedData.value[index].item;
+    item = searchResults.value[index].item;
     console.log("Submitting input", item.fullName);
     query = { season: item.season, episode: item.episode };
   }
