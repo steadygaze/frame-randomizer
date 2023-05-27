@@ -5,6 +5,7 @@ export const useAppStateStore = defineStore("appState", () => {
   const correctCounter = ref(0);
   const imageId = ref(0);
   const imageIsLoading = ref(true);
+  const imageLoadError = ref(false);
   const readout = ref("Welcome! The first image will load shortly.");
   const totalCounter = ref(0);
 
@@ -12,6 +13,7 @@ export const useAppStateStore = defineStore("appState", () => {
     correctCounter,
     imageId,
     imageIsLoading,
+    imageLoadError,
     readout,
     totalCounter,
   };

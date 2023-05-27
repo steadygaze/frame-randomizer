@@ -99,8 +99,14 @@ const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
 const { showName, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
-const { correctCounter, totalCounter, imageId, imageIsLoading, readout } =
-  storeToRefs(appStateStore);
+const {
+  correctCounter,
+  totalCounter,
+  imageId,
+  imageIsLoading,
+  imageLoadError,
+  readout,
+} = storeToRefs(appStateStore);
 const waitingForGuess = ref(false);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -153,12 +159,24 @@ const computedData = computed(() =>
  */
 async function getImage(_event: MouseEvent | null) {
   imageIsLoading.value = true;
+  imageLoadError.value = false;
   window.getSelection()?.removeAllRanges();
-  const { data: rawData } = await useFetch("/api/frame/gen");
-  if (rawData && rawData.value) {
-    imageId.value = rawData.value.imageId;
+  const { data, error } = await useFetch("/api/frame/gen");
+  if (error && error.value) {
+    if (error.value.statusCode === 429) {
+      readout.value = "Request limit reached. Try again later.";
+    } else if (error.value.message.startsWith("NetworkError")) {
+      readout.value =
+        "Network error, or server may be down for maintenance. Check connection and try again.";
+    } else {
+      readout.value = `Error generating image: ${error.value.message}. Try again?`;
+    }
+    imageLoadError.value = true;
+    imageIsLoading.value = false;
+  } else if (data && data.value) {
+    imageId.value = data.value.imageId;
   } else {
-    console.error("Fetch failed", rawData);
+    readout.value = `Error generating image: ${data}`;
   }
   // RandomImage knows when image loading (not just getting the image path from
   // the API) is done and will reactively notify us.
@@ -171,13 +189,15 @@ watch(imageIsLoading, async (imageIsLoading) => {
   } else {
     // Switched from loading to done loading.
     document.body.style.cursor = "unset";
-    waitingForGuess.value = true;
-    readout.value = `Guess the ${
-      showName.value ? showName.value + " " : ""
-    }episode that the frame is randomly selected from using the search box.`;
-    if (searchTextInput.value && searchTextInput.value) {
-      await nextTick();
-      searchTextInput.value.focus();
+    if (!imageLoadError.value) {
+      waitingForGuess.value = true;
+      readout.value = `Guess the ${
+        showName.value ? showName.value + " " : ""
+      }episode that the frame is randomly selected from using the search box.`;
+      if (searchTextInput.value && searchTextInput.value) {
+        await nextTick();
+        searchTextInput.value.focus();
+      }
     }
   }
 });
