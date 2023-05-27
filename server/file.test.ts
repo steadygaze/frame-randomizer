@@ -93,10 +93,16 @@ describe("generateSkipRanges", () => {
     ).toEqual([{ start: 8, length: 17 }]);
   });
 
-  it("should generate skip range for credits", () => {
+  it("should generate skip range for credits using start", () => {
     expect(
       generateSkipRanges(130, undefined, { endCredits: { start: "1:58" } }),
     ).toEqual([{ start: 118, length: 12 }]);
+  });
+
+  it("should generate skip range for credits using endOffset", () => {
+    expect(
+      generateSkipRanges(200, undefined, { endCredits: { endOffset: "1:12" } }),
+    ).toEqual([{ start: 200 - 72, length: 72 }]);
   });
 
   it("should generate multiple skip ranges for everything", () => {

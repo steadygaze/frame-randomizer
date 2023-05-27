@@ -59,6 +59,7 @@ interface Timings {
   // should be skipped.
   endCredits?: {
     start?: InputTimecode;
+    endOffset?: InputTimecode;
   };
   // Miscellaneous list of time ranges that should be skipped.
   skipRanges?: InputTimeRange[];
@@ -250,13 +251,24 @@ export function generateSkipRanges(
         length: timecodeToSec(mergedTimings.coldOpen.introEnd) - start,
       });
     } else {
-      throw new Error("One of introLength or introEnd is required");
+      throw new Error(
+        "One of coldOpen.introLength or introEnd is required if skipping cold open intro",
+      );
     }
   }
 
   if (mergedTimings.endCredits) {
-    const start = timecodeToSec(mergedTimings.endCredits.start, true);
-    skipRanges.push({ start, length: episodeLength - start });
+    if (mergedTimings.endCredits.start) {
+      const start = timecodeToSec(mergedTimings.endCredits.start, true);
+      skipRanges.push({ start, length: episodeLength - start });
+    } else if (mergedTimings.endCredits.endOffset) {
+      const endOffset = timecodeToSec(mergedTimings.endCredits.endOffset, true);
+      skipRanges.push({ start: episodeLength - endOffset, length: endOffset });
+    } else {
+      throw new Error(
+        "One of endCredits.start or endOffset is required if skipping end credits",
+      );
+    }
   }
 
   if (commonTimings?.skipRanges) {
