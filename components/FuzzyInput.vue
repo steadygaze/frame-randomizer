@@ -14,6 +14,17 @@
           <span class="buttonWithSpinnerText">New Frame</span>
         </button>
         <button
+          id="skipButton"
+          ref="skipButton"
+          :disabled="!imageIsLoading && !waitingForGuess"
+          @click="
+            searchInput = '';
+            submitAnswer(-1);
+          "
+        >
+          Skip
+        </button>
+        <button
           :disabled="imageIsLoading || waitingForGuess"
           @click="resetStats"
         >
