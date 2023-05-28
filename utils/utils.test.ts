@@ -21,4 +21,8 @@ describe("floatIntPartPad", () => {
   it("shouldn't pad fpart or add decimal point if fPartPlaces <0", () => {
     expect(floatIntPartPad(12, 2, 0)).toEqual("12");
   });
+
+  it("shouldn't include insignificant digits", () => {
+    expect(floatIntPartPad(8.19999999999999, 1, 1)).toEqual("8.2");
+  });
 });

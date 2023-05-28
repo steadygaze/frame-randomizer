@@ -21,6 +21,7 @@
 import { computed, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useAppStateStore } from "~~/store/appStateStore";
+import { floatIntPartPad } from "~/utils/utils";
 
 const appStateStore = useAppStateStore();
 const {
@@ -34,12 +35,12 @@ const {
 const showMoreStats = ref(false);
 
 const timerText = computed(() => {
-  const sec = Math.round(durationMs.value / 1000) % 60;
+  const sec = floatIntPartPad((durationMs.value / 1000) % 60, 2, 1);
   const min = Math.round(durationMs.value / 1000 / 60) % 60;
   const hour = Math.round(durationMs.value / 1000 / 60 / 60) % 60;
   return hour > 0
-    ? `${hour}:${("" + min).padStart(2, "0")}:${("" + sec).padStart(2, "0")}`
-    : `${("" + min).padStart(2, "0")}:${("" + sec).padStart(2, "0")}`;
+    ? `${hour}:${("" + min).padStart(2, "0")}:${sec}`
+    : `${("" + min).padStart(2, "0")}:${sec}`;
 });
 
 /**
@@ -54,7 +55,7 @@ let intervalId: ReturnType<typeof setInterval>;
 watch(showMoreStats, (showMoreStats) => {
   if (showMoreStats) {
     updateDuration();
-    intervalId = setInterval(updateDuration, 100);
+    intervalId = setInterval(updateDuration, 10);
   } else {
     clearInterval(intervalId);
   }

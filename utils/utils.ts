@@ -40,6 +40,11 @@ export function floatIntPartPad(
   iPartPlaces = 2,
   fPartPlaces = 3,
 ) {
+  const scaleFactor = Math.pow(10, fPartPlaces);
+  myNumber =
+    fPartPlaces <= 0
+      ? myNumber
+      : Math.round(parseFloat(myNumber as string) * scaleFactor) / scaleFactor;
   const initialStrNumber = String(myNumber);
   const decimalIndex = initialStrNumber.indexOf(".");
   if (decimalIndex < 0) {
