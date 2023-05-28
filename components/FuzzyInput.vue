@@ -26,7 +26,7 @@
         </button>
         <button
           :disabled="imageIsLoading || waitingForGuess"
-          @click="resetStats"
+          @click="appStateStore.reset"
         >
           Reset
         </button>
@@ -101,6 +101,7 @@ const { showName, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
 const {
   correctCounter,
+  streakCounter,
   totalCounter,
   imageId,
   imageIsLoading,
@@ -350,9 +351,11 @@ async function submitAnswer(index: number) {
         (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
       readout.value = `Skipped. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
+      streakCounter.value = 0;
     } else if (correct) {
       readout.value = `Correct: ${item?.fullName} @ ${minute}:${second}`;
       ++correctCounter.value;
+      ++streakCounter.value;
     } else {
       const correctSeason = data.value?.season;
       const correctEpisode = data.value?.episode;
@@ -360,6 +363,7 @@ async function submitAnswer(index: number) {
         (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
       readout.value = `${item?.fullName} is incorrect. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
+      streakCounter.value = 0;
     }
   }
 
@@ -370,14 +374,6 @@ async function submitAnswer(index: number) {
     await nextTick();
     newFrameButton.value.focus();
   }
-}
-
-/**
- * Reset counters to zero.
- */
-function resetStats() {
-  correctCounter.value = 0;
-  totalCounter.value = 0;
 }
 </script>
 
