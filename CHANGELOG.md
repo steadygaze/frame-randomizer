@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/steadygaze/frame-randomizer/compare/v0.0.3...v0.0.4) (2023-05-28)
+
+### Features
+
+- add a dedicated skip button ([c2c2647](https://github.com/steadygaze/frame-randomizer/commit/c2c26476a89eebe4d53ac34fc2e5b0f37d5df2fa))
+- add network error message ([e08d24c](https://github.com/steadygaze/frame-randomizer/commit/e08d24ce1a567b2f1eeda7370652524f04496330))
+- add streak and RTA timers ([2a08466](https://github.com/steadygaze/frame-randomizer/commit/2a0846657a51c97289656ffced9f1e0b7e516b79))
+- set up client caching for generated frames ([672e0fb](https://github.com/steadygaze/frame-randomizer/commit/672e0fbf0188ed8cd37329b1bf6dbee19a8bbf70))
+- show tens place in timer ([e63d00c](https://github.com/steadygaze/frame-randomizer/commit/e63d00c83f756c566cde533760cd7f45919c2ec0))
+- support for sXXeXX and XXxXX searches ([a96431d](https://github.com/steadygaze/frame-randomizer/commit/a96431d5bdfce7897fbb26e1a04fee13fcd8df9f))
+- support specifying credits with endOffset ([565e6d7](https://github.com/steadygaze/frame-randomizer/commit/565e6d774e8a98c2fe1a9597266dbd01e3345e61))
+- update instructions for new features ([0ae7c9d](https://github.com/steadygaze/frame-randomizer/commit/0ae7c9d3beab9755711c6aebe4dd702162e5eae7))
+
+### Bug Fixes
+
+- add image generation error handling ([2da3336](https://github.com/steadygaze/frame-randomizer/commit/2da3336cce0ec04c30685124d514e45f4f31ad3d))
+- allow Cloudflare analytics through CORS ([084038c](https://github.com/steadygaze/frame-randomizer/commit/084038cca96df40ca443f3db56c1846a0f92b587))
+- autoscroll to selected when using arrow keys ([899625c](https://github.com/steadygaze/frame-randomizer/commit/899625c0669378ca28c240f5b4cfefbd22eae93f))
+- omit show name if undefined ([40f6545](https://github.com/steadygaze/frame-randomizer/commit/40f6545ad1f243333007aa06e769cb9f1112a32f))
+- remove Ctrl-0 binding ([cd97dde](https://github.com/steadygaze/frame-randomizer/commit/cd97dde3c8c4c4cac5b3366e2aba8d14a7e50869))
+
 ### [0.0.3](https://github.com/steadygaze/frame-randomizer/compare/v0.0.2...v0.0.3) (2023-05-21)
 
 ### Bug Fixes
