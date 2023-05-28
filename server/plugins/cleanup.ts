@@ -87,7 +87,7 @@ async function cleanupExpiredImages(frameFileIds: string[]) {
       if (
         storedFileState &&
         storedFileState?.expiryTs &&
-        storedFileState?.expiryTs >= Date.now()
+        storedFileState?.expiryTs <= Date.now()
       ) {
         const frameFile = imagePathForId(config, fileId);
         logger.info(`Cleaning up expired image`, { file: frameFile });
