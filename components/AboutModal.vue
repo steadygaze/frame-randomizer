@@ -28,14 +28,24 @@
         searching the episode descriptions.
       </li>
       <li>
-        If you want to skip guessing, either because you're stumped or you just
-        want to enjoy the frames being generated, simply submit an empty input
-        by pressing <code>Enter</code> with the search box selected.
+        You can also search by season and episode number by entering a query
+        like <code>s2e3</code> or <code>2x3</code>.
+      </li>
+      <li>
+        In addition to the skip button, if you want to skip guessing, either
+        because you're stumped or you just want to enjoy the frames being
+        generated, you can submit an empty input to the search box.
       </li>
       <li>
         Images are destroyed as soon as they're loaded, so reloading an image
-        (for example, attempting to open it in a new tab) won't work. You can
-        still right click and save an image normally, though.
+        (using the refresh function or something else that bypasses your
+        browser's cache) won't work. When you find a frame worth saving, you can
+        still right click and save an image normally.
+      </li>
+      <li>
+        The font size in the input pane follows from your browser's defaults. If
+        you want it to be larger, for example, when presenting or streaming, you
+        can zoom in without impacting the page layout too much.
       </li>
     </ul>
     <section

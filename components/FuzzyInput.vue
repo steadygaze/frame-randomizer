@@ -47,7 +47,7 @@
         autocomplete="off"
         :placeholder="
           waitingForGuess
-            ? `Fuzzy search (${config.public.fuzzySearchMinMatchLength}+ characters)...`
+            ? `Fuzzy search (${config.public.fuzzySearchMinMatchLength}+ characters) or sXXeXX...`
             : 'Get new frame?'
         "
         :disabled="answerIsLoading || !waitingForGuess"
