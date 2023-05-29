@@ -55,6 +55,13 @@ export default defineNuxtConfig({
         driver: "memory",
       },
 
+      ffprobePersistentCache: {
+        base:
+          process.env.FR_FFPROBE_CACHE_DIR ||
+          "/tmp/frame-randomizer/ffprobe-cache",
+        driver: "fs",
+      },
+
       frameFileState: {
         driver: "memory",
       },
@@ -126,7 +133,7 @@ export default defineNuxtConfig({
     // Where generated images will be outputted to and served from. Apparently
     // orphaned images will be cleaned out of this directory, so don't point it
     // to somewhere that has important data!
-    frameOutputDir: "/tmp/genimg",
+    frameOutputDir: "/tmp/frame-randomizer/frames",
     // Number of images to pregenerate. These will be ready for serving right
     // away, and will be replaced as soon as they're served.
     framePregenCount: 3,
@@ -186,6 +193,13 @@ export default defineNuxtConfig({
     // Required. Where the show data is. See README.md and server/load.ts for
     // more info.
     showDataPath: undefined,
+    // Whether the ffprobe FS cache will be used. If video files at the same
+    // paths aren't expected to change (as in most use cases), this can remain
+    // true for faster server restarts. Note that if this is false, the cache
+    // isn't touched (not read from, cleared, or repopulated). If you need to
+    // clear and repopulate the cache, simply "rm -r" the ffprobe cache
+    // directory (see ffprobePersistentCache.base).
+    useFfprobeCache: true,
     // Used to give generated images random names. Recommend setting this to a
     // different one for your own instance from:
     // https://www.uuidtools.com/generate/v4

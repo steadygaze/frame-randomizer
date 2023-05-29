@@ -102,17 +102,37 @@ const seasonEpisodeRegex =
 /**
  * Get the length of a video file in seconds using ffprobe.
  * @param ffprobe Path to ffprobe.
+ * @param ffprobePersistentCache Cache used to store ffprobe results, for fast server restarts.
  * @param videoPath Path to video file.
  * @returns Length of the video in seconds.
  */
-async function ffprobeLength(ffprobe: string, videoPath: string) {
-  return parseFloat(
+async function ffprobeLength(
+  ffprobe: string,
+  ffprobePersistentCache: ReturnType<typeof useStorage> | null,
+  videoPath: string,
+): Promise<number> {
+  if (ffprobePersistentCache) {
+    const cached = await ffprobePersistentCache.getItem(videoPath);
+    if (
+      cached &&
+      typeof cached === "object" &&
+      "length" in cached &&
+      cached.length
+    ) {
+      return cached.length as number;
+    }
+  }
+  const length = parseFloat(
     (
       await exec(
         `${ffprobe} -i ${videoPath} -show_entries format=duration -v quiet -of csv="p=0"`,
       )
     ).stdout,
   );
+  if (ffprobePersistentCache) {
+    ffprobePersistentCache.setItem(videoPath, { length });
+  }
+  return length;
 }
 
 /**
@@ -306,7 +326,13 @@ export async function findFiles(
             const { season, episode, filename, timings } = joinedEp;
             try {
               const lengthSec = await limit(() =>
-                ffprobeLength(config.ffprobePath, filename),
+                ffprobeLength(
+                  config.ffprobePath,
+                  config.useFfprobeCache
+                    ? useStorage("ffprobePersistentCache")
+                    : null,
+                  filename,
+                ),
               );
               const skipRanges: TimeRange[] = generateSkipRanges(
                 lengthSec,
