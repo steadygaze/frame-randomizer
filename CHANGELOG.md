@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/steadygaze/frame-randomizer/compare/v0.0.4...v0.0.5) (2023-05-29)
+
+### Features
+
+- add ffprobe cache for fast server restarts ([d2d2b22](https://github.com/steadygaze/frame-randomizer/commit/d2d2b225b3a3934ceab38cecb46fe6dd6c85cf71))
+
+### Bug Fixes
+
+- add client-side image load error handling ([42c23b7](https://github.com/steadygaze/frame-randomizer/commit/42c23b737c348ece1a1d8fac43770de405fc786e))
+- add server side error logging ([dd9441f](https://github.com/steadygaze/frame-randomizer/commit/dd9441f947d31cd5eca799040029b6230f15fd77))
+- add server-side frame gen error handling ([b4d6c4c](https://github.com/steadygaze/frame-randomizer/commit/b4d6c4c58a0cafe0b3537e2f95e7f62b0227d408))
+- fix cleaning up reserved but unexpired frames ([f70d2c3](https://github.com/steadygaze/frame-randomizer/commit/f70d2c3052deed32cf7637b03c8c90a45c2b734c))
+
 ### [0.0.4](https://github.com/steadygaze/frame-randomizer/compare/v0.0.3...v0.0.4) (2023-05-28)
 
 ### Features
