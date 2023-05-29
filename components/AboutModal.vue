@@ -4,6 +4,23 @@
       <h2>About</h2>
       <button @click="$emit('close')">X</button>
     </div>
+    <section
+      v-if="config.public.instanceInfoHtml || config.public.instanceInfoText"
+    >
+      <h3>Instance information</h3>
+      <p class="grayedText">
+        (The instance operator has provided the following information specific
+        to this instance.)
+      </p>
+      <!-- eslint-disable vue/no-v-html -- Provided by instance operator. -->
+      <p
+        v-if="config.public.instanceInfoHtml"
+        v-html="config.public.instanceInfoHtml"
+      ></p>
+      <p v-if="config.public.instanceInfoText">
+        {{ config.public.instanceInfoText }}
+      </p>
+    </section>
     <h3>Instructions</h3>
     <p>
       This site generates and shows a completely random frame<span
@@ -75,23 +92,6 @@
         current frame.
       </li>
     </ul>
-    <section
-      v-if="config.public.instanceInfoHtml || config.public.instanceInfoText"
-    >
-      <h3>Instance information</h3>
-      <p class="grayedText">
-        (The instance operator has provided the following information specific
-        to this instance.)
-      </p>
-      <!-- eslint-disable vue/no-v-html -- Provided by instance operator. -->
-      <p
-        v-if="config.public.instanceInfoHtml"
-        v-html="config.public.instanceInfoHtml"
-      ></p>
-      <p v-if="config.public.instanceInfoText">
-        {{ config.public.instanceInfoText }}
-      </p>
-    </section>
     <h3>Licensing information</h3>
     <p>
       This site
