@@ -36,8 +36,8 @@ const showMoreStats = ref(false);
 
 const timerText = computed(() => {
   const sec = floatIntPartPad((durationMs.value / 1000) % 60, 2, 1);
-  const min = Math.round(durationMs.value / 1000 / 60) % 60;
-  const hour = Math.round(durationMs.value / 1000 / 60 / 60) % 60;
+  const min = Math.trunc(durationMs.value / 1000 / 60) % 60;
+  const hour = Math.trunc(durationMs.value / 1000 / 60 / 60) % 60;
   return hour > 0
     ? `${hour}:${("" + min).padStart(2, "0")}:${sec}`
     : `${("" + min).padStart(2, "0")}:${sec}`;
