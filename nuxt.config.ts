@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from "nuxt/config";
 
+// Default limit equivalent to 1 frame / 5 seconds average load.
+const frameLimitPerHour =
+  parseInt(process.env.FR_REQUEST_LIMIT || "0") || Math.round((60 * 60) / 5);
+const requestLimitPerHour = frameLimitPerHour * 4; // There are 4 requests per frame.
+
 /* eslint sort-keys: "error" */
 export default defineNuxtConfig({
   app: {
@@ -57,6 +62,14 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    "/api/frame/gen": {
+      security: {
+        rateLimiter: {
+          interval: "hour",
+          tokensPerInterval: frameLimitPerHour,
+        },
+      },
+    },
     "/api/frame/get/**": {
       headers: {
         // private: browser cache only, no CDN or Cloudflare cache.
@@ -193,10 +206,8 @@ export default defineNuxtConfig({
     },
     rateLimiter: {
       interval: "hour",
-      throwError: false,
-      // One generated image and guess every 5 seconds.
-      tokensPerInterval:
-        parseInt(process.env.FR_REQUEST_LIMIT || "0") || 720 * 2,
+      throwError: true,
+      tokensPerInterval: requestLimitPerHour,
     },
   },
 
