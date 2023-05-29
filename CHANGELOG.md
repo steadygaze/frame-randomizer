@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/steadygaze/frame-randomizer/compare/v0.0.5...v0.0.6) (2023-05-29)
+
+### Features
+
+- add new timer types (guessing, question) ([aec87b7](https://github.com/steadygaze/frame-randomizer/commit/aec87b761dd53df03a4b77e3f8eedf833391cb09))
+
+### Bug Fixes
+
+- fix incorrect timer minutes/hours ([ed0175f](https://github.com/steadygaze/frame-randomizer/commit/ed0175f87cd07d68b1b60831d04f2b67f83537e9))
+
 ### [0.0.5](https://github.com/steadygaze/frame-randomizer/compare/v0.0.4...v0.0.5) (2023-05-29)
 
 ### Features
