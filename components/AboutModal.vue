@@ -48,6 +48,33 @@
         can zoom in without impacting the page layout too much.
       </li>
     </ul>
+    <h4>Stats</h4>
+    The site tracks several stats that may be interesting to some players. Most
+    are hidden by default to avoid being distracting; click the button labeled
+    ">> More" to show them.
+    <ul>
+      <li>
+        <strong>X / X (X%)</strong>: Tracks the number of correct guesses, total
+        frames, and percent correct.
+      </li>
+      <li>
+        <strong>streak</strong>: Tracks the current number of correct guesses in
+        a row.
+      </li>
+      <li>
+        <strong>real time</strong>: Tracks the total time taken since the first
+        frame shown.
+      </li>
+      <li>
+        <strong>total guess time</strong>: Tracks the total time spent guessing.
+        Excludes load time and time spent waiting after answering and before
+        getting a new frame.
+      </li>
+      <li>
+        <strong>current guess time</strong>: Tracks the time spent guessing the
+        current frame.
+      </li>
+    </ul>
     <section
       v-if="config.public.instanceInfoHtml || config.public.instanceInfoText"
     >

@@ -107,8 +107,9 @@ const {
   imageIsLoading,
   imageLoadError,
   readout,
+  currentGuessTimeStartTimestamp,
+  waitingForGuess,
 } = storeToRefs(appStateStore);
-const waitingForGuess = ref(false);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
 
@@ -216,6 +217,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
     document.body.style.cursor = "unset";
     if (!imageLoadError.value) {
       waitingForGuess.value = true;
+      currentGuessTimeStartTimestamp.value = Date.now();
       readout.value = `Guess the ${
         showName.value ? showName.value + " " : ""
       }episode that the frame is randomly selected from using the search box.`;
