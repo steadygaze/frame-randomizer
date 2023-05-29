@@ -1,14 +1,14 @@
-import fs from "node:fs/promises";
 import fsAsync from "node:fs";
 import path from "path";
 import { sendStream } from "h3";
 import { RuntimeConfig } from "nuxt/schema";
+import logger from "~/server/logger";
 
 const config = useRuntimeConfig() as RuntimeConfig;
 
 const traversingPathRe = /[/\\]|\.\./;
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler((event) => {
   const imageBasename = event.context?.params?.basename;
   if (!imageBasename) {
     throw createError({ statusCode: 404 });
@@ -18,6 +18,26 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400 });
   }
   const filePath = path.join(config.frameOutputDir, imageBasename);
-  await fs.access(filePath);
-  return sendStream(event, fsAsync.createReadStream(filePath));
+  try {
+    return sendStream(event, fsAsync.createReadStream(filePath));
+  } catch (error) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "ENOENT"
+    ) {
+      // Tried to get a file path that doesn't exist.
+      logger.error("Got request for nonexistent frame", {
+        file: filePath,
+        path: imageBasename,
+      });
+      throw createError({ statusCode: 404 });
+    } else {
+      logger.error("Unknown error when serving frame", {
+        error,
+      });
+      throw createError({ statusCode: 500 });
+    }
+  }
 });
