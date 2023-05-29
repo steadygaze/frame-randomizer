@@ -5,10 +5,12 @@ import logger from "./logger";
 export interface ProducerQueueOptions {
   length: number;
   maxPending: number;
+  maxRetries: number;
 }
 
 export class ProducerQueue<Type> {
   maxPending: number;
+  maxRetries: number;
   pendingCount: number;
   produceFn: () => Promise<Type>;
   queue: Array<Promise<Type>>;
@@ -16,9 +18,10 @@ export class ProducerQueue<Type> {
 
   constructor(
     produceFn: () => Promise<Type>,
-    { length, maxPending }: ProducerQueueOptions,
+    { length, maxPending, maxRetries }: ProducerQueueOptions,
   ) {
     this.maxPending = maxPending;
+    this.maxRetries = maxRetries;
     this.pendingCount = 0;
     this.produceFn = produceFn;
     this.queue = [];
@@ -39,7 +42,22 @@ export class ProducerQueue<Type> {
   }
 
   enqueueJob() {
-    this.queue.push(this.limit(() => this.produceFn()));
+    // Call this.produceFn, but retry on failure.
+    let retries = 0;
+    const reProduce: () => Promise<Type> = () => {
+      return this.produceFn().catch((error) => {
+        logger.error(`Frame generation error`, { error, retries });
+        if (retries >= this.maxRetries) {
+          logger.error(
+            "Frame generation is failing consistently; this should never happen",
+          );
+          throw error;
+        }
+        ++retries;
+        return reProduce();
+      });
+    };
+    this.queue.push(this.limit(reProduce));
   }
 
   next(): Promise<Type> {

@@ -100,12 +100,13 @@ export default defineNuxtConfig({
     // How long to keep a frame image around for after a the API points a user
     // to it.
     frameExpiryMs: 5 * 60 * 1000, // 5 minutes.
-    // If frameRequiredStandardDeviation is set, a minimum standard deviation is
-    // required. If image generation fails this many times, give up and use the
-    // last generated image, waiving the standard deviation requirement. While
-    // it will prevent frame generation from hanging on frame generation
-    // indefinitely, hitting the limit will still increase frame generation
-    // times significantly.
+    // How many times to attempt frame generation before it's considered
+    // unrecoverable.  Additionally, if frameRequiredStandardDeviation is set, a
+    // minimum standard deviation is required. If image generation fails this
+    // many times, give up and use the last generated image, waiving the
+    // standard deviation requirement. While it will prevent frame generation
+    // from hanging on frame generation indefinitely, hitting the limit will
+    // still increase frame generation times significantly.
     frameGenMaxAttempts: 5,
     // Limit number of simultaneously generated frames to this amount.
     frameGenMaxParallelism: 3,

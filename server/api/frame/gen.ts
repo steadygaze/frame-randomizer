@@ -34,7 +34,15 @@ export default defineLazyEventHandler(async () => {
 
   return defineEventHandler(async () => {
     const start = Date.now();
-    const result = await queue.next();
+    let result = null;
+    do {
+      try {
+        result = await queue.next();
+      } catch (error) {
+        logger.error("Error while reserving pregenerated image", { error });
+        result = null;
+      }
+    } while (result === null);
     logger.info(
       `Request waited ${
         Date.now() - start
