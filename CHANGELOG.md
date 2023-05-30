@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/steadygaze/frame-randomizer/compare/v0.0.6...v0.0.7) (2023-05-30)
+
+### Bug Fixes
+
+- fix timer updates when stats are hidden ([07c3eb7](https://github.com/steadygaze/frame-randomizer/commit/07c3eb79dcfc931a0882f5c353a2e807e51050fa))
+
 ### [0.0.6](https://github.com/steadygaze/frame-randomizer/compare/v0.0.5...v0.0.6) (2023-05-29)
 
 ### Features
