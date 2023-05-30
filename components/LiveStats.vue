@@ -119,17 +119,24 @@ watch(showMoreStats, (showMoreStats) => {
 
 watch(waitingForGuess, (waitingForGuess) => {
   console.log("waitingforguess ", waitingForGuess);
-  if (waitingForGuess && realTimeStartTimestamp.value === 0) {
-    realTimeStartTimestamp.value = Date.now();
-  }
-  if (showMoreStats.value) {
-    if (waitingForGuess) {
+  if (waitingForGuess) {
+    if (realTimeStartTimestamp.value === 0) {
+      realTimeStartTimestamp.value = Date.now();
+    }
+    if (currentGuessTimeStartTimestamp.value === 0) {
+      currentGuessTimeStartTimestamp.value = Date.now();
+    }
+    if (showMoreStats.value) {
       currentGuessTimeIntervalId = setupTimerUpdateInterval(
         currentGuessTimeStartTimestamp,
         currentGuessTimeDurationMs,
       );
-    } else {
-      totalGuessTimeAccDurationMs.value += currentGuessTimeDurationMs.value;
+    }
+  } else {
+    currentGuessTimeDurationMs.value =
+      Date.now() - currentGuessTimeStartTimestamp.value;
+    totalGuessTimeAccDurationMs.value += currentGuessTimeDurationMs.value;
+    if (showMoreStats.value) {
       clearInterval(currentGuessTimeIntervalId);
     }
   }
