@@ -24,10 +24,7 @@
         >
           Skip
         </button>
-        <button
-          :disabled="imageIsLoading || waitingForGuess"
-          @click="appStateStore.reset"
-        >
+        <button :disabled="imageIsLoading || waitingForGuess" @click="reset">
           Reset
         </button>
         <button @click="showAbout = !showAbout">About</button>
@@ -35,8 +32,8 @@
       </div>
     </div>
     <LiveStats></LiveStats>
-    <div id="readout">
-      <p>{{ readout }}</p>
+    <div id="readouts">
+      <ReadoutDisplay></ReadoutDisplay>
     </div>
     <div id="inputRow">
       <input
@@ -99,6 +96,7 @@ const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
 const { showName, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
+const { reset, readout } = appStateStore;
 const {
   correctCounter,
   streakCounter,
@@ -106,7 +104,6 @@ const {
   imageId,
   imageIsLoading,
   imageLoadError,
-  readout,
   currentGuessTimeStartTimestamp,
   waitingForGuess,
 } = storeToRefs(appStateStore);
@@ -190,19 +187,20 @@ async function getImage(_event: MouseEvent | null) {
   const { data, error } = await useFetch("/api/frame/gen");
   if (error && error.value) {
     if (error.value.statusCode === 429) {
-      readout.value = "Request limit reached. Try again later.";
+      readout("Request limit reached. Try again later.");
     } else if (error.value.message.startsWith("NetworkError")) {
-      readout.value =
-        "Network error, or server may be down for maintenance. Check connection and try again.";
+      readout(
+        "Network error, or server may be down for maintenance. Check connection and try again.",
+      );
     } else {
-      readout.value = `Error generating image: ${error.value.message}. Try again?`;
+      readout(`Error generating image: ${error.value.message}. Try again?`);
     }
     imageLoadError.value = true;
     imageIsLoading.value = false;
   } else if (data && data.value) {
     imageId.value = data.value.imageId;
   } else {
-    readout.value = `Error generating image: ${data}`;
+    readout(`Error generating image: ${data}`);
   }
   // RandomImage knows when image loading (not just getting the image path from
   // the API) is done and will reactively notify us.
@@ -218,9 +216,11 @@ watch(imageIsLoading, async (imageIsLoading) => {
     if (!imageLoadError.value) {
       waitingForGuess.value = true;
       currentGuessTimeStartTimestamp.value = Date.now();
-      readout.value = `Guess the ${
-        showName.value ? showName.value + " " : ""
-      }episode that the frame is randomly selected from using the search box.`;
+      readout(
+        `Guess the ${
+          showName.value ? showName.value + " " : ""
+        }episode that the frame is randomly selected from using the search box.`,
+      );
       if (searchTextInput.value && searchTextInput.value) {
         await nextTick();
         searchTextInput.value.focus();
@@ -263,7 +263,7 @@ function handleKey(event: KeyboardEvent) {
       if (searchResults.value.length > index) {
         submitIndex = index;
       } else {
-        readout.value = `No entry ${event.key} in search results.`;
+        readout(`No entry ${event.key} in search results.`);
       }
     }
   } else if (event.key === "Enter") {
@@ -329,14 +329,15 @@ async function submitAnswer(index: number) {
 
   if (error.value) {
     if (error.value.statusCode === 404) {
-      readout.value = "Answer not found. It may have expired. Try again.";
+      readout("Answer not found. It may have expired. Try again.");
     } else if (error.value.statusCode === 429) {
-      readout.value = "Request limit reached. Try again later.";
+      readout("Request limit reached. Try again later.");
     } else if (error.value.message.startsWith("NetworkError")) {
-      readout.value =
-        "Network error, or server may be down for maintenance. Check connection and try again.";
+      readout(
+        "Network error, or server may be down for maintenance. Check connection and try again.",
+      );
     } else {
-      readout.value = `Error getting answer: ${error.value.message}. Try again?`;
+      readout(`Error getting answer: ${error.value.message}. Try again?`);
     }
   } else {
     ++totalCounter.value;
@@ -352,10 +353,16 @@ async function submitAnswer(index: number) {
       const correctItem = episodeData.value?.find(
         (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
-      readout.value = `Skipped. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
+      readout({
+        type: "skipped",
+        answer: `${correctItem?.fullName} @ ${minute}:${second}`,
+      });
       streakCounter.value = 0;
     } else if (correct) {
-      readout.value = `Correct: ${item?.fullName} @ ${minute}:${second}`;
+      readout({
+        type: "correct",
+        answer: `${item?.fullName} @ ${minute}:${second}`,
+      });
       ++correctCounter.value;
       ++streakCounter.value;
     } else {
@@ -364,7 +371,11 @@ async function submitAnswer(index: number) {
       const correctItem = episodeData.value?.find(
         (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
-      readout.value = `${item?.fullName} is incorrect. Answer: ${correctItem?.fullName} @ ${minute}:${second}`;
+      readout({
+        type: "incorrect",
+        guess: item?.fullName || "(no guess)",
+        answer: `${correctItem?.fullName} @ ${minute}:${second}`,
+      });
       streakCounter.value = 0;
     }
   }
@@ -441,7 +452,7 @@ ol.resultItemList li:nth-child(-n + 9):before {
   column-gap: 10px;
 }
 
-#readout {
+#readouts {
   min-height: 3.5em;
 }
 

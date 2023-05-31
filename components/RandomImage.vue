@@ -20,9 +20,9 @@ import { useAppStateStore } from "~~/store/appStateStore";
 const errorLoadingImageSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">ERROR ❌</text></svg>`;
 
 const extension = useRuntimeConfig().public.imageOutputExtension;
-const { imageId, imageIsLoading, imageLoadError, readout } = storeToRefs(
-  useAppStateStore(),
-);
+const appStateStore = useAppStateStore();
+const { readout } = appStateStore;
+const { imageId, imageIsLoading, imageLoadError } = storeToRefs(appStateStore);
 
 const showImageError = ref(false);
 
@@ -47,8 +47,9 @@ function endLoading() {
  * doesn't realize.
  */
 function handleError() {
-  readout.value =
-    "Error loading image. The server may have failed when generating this frame. Try again?";
+  readout(
+    "Error loading image. The server may have failed when generating this frame. Try again?",
+  );
   imageLoadError.value = true;
   imageIsLoading.value = false;
   showImageError.value = true;
