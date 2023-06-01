@@ -320,7 +320,6 @@ async function submitAnswer(index: number) {
     query = { season: -1, episode: -1 };
   } else {
     item = searchResults.value[index].item;
-    console.log("Submitting input", item.fullName);
     query = { season: item.season, episode: item.episode };
   }
   const { data, error } = await useFetch(`/api/frame/check/${imageId.value}`, {

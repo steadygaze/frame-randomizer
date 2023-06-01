@@ -7,7 +7,7 @@ module.exports = {
   ],
   plugins: ["import", "jsdoc", "prettier", "vue"],
   rules: {
-    "no-console": "off",
+    "no-console": ["error", { allow: ["warn", "error"] }],
     "prettier/prettier": ["error"],
   },
 };

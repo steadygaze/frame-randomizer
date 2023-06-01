@@ -118,7 +118,6 @@ watch(showMoreStats, (showMoreStats) => {
 });
 
 watch(waitingForGuess, (waitingForGuess) => {
-  console.log("waitingforguess ", waitingForGuess);
   if (waitingForGuess) {
     if (realTimeStartTimestamp.value === 0) {
       realTimeStartTimestamp.value = Date.now();
