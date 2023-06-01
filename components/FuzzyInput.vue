@@ -11,7 +11,7 @@
           :disabled="imageIsLoading || waitingForGuess"
           @click="getImage"
         >
-          <span class="buttonWithSpinnerText">New Frame</span>
+          <span class="buttonWithSpinnerText">🎞️ New Frame</span>
         </button>
         <button
           id="skipButton"
@@ -22,12 +22,12 @@
             submitAnswer(-1);
           "
         >
-          Skip
+          ⏩ Skip
         </button>
         <button :disabled="imageIsLoading || waitingForGuess" @click="reset">
-          Reset
+          🔁 Reset
         </button>
-        <button @click="showAbout = !showAbout">About</button>
+        <button @click="showAbout = !showAbout">📖 About</button>
         <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
       </div>
     </div>
@@ -442,7 +442,7 @@ ol.resultItemList li:nth-child(-n + 9):before {
 }
 
 #logo {
-  margin: 1px 0;
+  margin: 0;
 }
 
 .logoBar {
@@ -456,13 +456,21 @@ ol.resultItemList li:nth-child(-n + 9):before {
   min-height: 3.5em;
 }
 
+#bigButtonRow {
+  flex: 1 content;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  max-width: 100%;
+}
+
 #bigButtonRow button {
-  margin-right: 2px;
+  flex: 1 content;
+  font-weight: bold;
 }
 
 button {
-  height: 3.5em;
-  padding: 0.9em;
+  padding: 1em;
 }
 
 button:focus {
