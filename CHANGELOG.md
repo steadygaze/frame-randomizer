@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/steadygaze/frame-randomizer/compare/v0.0.7...v0.0.8) (2023-06-01)
+
+### Features
+
+- add icons for buttons and tweak styling ([8a6a5a2](https://github.com/steadygaze/frame-randomizer/commit/8a6a5a24a86528c46e6c9efcbfd6a379f1d592a4))
+- make correct/incorrect status more visible ([63cadf2](https://github.com/steadygaze/frame-randomizer/commit/63cadf2b6997102df468ab0fe5e18ef977228ce2))
+
 ### [0.0.7](https://github.com/steadygaze/frame-randomizer/compare/v0.0.6...v0.0.7) (2023-05-30)
 
 ### Bug Fixes
