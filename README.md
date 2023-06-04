@@ -100,6 +100,15 @@ Start the development server on http://localhost:3000
 npm run dev
 ```
 
+Note that there will be an error message:
+
+```shell
+ ERROR
+[vue-tsc] Found 0 errors. Watching for file changes.
+```
+
+This is a spurious error message/not an error; disregard it.
+
 ### Production
 
 Build the application for production:
