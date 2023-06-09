@@ -9,7 +9,7 @@
           :class="{ loading: imageIsLoading }"
           class="buttonWithSpinner"
           :disabled="imageIsLoading || waitingForGuess"
-          @click="getImage"
+          @click="getImage()"
         >
           <span class="buttonWithSpinnerText">🎞️ New Frame</span>
         </button>
@@ -110,8 +110,6 @@ const {
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
 
-await initShowData();
-
 const fuseOptions: FuseOptions<ProcessedEpisodeData> = {
   ignoreLocation: true,
   includeMatches: true,
@@ -148,6 +146,8 @@ const showAbout = ref(false);
 
 const seasonEpisodeInputRe = /^s?(?<season>\d+)[xe](?<episode>\d+)$/i;
 
+await initShowData();
+
 const searchResults = computed(() => {
   const fuseResults = useSynopsis.value
     ? fuseSynopsis.search(searchInput.value)
@@ -176,15 +176,24 @@ const searchResults = computed(() => {
       ].concat(fuseResults);
 });
 
+// If we don't run the first fetch at the top level and instead do so in
+// getImage, then something weird happens where useFetch will return from
+// awaiting with no result while the fetch is still pending. I suspect it may
+// have to do with the way our code will be preprocessed in Vue's composition
+// API, but I really don't know.
+const fetchGenResult = await useFetch("/api/frame/gen");
+
 /**
- * Request an image from the API.
- * @param _event Mouse event (unused).
+ * Request a frame from the API and reactively update the appropriate variables.
+ * @param fetchResult Pre-fetched results from calling the frame generation API.
  */
-async function getImage(_event: MouseEvent | null) {
+async function getImage(fetchResult?: typeof fetchGenResult): Promise<void> {
   imageIsLoading.value = true;
   imageLoadError.value = false;
-  window.getSelection()?.removeAllRanges();
-  const { data, error } = await useFetch("/api/frame/gen");
+  if (typeof window !== "undefined") {
+    window.getSelection()?.removeAllRanges();
+  }
+  const { data, error } = fetchResult || (await useFetch("/api/frame/gen"));
   if (error && error.value) {
     if (error.value.statusCode === 429) {
       readout("Request limit reached. Try again later.");
@@ -200,7 +209,7 @@ async function getImage(_event: MouseEvent | null) {
   } else if (data && data.value) {
     imageId.value = data.value.imageId;
   } else {
-    readout(`Error generating image: ${data}`);
+    readout(`Error generating image: ${data ? data.value : data}`);
   }
   // RandomImage knows when image loading (not just getting the image path from
   // the API) is done and will reactively notify us.
@@ -229,8 +238,11 @@ watch(imageIsLoading, async (imageIsLoading) => {
   }
 });
 
+// We fetched the image ID on the server side, but we need to wait to do
+// reactive things until the client loads the page, otherwise we'll get a
+// hydration mismatch.
 onMounted(() => {
-  getImage(null);
+  getImage(fetchGenResult);
 });
 
 /**
