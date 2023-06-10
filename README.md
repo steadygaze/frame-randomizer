@@ -28,8 +28,11 @@ You need to supply a config file for the show. (Comments are not allowed in norm
     {
       "season": 1, // Season number.
       "episode": 1, // Season number.
-      "name": "My First Episode", // Episode name.
-      "overview": "In the first episode, wacky hijinks occurred.", // Plot overview.
+      "perLanguage": {
+        "language": "en",
+        "name": "My First Episode", // Episode name.
+        "overview": "In the first episode, wacky hijinks occurred.", // Plot overview.
+      }
       // Episode timing info, used to ignore sections. See Timings in utils/file.ts.
       "timings": {
         "intro": {
