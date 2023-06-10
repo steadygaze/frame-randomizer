@@ -9,5 +9,6 @@ module.exports = {
   rules: {
     "no-console": ["error", { allow: ["warn", "error"] }],
     "prettier/prettier": ["error"],
+    "vue/multi-word-component-names": "off",
   },
 };
