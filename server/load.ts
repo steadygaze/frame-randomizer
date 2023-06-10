@@ -6,7 +6,7 @@ import once from "lodash.once";
 import { ProducerQueue } from "./queue";
 import { StoredAnswer } from "./types";
 import {
-  EpisodeData,
+  ServerEpisodeData,
   ShowData,
   findFiles,
   imagePathForId,
@@ -63,7 +63,7 @@ const getShowData = once(getShowdataUncached);
  * @param episode Episode data object.
  * @returns Random time, in seconds.
  */
-function randomTimeInEpisode(episode: EpisodeData): number {
+function randomTimeInEpisode(episode: ServerEpisodeData): number {
   const randomUnoffsetTime = Math.random() * episode.genLength;
   const offsetTime = Math.min(
     offsetTimeBySkipRanges(randomUnoffsetTime, episode.skipRanges),
@@ -73,7 +73,7 @@ function randomTimeInEpisode(episode: EpisodeData): number {
 }
 
 interface RandomEpisode {
-  episode: EpisodeData;
+  episode: ServerEpisodeData;
   seekTime: number | string;
 }
 
@@ -173,8 +173,8 @@ async function getFrameProducerQueueUncached(
       // result to prevent a rare data race between the answer being stored and
       // the client checking their guess.
       answerStorage.setItem(imageId, {
-        season: episode.season,
-        episode: episode.episode,
+        season: episode.season_number,
+        episode: episode.episode_number,
         seekTime,
         expiryTs: null,
       } as StoredAnswer),

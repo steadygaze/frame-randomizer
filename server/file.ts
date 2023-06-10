@@ -6,7 +6,7 @@ import shellescape from "shell-escape";
 import { RuntimeConfig } from "nuxt/schema";
 import merge from "lodash.merge";
 import pLimit from "p-limit";
-import { episodeName } from "../utils/utils";
+import { seasonEpisodeTag } from "../utils/utils";
 import { timecodeToSec } from "./utils";
 import logger from "./logger";
 
@@ -27,20 +27,33 @@ interface InputTimeRange {
   length?: InputTimecode;
 }
 
-export interface EpisodeData {
-  season: number;
-  episode: number;
-  name: string;
-  overview: string;
+export interface ServerEpisodeData {
+  season_number: number;
+  episode_number: number;
   filename: string; // Pre shell escaped and quoted.
   lengthSec: number;
   genLength: number;
   skipRanges: TimeRange[];
 }
 
-export interface ShowData {
+export interface ClientEpisodeData {
+  season: number;
+  episode: number;
   name: string;
-  episodes: EpisodeData[];
+  overview?: string;
+}
+
+export interface ClientShowData {
+  name: string;
+  overviewAvailable: boolean;
+  episodes: ClientEpisodeData[];
+}
+
+export interface ShowData {
+  episodes: ServerEpisodeData[];
+  clientData: {
+    [key: string]: ClientShowData;
+  };
 }
 
 interface Timings {
@@ -66,30 +79,38 @@ interface Timings {
 }
 
 interface JoinedEpisodeData {
-  season: number;
-  episode: number;
-  name: string;
-  overview: string;
+  season_number: number;
+  episode_number: number;
   filename: string;
   timings?: Timings;
 }
 
-interface ConfigEpisodeData {
-  season: number;
-  episode: number;
+interface PerLanguageData {
+  language: string;
   name: string;
-  overview: string;
+  overview?: string;
+}
+
+interface ConfigEpisodeData {
+  season_number: number;
+  episode_number: number;
+  perLanguage: PerLanguageData[];
   timings?: Timings;
 }
 
 interface FileEpisodeData {
-  season: number;
-  episode: number;
+  season_number: number;
+  episode_number: number;
   filename: string;
 }
 
-interface InputShowData {
+interface PerLanguageName {
+  language: string;
   name: string;
+}
+
+interface InputShowData {
+  name: { name: string; perLanguage: PerLanguageName[] };
   episodes: ConfigEpisodeData[];
   // Timings that are the same for every episode (e.g. credits always start at
   // MM:SS, intro is always MM:SS long, etc.).
@@ -97,7 +118,7 @@ interface InputShowData {
 }
 
 const seasonEpisodeRegex =
-  /^.*?([sS](eason)?)?(?<season>\d+)(.|([eE](pisode)?)?)(?<episode>\d+).*?\.(mkv|mp4)$/;
+  /^.*?([sS](eason)?)?(?<season_number>\d+)(.|([eE](pisode)?)?)(?<episode_number>\d+).*?\.(mkv|mp4)$/;
 
 /**
  * Get the length of a video file in seconds using ffprobe.
@@ -149,12 +170,12 @@ export async function lsAllFiles(
   );
   const globbed = await glob(globPattern);
   const fileData: FileEpisodeData[] = [];
-  globbed.forEach((filename, _index, _arr) => {
+  globbed.forEach((filename) => {
     const match = seasonEpisodeRegex.exec(path.basename(filename));
     if (match && match.length > 0 && match.groups) {
       fileData.push({
-        season: parseInt(match.groups.season),
-        episode: parseInt(match.groups.episode),
+        season_number: parseInt(match.groups.season_number),
+        episode_number: parseInt(match.groups.episode_number),
         filename: shellescape([filename]),
       });
     }
@@ -179,15 +200,15 @@ function joinFileData(
   episodeData.forEach((initialData) => {
     const found = fileData.find(
       (fileData) =>
-        initialData.season === fileData.season &&
-        initialData.episode === fileData.episode,
+        initialData.season_number === fileData.season_number &&
+        initialData.episode_number === fileData.episode_number,
     );
     if (!found) {
       missingEpisodes.push(
-        episodeName(initialData.season, initialData.episode, initialData.name),
+        seasonEpisodeTag(initialData.season_number, initialData.episode_number),
       );
     } else {
-      filledData.push({ ...found, ...initialData });
+      filledData.push({ ...found, timings: initialData.timings });
     }
   });
   if (missingEpisodes.length > 0) {
@@ -304,7 +325,124 @@ export function generateSkipRanges(
 }
 
 /**
- * Load video file info based on configs.
+ * Check if two sets are equal.
+ * @param setA First set to check.
+ * @param setB Second set to check.
+ * @returns Whether the two sets are equal.
+ */
+function setEquals<Type>(setA: Set<Type>, setB: Set<Type>): boolean {
+  if (setA.size !== setB.size) {
+    return false;
+  }
+  for (const elem of setA) {
+    if (!setB.has(elem)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Check a show data config input for problems/misconfigurations.
+ * @param showData Input show data to check.
+ */
+export function checkInputShowData(showData: InputShowData) {
+  const languagesList = showData.name.perLanguage.map(
+    ({ language }) => language,
+  );
+  if (languagesList.length <= 0) {
+    throw new Error("At least one language/show name is required");
+  }
+  const languages = new Set(languagesList);
+  if (languages.size !== languagesList.length) {
+    throw new Error("Duplicate input languages " + languagesList);
+  }
+  showData.episodes.forEach((episode) => {
+    const episodeLanguagesList = episode.perLanguage.map(
+      ({ language }) => language,
+    );
+    if (episode.perLanguage.length !== languages.size) {
+      throw new Error(
+        "Missing/extra languages in " +
+          seasonEpisodeTag(episode.season_number, episode.episode_number) +
+          ` (${languages} != ${episodeLanguagesList}`,
+      );
+    }
+    const episodeLanguages = new Set(episodeLanguagesList);
+    if (episodeLanguages.size !== episodeLanguagesList.length) {
+      throw new Error(
+        "Duplicate languages in " +
+          seasonEpisodeTag(episode.season_number, episode.episode_number) +
+          `: ${episodeLanguagesList}`,
+      );
+    }
+    if (!setEquals(episodeLanguages, languages)) {
+      throw new Error(
+        `Expected languages mismatch {expected: ${languagesList}, found: ${episodeLanguagesList}}`,
+      );
+    }
+  });
+}
+
+/**
+ * Generate per-language client-side data.
+ * @param showData Input show data config.
+ * @param serverEpisodes Server-side filtered episodes.
+ * @returns Per-language data.
+ */
+export function extractPerLanguageData(
+  showData: InputShowData,
+  serverEpisodes?: ServerEpisodeData[],
+): { [key: string]: ClientShowData } {
+  const { name, episodes } = showData;
+  return Object.fromEntries(
+    name.perLanguage.map(({ language, name }) => {
+      // Filtering using server episodes, in case there are missing episodes.
+      const clientEpisodes = (
+        serverEpisodes
+          ? episodes.filter(
+              ({ season_number: seasonN, episode_number: episodeN }) =>
+                serverEpisodes.find(
+                  ({ season_number: epSeasonN, episode_number: epEpisodeN }) =>
+                    epSeasonN === seasonN && epEpisodeN === episodeN,
+                ),
+            )
+          : episodes
+      ).map(
+        ({ season_number: seasonN, episode_number: episodeN, perLanguage }) => {
+          const { name, overview } = perLanguage.find(
+            ({ language: epLanguage }) => epLanguage === language,
+          )!;
+          return {
+            season: seasonN,
+            episode: episodeN,
+            name,
+            // Overview may be missing in some languages. Don't bother returning
+            // it in the API if it's empty.
+            ...(overview && { overview }),
+          };
+        },
+      );
+
+      // Whether this language has any translated overviews.
+      const overviewAvailable = clientEpisodes.some(
+        (episode) => episode.overview,
+      );
+
+      return [
+        language,
+        {
+          name,
+          overviewAvailable,
+          episodes: clientEpisodes,
+        },
+      ];
+    }),
+  );
+}
+
+/**
+ * Load video file info based on configs, and sort data by language.
  * @param config Nuxt runtime config.
  * @param showData Parsed show/episode config.
  * @param fileData Results of globbing for files and parsing season/episode from filename.
@@ -315,56 +453,65 @@ export async function findFiles(
   showData: InputShowData,
   fileData: FileEpisodeData[],
 ): Promise<ShowData> {
-  const { name, episodes, commonTimings } = showData;
+  checkInputShowData(showData);
+  const { episodes, commonTimings } = showData;
   const limit = pLimit(config.ffprobeInitialLoadLimit || Infinity);
-  return {
-    name,
-    episodes: (
-      await Promise.all(
-        joinFileData(config, episodes, fileData).map(
-          async (joinedEp: JoinedEpisodeData) => {
-            const { season, episode, filename, timings } = joinedEp;
-            try {
-              const lengthSec = await limit(() =>
-                ffprobeLength(
-                  config.ffprobePath,
-                  config.useFfprobeCache
-                    ? useStorage("ffprobePersistentCache")
-                    : null,
-                  filename,
-                ),
-              );
-              const skipRanges: TimeRange[] = generateSkipRanges(
+
+  // Generate server-side episode data.
+  const serverEpisodes = (
+    await Promise.all(
+      joinFileData(config, episodes, fileData).map(
+        // Generate server-side info about the video file.
+        async (joinedEp: JoinedEpisodeData) => {
+          const {
+            season_number: seasonN,
+            episode_number: episodeN,
+            filename,
+            timings,
+          } = joinedEp;
+          try {
+            const lengthSec = await limit(() =>
+              ffprobeLength(
+                config.ffprobePath,
+                config.useFfprobeCache
+                  ? useStorage("ffprobePersistentCache")
+                  : null,
+                filename,
+              ),
+            );
+            const skipRanges: TimeRange[] = generateSkipRanges(
+              lengthSec,
+              timings,
+              commonTimings,
+            );
+            const genLength =
+              lengthSec -
+              skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
+            return [
+              {
+                ...joinedEp,
+                skipRanges,
+                genLength,
                 lengthSec,
-                timings,
-                commonTimings,
-              );
-              const genLength =
-                lengthSec -
-                skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
-              return [
-                {
-                  ...joinedEp,
-                  skipRanges,
-                  genLength,
-                  lengthSec,
-                },
-              ];
-            } catch (error) {
-              logger.error(
-                `Failed to load ${episodeName(
-                  season,
-                  episode,
-                  name,
-                )} at ${filename}`,
-              );
-              return [];
-            }
-          },
-        ),
-      )
-    ).flat(),
-  };
+              },
+            ];
+          } catch (error) {
+            logger.error(
+              `Failed to load ${seasonEpisodeTag(
+                seasonN,
+                episodeN,
+              )} at ${filename}`,
+            );
+            return [];
+          }
+        },
+      ),
+    )
+  ).flat();
+
+  const clientData = extractPerLanguageData(showData, serverEpisodes);
+
+  return { episodes: serverEpisodes, clientData };
 }
 
 /**

@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import Fuse from "fuse.js";
-import { ProcessedEpisodeData } from "./FuzzyInput.vue";
+import { ProcessedEpisodeData } from "~~/store/showDataStore";
 import { seasonEpisodeTag } from "~~/utils/utils";
 import { SearchPart, chunkMatchText } from "~~/utils/fuzzy";
 

@@ -76,19 +76,11 @@ import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "#app";
 import LiveStats from "./LiveStats.vue";
 import { useAppStateStore } from "~~/store/appStateStore";
-import { useShowDataStore } from "~~/store/showDataStore";
+import { ProcessedEpisodeData, useShowDataStore } from "~~/store/showDataStore";
 import { floatIntPartPad } from "~~/utils/utils";
 
 type FuseOptions<ProcessedEpisodeData> =
   Fuse.IFuseOptions<ProcessedEpisodeData>;
-
-export interface ProcessedEpisodeData {
-  season: number;
-  episode: number;
-  name: string;
-  fullName: string;
-  overview: string;
-}
 
 const config = useRuntimeConfig();
 const siteName = config.public.instanceName;
