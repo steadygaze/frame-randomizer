@@ -7,9 +7,9 @@ const config = useRuntimeConfig() as RuntimeConfig;
 const frameFileStateStorage = useStorage("frameFileState");
 
 export default defineEventHandler((event) => {
-  const id = event.context.params?.id;
+  const id = getRouterParam(event, "id");
   if (!id) {
-    throw new Error("No id param");
+    throw createError({ statusCode: 400, statusMessage: "Missing id param" });
   }
 
   frameFileStateStorage.removeItem(id);
