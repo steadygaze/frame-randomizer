@@ -50,6 +50,7 @@ export interface ClientShowData {
 }
 
 export interface ShowData {
+  defaultLanguage?: string;
   episodes: ServerEpisodeData[];
   clientData: {
     [key: string]: ClientShowData;
@@ -111,6 +112,7 @@ interface PerLanguageName {
 
 interface InputShowData {
   name: { name: string; perLanguage: PerLanguageName[] };
+  defaultLanguage?: string;
   episodes: ConfigEpisodeData[];
   // Timings that are the same for every episode (e.g. credits always start at
   // MM:SS, intro is always MM:SS long, etc.).
@@ -454,7 +456,7 @@ export async function findFiles(
   fileData: FileEpisodeData[],
 ): Promise<ShowData> {
   checkInputShowData(showData);
-  const { episodes, commonTimings } = showData;
+  const { defaultLanguage, episodes, commonTimings } = showData;
   const limit = pLimit(config.ffprobeInitialLoadLimit || Infinity);
 
   // Generate server-side episode data.
@@ -511,7 +513,11 @@ export async function findFiles(
 
   const clientData = extractPerLanguageData(showData, serverEpisodes);
 
-  return { episodes: serverEpisodes, clientData };
+  return {
+    defaultLanguage,
+    episodes: serverEpisodes,
+    clientData,
+  };
 }
 
 /**
