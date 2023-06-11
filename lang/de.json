@@ -5,7 +5,7 @@
     "instance_specific_disclaimer": "(Der Instanzbetreiber hat die folgenden Informationen speziell für diese Site-Instanz bereitgestellt.)",
     "instructions": {
       "controls": {
-        "info": "Um eine Schätzung abzugeben, geben Sie mindestens {fuzzySearchMinMatchLength} Zeichen in das Suchfeld ein, um Episodennamen und -beschreibungen unscharf zu durchsuchen. Tippen Sie weiter, bis die gewünschte Episode oben steht, oder verwenden Sie {upDown} , die Maus oder {ctrlNum} oder {altNum} um einen bestimmten Eintrag auszuwählen.",
+        "info": "Um eine Schätzung abzugeben, geben Sie mindestens {fuzzySearchMinMatchLength} Zeichen in das Suchfeld ein, um Episodennamen und -beschreibungen unscharf zu durchsuchen. Tippen Sie weiter, bis die gewünschte Episode oben steht, oder verwenden Sie {upDown}, die Maus oder {ctrlNum} oder {altNum} um einen bestimmten Eintrag auszuwählen.",
         "alt_num": "Alt-Taste + Zahl",
         "ctrl_num": "Steuertaste + Nummer",
         "up_down": "Pfeiltasten nach oben/unten + Eingabetaste"
@@ -46,7 +46,7 @@
       "total_guess_time": "Verfolgt die Gesamtzeit, die mit dem Raten verbracht wurde. Ausgenommen sind Ladezeit und Wartezeit nach der Beantwortung und vor Erhalt eines neuen Frames."
     },
     "tmdb": {
-      "attribution": "Dieses Produkt verwendet die {tmdbApiLink} , ist jedoch nicht von {tmdbLink} empfohlen oder zertifiziert.",
+      "attribution": "Dieses Produkt verwendet die {tmdbApiLink}, ist jedoch nicht von {tmdbLink} empfohlen oder zertifiziert.",
       "explanation": "Episodendaten wie Namen und Beschreibungen wurden für die Verwendung in diesem Fall von TMDB bezogen. Wenn es Fehler oder Auslassungen gibt, erwägen Sie, Korrekturen beizusteuern und den Betreiber der Site-Instanz zu bitten, die aktualisierten Daten herunterzuladen.",
       "tmdb_page": "TMDB-Seite.",
       "header": "TMDB-Namensnennung"
@@ -77,7 +77,7 @@
     "correct_message": "{correct} : {answer} .",
     "entry_select_fail": "Kein Eintrag mit der Nummer $ {number} in den Suchergebnissen.",
     "generation_error": "Fehler beim Generieren des Frames: {error} . Versuchen Sie es erneut?",
-    "guess_prompt": "Erraten Sie mithilfe des Suchfelds die Episode {show} , aus der das Bild zufällig ausgewählt wird.",
+    "guess_prompt": "Erraten Sie mithilfe des Suchfelds die Episode {show}, aus der das Bild zufällig ausgewählt wird.",
     "incorrect": "falsch",
     "incorrect_message": "{guess} ist ❌ {incorrect} . Antwort: {answer} .",
     "network_error": "Netzwerkfehler oder Server ist möglicherweise wegen Wartungsarbeiten ausgefallen. Überprüfen Sie die Verbindung und versuchen Sie es erneut.",
