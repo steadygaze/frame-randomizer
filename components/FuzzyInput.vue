@@ -50,7 +50,7 @@
         :placeholder="
           waitingForGuess
             ? $t('input.placeholder.fuzzy', {
-                characters: config.public.fuzzySearchMinMatchLength,
+                characters: fuzzySearchMinMatchLength,
               })
             : $t('input.placeholder.new')
         "
@@ -81,10 +81,13 @@ import { computed, nextTick, onMounted, ref, watch } from "vue";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "#app";
+import { useI18n } from "#imports";
 import LiveStats from "./LiveStats.vue";
 import { useAppStateStore } from "~~/store/appStateStore";
 import { ProcessedEpisodeData, useShowDataStore } from "~~/store/showDataStore";
 import { floatIntPartPad } from "~~/utils/utils";
+
+const { locale } = useI18n();
 
 type FuseOptions<ProcessedEpisodeData> =
   Fuse.IFuseOptions<ProcessedEpisodeData>;
@@ -109,12 +112,16 @@ const {
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
 
+const fuzzySearchMinMatchLength = computed(() =>
+  locale.value === "zh" ? 1 : config.public.fuzzySearchMinMatchLength,
+);
+
 const fuseOptions: FuseOptions<ProcessedEpisodeData> = {
   ignoreLocation: true,
   includeMatches: true,
   includeScore: true,
   isCaseSensitive: false,
-  minMatchCharLength: config.public.fuzzySearchMinMatchLength,
+  minMatchCharLength: fuzzySearchMinMatchLength.value,
   threshold: config.public.fuzzySearchThreshold,
 };
 
