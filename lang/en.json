@@ -68,7 +68,7 @@
     "use_synopsis": "Use synopsis"
   },
   "language": {
-    "language": "Language: "
+    "language": "Language:"
   },
   "readout": {
     "answer_error": "Error getting answer: {error}. Try again?",

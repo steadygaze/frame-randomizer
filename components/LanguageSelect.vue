@@ -32,3 +32,9 @@ watch(locale, (locale) => {
   navigateTo(switchLocalePath(locale));
 });
 </script>
+
+<style scoped>
+label {
+  margin-right: 0.3em;
+}
+</style>

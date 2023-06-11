@@ -2,7 +2,7 @@
   <div class="fuzzyInput">
     <div class="logoBar">
       <h1 id="logo">{{ siteName }}</h1>
-      <LanguageSelect></LanguageSelect>
+      <div id="languageSelectWrapper"><LanguageSelect></LanguageSelect></div>
       <div id="bigButtonRow">
         <button
           id="newFrameButton"
@@ -463,7 +463,7 @@ ol.resultItemList li:nth-child(-n + 9):before {
 }
 
 #readouts {
-  min-height: 3.5em;
+  min-height: 3em;
 }
 
 #bigButtonRow {
@@ -523,5 +523,9 @@ button:focus {
   to {
     transform: rotate(1turn);
   }
+}
+
+#languageSelectWrapper {
+  margin-left: auto;
 }
 </style>

@@ -163,8 +163,4 @@ watch(waitingForGuess, (waitingForGuess) => {
 p {
   margin-bottom: 0px;
 }
-
-#moreStatsButton {
-  padding: 0 0.6em;
-}
 </style>
