@@ -8,7 +8,7 @@
     "build": "nuxt build",
     "check": "npm run format && npm run lint && npm run tsc && npm run vue-tsc",
     "cm": "cz",
-    "coverage": "vitest run --coverage",
+    "coverage": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=lcov",
     "dev": "nuxt dev",
     "format": "prettier --write --ignore-unknown .",
     "formatcheck": "prettier --check --ignore-unknown .",
