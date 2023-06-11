@@ -12,3 +12,4 @@ dist
 **/.hg
 **/node_modules
 frame-randomizer/
+coverage/

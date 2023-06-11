@@ -10,3 +10,4 @@ dist
 frame-randomizer/
 frame-randomizer.tar.gz
 .json-autotranslate-cache/
+coverage/

@@ -1,13 +1,9 @@
 name: Continuous Integration
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -27,7 +23,7 @@ jobs:
       - name: Build project
         run: npm run build
       - name: Run tests
-        run: npm test
+        run: npm install @vitest/coverage-v8@latest && npm test
       - name: Run lint
         run: npm run lint
       - name: Run Typescript checks
@@ -36,3 +32,20 @@ jobs:
         run: npm run vue-tsc
       - name: Run formatting check
         run: npm run formatcheck
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: ${{matrix.os}}-node-${{ matrix.node }}
+          parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
