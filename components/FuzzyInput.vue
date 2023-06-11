@@ -334,19 +334,13 @@ async function submitAnswer(index: number) {
   waitingForGuess.value = false;
   answerIsLoading.value = true;
   document.body.style.cursor = "wait";
-  let query;
-  let item;
-  if (index < 0) {
-    query = { season: -1, episode: -1 };
-  } else {
-    item = searchResults.value[index].item;
-    query = { season: item.season, episode: item.episode };
-  }
+  const found = searchResults.value[index];
+  const item = found ? found.item : { season: -1, episode: -1, fullName: "?" };
   const { data, error } = await useFetch(`/api/frame/check/${imageId.value}`, {
-    query,
+    query: { season: item.season, episode: item.episode },
   });
 
-  if (error.value) {
+  if (error && error.value) {
     if (error.value.statusCode === 404) {
       readout("readout.answer_not_found");
     } else if (error.value.statusCode === 429) {
@@ -356,45 +350,63 @@ async function submitAnswer(index: number) {
     } else {
       readout("readout.answer_error", { error: error.value.message });
     }
-  } else {
+  } else if (data && data.value) {
     ++totalCounter.value;
-    const correct = data.value?.correct;
-    const seekTimeSec = data.value?.seekTime;
+    const correct = data.value.correct;
+    const seekTimeSec = data.value.seekTime;
     const minute = seekTimeSec ? Math.floor(seekTimeSec / 60) : -1;
     const second = floatIntPartPad(
       seekTimeSec ? Math.floor((seekTimeSec % 60) * 1000) / 1000 : -1,
     );
     if (index < 0) {
-      const correctSeason = data.value?.season;
-      const correctEpisode = data.value?.episode;
-      const correctItem = episodeData.value?.find(
+      const correctSeason = data.value.season;
+      const correctEpisode = data.value.episode;
+      const correctItem = episodeData.value.find(
         (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
       readout({
         type: "skipped",
-        answer: `${correctItem?.fullName} @ ${minute}:${second}`,
+        answer: {
+          fullName: `${correctItem?.fullName} @ ${minute}:${second}`,
+          season: correctSeason,
+          episode: correctEpisode,
+        },
       });
       streakCounter.value = 0;
     } else if (correct) {
       readout({
         type: "correct",
-        answer: `${item?.fullName} @ ${minute}:${second}`,
+        answer: {
+          fullName: `${item.fullName} @ ${minute}:${second}`,
+          season: item.season,
+          episode: item.episode,
+        },
       });
       ++correctCounter.value;
       ++streakCounter.value;
     } else {
-      const correctSeason = data.value?.season;
-      const correctEpisode = data.value?.episode;
+      const correctSeason = data.value.season;
+      const correctEpisode = data.value.episode;
       const correctItem = episodeData.value?.find(
         (ep) => ep.season === correctSeason && ep.episode === correctEpisode,
       );
       readout({
         type: "incorrect",
-        guess: item?.fullName || "?",
-        answer: `${correctItem?.fullName} @ ${minute}:${second}`,
+        guess: {
+          fullName: item.fullName,
+          season: item.season,
+          episode: item.episode,
+        },
+        answer: {
+          fullName: `${correctItem?.fullName} @ ${minute}:${second}`,
+          season: correctSeason,
+          episode: correctEpisode,
+        },
       });
       streakCounter.value = 0;
     }
+  } else {
+    readout("readout.unknown_error");
   }
 
   searchInput.value = "";

@@ -84,7 +84,8 @@
     "rate_limit": "Limite de demandes atteinte. Réessayez plus tard.",
     "skipped": "⏩ Sauté",
     "skipped_message": "{skipped} . Réponse : {answer} .",
-    "welcome": "Accueillir! La première image se chargera sous peu."
+    "welcome": "Accueillir! La première image se chargera sous peu.",
+    "unknown_error": "Une erreur inconnue est survenue. Essayer à nouveau?"
   },
   "space": " ",
   "stats": {

@@ -84,7 +84,8 @@
     "rate_limit": "已达到请求限制。稍后再试。",
     "skipped": "⏩ 跳过",
     "skipped_message": "{skipped} 。答： {answer} 。",
-    "welcome": "欢迎！第一张图片将很快加载。"
+    "welcome": "欢迎！第一张图片将很快加载。",
+    "unknown_error": "出现未知错误。再试一次？"
   },
   "space": " ",
   "stats": {

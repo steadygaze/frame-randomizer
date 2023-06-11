@@ -84,6 +84,7 @@
     "rate_limit": "Request limit reached. Try again later.",
     "skipped": "⏩ Skipped",
     "skipped_message": "{skipped}. Answer: {answer}.",
+    "unknown_error": "An unknown error occurred. Try again?",
     "welcome": "Welcome! The first image will load shortly."
   },
   "space": " ",

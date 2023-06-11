@@ -168,6 +168,9 @@ export default defineNuxtConfig({
       // (see
       // https://developer.themoviedb.org/docs/faq#what-are-the-attribution-requirements).
       attributeTmdb: false,
+      // Provide a custom format string for linking the source episode when
+      // showing the answer. "{season}" and "{episode}" will be substituted.
+      episodeUrlFormat: undefined,
       // Number of characters required for a match. If the user inputs a search
       // shorter than this, nothing will happen.
       // https://fusejs.io/api/options.html#minmatchcharlength

@@ -13,7 +13,11 @@
           </span>
         </template>
         <template #answer>
-          {{ readout.answer }}
+          <EpisodeRef
+            :season="readout.answer.season"
+            :episode="readout.answer.episode"
+            >{{ readout.answer.fullName }}</EpisodeRef
+          >
         </template>
       </i18n-t>
       <i18n-t
@@ -23,7 +27,11 @@
         scope="global"
       >
         <template #guess>
-          {{ readout.guess }}
+          <EpisodeRef
+            :season="readout.guess.season"
+            :episode="readout.guess.episode"
+            >{{ readout.guess.fullName }}</EpisodeRef
+          >
         </template>
         <template #incorrect>
           <span class="incorrect">
@@ -31,7 +39,11 @@
           </span>
         </template>
         <template #answer>
-          {{ readout.answer }}
+          <EpisodeRef
+            :season="readout.answer.season"
+            :episode="readout.answer.episode"
+            >{{ readout.answer.fullName }}</EpisodeRef
+          >
         </template>
       </i18n-t>
       <i18n-t
@@ -46,7 +58,11 @@
           </span>
         </template>
         <template #answer>
-          {{ readout.answer }}
+          <EpisodeRef
+            :season="readout.answer.season"
+            :episode="readout.answer.episode"
+            >{{ readout.answer.fullName }}</EpisodeRef
+          >
         </template>
       </i18n-t>
       <p v-else>{{ $t(readout.i18nKey) }}</p>

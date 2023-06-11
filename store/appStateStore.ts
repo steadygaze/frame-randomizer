@@ -1,6 +1,12 @@
 import { defineStore } from "pinia";
 import { ref, Ref } from "vue";
 
+export interface ShortEpisodeData {
+  fullName: string;
+  season: number;
+  episode: number;
+}
+
 export interface KeyReadout {
   type: "message";
   i18nKey: string;
@@ -9,18 +15,18 @@ export interface KeyReadout {
 
 export interface CorrectReadout {
   type: "correct";
-  answer: string;
+  answer: ShortEpisodeData;
 }
 
 export interface IncorrectReadout {
   type: "incorrect";
-  guess: string;
-  answer: string;
+  guess: ShortEpisodeData;
+  answer: ShortEpisodeData;
 }
 
 export interface SkippedReadout {
   type: "skipped";
-  answer: string;
+  answer: ShortEpisodeData;
 }
 
 export type Readout =

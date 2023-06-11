@@ -84,7 +84,8 @@
     "rate_limit": "Anforderungslimit erreicht. Versuchen Sie es später erneut.",
     "skipped": "⏩ Übersprungen",
     "skipped_message": "{skipped} . Antwort: {answer} .",
-    "welcome": "Willkommen! Das erste Bild wird in Kürze geladen."
+    "welcome": "Willkommen! Das erste Bild wird in Kürze geladen.",
+    "unknown_error": "Ein unbekannter Fehler ist aufgetreten. Versuchen Sie es erneut?"
   },
   "space": " ",
   "stats": {
