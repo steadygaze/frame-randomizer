@@ -1,0 +1,94 @@
+{
+  "about": {
+    "header": "À propos",
+    "close": "Fermer",
+    "instance_specific_disclaimer": "(L'opérateur de l'instance a fourni les informations suivantes spécifiques à cette instance de site.)",
+    "instructions": {
+      "controls": {
+        "info": "Pour fournir une estimation, saisissez au moins {fuzzySearchMinMatchLength} caractère dans la zone de recherche pour rechercher de manière approximative les noms et les descriptions des épisodes. Continuez à taper jusqu'à ce que l'épisode souhaité soit en haut, ou utilisez {upDown} , la souris, ou {ctrlNum} ou {altNum} pour sélectionner une entrée spécifique.",
+        "alt_num": "Touche Alt + chiffre",
+        "ctrl_num": "Touche de contrôle + numéro",
+        "up_down": "touches fléchées haut/bas + touche Entrée"
+      },
+      "episode_search_tip": {
+        "tip": "Vous pouvez également effectuer une recherche par saison et par numéro d'épisode en saisissant une requête telle que {example1} ou {example2} .",
+        "example1": "s2e3",
+        "example2": "2x3"
+      },
+      "font_size_tip": "La taille de la police dans le volet de saisie est basée sur les valeurs par défaut de votre navigateur. Si vous souhaitez qu'il soit plus grand, par exemple lors d'une présentation ou d'un streaming, vous pouvez zoomer sans trop affecter la mise en page.",
+      "header": "Instructions",
+      "image_lifetime_tip": "Les images sont détruites dès qu'elles sont chargées, donc recharger une image en actualisant la page, en vidant le cache de votre navigateur ou en affichant la même URL d'image sur un autre appareil ne fonctionnera pas. Lorsque vous trouvez un cadre qui mérite d'être enregistré, vous pouvez toujours cliquer avec le bouton droit de la souris et enregistrer une image normalement.",
+      "no_synopsis": "Malheureusement, les synopsis des épisodes ne sont pas disponibles dans cette langue, désolé.",
+      "skip_tip": "En plus du bouton \"{skipLabel}\", si vous voulez ignorer les devinettes, soit parce que vous êtes perplexe, soit parce que vous voulez simplement profiter des images générées, vous pouvez soumettre une entrée vide dans le champ de recherche.",
+      "synopsis": "La case à cocher \"{synopsisLabel}\" peut être utilisée pour activer ou désactiver l'affichage et la recherche des descriptions d'épisodes.",
+      "synopsis_update_tmdb_hint": "Envisagez de fournir des synopsis d'épisodes à la TMDB et d'informer le propriétaire de l'instance de site.",
+      "what_is_this_site": "Ce site génère et affiche une image complètement aléatoire à partir de {showName} , en sélectionnant parmi tous les épisodes avec une probabilité égale. Jouez à un jeu de devinettes pour tester vos connaissances, ou profitez simplement des images générées."
+    },
+    "licensing": {
+      "content_disclaimer": "Notez que ce logiciel est indépendant de l'émission aléatoire à partir de laquelle. Le contenu servi relève de la seule responsabilité de l'opérateur de l'instance. Si vous avez des inquiétudes concernant le contenu servi par une instance, contactez l'opérateur de cette instance et non les mainteneurs du logiciel.",
+      "header": "Informations sur la licence",
+      "local_tip": "Avec un peu de travail de configuration et des connaissances techniques, vous pouvez même exécuter une instance du serveur sur votre propre ordinateur, soit pour jouer avec une émission qui n'a pas d'instance existante, pour configurer votre propre instance pour que d'autres l'utilisent, ou pour jouer localement sans la latence du réseau impliquée dans la diffusion des images.",
+      "main": "Ce site ( {instanceName} ) exécute une instance de {softwareName} . Connais tes droits! Ce logiciel vous est fourni selon les termes de la {licenseName} . Cela signifie que vous, l'utilisateur, avez le droit d'accéder à une copie de son code source, y compris le code exécuté par cette instance, si une version modifiée est en cours d'exécution. {modDeclaration}",
+      "modified": "Vous pouvez trouver une copie du code pour cette instance à: {sourceCodeLink}",
+      "name": "Licence publique générale GNU Affero 3.0 (AGPLv3)",
+      "unmodified": "(L'opérateur d'instance n'a pas fourni d'URL de code source spécifique à l'instance et déclare donc que son logiciel serveur n'a pas été modifié.)",
+      "url": "https://www.gnu.org/licenses/agpl-3.0.fr.html"
+    },
+    "machine_translation_disclaimer": "Le texte de ce site a été traduit de l'anglais à l'aide de la traduction automatique. Toutes mes excuses pour les erreurs de traduction.",
+    "site_info_header": "Informations sur les instances de site",
+    "stats": {
+      "current_guess_time": "Suit le temps passé à deviner l'image actuelle.",
+      "header": "Statistiques",
+      "intro": "Ce site suit plusieurs statistiques qui peuvent être intéressantes pour certains joueurs. La plupart sont masqués par défaut pour éviter d'être gênants ; cliquez sur le bouton \"{moreLabel}\" pour les afficher.",
+      "percent": "Suit le nombre de suppositions correctes, le nombre total d'images et le pourcentage de réponses correctes.",
+      "real_time": "Suit le temps total pris depuis la première image affichée.",
+      "streak": "Suit le nombre actuel de suppositions correctes d'affilée.",
+      "total_guess_time": "Suit le temps total passé à deviner. Exclut le temps de chargement et le temps passé à attendre après avoir répondu et avant d'obtenir une nouvelle image."
+    },
+    "tmdb": {
+      "attribution": "Ce produit utilise le {tmdbApiLink} mais n'est ni approuvé ni certifié par {tmdbLink} .",
+      "explanation": "Les données d'épisode, telles que les noms et les descriptions, provenaient de TMDB pour être utilisées dans ce cas. S'il y a des erreurs ou des omissions, envisagez d'apporter des correctifs et de demander à l'opérateur de l'instance du site de télécharger les données mises à jour.",
+      "tmdb_page": "Page TMDB.",
+      "header": "Attribution TMDB"
+    }
+  },
+  "input": {
+    "about": "À propos",
+    "new_frame": "Nouveau cadre",
+    "placeholder": {
+      "fuzzy": "Recherche floue ({characters} + caractères) ou sXXeXX...",
+      "new": "Obtenir un nouveau cadre ?"
+    },
+    "reset": "Réinitialiser",
+    "skip": "Sauter",
+    "use_synopsis": "Utiliser le synopsis"
+  },
+  "language": {
+    "language": "Langue:"
+  },
+  "readout": {
+    "answer_error": "Erreur lors de la réponse : {error} . Essayer à nouveau?",
+    "answer_not_found": "Réponse introuvable. Il est peut-être expiré. Essayer à nouveau.",
+    "correct": "✅ Correct",
+    "correct_message": "{correct} : {answer} .",
+    "entry_select_fail": "Aucun numéro d'entrée $ {number} dans les résultats de recherche.",
+    "generation_error": "Erreur lors de la génération de la trame : {error} . Essayer à nouveau?",
+    "guess_prompt": "Devinez l'épisode {show} dont le cadre est sélectionné au hasard à l'aide du champ de recherche.",
+    "incorrect": "Incorrect",
+    "incorrect_message": "{guess} est ❌ {incorrect} . Réponse : {answer} .",
+    "network_error": "Erreur réseau, ou le serveur est peut-être en panne pour maintenance. Vérifiez la connexion et réessayez.",
+    "rate_limit": "Limite de demandes atteinte. Réessayez plus tard.",
+    "skipped": "⏩ Sauté",
+    "skipped_message": "{skipped} . Réponse : {answer} .",
+    "welcome": "Accueillir! La première image se chargera sous peu."
+  },
+  "space": " ",
+  "stats": {
+    "less": "Moins",
+    "more": "Plus",
+    "streak": "traînée:",
+    "current_guess_time": "heure de devinette actuelle :",
+    "real_time": "temps réel:",
+    "total_guess_time": "temps de devinette total :"
+  }
+}

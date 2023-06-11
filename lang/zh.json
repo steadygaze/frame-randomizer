@@ -1,0 +1,94 @@
+{
+  "about": {
+    "header": "关于",
+    "close": "关闭",
+    "instance_specific_disclaimer": "（实例运营商提供了以下特定于此站点实例的信息。）",
+    "instructions": {
+      "controls": {
+        "info": "要提供猜测，请在搜索框中键入至少{fuzzySearchMinMatchLength}字符以模糊搜索剧集名称和描述。继续键入，直到所需剧集位于顶部，或使用{upDown} 、鼠标或{ctrlNum}或{altNum}选择特定条目。",
+        "alt_num": "Alt键+数字",
+        "ctrl_num": "控制键+数字",
+        "up_down": "向上/向下箭头键 + 回车键"
+      },
+      "episode_search_tip": {
+        "tip": "您还可以通过输入{example1}或{example2}等查询按季节和剧集编号进行搜索。",
+        "example1": "s2e3",
+        "example2": "2x3"
+      },
+      "font_size_tip": "输入窗格中的字体大小基于浏览器的默认值。如果您希望它更大，例如，在演示或流式传输时，您可以放大而不会对页面布局产生太大影响。",
+      "header": "指示",
+      "image_lifetime_tip": "图片一加载就被销毁，因此通过刷新页面、清除浏览器缓存或在不同设备上查看相同图片 URL 来重新加载图片将不起作用。当您找到值得保存的帧时，您仍然可以右键单击并正常保存图像。",
+      "no_synopsis": "很遗憾，剧集概要没有这种语言版本，抱歉。",
+      "skip_tip": "除了“ {skipLabel} ”按钮之外，如果你想跳过猜测，或者因为你被难住了或者你只是想享受正在生成的帧，你可以向搜索框提交一个空的输入。",
+      "synopsis": "“ {synopsisLabel} ”复选框可用于启用或禁用显示和搜索剧集描述。",
+      "synopsis_update_tmdb_hint": "考虑向 TMDB 贡献剧集概要并通知站点实例所有者。",
+      "what_is_this_site": "该站点从{showName}生成并显示一个完全随机的帧，以相等的概率从所有剧集中选择。玩猜谜游戏来测试您的琐事知识，或者只是享受生成的框架。"
+    },
+    "licensing": {
+      "content_disclaimer": "请注意，该软件不知道随机显示的是什么节目。提供的内容由实例运营商全权负责。如果您对实例提供的内容有疑虑，请联系该实例的运营商，而不是软件的维护者。",
+      "header": "许可信息",
+      "local_tip": "通过一些设置工作和技术知识，您甚至可以在自己的计算机上运行服务器的实例，或者播放没有现有实例的节目，设置您自己的实例供其他人使用，或者播放在本地没有服务图像所涉及的网络延迟。",
+      "main": "此站点 ( {instanceName} ) 正在运行{softwareName}的实例。知道你的权益！本软件是根据{licenseName}的条款提供给您的。这意味着您（用户）有权访问其源代码的副本，包括此实例运行的代码（如果修改后的版本正在运行）。 {modDeclaration}",
+      "modified": "您可以在以下位置找到此实例的代码副本： {sourceCodeLink}",
+      "name": "GNU Affero通用公共许可证 3.0 (AGPLv3)",
+      "unmodified": "（实例运营商没有提供特定于实例的源代码 URL，因此声明他们的服务器软件未被修改。）",
+      "url": "https://www.gnu.org/licenses/agpl-3.0.zh-cn.html"
+    },
+    "machine_translation_disclaimer": "本网站上的文字是使用机器翻译从英语翻译而来的。对任何错误的翻译表示歉意。",
+    "site_info_header": "站点实例信息",
+    "stats": {
+      "current_guess_time": "跟踪猜测当前帧所花费的时间。",
+      "header": "统计数据",
+      "intro": "该站点跟踪一些玩家可能感兴趣的几个统计数据。大多数默认情况下都是隐藏的，以避免分散注意力；单击标记为“ {moreLabel} ”的按钮以显示它们。",
+      "percent": "跟踪正确猜测的次数、总帧数和正确百分比。",
+      "real_time": "跟踪自第一帧显示以来所用的总时间。",
+      "streak": "跟踪当前连续正确猜测的次数。",
+      "total_guess_time": "跟踪花费在猜测上的总时间。不包括加载时间和在回答之后和获取新帧之前等待的时间。"
+    },
+    "tmdb": {
+      "attribution": "本产品使用{tmdbApiLink}但未被{tmdbLink}背书或认证。",
+      "explanation": "剧集数据（例如名称和描述）来自 TMDB，用于此实例。如果有错误或遗漏，请考虑贡献修复并要求站点实例操作员下载更新的数据。",
+      "tmdb_page": "TMDB 页面。",
+      "header": "TMDB归属"
+    }
+  },
+  "input": {
+    "about": "关于",
+    "new_frame": "新画框",
+    "placeholder": {
+      "fuzzy": "模糊搜索（{characters} + 个字符）或 sXXeXX...",
+      "new": "得到新的框架？"
+    },
+    "reset": "重置",
+    "skip": "跳过",
+    "use_synopsis": "使用概要"
+  },
+  "language": {
+    "language": "语言："
+  },
+  "readout": {
+    "answer_error": "获取答案时出错： {error} 。再试一次？",
+    "answer_not_found": "未找到答案。它可能已经过期。再试一次。",
+    "correct": "✅正确",
+    "correct_message": "{correct} : {answer} 。",
+    "entry_select_fail": "搜索结果中没有条目号 $ {number} 。",
+    "generation_error": "生成帧时出错： {error} 。再试一次？",
+    "guess_prompt": "猜猜帧是使用搜索框随机选择的第{show}集。",
+    "incorrect": "不正确的",
+    "incorrect_message": "{guess}是 ❌ {incorrect} 。答： {answer} 。",
+    "network_error": "网络错误，或服务器可能停机维护。检查连接并重试。",
+    "rate_limit": "已达到请求限制。稍后再试。",
+    "skipped": "⏩ 跳过",
+    "skipped_message": "{skipped} 。答： {answer} 。",
+    "welcome": "欢迎！第一张图片将很快加载。"
+  },
+  "space": " ",
+  "stats": {
+    "less": "较少的",
+    "more": "更多的",
+    "streak": "条纹：",
+    "current_guess_time": "当前猜测时间：",
+    "real_time": "即时的：",
+    "total_guess_time": "总猜测时间："
+  }
+}

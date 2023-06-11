@@ -46,7 +46,13 @@ export default defineNuxtConfig({
       useCookie: true,
     },
     langDir: "lang",
-    locales: [{ code: "en", file: "en.json", name: "English" }],
+    locales: [
+      { code: "de", file: "de.json", name: "Deutsch" },
+      { code: "en", file: "en.json", name: "English" },
+      { code: "fr", file: "fr.json", name: "Français" },
+      { code: "ru", file: "ru.json", name: "русский" },
+      { code: "zh", file: "zh.json", name: "中文" },
+    ],
     strategy: "prefix_except_default",
   },
 

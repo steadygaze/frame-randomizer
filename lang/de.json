@@ -1,0 +1,94 @@
+{
+  "about": {
+    "header": "Um",
+    "close": "Schließen",
+    "instance_specific_disclaimer": "(Der Instanzbetreiber hat die folgenden Informationen speziell für diese Site-Instanz bereitgestellt.)",
+    "instructions": {
+      "controls": {
+        "info": "Um eine Schätzung abzugeben, geben Sie mindestens {fuzzySearchMinMatchLength} Zeichen in das Suchfeld ein, um Episodennamen und -beschreibungen unscharf zu durchsuchen. Tippen Sie weiter, bis die gewünschte Episode oben steht, oder verwenden Sie {upDown} , die Maus oder {ctrlNum} oder {altNum} um einen bestimmten Eintrag auszuwählen.",
+        "alt_num": "Alt-Taste + Zahl",
+        "ctrl_num": "Steuertaste + Nummer",
+        "up_down": "Pfeiltasten nach oben/unten + Eingabetaste"
+      },
+      "episode_search_tip": {
+        "tip": "Sie können auch nach Staffel und Episodennummer suchen, indem Sie eine Suchanfrage wie {example1} oder {example2} eingeben.",
+        "example1": "s2e3",
+        "example2": "2x3"
+      },
+      "font_size_tip": "Die Schriftgröße im Eingabebereich richtet sich nach den Standardeinstellungen Ihres Browsers. Wenn Sie es beispielsweise beim Präsentieren oder Streamen größer haben möchten, können Sie hineinzoomen, ohne das Seitenlayout wesentlich zu beeinträchtigen.",
+      "header": "Anweisungen",
+      "image_lifetime_tip": "Bilder werden zerstört, sobald sie geladen werden. Daher funktioniert das erneute Laden eines Bilds durch Aktualisieren der Seite, Leeren des Browser-Cache oder Anzeigen derselben Bild-URL auf einem anderen Gerät nicht. Wenn Sie ein Bild finden, das es wert ist, gespeichert zu werden, können Sie immer noch mit der rechten Maustaste klicken und ein Bild wie gewohnt speichern.",
+      "no_synopsis": "Leider sind in dieser Sprache keine Episodenzusammenfassungen verfügbar, sorry.",
+      "skip_tip": "Zusätzlich zur Schaltfläche „ {skipLabel} “ können Sie, wenn Sie das Raten überspringen möchten, entweder weil Sie ratlos sind oder einfach nur die generierten Frames genießen möchten, eine leere Eingabe in das Suchfeld einreichen.",
+      "synopsis": "Mit der Checkbox „ {synopsisLabel} “ kann die Anzeige und Suche der Episodenbeschreibungen aktiviert oder deaktiviert werden.",
+      "synopsis_update_tmdb_hint": "Erwägen Sie, Episodenzusammenfassungen zur TMDB beizutragen und den Eigentümer der Site-Instanz zu benachrichtigen.",
+      "what_is_this_site": "Diese Seite generiert und zeigt einen völlig zufälligen Frame von {showName} an, wobei alle Episoden mit gleicher Wahrscheinlichkeit ausgewählt werden. Spielen Sie ein Ratespiel, um Ihr Trivia-Wissen zu testen, oder genießen Sie einfach die generierten Frames."
+    },
+    "licensing": {
+      "content_disclaimer": "Beachten Sie, dass diese Software unabhängig davon ist, aus welcher Show zufällig ausgewählt wird. Für die bereitgestellten Inhalte ist ausschließlich der Instanzbetreiber verantwortlich. Wenn Sie Bedenken hinsichtlich des von einer Instanz bereitgestellten Inhalts haben, wenden Sie sich an den Betreiber dieser Instanz und nicht an die Betreuer der Software.",
+      "header": "Lizenzinformationen",
+      "local_tip": "Mit etwas Einrichtungsaufwand und technischem Wissen können Sie sogar eine Instanz des Servers auf Ihrem eigenen Computer ausführen, entweder um mit einer Show zu spielen, für die es noch keine Instanz gibt, oder um Ihre eigene Instanz für die Verwendung durch andere einzurichten oder um zu spielen lokal ohne die Netzwerklatenz, die mit der Bereitstellung der Bilder verbunden ist.",
+      "main": "Auf dieser Site ( {instanceName} ) wird eine Instanz von {softwareName} ausgeführt. Kenne deine Rechte! Diese Software wird Ihnen gemäß den Bedingungen des {licenseName} zur Verfügung gestellt. Das bedeutet, dass Sie als Benutzer das Recht haben, auf eine Kopie seines Quellcodes zuzugreifen, einschließlich des von dieser Instanz ausgeführten Codes, wenn eine geänderte Version ausgeführt wird. {modDeclaration}",
+      "modified": "Eine Kopie des Codes für diese Instanz finden Sie unter: {sourceCodeLink}",
+      "name": "GNU Affero General Public License 3.0 (AGPLv3)",
+      "unmodified": "(Der Instanzbetreiber hat keine instanzspezifische Quellcode-URL angegeben und erklärt daher, dass seine Serversoftware unverändert ist.)",
+      "url": "https://www.gnu.org/licenses/agpl-3.0.de.html"
+    },
+    "machine_translation_disclaimer": "Der Text auf dieser Website wurde mithilfe maschineller Übersetzung aus dem Englischen übersetzt. Entschuldigung für etwaige Fehlübersetzungen.",
+    "site_info_header": "Informationen zur Site-Instanz",
+    "stats": {
+      "current_guess_time": "Verfolgt die Zeit, die für das Erraten des aktuellen Frames aufgewendet wurde.",
+      "header": "Statistiken",
+      "intro": "Auf dieser Website werden mehrere Statistiken erfasst, die für einige Spieler interessant sein könnten. Die meisten sind standardmäßig ausgeblendet, um nicht abzulenken; Klicken Sie auf die Schaltfläche mit der Bezeichnung „ {moreLabel} “, um sie anzuzeigen.",
+      "percent": "Verfolgt die Anzahl der richtigen Schätzungen, die Gesamtzahl der Frames und den Prozentwert der richtigen Schätzungen.",
+      "real_time": "Verfolgt die Gesamtzeit seit dem ersten angezeigten Bild.",
+      "streak": "Verfolgt die aktuelle Anzahl richtiger Vermutungen in Folge.",
+      "total_guess_time": "Verfolgt die Gesamtzeit, die mit dem Raten verbracht wurde. Ausgenommen sind Ladezeit und Wartezeit nach der Beantwortung und vor Erhalt eines neuen Frames."
+    },
+    "tmdb": {
+      "attribution": "Dieses Produkt verwendet die {tmdbApiLink} , ist jedoch nicht von {tmdbLink} empfohlen oder zertifiziert.",
+      "explanation": "Episodendaten wie Namen und Beschreibungen wurden für die Verwendung in diesem Fall von TMDB bezogen. Wenn es Fehler oder Auslassungen gibt, erwägen Sie, Korrekturen beizusteuern und den Betreiber der Site-Instanz zu bitten, die aktualisierten Daten herunterzuladen.",
+      "tmdb_page": "TMDB-Seite.",
+      "header": "TMDB-Namensnennung"
+    }
+  },
+  "input": {
+    "about": "Um",
+    "new_frame": "Neuer Rahmen",
+    "placeholder": {
+      "fuzzy": "Fuzzy-Suche ({characters} + Zeichen) oder sXXeXX...",
+      "new": "Neuen Rahmen bekommen?"
+    },
+    "reset": "Zurücksetzen",
+    "skip": "Überspringen",
+    "use_synopsis": "Verwenden Sie eine Zusammenfassung"
+  },
+  "language": {
+    "language": "Sprache:"
+  },
+  "readout": {
+    "answer_error": "Fehler beim Erhalten der Antwort: {error} . Versuchen Sie es erneut?",
+    "answer_not_found": "Antwort nicht gefunden. Möglicherweise ist es abgelaufen. Versuchen Sie es erneut.",
+    "correct": "✅ Richtig",
+    "correct_message": "{correct} : {answer} .",
+    "entry_select_fail": "Kein Eintrag mit der Nummer $ {number} in den Suchergebnissen.",
+    "generation_error": "Fehler beim Generieren des Frames: {error} . Versuchen Sie es erneut?",
+    "guess_prompt": "Erraten Sie mithilfe des Suchfelds die Episode {show} , aus der das Bild zufällig ausgewählt wird.",
+    "incorrect": "falsch",
+    "incorrect_message": "{guess} ist ❌ {incorrect} . Antwort: {answer} .",
+    "network_error": "Netzwerkfehler oder Server ist möglicherweise wegen Wartungsarbeiten ausgefallen. Überprüfen Sie die Verbindung und versuchen Sie es erneut.",
+    "rate_limit": "Anforderungslimit erreicht. Versuchen Sie es später erneut.",
+    "skipped": "⏩ Übersprungen",
+    "skipped_message": "{skipped} . Antwort: {answer} .",
+    "welcome": "Willkommen! Das erste Bild wird in Kürze geladen."
+  },
+  "space": " ",
+  "stats": {
+    "less": "Weniger",
+    "more": "Mehr",
+    "streak": "Strähne:",
+    "current_guess_time": "aktuelle Schätzzeit:",
+    "real_time": "Echtzeit:",
+    "total_guess_time": "Gesamte Ratezeit:"
+  }
+}
