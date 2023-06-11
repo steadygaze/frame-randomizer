@@ -119,9 +119,6 @@ interface InputShowData {
   commonTimings?: Timings;
 }
 
-const seasonEpisodeRegex =
-  /^.*?([sS](eason)?)?(?<season_number>\d+)(.|([eE](pisode)?)?)(?<episode_number>\d+).*?\.(mkv|mp4)$/;
-
 /**
  * Get the length of a video file in seconds using ffprobe.
  * @param ffprobe Path to ffprobe.
@@ -166,9 +163,17 @@ async function ffprobeLength(
 export async function lsAllFiles(
   config: RuntimeConfig,
 ): Promise<FileEpisodeData[]> {
+  const seasonEpisodeRegex = new RegExp(
+    `^.*?([sS](eason)?)?(?<season_number>\\d+)(.|([eE](pisode)?)?)(?<episode_number>\\d+).*?\\.(${config.videoFileExtension
+      .split(",")
+      .join("|")})$`,
+  );
+
   const globPattern = path.join(
     config.videoSourceDir,
-    config.searchVideoDirRecursively ? "**/*.{mkv,mp4}" : "*.{mkv,mp4}",
+    config.searchVideoDirRecursively
+      ? `**/*.{${config.videoFileExtension}}`
+      : `*.{${config.videoFileExtension}}`,
   );
   const globbed = await glob(globPattern);
   const fileData: FileEpisodeData[] = [];

@@ -225,6 +225,10 @@ export default defineNuxtConfig({
     // different one for your own instance from:
     // https://www.uuidtools.com/generate/v4
     uuidNamespace: "b219dcdb-c910-417c-8403-01c6b40c5fb4",
+    // Video file extensions to look for videos for. The default list will
+    // contain common video files; if you have a less common video format in
+    // mind, it's better to set this explicitly.
+    videoFileExtension: "avi,mkv,mov,mp4,webm",
     // Required. Where source videos are found. Files should include the season
     // and episode numbers in SxxExx or xx,xx format or similar.
     videoSourceDir: undefined,
