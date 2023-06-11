@@ -2,6 +2,7 @@
   <div class="fuzzyInput">
     <div class="logoBar">
       <h1 id="logo">{{ siteName }}</h1>
+      <LanguageSelect></LanguageSelect>
       <div id="bigButtonRow">
         <button
           id="newFrameButton"
@@ -11,7 +12,9 @@
           :disabled="imageIsLoading || waitingForGuess"
           @click="getImage()"
         >
-          <span class="buttonWithSpinnerText">🎞️ New Frame</span>
+          <span class="buttonWithSpinnerText"
+            >🎞️ {{ $t("input.new_frame") }}</span
+          >
         </button>
         <button
           id="skipButton"
@@ -22,12 +25,14 @@
             submitAnswer(-1);
           "
         >
-          ⏩ Skip
+          ⏩ {{ $t("input.skip") }}
         </button>
         <button :disabled="imageIsLoading || waitingForGuess" @click="reset">
-          🔁 Reset
+          🔁 {{ $t("input.reset") }}
         </button>
-        <button @click="showAbout = !showAbout">📖 About</button>
+        <button @click="showAbout = !showAbout">
+          📖 {{ $t("input.about") }}
+        </button>
         <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
       </div>
     </div>
@@ -44,15 +49,17 @@
         autocomplete="off"
         :placeholder="
           waitingForGuess
-            ? `Fuzzy search (${config.public.fuzzySearchMinMatchLength}+ characters) or sXXeXX...`
-            : 'Get new frame?'
+            ? $t('input.placeholder.fuzzy', {
+                characters: config.public.fuzzySearchMinMatchLength,
+              })
+            : $t('input.placeholder.new')
         "
         :disabled="answerIsLoading || !waitingForGuess"
         @keydown="handleKey"
       />
-      <div id="synopsisCheckboxContainer">
+      <div v-if="synopsisAvailable" id="synopsisCheckboxContainer">
         <input id="synopsisCheckbox" v-model="useSynopsis" type="checkbox" />
-        <label for="synopsisCheckbox">Use synopsis</label>
+        <label for="synopsisCheckbox">{{ $t("input.use_synopsis") }}</label>
       </div>
     </div>
     <ol id="resultItemList" class="resultItemList">
@@ -86,7 +93,7 @@ const config = useRuntimeConfig();
 const siteName = config.public.instanceName;
 const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
-const { showName, episodeData } = storeToRefs(showDataStore);
+const { showName, synopsisAvailable, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
 const { reset, readout } = appStateStore;
 const {
@@ -111,24 +118,30 @@ const fuseOptions: FuseOptions<ProcessedEpisodeData> = {
   threshold: config.public.fuzzySearchThreshold,
 };
 
-const fuseSynopsis = new Fuse(episodeData.value as ProcessedEpisodeData[], {
-  ...fuseOptions,
-  keys: [
-    {
-      name: "name",
-      weight: config.public.fuzzySearchWeightName,
-    },
-    {
-      name: "synopsis",
-      weight: config.public.fuzzySearchWeightSynopsis,
-    },
-  ],
-});
+const fuseSynopsis = computed(
+  () =>
+    new Fuse(episodeData.value as ProcessedEpisodeData[], {
+      ...fuseOptions,
+      keys: [
+        {
+          name: "name",
+          weight: config.public.fuzzySearchWeightName,
+        },
+        {
+          name: "synopsis",
+          weight: config.public.fuzzySearchWeightSynopsis,
+        },
+      ],
+    }),
+);
 
-const fuseNameOnly = new Fuse(episodeData.value as ProcessedEpisodeData[], {
-  ...fuseOptions,
-  keys: ["name"],
-});
+const fuseNameOnly = computed(
+  () =>
+    new Fuse(episodeData.value as ProcessedEpisodeData[], {
+      ...fuseOptions,
+      keys: ["name"],
+    }),
+);
 
 const answerIsLoading = ref(false);
 const highlightIndex = ref(0);
@@ -141,9 +154,9 @@ const seasonEpisodeInputRe = /^s?(?<season>\d+)[xe](?<episode>\d+)$/i;
 await initShowData();
 
 const searchResults = computed(() => {
-  const fuseResults = useSynopsis.value
-    ? fuseSynopsis.search(searchInput.value)
-    : fuseNameOnly.search(searchInput.value);
+  const fuseResults = (
+    useSynopsis.value && synopsisAvailable.value ? fuseSynopsis : fuseNameOnly
+  ).value.search(searchInput.value);
   const match = seasonEpisodeInputRe.exec(searchInput.value);
   if (!match || match.length <= 0 || !match.groups) {
     return fuseResults;
@@ -188,20 +201,20 @@ async function getImage(fetchResult?: typeof fetchGenResult): Promise<void> {
   const { data, error } = fetchResult || (await useFetch("/api/frame/gen"));
   if (error && error.value) {
     if (error.value.statusCode === 429) {
-      readout("Request limit reached. Try again later.");
+      readout("readout.rate_limit");
     } else if (error.value.message.startsWith("NetworkError")) {
-      readout(
-        "Network error, or server may be down for maintenance. Check connection and try again.",
-      );
+      readout("readout.network_error");
     } else {
-      readout(`Error generating image: ${error.value.message}. Try again?`);
+      readout("readout.generation_error", { error: error.value.message });
     }
     imageLoadError.value = true;
     imageIsLoading.value = false;
   } else if (data && data.value) {
     imageId.value = data.value.imageId;
   } else {
-    readout(`Error generating image: ${data ? data.value : data}`);
+    readout("readout.generation_error", {
+      error: String(data ? data.value : data),
+    });
   }
   // RandomImage knows when image loading (not just getting the image path from
   // the API) is done and will reactively notify us.
@@ -217,11 +230,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
     if (!imageLoadError.value) {
       waitingForGuess.value = true;
       currentGuessTimeStartTimestamp.value = Date.now();
-      readout(
-        `Guess the ${
-          showName.value ? showName.value + " " : ""
-        }episode that the frame is randomly selected from using the search box.`,
-      );
+      readout("readout.guess_prompt", { show: showName.value });
       if (searchTextInput.value && searchTextInput.value) {
         await nextTick();
         searchTextInput.value.focus();
@@ -267,7 +276,7 @@ function handleKey(event: KeyboardEvent) {
       if (searchResults.value.length > index) {
         submitIndex = index;
       } else {
-        readout(`No entry ${event.key} in search results.`);
+        readout("readout.entry_select_fail", { number: event.key });
       }
     }
   } else if (event.key === "Enter") {
@@ -332,15 +341,13 @@ async function submitAnswer(index: number) {
 
   if (error.value) {
     if (error.value.statusCode === 404) {
-      readout("Answer not found. It may have expired. Try again.");
+      readout("readout.answer_not_found");
     } else if (error.value.statusCode === 429) {
-      readout("Request limit reached. Try again later.");
+      readout("readout.rate_limit");
     } else if (error.value.message.startsWith("NetworkError")) {
-      readout(
-        "Network error, or server may be down for maintenance. Check connection and try again.",
-      );
+      readout("readout.network_error");
     } else {
-      readout(`Error getting answer: ${error.value.message}. Try again?`);
+      readout("readout.answer_error", { error: error.value.message });
     }
   } else {
     ++totalCounter.value;
@@ -376,7 +383,7 @@ async function submitAnswer(index: number) {
       );
       readout({
         type: "incorrect",
-        guess: item?.fullName || "(no guess)",
+        guess: item?.fullName || "?",
         answer: `${correctItem?.fullName} @ ${minute}:${second}`,
       });
       streakCounter.value = 0;
@@ -451,7 +458,7 @@ ol.resultItemList li:nth-child(-n + 9):before {
 .logoBar {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   column-gap: 10px;
 }
 

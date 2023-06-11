@@ -37,11 +37,24 @@ export default defineNuxtConfig({
     enabled: false, // Toggle this to enable devtools.
   },
 
+  i18n: {
+    defaultLocale: "en",
+    detectBrowserLanguage: {
+      cookieKey: "i18n_redirected",
+      fallbackLocale: "en",
+      redirectOn: "root",
+      useCookie: true,
+    },
+    langDir: "lang",
+    locales: [{ code: "en", file: "en.json", name: "English" }],
+    strategy: "prefix_except_default",
+  },
+
   imports: {
     autoImport: false,
   },
 
-  modules: ["@pinia/nuxt", "nuxt-security"],
+  modules: ["@pinia/nuxt", "@nuxtjs/i18n", "nuxt-security"],
 
   nitro: {
     esbuild: {

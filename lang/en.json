@@ -1,0 +1,94 @@
+{
+  "about": {
+    "header": "About",
+    "close": "Close",
+    "instance_specific_disclaimer": "(The instance operator has provided the following information specific to this site instance.)",
+    "instructions": {
+      "controls": {
+        "info": "To provide a guess, type at least {fuzzySearchMinMatchLength} characters in the search box to fuzzily search episode names and descriptions. Keep typing until the desired episode is at the top, or use {upDown}, the mouse, or {ctrlNum} or {altNum} to select a specific entry.",
+        "alt_num": "Alt key + number",
+        "ctrl_num": "Control key + number",
+        "up_down": "up/down arrow keys + Enter key"
+      },
+      "episode_search_tip": {
+        "tip": "You can also search by season and episode number by entering a query like {example1} or {example2}.",
+        "example1": "s2e3",
+        "example2": "2x3"
+      },
+      "font_size_tip": "The font size in the input pane is based on your browser's defaults. If you want it to be larger, for example, when presenting or streaming, you can zoom in without impacting the page layout very much.",
+      "header": "Instructions",
+      "image_lifetime_tip": "Images are destroyed as soon as they're loaded, so reloading an image by refreshing the page, clearing your browser's cache, or viewing the same image URL on a different device won't work. When you find a frame worth saving, you can still right click and save an image normally.",
+      "no_synopsis": "Unfortunately, episode synopses are not available in this language, sorry.",
+      "skip_tip": "In addition to the \"{skipLabel}\" button, if you want to skip guessing, either because you're stumped or you just want to enjoy the frames being generated, you can submit an empty input to the search box.",
+      "synopsis": "The \"{synopsisLabel}\" checkbox can be used to enable or disable showing and searching the episode descriptions.",
+      "synopsis_update_tmdb_hint": "Consider contributing episode synopses to TMDB and notifying the site instance owner.",
+      "what_is_this_site": "This site generates and shows a completely random frame from {showName}, selecting from all episodes with equal probability. Play a guessing game to test your trivia knowledge, or just enjoy the generated frames."
+    },
+    "licensing": {
+      "content_disclaimer": "Note that this software is agnostic of what show is randomized from. The content served is the instance operator's sole responsibility. If you have concerns about the content served by an instance, contact the operator of that instance and not the maintainers of the software.",
+      "header": "Licensing information",
+      "local_tip": "With some setup work and technical knowledge, you can even run an instance of the server on your own computer, either to play with a show that has no existing instance for it, to set up your own instance for others to use, or to play locally without the network latency involved in serving the images.",
+      "main": "This site ({instanceName}) is running an instance of {softwareName}. Know your rights! This software is provided to you under the terms of the {licenseName}. That means you, the user, have a right to access a copy of its source code, including the code run by this instance, if a modified version is running. {modDeclaration}",
+      "modified": "You can find a copy of the code for this instance at: {sourceCodeLink}",
+      "name": "Affero GNU Public License 3.0 (AGPLv3)",
+      "unmodified": "(The instance operator did not provide an instance-specific source code URL, and therefore declares that their server software is unmodified.)",
+      "url": "https://www.gnu.org/licenses/agpl-3.0.html"
+    },
+    "machine_translation_disclaimer": "Text on this site has been translated from English using machine translation. Apologies for any mistranslations.",
+    "site_info_header": "Site instance information",
+    "stats": {
+      "current_guess_time": "Tracks the time spent guessing the current frame.",
+      "header": "Stats",
+      "intro": "This site tracks several stats that may be interesting to some players. Most are hidden by default to avoid being distracting; click the button labeled \"{moreLabel}\" to show them.",
+      "percent": "Tracks the number of correct guesses, total frames, and percent correct.",
+      "real_time": "Tracks the total time taken since the first frame shown.",
+      "streak": "Tracks the current number of correct guesses in a row.",
+      "total_guess_time": "Tracks the total time spent guessing. Excludes load time and time spent waiting after answering and before getting a new frame."
+    },
+    "tmdb": {
+      "attribution": "This product uses the {tmdbApiLink} but is not endorsed or certified by {tmdbLink}.",
+      "explanation": "Episode data, such as names and descriptions, was sourced from TMDB for use in this instance. If there are errors or omissions, consider contributing fixes and asking the site instance operator to download the updated data.",
+      "tmdb_page": "TMDB page.",
+      "header": "TMDB attribution"
+    }
+  },
+  "input": {
+    "about": "About",
+    "new_frame": "New Frame",
+    "placeholder": {
+      "fuzzy": "Fuzzy search ({characters}+ characters) or sXXeXX...",
+      "new": "Get new frame?"
+    },
+    "reset": "Reset",
+    "skip": "Skip",
+    "use_synopsis": "Use synopsis"
+  },
+  "language": {
+    "language": "Language: "
+  },
+  "readout": {
+    "answer_error": "Error getting answer: {error}. Try again?",
+    "answer_not_found": "Answer not found. It may have expired. Try again.",
+    "correct": "✅ Correct",
+    "correct_message": "{correct}: {answer}.",
+    "entry_select_fail": "No entry number ${number} in search results.",
+    "generation_error": "Error generating frame: {error}. Try again?",
+    "guess_prompt": "Guess the {show} episode that the frame is randomly selected from using the search box.",
+    "incorrect": "incorrect",
+    "incorrect_message": "{guess} is ❌ {incorrect}. Answer: {answer}.",
+    "network_error": "Network error, or server may be down for maintenance. Check connection and try again.",
+    "rate_limit": "Request limit reached. Try again later.",
+    "skipped": "⏩ Skipped",
+    "skipped_message": "{skipped}. Answer: {answer}.",
+    "welcome": "Welcome! The first image will load shortly."
+  },
+  "space": " ",
+  "stats": {
+    "current_guess_time": "current guess time: ",
+    "less": "Less",
+    "more": "More",
+    "real_time": "real time: ",
+    "streak": "streak: ",
+    "total_guess_time": "total guess time: "
+  }
+}

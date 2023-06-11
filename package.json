@@ -55,6 +55,7 @@
     "vue-tsc": "^1.2.0"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "^8.0.0-beta.12",
     "@pinia/nuxt": "^0.4.9",
     "chalk": "^5.2.0",
     "fuse.js": "^6.6.2",

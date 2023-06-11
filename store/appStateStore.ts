@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import { ref, Ref } from "vue";
 
-export interface MessageReadout {
+export interface KeyReadout {
   type: "message";
-  message: string;
+  i18nKey: string;
+  props?: { [key: string]: string };
 }
 
 export interface CorrectReadout {
@@ -23,14 +24,14 @@ export interface SkippedReadout {
 }
 
 export type Readout =
-  | MessageReadout
+  | KeyReadout
   | CorrectReadout
   | IncorrectReadout
   | SkippedReadout;
 
 const initialReadout: Readout = {
   type: "message",
-  message: "Welcome! The first image will load shortly.",
+  i18nKey: "readout.welcome",
 };
 
 export const useAppStateStore = defineStore("appState", () => {
@@ -50,13 +51,17 @@ export const useAppStateStore = defineStore("appState", () => {
 
   /**
    * Convenience method to set the readout.
-   * @param messageOrReadout Raw string message or readout object.
+   * @param i18nKeyOrReadout Raw string message or readout object.
+   * @param props Additional properties, passed to $t.
    */
-  function readout(messageOrReadout: string | Readout) {
-    if (typeof messageOrReadout === "string") {
-      readouts.value = [{ type: "message", message: messageOrReadout }];
+  function readout(
+    i18nKeyOrReadout: string | Readout,
+    props?: { [key: string]: string },
+  ) {
+    if (typeof i18nKeyOrReadout === "string") {
+      readouts.value = [{ type: "message", i18nKey: i18nKeyOrReadout, props }];
     } else {
-      readouts.value = [messageOrReadout];
+      readouts.value = [i18nKeyOrReadout];
     }
   }
 

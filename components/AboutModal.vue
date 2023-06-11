@@ -1,16 +1,18 @@
 <template>
   <section v-if="show" class="modalContainer">
     <div class="aboutLine">
-      <h2>About</h2>
+      <h2>{{ $t("about.header") }}</h2>
       <button @click="$emit('close')">X</button>
     </div>
+    <p v-if="locale !== 'en'">
+      {{ $t("about.machine_translation_disclaimer") }}
+    </p>
     <section
       v-if="config.public.instanceInfoHtml || config.public.instanceInfoText"
     >
-      <h3>Instance information</h3>
+      <h3>{{ $t("about.site_info_header") }}</h3>
       <p class="grayedText">
-        (The instance operator has provided the following information specific
-        to this instance.)
+        {{ $t("about.instance_specific_disclaimer") }}
       </p>
       <!-- eslint-disable vue/no-v-html -- Provided by instance operator. -->
       <p
@@ -21,143 +23,170 @@
         {{ config.public.instanceInfoText }}
       </p>
     </section>
-    <h3>Instructions</h3>
-    <p>
-      This site generates and shows a completely random frame<span
-        v-if="showName"
-        >{{ " from " + showName }}</span
-      >, selecting from all episodes with equal probability. Play a guessing
-      game to test your trivia knowledge, or just enjoy the generated frames.
-    </p>
+    <h3>{{ $t("about.instructions.header") }}</h3>
+    <i18n-t
+      keypath="about.instructions.what_is_this_site"
+      tag="p"
+      scope="global"
+    >
+      <template #showName>{{ showName }}</template>
+    </i18n-t>
 
     <ul>
-      <li>
-        To provide a guess, type at least
-        {{ config.public.fuzzySearchMinMatchLength }} characters in the search
-        box to fuzzily search episode names and descriptions. Keep typing until
-        the desired episode is at the top, or use the
-        <code>up/down arrow keys</code> plus <code>Enter</code>, the mouse, or
-        <code>Ctrl + number</code> or <code>Alt + number</code> to select a
-        specific entry.
-      </li>
-      <li>
-        The "Use synopsis" checkbox can be used to enable or disable showing and
-        searching the episode descriptions.
-      </li>
-      <li>
-        You can also search by season and episode number by entering a query
-        like <code>s2e3</code> or <code>2x3</code>.
-      </li>
-      <li>
-        In addition to the skip button, if you want to skip guessing, either
-        because you're stumped or you just want to enjoy the frames being
-        generated, you can submit an empty input to the search box.
-      </li>
-      <li>
-        Images are destroyed as soon as they're loaded, so reloading an image
-        (using the refresh function or something else that bypasses your
-        browser's cache) won't work. When you find a frame worth saving, you can
-        still right click and save an image normally.
-      </li>
-      <li>
-        The font size in the input pane follows from your browser's defaults. If
-        you want it to be larger, for example, when presenting or streaming, you
-        can zoom in without impacting the page layout too much.
-      </li>
-    </ul>
-    <h4>Stats</h4>
-    The site tracks several stats that may be interesting to some players. Most
-    are hidden by default to avoid being distracting; click the button labeled
-    ">> More" to show them.
-    <ul>
-      <li>
-        <strong>X / X (X%)</strong>: Tracks the number of correct guesses, total
-        frames, and percent correct.
-      </li>
-      <li>
-        <strong>streak</strong>: Tracks the current number of correct guesses in
-        a row.
-      </li>
-      <li>
-        <strong>real time</strong>: Tracks the total time taken since the first
-        frame shown.
-      </li>
-      <li>
-        <strong>total guess time</strong>: Tracks the total time spent guessing.
-        Excludes load time and time spent waiting after answering and before
-        getting a new frame.
-      </li>
-      <li>
-        <strong>current guess time</strong>: Tracks the time spent guessing the
-        current frame.
-      </li>
-    </ul>
-    <h3>Licensing information</h3>
-    <p>
-      This site
-      <span v-if="config.public.instanceName"
-        >({{ config.public.instanceName }})</span
+      <i18n-t
+        keypath="about.instructions.controls.info"
+        tag="li"
+        scope="global"
       >
-      is running an instance of
-      <a :href="originalSourceUrl"><code>frame-randomizer</code></a>
-      <code>(v{{ config.public.softwareVersion }})</code>. Know your rights!
-      This software is provided to you under the terms of the
-      <a href="https://www.gnu.org/licenses/agpl-3.0.html"
-        >Affero GNU Public License 3.0 (AGPLv3)</a
-      >. That means you, the user, have a right to access a copy of its source
-      code, including the code run by this instance, if a modified version is
-      running.
-      <span v-if="modifiedSource">
-        You can find a copy of the code for this instance
-        <a :href="config.public.sourceCodeUrl">here</a>.
-      </span>
-      <span v-else class="grayedText">
-        (The instance operator did not provide an instance-specific source code
-        URL, and therefore attests that their server software is unmodified.)
-      </span>
+        <template #upDown
+          ><code>{{
+            $t("about.instructions.controls.up_down")
+          }}</code></template
+        >
+        <template #ctrlNum
+          ><code>{{
+            $t("about.instructions.controls.ctrl_num")
+          }}</code></template
+        >
+        <template #altNum
+          ><code>{{
+            $t("about.instructions.controls.alt_num")
+          }}</code></template
+        >
+      </i18n-t>
+      <li>
+        <i18n-t keypath="about.instructions.synopsis" tag="span" scope="global">
+          <template #synopsisLabel>{{ $t("input.use_synopsis") }}</template>
+        </i18n-t>
+        <span v-if="!synopsisAvailable"
+          >{{ $t("space") }}{{ $t("about.instructions.no_synopsis") }}</span
+        ><span v-if="!synopsisAvailable && config.public.attributeTmdb"
+          >{{ $t("space")
+          }}{{ $t("about.instructions.synopsis_update_tmdb_hint") }}</span
+        >
+      </li>
+      <i18n-t
+        keypath="about.instructions.episode_search_tip.tip"
+        tag="li"
+        scope="global"
+      >
+        <template #example1
+          ><code>{{
+            $t("about.instructions.episode_search_tip.example1")
+          }}</code></template
+        >
+        <template #example2
+          ><code>{{
+            $t("about.instructions.episode_search_tip.example2")
+          }}</code></template
+        >
+      </i18n-t>
+      <i18n-t keypath="about.instructions.skip_tip" tag="li" scope="global">
+        <template #skipLabel>{{ $t("input.skip") }}</template>
+      </i18n-t>
+      <li>
+        {{ $t("about.instructions.image_lifetime_tip") }}
+      </li>
+      <li>
+        {{ $t("about.instructions.font_size_tip") }}
+      </li>
+    </ul>
+    <h4>
+      {{ $t("about.stats.header") }}
+    </h4>
+    <i18n-t keypath="about.stats.intro" tag="p" scope="global">
+      <template #moreLabel>{{ $t("stats.more") }}</template>
+    </i18n-t>
+    <ul>
+      <li><strong>X / X (X%): </strong>{{ $t("about.stats.percent") }}</li>
+      <li>
+        <strong>{{ $t("stats.streak") }}</strong
+        >{{ $t("about.stats.streak") }}
+      </li>
+      <li>
+        <strong>{{ $t("stats.real_time") }}</strong
+        >{{ $t("about.stats.real_time") }}
+      </li>
+      <li>
+        <strong>{{ $t("stats.total_guess_time") }}</strong
+        >{{ $t("about.stats.total_guess_time") }}
+      </li>
+      <li>
+        <strong>{{ $t("stats.current_guess_time") }}</strong> {{ $t("space")
+        }}{{ $t("about.stats.current_guess_time") }}
+      </li>
+    </ul>
+    <h3>{{ $t("about.licensing.header") }}</h3>
+    <p>
+      <i18n-t keypath="about.licensing.main" tag="p" scope="global">
+        <template #instanceName>{{ config.public.instanceName }}</template>
+        <template #softwareName>
+          <a :href="originalSourceUrl"><code>frame-randomizer</code></a>
+          <code>(v{{ config.public.softwareVersion }})</code>
+        </template>
+        <template #licenseName>
+          <a :href="$t('about.licensing.url')">{{
+            $t("about.licensing.name")
+          }}</a>
+        </template>
+        <template #modDeclaration>
+          <i18n-t
+            v-if="modifiedSource"
+            keypath="about.licensing.modified"
+            tag="span"
+            scope="global"
+          >
+            <template #sourceCodeLink>
+              <a :href="config.public.sourceCodeUrl">{{
+                config.public.sourceCodeUrl
+              }}</a
+              >.</template
+            >
+          </i18n-t>
+          <span v-else class="grayedText">
+            {{ $t("about.licensing.unmodified") }}
+          </span>
+        </template>
+      </i18n-t>
     </p>
     <p>
-      With some setup work and technical knowledge, you can even run an instance
-      of the server on your own computer, either to play with a show that has no
-      existing instance for it, to set up your own instance for others to use,
-      or to play locally without the network latency involved in serving the
-      images.
+      {{ $t("about.licensing.local_tip") }}
     </p>
     <p>
-      Note that this software is agnostic of what show is randomized from. The
-      content served is the instance operator's sole responsibility. If you have
-      concerns about the content served by an instance, contact the operator of
-      that instance and not the maintainers of the software.
+      {{ $t("about.licensing.content_disclaimer") }}
     </p>
     <section v-if="config.public.attributeTmdb">
-      <h3>TMDB attribution</h3>
+      <h3>{{ $t("about.tmdb.header") }}</h3>
       <p>
-        <em>
-          This product uses the
-          <a href="https://developer.themoviedb.org/docs">TMDB API</a> but is
-          not endorsed or certified by
-          <a href="https://www.themoviedb.org/">TMDB</a>.
-        </em>
+        <i18n-t keypath="about.tmdb.attribution" tag="em" scope="global">
+          <template #tmdbApiLink>
+            <a href="https://developer.themoviedb.org/docs">TMDB API</a>
+          </template>
+          <template #tmdbLink>
+            <a href="https://www.themoviedb.org/">TMDB</a>
+          </template>
+        </i18n-t>
       </p>
       <a href="https://www.themoviedb.org">
         <img src="/tmdb_logo.svg" alt="TMDB logo"
       /></a>
       <p>
-        Episode data, such as names and descriptions, was sourced from TMDB for
-        use in this instance.
+        {{ $t("about.tmdb.explanation") }}
       </p>
     </section>
-    <button @click="$emit('close')">Okay</button>
+    <button @click="$emit('close')">{{ $t("about.close") }}</button>
   </section>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useRuntimeConfig } from "#app";
+import { useI18n } from "#imports";
 import { useShowDataStore } from "~~/store/showDataStore";
 
+const { locale } = useI18n();
 const store = useShowDataStore();
-const { showName } = storeToRefs(store);
+const { showName, synopsisAvailable } = storeToRefs(store);
 
 const originalSourceUrl = "https://github.com/steadygaze/frame-randomizer";
 const config = useRuntimeConfig();

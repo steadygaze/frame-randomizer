@@ -1,17 +1,55 @@
 <template>
   <div class="readoutContainer">
     <div v-for="readout in readouts" :key="readout.toString()">
-      <p v-if="readout.type === 'correct'">
-        <span class="correct">Correct.</span> {{ readout.answer }}
-      </p>
-      <p v-else-if="readout.type === 'incorrect'">
-        {{ readout.guess }} is <span class="incorrect">incorrect</span>. Answer:
-        {{ readout.answer }}.
-      </p>
-      <p v-else-if="readout.type === 'skipped'">
-        <span class="skipped">Skipped</span>. Answer: {{ readout.answer }}.
-      </p>
-      <p v-else>{{ readout.message }}</p>
+      <i18n-t
+        v-if="readout.type === 'correct'"
+        keypath="readout.correct_message"
+        tag="p"
+        scope="global"
+      >
+        <template #correct>
+          <span class="correct">
+            {{ $t("readout.correct") }}
+          </span>
+        </template>
+        <template #answer>
+          {{ readout.answer }}
+        </template>
+      </i18n-t>
+      <i18n-t
+        v-else-if="readout.type === 'incorrect'"
+        keypath="readout.incorrect_message"
+        tag="p"
+        scope="global"
+      >
+        <template #guess>
+          {{ readout.guess }}
+        </template>
+        <template #incorrect>
+          <span class="incorrect">
+            {{ $t("readout.incorrect") }}
+          </span>
+        </template>
+        <template #answer>
+          {{ readout.answer }}
+        </template>
+      </i18n-t>
+      <i18n-t
+        v-else-if="readout.type === 'skipped'"
+        keypath="readout.skipped_message"
+        tag="p"
+        scope="global"
+      >
+        <template #skipped>
+          <span class="skipped">
+            {{ $t("readout.skipped") }}
+          </span>
+        </template>
+        <template #answer>
+          {{ readout.answer }}
+        </template>
+      </i18n-t>
+      <p v-else>{{ $t(readout.i18nKey) }}</p>
     </div>
   </div>
 </template>

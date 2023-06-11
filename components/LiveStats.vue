@@ -9,23 +9,23 @@
       >
     </div>
     <div v-if="showMoreStats">
-      <span class="statLabel">streak:</span>
+      <span class="statLabel">{{ $t("stats.streak") }}</span>
       {{ streakCounter }}
     </div>
     <div v-if="showMoreStats">
-      <span class="statLabel">real time:</span>
+      <span class="statLabel">{{ $t("stats.real_time") }}</span>
       {{ realTimeText }}
     </div>
     <div v-if="showMoreStats">
-      <span class="statLabel">total guess time:</span>
+      <span class="statLabel">{{ $t("stats.total_guess_time") }}</span>
       {{ totalGuessTimeText }}
     </div>
     <div v-if="showMoreStats">
-      <span class="statLabel">current guess time:</span>
+      <span class="statLabel">{{ $t("stats.current_guess_time") }}</span>
       {{ currentGuessTimeText }}
     </div>
     <button id="moreStatsButton" @click="showMoreStats = !showMoreStats">
-      {{ showMoreStats ? "<< Less" : ">> More" }}
+      {{ showMoreStats ? `<< ${$t("stats.less")}` : `>> ${$t("stats.more")}` }}
     </button>
   </div>
 </template>

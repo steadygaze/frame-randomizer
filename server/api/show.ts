@@ -14,17 +14,21 @@ export default defineLazyEventHandler(async () => {
   const { defaultLanguage, clientData } = await getShowData(config);
 
   return defineEventHandler((event) => {
-    const language = String(getQuery(event).language || defaultLanguage);
-    if (language === "undefined" && !defaultLanguage) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "No language specified",
-      });
+    let language = String(getQuery(event).language || defaultLanguage);
+    if (language === "undefined") {
+      if (defaultLanguage) {
+        language = defaultLanguage;
+      } else {
+        throw createError({
+          statusCode: 400,
+          statusMessage: "No language specified",
+        });
+      }
     }
     if (!(language in clientData)) {
       throw createError({
         statusCode: 404,
-        statusMessage: `language "${language}" not found`,
+        statusMessage: `language "${language}" not found and no default`,
       });
     }
 

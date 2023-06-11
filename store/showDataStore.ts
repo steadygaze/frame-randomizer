@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useFetch } from "#app";
+import { useI18n } from "#imports";
 import { episodeName } from "~/utils/utils";
 import { ClientEpisodeData } from "~/server/api/show";
 
@@ -13,12 +14,14 @@ export interface ProcessedEpisodeData {
 }
 
 export const useShowDataStore = defineStore("episodeData", () => {
+  const { locale } = useI18n();
+
   const showName = ref("");
   const synopsisAvailable = ref(false);
   const episodeData = ref([] as ProcessedEpisodeData[]);
 
   const initShowData = async () => {
-    const { data } = await useFetch("/api/show");
+    const { data } = await useFetch(`/api/show?language=${locale.value}`);
     if (data.value) {
       showName.value = data.value.name;
       synopsisAvailable.value = data.value.synopsisAvailable;
@@ -33,6 +36,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
 
   return {
     showName,
+    synopsisAvailable,
     episodeData,
     initShowData,
   };
