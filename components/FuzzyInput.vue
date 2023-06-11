@@ -119,7 +119,7 @@ const fuseSynopsis = new Fuse(episodeData.value as ProcessedEpisodeData[], {
       weight: config.public.fuzzySearchWeightName,
     },
     {
-      name: "overview",
+      name: "synopsis",
       weight: config.public.fuzzySearchWeightSynopsis,
     },
   ],

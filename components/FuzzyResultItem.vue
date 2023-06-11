@@ -10,7 +10,7 @@
     ><br />
     <span v-if="showSynopsis">
       <span
-        v-for="(part, index) in chunkedOverview"
+        v-for="(part, index) in chunkedSynopsis"
         :key="index"
         :class="{ matching: part?.matching }"
       >
@@ -49,8 +49,8 @@ function findAndChunkKeyMatches(key: keyof ProcessedEpisodeData): SearchPart[] {
 }
 
 const chunkedName = computed(() => findAndChunkKeyMatches("name"));
-const chunkedOverview = computed(() =>
-  props.showSynopsis ? findAndChunkKeyMatches("overview") : [],
+const chunkedSynopsis = computed(() =>
+  props.showSynopsis ? findAndChunkKeyMatches("synopsis") : [],
 );
 
 const mySeasonEpisodeTag = computed(() =>

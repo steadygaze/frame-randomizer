@@ -495,26 +495,26 @@ describe("extractPerLanguageData", () => {
     expect(extractPerLanguageData(oneLanguageOneEpisodeInputShowData)).toEqual({
       en: {
         name: "Test Show",
-        overviewAvailable: true,
+        synopsisAvailable: true,
         episodes: [
           {
             season: 1,
             episode: 1,
             name: "My First Episode",
-            overview: "In the first episode, the first episode happens.",
+            synopsis: "In the first episode, the first episode happens.",
           },
         ],
       },
     });
   });
 
-  it("should indicate if no overview", () => {
+  it("should indicate if no synopsis", () => {
     expect(
       extractPerLanguageData(oneLanguageTwoEpisodeNoOverviewInputShowData),
     ).toEqual({
       en: {
         name: "Test Show",
-        overviewAvailable: false,
+        synopsisAvailable: false,
         episodes: [
           {
             season: 1,
@@ -535,44 +535,44 @@ describe("extractPerLanguageData", () => {
     expect(extractPerLanguageData(oneLanguageSixEpisodeInputShowData)).toEqual({
       en: {
         name: "Test Show",
-        overviewAvailable: true,
+        synopsisAvailable: true,
         episodes: [
           {
             season: 1,
             episode: 1,
             name: "My First Episode",
-            overview: "In the first episode, the first episode happens.",
+            synopsis: "In the first episode, the first episode happens.",
           },
           {
             season: 1,
             episode: 2,
             name: "My Second Episode",
-            overview: "In the second episode, the second episode happens.",
+            synopsis: "In the second episode, the second episode happens.",
           },
           {
             season: 1,
             episode: 3,
             name: "My Third Episode",
-            overview: "In the third episode, the third episode happens.",
+            synopsis: "In the third episode, the third episode happens.",
           },
           {
             season: 2,
             episode: 1,
             name: "My First Episode Redux",
-            overview: "In the first episode, the first episode happens again.",
+            synopsis: "In the first episode, the first episode happens again.",
           },
           {
             season: 2,
             episode: 2,
             name: "My Second Episode Redux",
-            overview:
+            synopsis:
               "In the second episode, the second episode happens again.",
           },
           {
             season: 2,
             episode: 3,
             name: "My Third Episode Redux",
-            overview: "In the third episode, the third episode happens again.",
+            synopsis: "In the third episode, the third episode happens again.",
           },
         ],
       },
@@ -583,87 +583,87 @@ describe("extractPerLanguageData", () => {
     expect(extractPerLanguageData(twoLanguageSixEpisodeInputShowData)).toEqual({
       en: {
         name: "Test Show",
-        overviewAvailable: true,
+        synopsisAvailable: true,
         episodes: [
           {
             season: 1,
             episode: 1,
             name: "My First Episode",
-            overview: "In the first episode, the first episode happens.",
+            synopsis: "In the first episode, the first episode happens.",
           },
           {
             season: 1,
             episode: 2,
             name: "My Second Episode",
-            overview: "In the second episode, the second episode happens.",
+            synopsis: "In the second episode, the second episode happens.",
           },
           {
             season: 1,
             episode: 3,
             name: "My Third Episode",
-            overview: "In the third episode, the third episode happens.",
+            synopsis: "In the third episode, the third episode happens.",
           },
           {
             season: 2,
             episode: 1,
             name: "My First Episode Redux",
-            overview: "In the first episode, the first episode happens again.",
+            synopsis: "In the first episode, the first episode happens again.",
           },
           {
             season: 2,
             episode: 2,
             name: "My Second Episode Redux",
-            overview:
+            synopsis:
               "In the second episode, the second episode happens again.",
           },
           {
             season: 2,
             episode: 3,
             name: "My Third Episode Redux",
-            overview: "In the third episode, the third episode happens again.",
+            synopsis: "In the third episode, the third episode happens again.",
           },
         ],
       },
       xn: {
         name: "Xest Xhow",
-        overviewAvailable: true,
+        synopsisAvailable: true,
         episodes: [
           {
             season: 1,
             episode: 1,
             name: "Xy Xirst Xpisode",
-            overview: "Xn the first episode, the first episode happens.",
+            synopsis: "Xn the first episode, the first episode happens.",
           },
           {
             season: 1,
             episode: 2,
             name: "Xy Xecond Xpisode",
-            overview: "Xn the second episode, the second episode happens.",
+            synopsis: "Xn the second episode, the second episode happens.",
           },
           {
             season: 1,
             episode: 3,
             name: "Xy Xhird Xpisode",
-            overview: "Xn the third episode, the third episode happens.",
+            synopsis: "Xn the third episode, the third episode happens.",
           },
           {
             season: 2,
             episode: 1,
             name: "Xy Xirst Xpisode Xedux",
-            overview: "Xn the first episode, the first episode happens again.",
+            synopsis: "Xn the first episode, the first episode happens again.",
           },
           {
             season: 2,
             episode: 2,
             name: "Xy Xecond Xpisode Xedux",
-            overview:
+            synopsis:
               "Xn the second episode, the second episode happens again.",
           },
           {
             season: 2,
             episode: 3,
             name: "Xy Xhird Xpisode Xedux",
-            overview: "Xn the third episode, the third episode happens again.",
+            synopsis: "Xn the third episode, the third episode happens again.",
           },
         ],
       },
@@ -685,26 +685,26 @@ describe("extractPerLanguageData", () => {
     ).toEqual({
       en: {
         name: "Test Show",
-        overviewAvailable: true,
+        synopsisAvailable: true,
         episodes: [
           {
             season: 2,
             episode: 2,
             name: "My Second Episode Redux",
-            overview:
+            synopsis:
               "In the second episode, the second episode happens again.",
           },
         ],
       },
       xn: {
         name: "Xest Xhow",
-        overviewAvailable: true,
+        synopsisAvailable: true,
         episodes: [
           {
             season: 2,
             episode: 2,
             name: "Xy Xecond Xpisode Xedux",
-            overview:
+            synopsis:
               "Xn the second episode, the second episode happens again.",
           },
         ],

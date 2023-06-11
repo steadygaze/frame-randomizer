@@ -40,12 +40,12 @@ export interface ClientEpisodeData {
   season: number;
   episode: number;
   name: string;
-  overview?: string;
+  synopsis?: string;
 }
 
 export interface ClientShowData {
   name: string;
-  overviewAvailable: boolean;
+  synopsisAvailable: boolean;
   episodes: ClientEpisodeData[];
 }
 
@@ -419,23 +419,23 @@ export function extractPerLanguageData(
             season: seasonN,
             episode: episodeN,
             name,
-            // Overview may be missing in some languages. Don't bother returning
+            // Synopsis may be missing in some languages. Don't bother returning
             // it in the API if it's empty.
-            ...(overview && { overview }),
+            ...(overview && { synopsis: overview }),
           };
         },
       );
 
-      // Whether this language has any translated overviews.
-      const overviewAvailable = clientEpisodes.some(
-        (episode) => episode.overview,
+      // Whether this language has any translated synopses.
+      const synopsisAvailable = clientEpisodes.some(
+        (episode) => episode.synopsis,
       );
 
       return [
         language,
         {
           name,
-          overviewAvailable,
+          synopsisAvailable,
           episodes: clientEpisodes,
         },
       ];

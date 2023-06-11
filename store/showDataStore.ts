@@ -9,17 +9,19 @@ export interface ProcessedEpisodeData {
   episode: number;
   name: string;
   fullName: string;
-  overview?: string;
+  synopsis?: string;
 }
 
 export const useShowDataStore = defineStore("episodeData", () => {
-  const episodeData = ref([] as ProcessedEpisodeData[]);
   const showName = ref("");
+  const synopsisAvailable = ref(false);
+  const episodeData = ref([] as ProcessedEpisodeData[]);
 
   const initShowData = async () => {
     const { data } = await useFetch("/api/show");
     if (data.value) {
       showName.value = data.value.name;
+      synopsisAvailable.value = data.value.synopsisAvailable;
       episodeData.value = data.value.episodes.map((ep: ClientEpisodeData) => {
         return {
           ...ep,
