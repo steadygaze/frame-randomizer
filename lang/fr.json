@@ -52,6 +52,10 @@
       "header": "Attribution TMDB"
     }
   },
+  "head": {
+    "description": "Générez une image aléatoire à partir de {show} et devinez de quel épisode elle provient.",
+    "title": "{instance} : {show} cadre randomiseur"
+  },
   "input": {
     "about": "À propos",
     "new_frame": "Nouveau cadre",

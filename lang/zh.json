@@ -52,6 +52,10 @@
       "header": "TMDB归属"
     }
   },
+  "head": {
+    "description": "从{show}生成一个随机帧，并猜测它来自哪一集。",
+    "title": "{instance} : {show}帧随机化器"
+  },
   "input": {
     "about": "关于",
     "new_frame": "新画框",
