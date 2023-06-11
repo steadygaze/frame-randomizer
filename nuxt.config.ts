@@ -199,6 +199,8 @@ export default defineNuxtConfig({
       // modified version. If you don't provide a different link here, you
       // attest that your instance's code is unmodified.
       sourceCodeUrl: "https://github.com/steadygaze/frame-randomizer",
+      // If attributing TMDB and this is given, also link the TMDB page.
+      tmdbTvShowId: undefined,
     },
     // Whether to search subdirectories of videoSourceDir. Directory path is not
     // considered when matching files with the right episode, only filename.

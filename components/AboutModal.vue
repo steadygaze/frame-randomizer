@@ -172,6 +172,11 @@
       /></a>
       <p>
         {{ $t("about.tmdb.explanation") }}
+        <a
+          v-if="config.public.tmdbTvShowId"
+          :href="`https://www.themoviedb.org/tv/${config.public.tmdbTvShowId}`"
+          >{{ $t("about.tmdb.tmdb_page") }}</a
+        >
       </p>
     </section>
     <button @click="$emit('close')">{{ $t("about.close") }}</button>
