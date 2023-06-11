@@ -11,3 +11,4 @@ dist
 **/.svn
 **/.hg
 **/node_modules
+frame-randomizer/
