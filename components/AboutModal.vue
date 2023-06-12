@@ -8,7 +8,11 @@
       {{ $t("about.machine_translation_disclaimer") }}
     </p>
     <section
-      v-if="config.public.instanceInfoHtml || config.public.instanceInfoText"
+      v-if="
+        instanceInfo ||
+        config.public.instanceInfoHtml ||
+        config.public.instanceInfoText
+      "
     >
       <h3>{{ $t("about.site_info_header") }}</h3>
       <p class="grayedText">
@@ -16,10 +20,18 @@
       </p>
       <!-- eslint-disable vue/no-v-html -- Provided by instance operator. -->
       <p
-        v-if="config.public.instanceInfoHtml"
+        v-if="instanceInfo && instanceInfo.html"
+        v-html="instanceInfo.perLocale[locale]"
+      ></p>
+      <p v-else-if="instanceInfo">
+        {{ instanceInfo.perLocale[locale] }}
+      </p>
+      <!-- eslint-disable vue/no-v-html -- Provided by instance operator. -->
+      <p
+        v-else-if="config.public.instanceInfoHtml"
         v-html="config.public.instanceInfoHtml"
       ></p>
-      <p v-if="config.public.instanceInfoText">
+      <p v-else-if="config.public.instanceInfoText">
         {{ config.public.instanceInfoText }}
       </p>
     </section>
@@ -189,6 +201,14 @@ import { useRuntimeConfig } from "#app";
 import { useI18n } from "#imports";
 import { useShowDataStore } from "~~/store/showDataStore";
 
+interface InstanceInfoData {
+  html: boolean;
+  defaultLocale: string;
+  perLocale: {
+    [key: string]: string;
+  };
+}
+
 const { locale } = useI18n();
 const store = useShowDataStore();
 const { showName, synopsisAvailable } = storeToRefs(store);
@@ -198,6 +218,10 @@ const config = useRuntimeConfig();
 const modifiedSource =
   config.public.sourceCodeUrl &&
   config.public.sourceCodeUrl !== originalSourceUrl;
+
+const instanceInfo = config.public.instanceInfoData as unknown as
+  | InstanceInfoData
+  | undefined;
 
 defineProps<{
   show: boolean;

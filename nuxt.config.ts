@@ -198,6 +198,8 @@ export default defineNuxtConfig({
       // What extension to output images as. Naturally, these have different
       // tradeoffs in terms of output filesize, generation/encoding time, etc.
       imageOutputExtension: "webp",
+      // JSON instance info that will be shown in the About section.
+      instanceInfoData: undefined,
       // Instance info that will be shown in the About section. This allows HTML
       // tags; use this if you want to include HTML. You might want to include a
       // way for users to contact you if there are problems, attribution or
