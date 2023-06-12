@@ -77,7 +77,7 @@ export default defineNuxtConfig({
       ffprobePersistentCache: {
         base:
           process.env.FR_FFPROBE_CACHE_DIR ||
-          "/tmp/frame-randomizer/ffprobe-cache",
+          "./frame-randomizer/ffprobe-cache",
         driver: "fs",
       },
 
@@ -162,7 +162,7 @@ export default defineNuxtConfig({
     // Where generated images will be outputted to and served from. Apparently
     // orphaned images will be cleaned out of this directory, so don't point it
     // to somewhere that has important data!
-    frameOutputDir: "/tmp/frame-randomizer/frames",
+    frameOutputDir: "./frame-randomizer/frames",
     // Number of images to pregenerate. These will be ready for serving right
     // away, and will be replaced as soon as they're served.
     framePregenCount: 3,
