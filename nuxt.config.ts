@@ -89,6 +89,9 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/api/frame/gen": {
+      headers: {
+        "cache-control": "no-cache, no-store",
+      },
       security: {
         rateLimiter: {
           interval: "hour",
@@ -104,6 +107,13 @@ export default defineNuxtConfig({
         // might want the image to stick around
         "cache-control": `private, immutable, max-age=${
           process.env.FR_FRAME_CACHE_AGE || 60 * 60 * 24 * 7
+        }`,
+      },
+    },
+    "/api/show": {
+      headers: {
+        "cache-control": `public, max-age=${
+          process.env.FR_SHOW_CACHE_AGE || 60 * 60 * 8
         }`,
       },
     },
