@@ -2,6 +2,65 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.9
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.0.8...v0.0.9)
+
+### 🚀 Enhancements
+
+- Include frame path in initial SSR result ([c8bf5f2](https://github.com/steadygaze/frame-randomizer/commit/c8bf5f2))
+- Support multi-language show data input ([a36061d](https://github.com/steadygaze/frame-randomizer/commit/a36061d))
+- Add a defaultLanguage option ([e7c8b96](https://github.com/steadygaze/frame-randomizer/commit/e7c8b96))
+- Add frontend i18n support ([d21bdae](https://github.com/steadygaze/frame-randomizer/commit/d21bdae))
+- Add ability to show TMDB link given ID ([6c921f4](https://github.com/steadygaze/frame-randomizer/commit/6c921f4))
+- Add German, French, Russian, and Chinese ([526f22b](https://github.com/steadygaze/frame-randomizer/commit/526f22b))
+- Add permissive robots.txt ([515945f](https://github.com/steadygaze/frame-randomizer/commit/515945f))
+- Add translated reactive name and description ([849f7ec](https://github.com/steadygaze/frame-randomizer/commit/849f7ec))
+- Make video file extension configurable ([d1b2bed](https://github.com/steadygaze/frame-randomizer/commit/d1b2bed))
+- Generate a link to an episode from template ([58d64ad](https://github.com/steadygaze/frame-randomizer/commit/58d64ad))
+- Add localized instance info option ([fdb80cb](https://github.com/steadygaze/frame-randomizer/commit/fdb80cb))
+
+### 🔥 Performance
+
+- Allow caching of show data ([4e42895](https://github.com/steadygaze/frame-randomizer/commit/4e42895))
+
+### 🩹 Fixes
+
+- Tweak language select/input spacing ([610ed58](https://github.com/steadygaze/frame-randomizer/commit/610ed58))
+- Exempt Chinese from match length requirement ([01945e0](https://github.com/steadygaze/frame-randomizer/commit/01945e0))
+- Remove errant spaces from German ([9d77cba](https://github.com/steadygaze/frame-randomizer/commit/9d77cba))
+
+### 💅 Refactors
+
+- Change to ESM module loading by default ([867160c](https://github.com/steadygaze/frame-randomizer/commit/867160c))
+- Move to multi-page app ([d290a7f](https://github.com/steadygaze/frame-randomizer/commit/d290a7f))
+- Use easier URL parsing helpers ([dc7194b](https://github.com/steadygaze/frame-randomizer/commit/dc7194b))
+- Rename overview to synopsis on frontend ([7abe7bb](https://github.com/steadygaze/frame-randomizer/commit/7abe7bb))
+- Change default base path to pwd ([88736d2](https://github.com/steadygaze/frame-randomizer/commit/88736d2))
+
+### 📖 Documentation
+
+- Document spurious error message ([1cc85c0](https://github.com/steadygaze/frame-randomizer/commit/1cc85c0))
+- Update README.md for multi-language shows ([afc3036](https://github.com/steadygaze/frame-randomizer/commit/afc3036))
+
+### 📦 Build
+
+- Upgrade from nuxt 3.4.3 to 3.5.2 ([6c6f0dc](https://github.com/steadygaze/frame-randomizer/commit/6c6f0dc))
+- Add json key sort format check ([ab52609](https://github.com/steadygaze/frame-randomizer/commit/ab52609))
+- Upgrade to Nuxt 3.5.3 ([6109cc7](https://github.com/steadygaze/frame-randomizer/commit/6109cc7))
+- Upgrade miscellaneous deps ([7fb82f1](https://github.com/steadygaze/frame-randomizer/commit/7fb82f1))
+- Stop checking keys to fix prerender ([2b434f2](https://github.com/steadygaze/frame-randomizer/commit/2b434f2))
+- Stop using standard-version for changelogs ([bcb7b03](https://github.com/steadygaze/frame-randomizer/commit/bcb7b03))
+
+### 🤖 CI
+
+- Add coveralls test coverage upload ([a482d05](https://github.com/steadygaze/frame-randomizer/commit/a482d05))
+- Fix test coverage output format ([e8ff9bf](https://github.com/steadygaze/frame-randomizer/commit/e8ff9bf))
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ### [0.0.8](https://github.com/steadygaze/frame-randomizer/compare/v0.0.7...v0.0.8) (2023-06-01)
 
 ### Features
