@@ -1,0 +1,99 @@
+{
+  "about": {
+    "header": "O",
+    "close": "Zamknąć",
+    "instance_specific_disclaimer": "(Operator instancji dostarczył następujące informacje specyficzne dla tej instancji witryny).",
+    "instructions": {
+      "controls": {
+        "info": "Aby zgadnąć, wpisz co najmniej {fuzzySearchMinMatchLength} znaków w polu wyszukiwania, aby wyszukać nazwy i opisy odcinków. Kontynuuj pisanie, aż żądany odcinek pojawi się na górze, lub użyj {upDown} , myszy albo {ctrlNum} lub {altNum} , aby wybrać konkretny wpis.",
+        "alt_num": "Klawisz Alt + cyfra",
+        "ctrl_num": "Klawisz sterujący + cyfra",
+        "up_down": "klawisze strzałek w górę/w dół + klawisz Enter"
+      },
+      "episode_search_tip": {
+        "tip": "Możesz także wyszukiwać według numeru sezonu i odcinka, wprowadzając zapytanie takie jak {example1} lub {example2} .",
+        "example1": "s2e3",
+        "example2": "2x3"
+      },
+      "font_size_tip": "Rozmiar czcionki w okienku wprowadzania jest oparty na domyślnych ustawieniach przeglądarki. Jeśli chcesz, aby był większy, na przykład podczas prezentacji lub przesyłania strumieniowego, możesz powiększyć bez znacznego wpływu na układ strony.",
+      "header": "Instrukcje",
+      "image_lifetime_tip": "Obrazy są niszczone zaraz po załadowaniu, więc ponowne załadowanie obrazu przez odświeżenie strony, wyczyszczenie pamięci podręcznej przeglądarki lub wyświetlenie tego samego adresu URL obrazu na innym urządzeniu nie zadziała. Gdy znajdziesz klatkę wartą zapisania, nadal możesz kliknąć prawym przyciskiem myszy i normalnie zapisać obraz.",
+      "no_synopsis": "Niestety, streszczenia odcinków nie są dostępne w tym języku.",
+      "skip_tip": "Oprócz przycisku „ {skipLabel} ”, jeśli chcesz pominąć zgadywanie, ponieważ jesteś zakłopotany lub po prostu chcesz cieszyć się generowanymi ramkami, możesz wprowadzić puste dane w polu wyszukiwania.",
+      "synopsis": "Za pomocą pola wyboru „ {synopsisLabel} ” można włączyć lub wyłączyć wyświetlanie i wyszukiwanie opisów odcinków.",
+      "synopsis_update_tmdb_hint": "Rozważ przesłanie streszczeń odcinków do TMDB i powiadomienie właściciela instancji witryny.",
+      "what_is_this_site": "Ta strona generuje i pokazuje całkowicie losową klatkę od {showName} , wybierając ze wszystkich odcinków z równym prawdopodobieństwem. Zagraj w zgadywanki, aby sprawdzić swoją wiedzę o ciekawostkach lub po prostu ciesz się wygenerowanymi ramkami."
+    },
+    "licensing": {
+      "content_disclaimer": "Pamiętaj, że to oprogramowanie jest niezależne od tego, z jakiego programu jest wybierany losowo. Udostępniana treść jest wyłączną odpowiedzialnością operatora instancji. Jeśli masz wątpliwości dotyczące zawartości obsługiwanej przez instancję, skontaktuj się z operatorem tej instancji, a nie z opiekunami oprogramowania.",
+      "header": "Informacje o licencji",
+      "local_tip": "Przy odrobinie pracy konfiguracyjnej i wiedzy technicznej możesz nawet uruchomić instancję serwera na własnym komputerze, aby grać z programem, który nie ma istniejącej instancji, skonfigurować własną instancję do użytku przez innych lub grać lokalnie bez opóźnień sieci związanych z udostępnianiem obrazów.",
+      "main": "Ta witryna ( {instanceName} ) uruchamia instancję {softwareName} . Poznaj swoje prawa! To oprogramowanie jest dostarczane użytkownikowi na warunkach {licenseName} . Oznacza to, że ty, użytkownik, masz prawo dostępu do kopii jego kodu źródłowego, w tym kodu uruchamianego przez tę instancję, jeśli działa zmodyfikowana wersja. {modDeclaration}",
+      "modified": "Kopię kodu dla tej instancji można znaleźć pod adresem: {sourceCodeLink}",
+      "name": "Licencja publiczna Affero GNU 3.0 (AGPLv3)",
+      "unmodified": "(Operator instancji nie podał adresu URL kodu źródłowego specyficznego dla instancji, dlatego oświadcza, że jego oprogramowanie serwera nie zostało zmodyfikowane).",
+      "url": "https://www.gnu.org/licenses/agpl-3.0.html"
+    },
+    "machine_translation_disclaimer": "Tekst na tej stronie został przetłumaczony z języka angielskiego przy użyciu tłumaczenia maszynowego. Przepraszamy za wszelkie błędy w tłumaczeniach.",
+    "site_info_header": "Informacje o wystąpieniu witryny",
+    "stats": {
+      "current_guess_time": "Śledzi czas spędzony na odgadywaniu bieżącej klatki.",
+      "header": "Statystyki",
+      "intro": "Ta strona śledzi kilka statystyk, które mogą być interesujące dla niektórych graczy. Większość jest domyślnie ukryta, aby nie rozpraszać uwagi; kliknij przycisk oznaczony „ {moreLabel} ”, aby je wyświetlić.",
+      "percent": "Śledzi liczbę prawidłowych odgadnięć, całkowitą liczbę klatek i procent poprawności.",
+      "real_time": "Śledzi całkowity czas, jaki upłynął od wyświetlenia pierwszej klatki.",
+      "streak": "Śledzi bieżącą liczbę poprawnych odpowiedzi z rzędu.",
+      "total_guess_time": "Śledzi całkowity czas spędzony na zgadywaniu. Nie obejmuje czasu ładowania i czasu spędzonego na oczekiwaniu po odebraniu i otrzymaniu nowej ramki."
+    },
+    "tmdb": {
+      "attribution": "Ten produkt ma oznaczenie {tmdbApiLink} , ale nie jest zatwierdzony ani certyfikowany przez {tmdbLink} .",
+      "explanation": "Dane odcinków, takie jak nazwy i opisy, zostały zaczerpnięte z TMDB do wykorzystania w tym przypadku. Jeśli występują błędy lub pominięcia, rozważ wprowadzenie poprawek i poproszenie operatora instancji witryny o pobranie zaktualizowanych danych.",
+      "tmdb_page": "strona TMDB.",
+      "header": "Atrybucja TMDB"
+    }
+  },
+  "head": {
+    "description": "Wygeneruj losową klatkę z {show} i zgadnij, z jakiego odcinka pochodzi.",
+    "title": "Randomizer {instance} : {show} klatki"
+  },
+  "input": {
+    "about": "O",
+    "new_frame": "Nowa rama",
+    "placeholder": {
+      "fuzzy": "Wyszukiwanie rozmyte ( {characters} + znaków) lub sXXeXX...",
+      "new": "Dostać nową ramę?"
+    },
+    "reset": "Resetowanie",
+    "skip": "Pominąć",
+    "use_synopsis": "Użyj streszczenia"
+  },
+  "language": {
+    "language": "Język:"
+  },
+  "readout": {
+    "answer_error": "Błąd podczas uzyskiwania odpowiedzi: {error} . Spróbuj ponownie?",
+    "answer_not_found": "Nie znaleziono odpowiedzi. Być może wygasł. Spróbuj ponownie.",
+    "correct": "✅ Prawidłowo",
+    "correct_message": "{correct} : {answer} .",
+    "entry_select_fail": "Brak wpisu o numerze {number} w wynikach wyszukiwania.",
+    "generation_error": "Błąd generowania ramki: {error} . Spróbuj ponownie?",
+    "guess_prompt": "Odgadnij odcinek {show} , z którego wybrano losowo klatkę, korzystając z pola wyszukiwania.",
+    "incorrect": "błędny",
+    "incorrect_message": "{guess} to ❌ {incorrect} . Odpowiedź: {answer} .",
+    "network_error": "Błąd sieci lub serwer może być wyłączony z powodu prac konserwacyjnych. Sprawdź połączenie i spróbuj ponownie.",
+    "rate_limit": "Osiągnięto limit żądań. Spróbuj ponownie później.",
+    "skipped": "⏩ Pominięto",
+    "skipped_message": "{skipped} . Odpowiedź: {answer} .",
+    "unknown_error": "Wystąpił nieznany błąd. Spróbuj ponownie?",
+    "welcome": "Powitanie! Wkrótce załaduje się pierwszy obraz."
+  },
+  "space": " ",
+  "stats": {
+    "current_guess_time": "aktualny czas zgadywania:",
+    "less": "Mniej",
+    "more": "Więcej",
+    "real_time": "czas rzeczywisty:",
+    "streak": "pasemko:",
+    "total_guess_time": "całkowity czas zgadywania:"
+  }
+}

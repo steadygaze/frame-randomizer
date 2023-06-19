@@ -50,6 +50,7 @@ export default defineNuxtConfig({
       { code: "de", file: "de.json", iso: "de", name: "Deutsch" },
       { code: "en", file: "en.json", iso: "en", name: "English" },
       { code: "fr", file: "fr.json", iso: "fr", name: "Français" },
+      { code: "pl", file: "pl.json", iso: "pl", name: "Polski" },
       { code: "ru", file: "ru.json", iso: "ru", name: "русский" },
       { code: "zh", file: "zh.json", iso: "zh", name: "中文" },
     ],
