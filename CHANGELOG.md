@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.10
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.0.9...v0.0.10)
+
+### 🚀 Enhancements
+
+- Add Polish translations ([51ac5d1](https://github.com/steadygaze/frame-randomizer/commit/51ac5d1))
+
+### 🩹 Fixes
+
+- Improve German translations ([0d18b7b](https://github.com/steadygaze/frame-randomizer/commit/0d18b7b))
+
+### 📦 Build
+
+- Update dependencies ([bd73b53](https://github.com/steadygaze/frame-randomizer/commit/bd73b53))
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.9
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.0.8...v0.0.9)
