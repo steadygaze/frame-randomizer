@@ -73,6 +73,8 @@
   "readout": {
     "answer_error": "Fehler beim Erhalten der Antwort: {error} . Versuchen Sie es erneut?",
     "answer_not_found": "Antwort nicht gefunden. Möglicherweise ist es abgelaufen. Versuchen Sie es erneut.",
+    "copied": "kopiert",
+    "copy": "Kopieren",
     "correct": "✅ Richtig",
     "correct_message": "{correct} : {answer} .",
     "entry_select_fail": "Kein Eintrag mit der Nummer $ {number} in den Suchergebnissen.",
@@ -80,11 +82,13 @@
     "guess_prompt": "Errate die Episode {show}, aus der das ausgewählte Bild stammt.",
     "incorrect": "falsch",
     "incorrect_message": "{guess} ist ❌ {incorrect} . Antwort: {answer} .",
+    "info": "Info",
     "network_error": "Netzwerkfehler oder Server ist möglicherweise wegen Wartungsarbeiten ausgefallen. Überprüfen Sie die Verbindung und versuchen Sie es erneut.",
     "rate_limit": "Anforderungslimit erreicht. Versuchen Sie es später erneut.",
     "skipped": "⏩ Übersprungen",
     "skipped_message": "{skipped} . Antwort: {answer} .",
     "unknown_error": "Ein unbekannter Fehler ist aufgetreten. Versuchen Sie es erneut?",
+    "watch": "betrachten",
     "welcome": "Willkommen! Das erste Bild wird in Kürze geladen."
   },
   "space": " ",

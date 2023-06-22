@@ -73,6 +73,8 @@
   "readout": {
     "answer_error": "Error getting answer: {error}. Try again?",
     "answer_not_found": "Answer not found. It may have expired. Try again.",
+    "copied": "copied",
+    "copy": "copy",
     "correct": "✅ Correct",
     "correct_message": "{correct}: {answer}.",
     "entry_select_fail": "No entry number ${number} in search results.",
@@ -80,11 +82,13 @@
     "guess_prompt": "Guess the {show} episode that the frame is randomly selected from using the search box.",
     "incorrect": "incorrect",
     "incorrect_message": "{guess} is ❌ {incorrect}. Answer: {answer}.",
+    "info": "info",
     "network_error": "Network error, or server may be down for maintenance. Check connection and try again.",
     "rate_limit": "Request limit reached. Try again later.",
     "skipped": "⏩ Skipped",
     "skipped_message": "{skipped}. Answer: {answer}.",
     "unknown_error": "An unknown error occurred. Try again?",
+    "watch": "watch",
     "welcome": "Welcome! The first image will load shortly."
   },
   "space": " ",

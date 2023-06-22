@@ -483,6 +483,7 @@ ol.resultItemList li:nth-child(-n + 9):before {
 
 #readouts {
   min-height: 3em;
+  margin-bottom: 0.2em;
 }
 
 #bigButtonRow {

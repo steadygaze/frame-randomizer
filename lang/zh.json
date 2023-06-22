@@ -73,6 +73,8 @@
   "readout": {
     "answer_error": "获取答案时出错： {error} 。再试一次？",
     "answer_not_found": "未找到答案。它可能已经过期。再试一次。",
+    "copied": "复制",
+    "copy": "复制",
     "correct": "✅正确",
     "correct_message": "{correct} : {answer} 。",
     "entry_select_fail": "搜索结果中没有条目号 $ {number} 。",
@@ -80,11 +82,13 @@
     "guess_prompt": "猜猜帧是使用搜索框随机选择的第{show}集。",
     "incorrect": "不正确的",
     "incorrect_message": "{guess}是 ❌ {incorrect} 。答： {answer} 。",
+    "info": "信息",
     "network_error": "网络错误，或服务器可能停机维护。检查连接并重试。",
     "rate_limit": "已达到请求限制。稍后再试。",
     "skipped": "⏩ 跳过",
     "skipped_message": "{skipped} 。答： {answer} 。",
     "unknown_error": "出现未知错误。再试一次？",
+    "watch": "手表",
     "welcome": "欢迎！第一张图片将很快加载。"
   },
   "space": " ",

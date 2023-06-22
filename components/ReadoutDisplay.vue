@@ -16,8 +16,9 @@
           <EpisodeRef
             :season="readout.answer.season"
             :episode="readout.answer.episode"
-            >{{ readout.answer.fullName }}</EpisodeRef
-          >
+            :name="readout.answer.fullName"
+            more-buttons
+          ></EpisodeRef>
         </template>
       </i18n-t>
       <i18n-t
@@ -30,8 +31,8 @@
           <EpisodeRef
             :season="readout.guess.season"
             :episode="readout.guess.episode"
-            >{{ readout.guess.fullName }}</EpisodeRef
-          >
+            :name="readout.guess.fullName"
+          ></EpisodeRef>
         </template>
         <template #incorrect>
           <span class="incorrect">
@@ -42,8 +43,9 @@
           <EpisodeRef
             :season="readout.answer.season"
             :episode="readout.answer.episode"
-            >{{ readout.answer.fullName }}</EpisodeRef
-          >
+            :name="readout.answer.fullName"
+            more-buttons
+          ></EpisodeRef>
         </template>
       </i18n-t>
       <i18n-t
@@ -61,8 +63,9 @@
           <EpisodeRef
             :season="readout.answer.season"
             :episode="readout.answer.episode"
-            >{{ readout.answer.fullName }}</EpisodeRef
-          >
+            :name="readout.answer.fullName"
+            more-buttons
+          ></EpisodeRef>
         </template>
       </i18n-t>
       <p v-else>{{ $t(readout.i18nKey, readout.props as NamedValue) }}</p>

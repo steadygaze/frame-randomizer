@@ -73,6 +73,8 @@
   "readout": {
     "answer_error": "Błąd podczas uzyskiwania odpowiedzi: {error}. Spróbować ponownie?",
     "answer_not_found": "Nie dostano odpowiedzi, mogła wygasnąć. Spróbuj ponownie.",
+    "copied": "skopiowane",
+    "copy": "kopiuj",
     "correct": "✅ Dobrze",
     "correct_message": "{correct}: {answer}.",
     "entry_select_fail": "Brak wpisu o numerze {number} w wynikach wyszukiwania.",
@@ -80,11 +82,13 @@
     "guess_prompt": "Korzystając z pola wyszukiwania, odgadnij odcinek {show} z którego wybrano losowo klatkę.",
     "incorrect": "zły odcinek",
     "incorrect_message": "{guess} to ❌ {incorrect}. Odpowiedź: {answer}.",
+    "info": "informacje",
     "network_error": "Błąd sieci lub serwer może być wyłączony z powodu prac konserwacyjnych. Sprawdź połączenie i spróbuj ponownie.",
     "rate_limit": "Osiągnięto limit żądań. Spróbuj ponownie później.",
     "skipped": "⏩ Pominięto",
     "skipped_message": "{skipped}. Odpowiedź: {answer}.",
     "unknown_error": "Wystąpił nieznany błąd. Spróbować ponownie?",
+    "watch": "oglądać",
     "welcome": "Witaj! Wkrótce załaduje się pierwszy obrazek."
   },
   "space": " ",

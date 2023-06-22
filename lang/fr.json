@@ -73,6 +73,8 @@
   "readout": {
     "answer_error": "Erreur lors de la réponse : {error} . Essayer à nouveau?",
     "answer_not_found": "Réponse introuvable. Il est peut-être expiré. Essayer à nouveau.",
+    "copied": "copié",
+    "copy": "copie",
     "correct": "✅ Correct",
     "correct_message": "{correct} : {answer} .",
     "entry_select_fail": "Aucun numéro d'entrée $ {number} dans les résultats de recherche.",
@@ -80,11 +82,13 @@
     "guess_prompt": "Devinez l'épisode {show} dont le cadre est sélectionné au hasard à l'aide du champ de recherche.",
     "incorrect": "Incorrect",
     "incorrect_message": "{guess} est ❌ {incorrect} . Réponse : {answer} .",
+    "info": "Info",
     "network_error": "Erreur réseau, ou le serveur est peut-être en panne pour maintenance. Vérifiez la connexion et réessayez.",
     "rate_limit": "Limite de demandes atteinte. Réessayez plus tard.",
     "skipped": "⏩ Sauté",
     "skipped_message": "{skipped} . Réponse : {answer} .",
     "unknown_error": "Une erreur inconnue est survenue. Essayer à nouveau?",
+    "watch": "montre",
     "welcome": "Accueillir! La première image se chargera sous peu."
   },
   "space": " ",
