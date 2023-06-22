@@ -1,19 +1,19 @@
 {
   "about": {
-    "header": "À propos",
     "close": "Fermer",
+    "header": "À propos",
     "instance_specific_disclaimer": "(L'opérateur de l'instance a fourni les informations suivantes spécifiques à cette instance de site.)",
     "instructions": {
       "controls": {
-        "info": "Pour fournir une estimation, saisissez au moins {fuzzySearchMinMatchLength} caractère dans la zone de recherche pour rechercher de manière approximative les noms et les descriptions des épisodes. Continuez à taper jusqu'à ce que l'épisode souhaité soit en haut, ou utilisez {upDown} , la souris, ou {ctrlNum} ou {altNum} pour sélectionner une entrée spécifique.",
         "alt_num": "Touche Alt + chiffre",
         "ctrl_num": "Touche de contrôle + numéro",
+        "info": "Pour fournir une estimation, saisissez au moins {fuzzySearchMinMatchLength} caractère dans la zone de recherche pour rechercher de manière approximative les noms et les descriptions des épisodes. Continuez à taper jusqu'à ce que l'épisode souhaité soit en haut, ou utilisez {upDown} , la souris, ou {ctrlNum} ou {altNum} pour sélectionner une entrée spécifique.",
         "up_down": "touches fléchées haut/bas + touche Entrée"
       },
       "episode_search_tip": {
-        "tip": "Vous pouvez également effectuer une recherche par saison et par numéro d'épisode en saisissant une requête telle que {example1} ou {example2} .",
         "example1": "s2e3",
-        "example2": "2x3"
+        "example2": "2x3",
+        "tip": "Vous pouvez également effectuer une recherche par saison et par numéro d'épisode en saisissant une requête telle que {example1} ou {example2} ."
       },
       "font_size_tip": "La taille de la police dans le volet de saisie est basée sur les valeurs par défaut de votre navigateur. Si vous souhaitez qu'il soit plus grand, par exemple lors d'une présentation ou d'un streaming, vous pouvez zoomer sans trop affecter la mise en page.",
       "header": "Instructions",
@@ -48,8 +48,8 @@
     "tmdb": {
       "attribution": "Ce produit utilise le {tmdbApiLink} mais n'est ni approuvé ni certifié par {tmdbLink} .",
       "explanation": "Les données d'épisode, telles que les noms et les descriptions, provenaient de TMDB pour être utilisées dans ce cas. S'il y a des erreurs ou des omissions, envisagez d'apporter des correctifs et de demander à l'opérateur de l'instance du site de télécharger les données mises à jour.",
-      "tmdb_page": "Page TMDB.",
-      "header": "Attribution TMDB"
+      "header": "Attribution TMDB",
+      "tmdb_page": "Page TMDB."
     }
   },
   "head": {
@@ -84,16 +84,16 @@
     "rate_limit": "Limite de demandes atteinte. Réessayez plus tard.",
     "skipped": "⏩ Sauté",
     "skipped_message": "{skipped} . Réponse : {answer} .",
-    "welcome": "Accueillir! La première image se chargera sous peu.",
-    "unknown_error": "Une erreur inconnue est survenue. Essayer à nouveau?"
+    "unknown_error": "Une erreur inconnue est survenue. Essayer à nouveau?",
+    "welcome": "Accueillir! La première image se chargera sous peu."
   },
   "space": " ",
   "stats": {
+    "current_guess_time": "heure de devinette actuelle :",
     "less": "Moins",
     "more": "Plus",
-    "streak": "traînée:",
-    "current_guess_time": "heure de devinette actuelle :",
     "real_time": "temps réel:",
+    "streak": "traînée:",
     "total_guess_time": "temps de devinette total :"
   }
 }

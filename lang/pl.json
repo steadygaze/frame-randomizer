@@ -1,19 +1,19 @@
 {
   "about": {
-    "header": "O stronie",
     "close": "Zamknij",
+    "header": "O stronie",
     "instance_specific_disclaimer": "(Operator instancji dostarczył następujące informacje specyficzne dla tej instancji witryny).",
     "instructions": {
       "controls": {
-        "info": "Aby wyszukać odcinek, wpisz co najmniej {fuzzySearchMinMatchLength} znaki w polu wyszukiwania. Kontynuuj pisanie, aż żądany odcinek pojawi się na górze. Możesz także użyć {upDown}, myszy, {ctrlNum} lub {altNum}, aby wybrać konkretny wpis.",
         "alt_num": "Alt + numer",
         "ctrl_num": "Ctrl + numer",
+        "info": "Aby wyszukać odcinek, wpisz co najmniej {fuzzySearchMinMatchLength} znaki w polu wyszukiwania. Kontynuuj pisanie, aż żądany odcinek pojawi się na górze. Możesz także użyć {upDown}, myszy, {ctrlNum} lub {altNum}, aby wybrać konkretny wpis.",
         "up_down": "strzałek w górę/w dół + Enter"
       },
       "episode_search_tip": {
-        "tip": "Możesz także wyszukiwać według numeru sezonu i odcinka, na przykład wpisując {example1} lub {example2}.",
         "example1": "s2e3",
-        "example2": "2x3"
+        "example2": "2x3",
+        "tip": "Możesz także wyszukiwać według numeru sezonu i odcinka, na przykład wpisując {example1} lub {example2}."
       },
       "font_size_tip": "Wielkość pisma jest oparta na domyślnych ustawieniach przeglądarki. Jeśli chcesz ją zwiększyć, na przykład podczas prezentacji lub streamowania, możesz przybliżyć stronę bez obawy o zmianę jej układu.",
       "header": "Instrukcja",
@@ -48,8 +48,8 @@
     "tmdb": {
       "attribution": "Ten produkt używa {tmdbApiLink}, ale nie jest zatwierdzony ani certyfikowany przez {tmdbLink}.",
       "explanation": "Dane odcinków, takie jak: nazwy i opisy, zostały pobrane z TMDB. Jeśli występują błędy lub pominięcia, rozważ wprowadzenie poprawek i poproś operatora instancji tej witryny o pobranie zaktualizowanych danych.",
-      "tmdb_page": "Strona TMDB.",
-      "header": "Informacje o użyciu TMDB"
+      "header": "Informacje o użyciu TMDB",
+      "tmdb_page": "Strona TMDB."
     }
   },
   "head": {

@@ -1,19 +1,19 @@
 {
   "about": {
-    "header": "关于",
     "close": "关闭",
+    "header": "关于",
     "instance_specific_disclaimer": "（实例运营商提供了以下特定于此站点实例的信息。）",
     "instructions": {
       "controls": {
-        "info": "要提供猜测，请在搜索框中键入至少{fuzzySearchMinMatchLength}字符以模糊搜索剧集名称和描述。继续键入，直到所需剧集位于顶部，或使用{upDown} 、鼠标或{ctrlNum}或{altNum}选择特定条目。",
         "alt_num": "Alt键+数字",
         "ctrl_num": "控制键+数字",
+        "info": "要提供猜测，请在搜索框中键入至少{fuzzySearchMinMatchLength}字符以模糊搜索剧集名称和描述。继续键入，直到所需剧集位于顶部，或使用{upDown} 、鼠标或{ctrlNum}或{altNum}选择特定条目。",
         "up_down": "向上/向下箭头键 + 回车键"
       },
       "episode_search_tip": {
-        "tip": "您还可以通过输入{example1}或{example2}等查询按季节和剧集编号进行搜索。",
         "example1": "s2e3",
-        "example2": "2x3"
+        "example2": "2x3",
+        "tip": "您还可以通过输入{example1}或{example2}等查询按季节和剧集编号进行搜索。"
       },
       "font_size_tip": "输入窗格中的字体大小基于浏览器的默认值。如果您希望它更大，例如，在演示或流式传输时，您可以放大而不会对页面布局产生太大影响。",
       "header": "指示",
@@ -48,8 +48,8 @@
     "tmdb": {
       "attribution": "本产品使用{tmdbApiLink}但未被{tmdbLink}背书或认证。",
       "explanation": "剧集数据（例如名称和描述）来自 TMDB，用于此实例。如果有错误或遗漏，请考虑贡献修复并要求站点实例操作员下载更新的数据。",
-      "tmdb_page": "TMDB 页面。",
-      "header": "TMDB归属"
+      "header": "TMDB归属",
+      "tmdb_page": "TMDB 页面。"
     }
   },
   "head": {
@@ -84,16 +84,16 @@
     "rate_limit": "已达到请求限制。稍后再试。",
     "skipped": "⏩ 跳过",
     "skipped_message": "{skipped} 。答： {answer} 。",
-    "welcome": "欢迎！第一张图片将很快加载。",
-    "unknown_error": "出现未知错误。再试一次？"
+    "unknown_error": "出现未知错误。再试一次？",
+    "welcome": "欢迎！第一张图片将很快加载。"
   },
   "space": " ",
   "stats": {
+    "current_guess_time": "当前猜测时间：",
     "less": "较少的",
     "more": "更多的",
-    "streak": "条纹：",
-    "current_guess_time": "当前猜测时间：",
     "real_time": "即时的：",
+    "streak": "条纹：",
     "total_guess_time": "总猜测时间："
   }
 }

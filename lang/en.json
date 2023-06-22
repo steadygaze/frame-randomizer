@@ -1,19 +1,19 @@
 {
   "about": {
-    "header": "About",
     "close": "Close",
+    "header": "About",
     "instance_specific_disclaimer": "(The instance operator has provided the following information specific to this site instance.)",
     "instructions": {
       "controls": {
-        "info": "To provide a guess, type at least {fuzzySearchMinMatchLength} characters in the search box to fuzzily search episode names and descriptions. Keep typing until the desired episode is at the top, or use {upDown}, the mouse, or {ctrlNum} or {altNum} to select a specific entry.",
         "alt_num": "Alt key + number",
         "ctrl_num": "Control key + number",
+        "info": "To provide a guess, type at least {fuzzySearchMinMatchLength} characters in the search box to fuzzily search episode names and descriptions. Keep typing until the desired episode is at the top, or use {upDown}, the mouse, or {ctrlNum} or {altNum} to select a specific entry.",
         "up_down": "up/down arrow keys + Enter key"
       },
       "episode_search_tip": {
-        "tip": "You can also search by season and episode number by entering a query like {example1} or {example2}.",
         "example1": "s2e3",
-        "example2": "2x3"
+        "example2": "2x3",
+        "tip": "You can also search by season and episode number by entering a query like {example1} or {example2}."
       },
       "font_size_tip": "The font size in the input pane is based on your browser's defaults. If you want it to be larger, for example, when presenting or streaming, you can zoom in without impacting the page layout very much.",
       "header": "Instructions",
@@ -48,8 +48,8 @@
     "tmdb": {
       "attribution": "This product uses the {tmdbApiLink} but is not endorsed or certified by {tmdbLink}.",
       "explanation": "Episode data, such as names and descriptions, was sourced from TMDB for use in this instance. If there are errors or omissions, consider contributing fixes and asking the site instance operator to download the updated data.",
-      "tmdb_page": "TMDB page.",
-      "header": "TMDB attribution"
+      "header": "TMDB attribution",
+      "tmdb_page": "TMDB page."
     }
   },
   "head": {

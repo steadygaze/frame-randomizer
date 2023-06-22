@@ -1,19 +1,19 @@
 {
   "about": {
-    "header": "Info",
     "close": "Schließen",
+    "header": "Info",
     "instance_specific_disclaimer": "(Der Instanzbetreiber hat die folgenden Informationen speziell für diese Site-Instanz bereitgestellt.)",
     "instructions": {
       "controls": {
-        "info": "Um eine Schätzung abzugeben, geben Sie mindestens {fuzzySearchMinMatchLength} Zeichen in das Suchfeld ein, um Episodennamen und -beschreibungen unscharf zu durchsuchen. Tippen Sie weiter, bis die gewünschte Episode oben steht, oder verwenden Sie {upDown}, die Maus oder {ctrlNum} oder {altNum} um einen bestimmten Eintrag auszuwählen.",
         "alt_num": "Alt-Taste + Zahl",
         "ctrl_num": "Steuertaste + Nummer",
+        "info": "Um eine Schätzung abzugeben, geben Sie mindestens {fuzzySearchMinMatchLength} Zeichen in das Suchfeld ein, um Episodennamen und -beschreibungen unscharf zu durchsuchen. Tippen Sie weiter, bis die gewünschte Episode oben steht, oder verwenden Sie {upDown}, die Maus oder {ctrlNum} oder {altNum} um einen bestimmten Eintrag auszuwählen.",
         "up_down": "Pfeiltasten nach oben/unten + Eingabetaste"
       },
       "episode_search_tip": {
-        "tip": "Sie können auch nach Staffel und Episodennummer suchen, indem Sie eine Suchanfrage wie {example1} oder {example2} eingeben.",
         "example1": "s2e3",
-        "example2": "2x3"
+        "example2": "2x3",
+        "tip": "Sie können auch nach Staffel und Episodennummer suchen, indem Sie eine Suchanfrage wie {example1} oder {example2} eingeben."
       },
       "font_size_tip": "Die Schriftgröße im Eingabebereich richtet sich nach den Standardeinstellungen Ihres Browsers. Wenn Sie es beispielsweise beim Präsentieren oder Streamen größer haben möchten, können Sie hineinzoomen, ohne das Seitenlayout wesentlich zu beeinträchtigen.",
       "header": "Anweisungen",
@@ -48,8 +48,8 @@
     "tmdb": {
       "attribution": "Dieses Produkt verwendet die {tmdbApiLink}, ist jedoch nicht von {tmdbLink} empfohlen oder zertifiziert.",
       "explanation": "Episodendaten wie Namen und Beschreibungen wurden für die Verwendung in diesem Fall von TMDB bezogen. Wenn es Fehler oder Auslassungen gibt, erwägen Sie, Korrekturen beizusteuern und den Betreiber der Site-Instanz zu bitten, die aktualisierten Daten herunterzuladen.",
-      "tmdb_page": "TMDB-Seite.",
-      "header": "TMDB-Namensnennung"
+      "header": "TMDB-Namensnennung",
+      "tmdb_page": "TMDB-Seite."
     }
   },
   "head": {
@@ -84,16 +84,16 @@
     "rate_limit": "Anforderungslimit erreicht. Versuchen Sie es später erneut.",
     "skipped": "⏩ Übersprungen",
     "skipped_message": "{skipped} . Antwort: {answer} .",
-    "welcome": "Willkommen! Das erste Bild wird in Kürze geladen.",
-    "unknown_error": "Ein unbekannter Fehler ist aufgetreten. Versuchen Sie es erneut?"
+    "unknown_error": "Ein unbekannter Fehler ist aufgetreten. Versuchen Sie es erneut?",
+    "welcome": "Willkommen! Das erste Bild wird in Kürze geladen."
   },
   "space": " ",
   "stats": {
+    "current_guess_time": "aktuelle Schätzzeit:",
     "less": "Weniger",
     "more": "Mehr",
-    "streak": "Strähne:",
-    "current_guess_time": "aktuelle Schätzzeit:",
     "real_time": "Echtzeit:",
+    "streak": "Strähne:",
     "total_guess_time": "Gesamte Ratezeit:"
   }
 }
