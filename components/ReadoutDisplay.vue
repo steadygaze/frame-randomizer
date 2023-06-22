@@ -65,12 +65,13 @@
           >
         </template>
       </i18n-t>
-      <p v-else>{{ $t(readout.i18nKey) }}</p>
+      <p v-else>{{ $t(readout.i18nKey, readout.props as NamedValue) }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NamedValue } from "#i18n";
 import { storeToRefs } from "pinia";
 import { useAppStateStore } from "~~/store/appStateStore";
 

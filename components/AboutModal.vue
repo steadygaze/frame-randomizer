@@ -50,6 +50,9 @@
         tag="li"
         scope="global"
       >
+        <template #fuzzySearchMinMatchLength>{{
+          config.public.fuzzySearchMinMatchLength
+        }}</template>
         <template #upDown
           ><code>{{
             $t("about.instructions.controls.up_down")
