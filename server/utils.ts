@@ -1,4 +1,3 @@
-import { RuntimeConfig } from "nuxt/schema";
 import { v5 as uuidv5 } from "uuid";
 import difference from "lodash.difference";
 
@@ -11,7 +10,10 @@ const timecodeRegex =
  * @param purpose What the UUID will be used for, to differentiate it from other UUIDs generated.
  * @returns Standard UUID.
  */
-export function myUuid(config: RuntimeConfig, purpose = "image_generation") {
+export function myUuid(
+  config: ReturnType<typeof useRuntimeConfig>,
+  purpose = "image_generation",
+) {
   return uuidv5(
     [config.instanceName, config.frameOutputDir, purpose, Date.now()].join(
       "___",

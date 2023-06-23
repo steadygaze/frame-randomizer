@@ -1,7 +1,6 @@
 import { exec as execAsync } from "node:child_process";
 import fs from "fs/promises";
 import { promisify } from "node:util";
-import { RuntimeConfig } from "nuxt/schema";
 import once from "lodash.once";
 import { ProducerQueue } from "./queue";
 import { StoredAnswer } from "./types";
@@ -25,7 +24,7 @@ const exec = promisify(execAsync);
  * @returns Episode data list, with an entry for each episode.
  */
 async function getShowdataUncached(
-  runtimeConfig: RuntimeConfig,
+  runtimeConfig: ReturnType<typeof useRuntimeConfig>,
 ): Promise<ShowData> {
   const start = Date.now();
   const [rawShowDataString, fileData] = await Promise.all([
@@ -85,7 +84,7 @@ interface RandomEpisode {
  * @returns Promise to await on completion.
  */
 async function ffmpegFrame(
-  config: RuntimeConfig,
+  config: ReturnType<typeof useRuntimeConfig>,
   chooseFrame: () => RandomEpisode,
   outputPath: string,
 ): Promise<RandomEpisode> {
@@ -129,7 +128,7 @@ async function ffmpegFrame(
  * @returns Producer queue on the image IDs generated.
  */
 async function getFrameProducerQueueUncached(
-  config: RuntimeConfig,
+  config: ReturnType<typeof useRuntimeConfig>,
 ): Promise<ProducerQueue<{ imageId: string }>> {
   const { episodes } = await getShowData(config);
   const answerStorage = useStorage("answer");

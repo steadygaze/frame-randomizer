@@ -1,9 +1,8 @@
-import { RuntimeConfig } from "nuxt/schema";
 import { getFrameProducerQueue } from "../../load";
 import { StoredAnswer, StoredFileState } from "~/server/types";
 import logger from "~/server/logger";
 
-const config = useRuntimeConfig() as RuntimeConfig;
+const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
 const frameFileStateStorage = useStorage("frameFileState");
 

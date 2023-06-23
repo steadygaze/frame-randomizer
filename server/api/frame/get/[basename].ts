@@ -1,10 +1,9 @@
 import fsAsync from "node:fs";
 import path from "path";
 import { sendStream } from "h3";
-import { RuntimeConfig } from "nuxt/schema";
 import logger from "~/server/logger";
 
-const config = useRuntimeConfig() as RuntimeConfig;
+const config = useRuntimeConfig();
 
 const traversingPathRe = /[/\\]|\.\./;
 

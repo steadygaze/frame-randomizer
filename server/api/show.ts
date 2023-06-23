@@ -1,4 +1,3 @@
-import { RuntimeConfig } from "nuxt/schema";
 import { getShowData } from "../load";
 import {
   ClientEpisodeData as iClientEpisodeData,
@@ -8,7 +7,7 @@ import {
 export type ClientEpisodeData = iClientEpisodeData;
 export type ClientShowData = iClientShowData;
 
-const config = useRuntimeConfig() as RuntimeConfig;
+const config = useRuntimeConfig();
 
 export default defineLazyEventHandler(async () => {
   const { defaultLanguage, clientData } = await getShowData(config);

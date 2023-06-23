@@ -3,7 +3,6 @@ import { promisify } from "node:util";
 import path from "node:path";
 import { glob } from "glob";
 import shellescape from "shell-escape";
-import { RuntimeConfig } from "nuxt/schema";
 import merge from "lodash.merge";
 import pLimit from "p-limit";
 import { seasonEpisodeTag } from "../utils/utils";
@@ -161,7 +160,7 @@ async function ffprobeLength(
  * @returns All video files that appear to have season and episode number.
  */
 export async function lsAllFiles(
-  config: RuntimeConfig,
+  config: ReturnType<typeof useRuntimeConfig>,
 ): Promise<FileEpisodeData[]> {
   const seasonEpisodeRegex = new RegExp(
     `^.*?([sS](eason)?)?(?<season_number>\\d+)(.|([eE](pisode)?)?)(?<episode_number>\\d+).*?\\.(${config.videoFileExtension
@@ -198,7 +197,7 @@ export async function lsAllFiles(
  * @returns Unified data structure matching episodes and files.
  */
 function joinFileData(
-  config: RuntimeConfig,
+  config: ReturnType<typeof useRuntimeConfig>,
   episodeData: ConfigEpisodeData[],
   fileData: FileEpisodeData[],
 ): JoinedEpisodeData[] {
@@ -456,7 +455,7 @@ export function extractPerLanguageData(
  * @returns Fully loaded data structure used to generate frames.
  */
 export async function findFiles(
-  config: RuntimeConfig,
+  config: ReturnType<typeof useRuntimeConfig>,
   showData: InputShowData,
   fileData: FileEpisodeData[],
 ): Promise<ShowData> {
@@ -557,7 +556,10 @@ export function offsetTimeBySkipRanges(
  * @param id Image ID.
  * @returns Expected image path.
  */
-export function imagePathForId(config: RuntimeConfig, id: string) {
+export function imagePathForId(
+  config: ReturnType<typeof useRuntimeConfig>,
+  id: string,
+) {
   return path.join(
     config.frameOutputDir,
     `${id}.${config.public.imageOutputExtension}`,

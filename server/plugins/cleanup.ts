@@ -2,13 +2,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import { glob } from "glob";
-import { RuntimeConfig } from "nuxt/schema";
 import intersection from "lodash.intersection";
 import { StoredAnswer, StoredFileState } from "../types";
 import { imagePathForId } from "../file";
 import logger from "../logger";
 
-const config = useRuntimeConfig() as RuntimeConfig;
+const config = useRuntimeConfig();
 const sleep = promisify(setTimeout);
 const answerStorage = useStorage("answer");
 const frameFileStateStorage = useStorage("frameFileState");

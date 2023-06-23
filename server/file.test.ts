@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { PublicRuntimeConfig, RuntimeConfig } from "nuxt/schema";
 import {
   generateSkipRanges,
   imagePathForId,
@@ -755,8 +754,8 @@ describe("imagePathForId", () => {
       imagePathForId(
         {
           frameOutputDir: "/path/to/output/dir",
-          public: { imageOutputExtension: "webp" } as PublicRuntimeConfig,
-        } as RuntimeConfig,
+          public: { imageOutputExtension: "webp" },
+        } as unknown as ReturnType<typeof useRuntimeConfig>,
         "01234567-89ab-cdef-0123-456789abcdef",
       ),
     );

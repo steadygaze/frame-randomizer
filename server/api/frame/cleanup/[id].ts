@@ -1,9 +1,8 @@
 import fs from "node:fs/promises";
-import { RuntimeConfig } from "nuxt/schema";
 import { imagePathForId } from "~/server/file";
 import logger from "~/server/logger";
 
-const config = useRuntimeConfig() as RuntimeConfig;
+const config = useRuntimeConfig();
 const frameFileStateStorage = useStorage("frameFileState");
 
 export default defineEventHandler((event) => {
