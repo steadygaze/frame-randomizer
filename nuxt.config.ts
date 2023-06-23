@@ -214,7 +214,7 @@ export default defineNuxtConfig({
       // Description added to meta tags.
       metaDescription: "Frame randomizer instance",
       // Software version displayed in UI.
-      softwareVersion: "0.0.10",
+      softwareVersion: "0.0.11",
       // Link to your version of the source code. If you build and run a
       // modified version of this software to users over a network, the AGPL
       // requires you to provide users with a link to view/download your

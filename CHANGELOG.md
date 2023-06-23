@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.11
+
+[compare changes](https://undefined/undefined/compare/v0.0.10...v0.0.11)
+
+### 🚀 Enhancements
+
+- Add episode button functions (2b5c481)
+- Add explicit save button (14d1ca7)
+
+### 🩹 Fixes
+
+- Add Polish translation by a human (#1)
+- Fix missing i18n substitutions (4ef7cad)
+
+### 💅 Refactors
+
+- Fix typing for runtime config (38c3f54)
+- Sort translation keys recursively (9ec929b)
+
+### 📦 Build
+
+- Move deps out of devDependencies (285bdfb)
+
+### ❤️ Contributors
+
+- Steady Gaze
+- Krzysztof-WW
+
 ## v0.0.10
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.0.9...v0.0.10)
