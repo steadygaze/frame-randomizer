@@ -64,6 +64,7 @@
       "new": "Get new frame?"
     },
     "reset": "Reset",
+    "save": "Save",
     "skip": "Skip",
     "use_synopsis": "Use synopsis"
   },

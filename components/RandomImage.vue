@@ -26,9 +26,11 @@ const { imageId, imageIsLoading, imageLoadError } = storeToRefs(appStateStore);
 
 const showImageError = ref(false);
 
-watch(imageId, () => {
+watch(imageId, (imageId) => {
   // Clear error state when getting a new frame.
-  showImageError.value = false;
+  if (imageId) {
+    showImageError.value = false;
+  }
 });
 
 /**

@@ -1,7 +1,7 @@
 <template>
   <div class="fuzzyInput">
     <div class="logoBar">
-      <h1 id="logo">{{ siteName }}</h1>
+      <h1 id="logo">{{ config.public.instanceName }}</h1>
       <div id="languageSelectWrapper"><LanguageSelect></LanguageSelect></div>
       <div id="bigButtonRow">
         <button
@@ -30,6 +30,14 @@
         <button :disabled="imageIsLoading || waitingForGuess" @click="reset">
           🔁 {{ $t("input.reset") }}
         </button>
+        <a
+          :href="`/api/frame/get/${imageId}.${config.public.imageOutputExtension}`"
+          download
+          :class="{ disabledAnchor: !imageId }"
+          ><button :disabled="imageIsLoading">
+            💾 {{ $t("input.save") }}
+          </button></a
+        >
         <button @click="showAbout = !showAbout">
           📖 {{ $t("input.about") }}
         </button>
@@ -93,7 +101,6 @@ type FuseOptions<ProcessedEpisodeData> =
   Fuse.IFuseOptions<ProcessedEpisodeData>;
 
 const config = useRuntimeConfig();
-const siteName = config.public.instanceName;
 const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
 const { showName, synopsisAvailable, episodeData } = storeToRefs(showDataStore);
@@ -547,5 +554,9 @@ button:focus {
 
 #languageSelectWrapper {
   margin-left: auto;
+}
+
+.disabledAnchor {
+  pointer-events: none;
 }
 </style>
