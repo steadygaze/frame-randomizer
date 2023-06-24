@@ -78,7 +78,7 @@
     "copy": "Kopieren",
     "correct": "✅ Richtig",
     "correct_message": "{correct} : {answer} .",
-    "entry_select_fail": "Kein Eintrag mit der Nummer $ {number} in den Suchergebnissen.",
+    "entry_select_fail": "Kein Eintrag mit der Nummer {number} in den Suchergebnissen.",
     "generation_error": "Fehler beim Generieren des Frames: {error} . Versuchen Sie es erneut?",
     "guess_prompt": "Errate die Episode {show}, aus der das ausgewählte Bild stammt.",
     "incorrect": "falsch",

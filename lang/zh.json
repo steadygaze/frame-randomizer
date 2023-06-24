@@ -78,7 +78,7 @@
     "copy": "复制",
     "correct": "✅ 正确",
     "correct_message": "{correct}：{answer}。",
-    "entry_select_fail": "搜索结果中没有条目编号${number}。",
+    "entry_select_fail": "搜索结果中没有条目编号{number}。",
     "generation_error": "生成帧错误：{error}。再试一次？",
     "guess_prompt": "猜猜这个随机截图来自{show}的哪一集。",
     "incorrect": "错误",

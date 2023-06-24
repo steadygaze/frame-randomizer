@@ -78,7 +78,7 @@
     "copy": "copie",
     "correct": "✅ Correct",
     "correct_message": "{correct} : {answer} .",
-    "entry_select_fail": "Aucun numéro d'entrée $ {number} dans les résultats de recherche.",
+    "entry_select_fail": "Aucun numéro d'entrée {number} dans les résultats de recherche.",
     "generation_error": "Erreur lors de la génération de la trame : {error} . Essayer à nouveau?",
     "guess_prompt": "Devinez l'épisode {show} dont le cadre est sélectionné au hasard à l'aide du champ de recherche.",
     "incorrect": "Incorrect",

@@ -78,7 +78,7 @@
     "copy": "copy",
     "correct": "✅ Correct",
     "correct_message": "{correct}: {answer}.",
-    "entry_select_fail": "No entry number ${number} in search results.",
+    "entry_select_fail": "No entry number {number} in search results.",
     "generation_error": "Error generating frame: {error}. Try again?",
     "guess_prompt": "Guess the {show} episode that the frame is randomly selected from using the search box.",
     "incorrect": "incorrect",
