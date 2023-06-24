@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.12
+
+[compare changes](https://undefined/undefined/compare/v0.0.11...v0.0.12)
+
+### 🩹 Fixes
+
+- Add human translation for zh by Cosmia Nebula (015182c)
+- Remove errant $ from text (7670736)
+- Use length exception for zh in About (9771b49)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.11
 
 [compare changes](https://undefined/undefined/compare/v0.0.10...v0.0.11)
