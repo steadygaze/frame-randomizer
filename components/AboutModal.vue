@@ -51,7 +51,7 @@
         scope="global"
       >
         <template #fuzzySearchMinMatchLength>{{
-          config.public.fuzzySearchMinMatchLength
+          locale === "zh" ? 1 : config.public.fuzzySearchMinMatchLength
         }}</template>
         <template #upDown
           ><code>{{
