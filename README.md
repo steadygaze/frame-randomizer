@@ -22,17 +22,28 @@ You need to supply a config file for the show. (Comments are not allowed in norm
 
 ```json
 {
-  "name": "My Great TV Show", // Name of the show.
+  "commonTimings": {
+    // Common timings for all episodes.
+    "credits": {
+      // If there are credits that play until the end.
+      "start": "22:12"
+    }
+  },
+  // Fallback language if episode data is unavailable in the user's locale.
+  "defaultLanguage": "en",
   // List of episodes.
   "episodes": [
     {
-      "season": 1, // Season number.
       "episode": 1, // Season number.
-      "perLanguage": {
-        "language": "en",
-        "name": "My First Episode", // Episode name.
-        "overview": "In the first episode, wacky hijinks occurred.", // Plot overview.
-      }
+      "perLanguage": [
+        {
+          "language": "en",
+          "name": "My First Episode", // Episode name.
+          // Plot overview (synopsis).
+          "overview": "In the first episode, wacky hijinks occurred."
+        }
+      ],
+      "season": 1, // Season number.
       // Episode timing info, used to ignore sections. See Timings in utils/file.ts.
       "timings": {
         "intro": {
@@ -42,12 +53,11 @@ You need to supply a config file for the show. (Comments are not allowed in norm
       }
     } // Rest of the episodes...
   ],
-  "commonTimings": {
-    // Common timings for all episodes.
-    "credits": {
-      // If there are credits that play until the end.
-      "start": "22:12"
-    }
+  "name": {
+    // Default language name.
+    "name": "My Great TV Show",
+    // Per-language show names.
+    "perLanguage": [{ "language": "en", "name": "My Great TV Show" }]
   }
 }
 ```
@@ -62,6 +72,8 @@ Consult the `RuntimeConfig` section of `nuxt.config.ts` for all the settings tha
 export NUXT_EPISODE_DATA_PATH="/path/to/episode_config.json"
 export NUXT_PUBLIC_INSTANCE_NAME="My Randomizer"
 export NUXT_VIDEO_SOURCE_DIR="/path/to/video/files/"
+# Include file contents in variable.
+export NUXT_PUBLIC_INSTANCE_INFO_DATA="$(cat info.json)"
 export PORT=3000
 # Additional configs...
 ```
