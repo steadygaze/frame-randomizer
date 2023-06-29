@@ -70,7 +70,11 @@
         <label for="synopsisCheckbox">{{ $t("input.use_synopsis") }}</label>
       </div>
     </div>
-    <ol id="resultItemList" class="resultItemList">
+    <ol
+      id="resultItemList"
+      class="resultItemList"
+      :class="{ ctrlKey: browser?.name === 'firefox' }"
+    >
       <FuzzyResultItem
         v-for="(fuseMatch, index) in searchResults"
         :key="fuseMatch.item.fullName"
@@ -85,7 +89,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { detect } from "detect-browser";
+import { computed, nextTick, onMounted, ref, Ref, watch } from "vue";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "#app";
@@ -118,6 +123,8 @@ const {
 } = storeToRefs(appStateStore);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
+
+const browser: Ref<ReturnType<typeof detect>> = ref(null);
 
 const fuzzySearchMinMatchLength = computed(() =>
   locale.value === "zh" ? 1 : config.public.fuzzySearchMinMatchLength,
@@ -258,6 +265,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
 // hydration mismatch.
 onMounted(() => {
   getImage(fetchGenResult);
+  browser.value = detect();
 });
 
 /**
@@ -444,8 +452,12 @@ ol.resultItemList li {
   flex: 1 1 350px;
 }
 ol.resultItemList li:nth-child(-n + 9):before {
-  content: "Mod-" counter(searchCounter) " ";
+  content: "Alt-" counter(searchCounter) " ";
   color: #888;
+}
+ol.resultItemList.ctrlKey li:nth-child(-n + 9):before {
+  /* Firefox is the odd one out that binds Alt-N to switch to tab N. */
+  content: "Ctrl-" counter(searchCounter) " ";
 }
 
 @media screen and (hover: none) {
