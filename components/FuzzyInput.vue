@@ -513,9 +513,14 @@ ol.resultItemList.ctrlKey li:nth-child(-n + 9):before {
   max-width: 100%;
 }
 
-#bigButtonRow button {
+#bigButtonRow button,
+#bigButtonRow a {
   flex: 1 content;
   font-weight: bold;
+}
+
+#bigButtonRow a > button {
+  width: 100%;
 }
 
 button {
