@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "check": "npm run format && npm run lint && npm run tsc && npm run vue-tsc",
+    "check": "npm run format && npm run lint && npm run vue-tsc",
     "cm": "cz",
     "coverage": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=lcov",
     "dev": "nuxt dev",
@@ -15,7 +15,7 @@
     "generate": "nuxt generate",
     "lint": "eslint --fix --ext .js,.ts,.vue .",
     "postinstall": "nuxt prepare",
-    "precommit": "npm run formatcheck && npm run lint && npm run tsc && npm run vue-tsc && npm run test && nuxt build pcdist",
+    "precommit": "npm run formatcheck && npm run lint && npm run vue-tsc && npm run test && nuxt build pcdist",
     "prepare": "husky install",
     "preview": "nuxt preview",
     "test": "vitest run",
