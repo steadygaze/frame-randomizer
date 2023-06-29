@@ -296,6 +296,7 @@ function handleKey(event: KeyboardEvent) {
     if (event.key >= "1" && event.key <= "9") {
       const index = event.key.charCodeAt(0) - "1".charCodeAt(0);
       if (searchResults.value.length > index) {
+        highlightIndex.value = index;
         submitIndex = index;
       } else {
         readout("readout.entry_select_fail", { number: event.key });
