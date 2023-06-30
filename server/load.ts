@@ -132,7 +132,7 @@ async function getFrameProducerQueueUncached(
 ): Promise<ProducerQueue<{ imageId: string }>> {
   const { episodes } = await getShowData(config);
   const answerStorage = useStorage("answer");
-  const frameFileStateStorage = useStorage("frameFileState");
+  const frameStateStorage = useStorage("frameState");
 
   /**
    * Generate a random episode and a random time in the episode.
@@ -156,7 +156,7 @@ async function getFrameProducerQueueUncached(
     const imagePath = imagePathForId(config, imageId);
 
     // Record that we generated this file.
-    const storeImageIdP = frameFileStateStorage.setItem(imageId, {
+    const storeImageIdP = frameStateStorage.setItem(imageId, {
       expiryTs: null,
     });
     const { episode, seekTime } = await ffmpegFrame(

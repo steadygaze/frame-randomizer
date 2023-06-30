@@ -121,17 +121,17 @@ interface InputShowData {
 /**
  * Get the length of a video file in seconds using ffprobe.
  * @param ffprobe Path to ffprobe.
- * @param ffprobePersistentCache Cache used to store ffprobe results, for fast server restarts.
+ * @param ffprobeCache Cache used to store ffprobe results, for fast server restarts.
  * @param videoPath Path to video file.
  * @returns Length of the video in seconds.
  */
 async function ffprobeLength(
   ffprobe: string,
-  ffprobePersistentCache: ReturnType<typeof useStorage> | null,
+  ffprobeCache: ReturnType<typeof useStorage> | null,
   videoPath: string,
 ): Promise<number> {
-  if (ffprobePersistentCache) {
-    const cached = await ffprobePersistentCache.getItem(videoPath);
+  if (ffprobeCache) {
+    const cached = await ffprobeCache.getItem(videoPath);
     if (
       cached &&
       typeof cached === "object" &&
@@ -148,8 +148,8 @@ async function ffprobeLength(
       )
     ).stdout,
   );
-  if (ffprobePersistentCache) {
-    ffprobePersistentCache.setItem(videoPath, { length });
+  if (ffprobeCache) {
+    ffprobeCache.setItem(videoPath, { length });
   }
   return length;
 }
@@ -479,9 +479,7 @@ export async function findFiles(
             const lengthSec = await limit(() =>
               ffprobeLength(
                 config.ffprobePath,
-                config.useFfprobeCache
-                  ? useStorage("ffprobePersistentCache")
-                  : null,
+                config.useFfprobeCache ? useStorage("ffprobeCache") : null,
                 filename,
               ),
             );

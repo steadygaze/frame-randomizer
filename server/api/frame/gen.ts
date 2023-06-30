@@ -4,7 +4,7 @@ import logger from "~/server/logger";
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
-const frameFileStateStorage = useStorage("frameFileState");
+const frameStateStorage = useStorage("frameState");
 
 /**
  * Adds an expiration time to an answer.
@@ -22,7 +22,7 @@ async function addExpiry(id: string): Promise<void> {
       ...answer,
       expiryTs: Date.now() + config.answerExpiryMs,
     } as StoredAnswer),
-    frameFileStateStorage.setItem(id, {
+    frameStateStorage.setItem(id, {
       expiryTs: Date.now() + config.frameExpiryMs,
     } as StoredFileState),
   ]);

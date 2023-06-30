@@ -10,7 +10,7 @@ import logger from "../logger";
 const config = useRuntimeConfig();
 const sleep = promisify(setTimeout);
 const answerStorage = useStorage("answer");
-const frameFileStateStorage = useStorage("frameFileState");
+const frameStateStorage = useStorage("frameState");
 
 /**
  * Clean up expired answers.
@@ -80,7 +80,7 @@ async function cleanupOrphanedImages(
 async function cleanupExpiredImages(frameFileIds: string[]) {
   await Promise.all(
     frameFileIds.map(async (fileId) => {
-      const storedFileState = (await frameFileStateStorage.getItem(
+      const storedFileState = (await frameStateStorage.getItem(
         fileId,
       )) as StoredFileState | null;
       if (
@@ -91,7 +91,7 @@ async function cleanupExpiredImages(frameFileIds: string[]) {
         const frameFile = imagePathForId(config, fileId);
         logger.info(`Cleaning up expired image`, { file: frameFile });
         await Promise.all([
-          frameFileStateStorage.removeItem(fileId),
+          frameStateStorage.removeItem(fileId),
           fs.rm(frameFile).catch((error) => {
             if (error.code !== "ENOENT") {
               logger.error(`Failed to clean up expired image: ${error}`, {
@@ -112,7 +112,7 @@ async function cleanupOrphanedAndExpiredImages() {
   const ext = config.public.imageOutputExtension;
   const globPattern = path.join(config.frameOutputDir, `*.${ext}`);
   const [frameFileIds, frames1, frames2] = await Promise.all([
-    frameFileStateStorage.getKeys(),
+    frameStateStorage.getKeys(),
     // List the files twice to avoid race conditions with storage cleanup.
     // Frames will be cleaned up only if they are present both times.
     glob(globPattern),

@@ -71,14 +71,14 @@ export default defineNuxtConfig({
         driver: "memory",
       },
 
-      ffprobePersistentCache: {
+      ffprobeCache: {
         base:
           process.env.FR_FFPROBE_CACHE_DIR ||
           "./frame-randomizer/ffprobe-cache",
         driver: "fs",
       },
 
-      frameFileState: {
+      frameState: {
         driver: "memory",
       },
     },
@@ -231,7 +231,7 @@ export default defineNuxtConfig({
     // true for faster server restarts. Note that if this is false, the cache
     // isn't touched (not read from, cleared, or repopulated). If you need to
     // clear and repopulate the cache, simply "rm -r" the ffprobe cache
-    // directory (see ffprobePersistentCache.base).
+    // directory (see ffprobeCache.base).
     useFfprobeCache: true,
     // Used to give generated images random names. Recommend setting this to a
     // different one for your own instance from:

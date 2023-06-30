@@ -3,7 +3,7 @@ import { imagePathForId } from "~/server/file";
 import logger from "~/server/logger";
 
 const config = useRuntimeConfig();
-const frameFileStateStorage = useStorage("frameFileState");
+const frameStateStorage = useStorage("frameState");
 
 export default defineEventHandler((event) => {
   const id = getRouterParam(event, "id");
@@ -11,7 +11,7 @@ export default defineEventHandler((event) => {
     throw createError({ statusCode: 400, statusMessage: "Missing id param" });
   }
 
-  frameFileStateStorage.removeItem(id);
+  frameStateStorage.removeItem(id);
 
   const frameFile = imagePathForId(config, id);
   logger.info(`Clean up image file after loading`, { file: frameFile });
