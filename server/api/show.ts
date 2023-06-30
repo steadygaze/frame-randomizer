@@ -25,10 +25,14 @@ export default defineLazyEventHandler(async () => {
       }
     }
     if (!(language in clientData)) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: `language "${language}" not found and no default`,
-      });
+      if (defaultLanguage) {
+        language = defaultLanguage;
+      } else {
+        throw createError({
+          statusCode: 404,
+          statusMessage: `language "${language}" not found and no default`,
+        });
+      }
     }
 
     return clientData[language];
