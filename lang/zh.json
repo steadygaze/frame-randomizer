@@ -7,7 +7,8 @@
       "controls": {
         "alt_num": "Alt键 + 数字",
         "ctrl_num": "Control键 + 数字",
-        "info": "搜索框中输入至少{fuzzySearchMinMatchLength}个字符，以开始模糊搜索剧集名称和描述。你可以继续输入，直到所需剧集在最顶部，或者使用{upDown}，鼠标，或者{ctrlNum}或{altNum}选择一个特定条目。",
+        "ctrl_u": "Control键 + u",
+        "info": "搜索框中输入至少{fuzzySearchMinMatchLength}个字符，以开始模糊搜索剧集名称和描述。你可以继续输入，直到所需剧集在最顶部，或者使用{upDown}，鼠标，或者{ctrlNum}或{altNum}选择一个特定条目。在搜索框中键入{ctrlU}将清除当前的搜索输入。",
         "up_down": "上/下箭头+Enter"
       },
       "episode_search_tip": {
@@ -78,7 +79,7 @@
     "copy": "复制",
     "correct": "✅ 正确",
     "correct_message": "{correct}：{answer}。",
-    "entry_select_fail": "搜索结果中没有条目编号{number}。",
+    "entry_select_fail": "搜索结果中没有条目号{number} 。",
     "generation_error": "生成帧错误：{error}。再试一次？",
     "guess_prompt": "猜猜这个随机截图来自{show}的哪一集。",
     "incorrect": "错误",

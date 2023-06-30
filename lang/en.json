@@ -7,7 +7,8 @@
       "controls": {
         "alt_num": "Alt key + number",
         "ctrl_num": "Control key + number",
-        "info": "To provide a guess, type at least {fuzzySearchMinMatchLength} characters in the search box to fuzzily search episode names and descriptions. Keep typing until the desired episode is at the top, or use {upDown}, the mouse, or {ctrlNum} or {altNum} to select a specific entry.",
+        "ctrl_u": "Control key + u",
+        "info": "To provide a guess, type at least {fuzzySearchMinMatchLength} characters in the search box to fuzzily search episode names and descriptions. Keep typing until the desired episode is at the top, or use {upDown}, the mouse, or {ctrlNum} or {altNum} to select a specific entry. Typing {ctrlU} into the search box will clear the current search input.",
         "up_down": "up/down arrow keys + Enter key"
       },
       "episode_search_tip": {

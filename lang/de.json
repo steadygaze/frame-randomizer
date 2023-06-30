@@ -7,7 +7,8 @@
       "controls": {
         "alt_num": "Alt-Taste + Zahl",
         "ctrl_num": "Steuertaste + Nummer",
-        "info": "Um eine Schätzung abzugeben, geben Sie mindestens {fuzzySearchMinMatchLength} Zeichen in das Suchfeld ein, um Episodennamen und -beschreibungen unscharf zu durchsuchen. Tippen Sie weiter, bis die gewünschte Episode oben steht, oder verwenden Sie {upDown}, die Maus oder {ctrlNum} oder {altNum} um einen bestimmten Eintrag auszuwählen.",
+        "ctrl_u": "Steuertaste + u",
+        "info": "Um eine Schätzung abzugeben, geben Sie mindestens {fuzzySearchMinMatchLength} Zeichen in das Suchfeld ein, um Episodennamen und -beschreibungen unscharf zu durchsuchen. Tippen Sie weiter, bis die gewünschte Episode oben steht, oder verwenden Sie {upDown} , die Maus oder {ctrlNum} oder {altNum} um einen bestimmten Eintrag auszuwählen. Wenn Sie {ctrlU} in das Suchfeld eingeben, wird die aktuelle Sucheingabe gelöscht.",
         "up_down": "Pfeiltasten nach oben/unten + Eingabetaste"
       },
       "episode_search_tip": {
@@ -78,7 +79,7 @@
     "copy": "Kopieren",
     "correct": "✅ Richtig",
     "correct_message": "{correct} : {answer} .",
-    "entry_select_fail": "Kein Eintrag mit der Nummer {number} in den Suchergebnissen.",
+    "entry_select_fail": "Kein Eintrag Nummer {number} in den Suchergebnissen.",
     "generation_error": "Fehler beim Generieren des Frames: {error} . Versuchen Sie es erneut?",
     "guess_prompt": "Errate die Episode {show}, aus der das ausgewählte Bild stammt.",
     "incorrect": "falsch",

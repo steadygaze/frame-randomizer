@@ -7,7 +7,8 @@
       "controls": {
         "alt_num": "Touche Alt + chiffre",
         "ctrl_num": "Touche de contrôle + numéro",
-        "info": "Pour fournir une estimation, saisissez au moins {fuzzySearchMinMatchLength} caractère dans la zone de recherche pour rechercher de manière approximative les noms et les descriptions des épisodes. Continuez à taper jusqu'à ce que l'épisode souhaité soit en haut, ou utilisez {upDown} , la souris, ou {ctrlNum} ou {altNum} pour sélectionner une entrée spécifique.",
+        "ctrl_u": "Touche contrôle + u",
+        "info": "Pour fournir une estimation, saisissez au moins {fuzzySearchMinMatchLength} caractère dans la zone de recherche pour rechercher de manière approximative les noms et les descriptions des épisodes. Continuez à taper jusqu'à ce que l'épisode souhaité soit en haut, ou utilisez {upDown} , la souris, ou {ctrlNum} ou {altNum} pour sélectionner une entrée spécifique. Taper {ctrlU} dans la zone de recherche effacera l'entrée de recherche actuelle.",
         "up_down": "touches fléchées haut/bas + touche Entrée"
       },
       "episode_search_tip": {
@@ -78,7 +79,7 @@
     "copy": "copie",
     "correct": "✅ Correct",
     "correct_message": "{correct} : {answer} .",
-    "entry_select_fail": "Aucun numéro d'entrée {number} dans les résultats de recherche.",
+    "entry_select_fail": "Pas d'entrée numéro {number} dans les résultats de recherche.",
     "generation_error": "Erreur lors de la génération de la trame : {error} . Essayer à nouveau?",
     "guess_prompt": "Devinez l'épisode {show} dont le cadre est sélectionné au hasard à l'aide du champ de recherche.",
     "incorrect": "Incorrect",

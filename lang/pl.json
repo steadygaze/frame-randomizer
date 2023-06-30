@@ -7,7 +7,8 @@
       "controls": {
         "alt_num": "Alt + numer",
         "ctrl_num": "Ctrl + numer",
-        "info": "Aby wyszukać odcinek, wpisz co najmniej {fuzzySearchMinMatchLength} znaki w polu wyszukiwania. Kontynuuj pisanie, aż żądany odcinek pojawi się na górze. Możesz także użyć {upDown}, myszy, {ctrlNum} lub {altNum}, aby wybrać konkretny wpis.",
+        "ctrl_u": "Ctrl + u",
+        "info": "Aby wyszukać odcinek, wpisz co najmniej {fuzzySearchMinMatchLength} znaki w polu wyszukiw ania. Kontynuuj pisanie, aż żądany odcinek pojawi się na górze. Możesz także użyć {upDown}, myszy, {ctrlNum } lub {altNum}, aby wybrać konkretny wpis. Wpisanie {ctrlU} w polu wyszukiwania spowoduje wyczyszczenie bieżącego wpisu wyszukiwania.",
         "up_down": "strzałek w górę/w dół + Enter"
       },
       "episode_search_tip": {
