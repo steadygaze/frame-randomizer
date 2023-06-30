@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import { promisify } from "node:util";
 import once from "lodash.once";
 import { ProducerQueue } from "./queue";
-import { StoredAnswer } from "./types";
+import { StoredAnswer, StoredFileState } from "./types";
 import {
   ServerEpisodeData,
   ShowData,
@@ -122,6 +122,91 @@ async function ffmpegFrame(
 }
 
 /**
+ * Scans persistent storage to find all unserved frames that can be requeued.
+ * @param config Runtime config options.
+ * @returns List of recoverable frames.
+ */
+async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
+  const answerStorage = useStorage("answer");
+  const frameStorage = useStorage("frameState");
+
+  const ids = await frameStorage.getKeys();
+  let noAnswer = 0;
+  let unservedAnswer = 0;
+  let cleanedFileAnswer = 0;
+  let servedFile = 0;
+  let recoveredCount = 0;
+  let missingFile = 0;
+
+  const recovered = (
+    await Promise.all(
+      ids.map(async (id) => {
+        const [fileData, answerData] = await Promise.all([
+          frameStorage.getItem<StoredFileState>(id),
+          answerStorage.getItem<StoredAnswer>(id),
+        ]);
+        if (fileData && !answerData) {
+          ++noAnswer;
+          // Answer lost, so even if we have the file, it's unusable.
+          frameStorage.removeItem(id);
+          // Don't care if this fails with ENOENT.
+          fs.rm(imagePathForId(config, id)).catch();
+          return "";
+        }
+        if (!fileData && answerData) {
+          if (!answerData.expiryTs) {
+            ++unservedAnswer;
+            // Answer is supposedly for an unserved frame, but there is no frame
+            // data. Delete this inconsistent data.
+            answerStorage.removeItem(id);
+          } else {
+            ++cleanedFileAnswer;
+          }
+          // Otherwise, file may be cleaned up but there may be a pending answer;
+          // don't delete the answer.
+          return "";
+        }
+        if (fileData && fileData.expiryTs) {
+          ++servedFile;
+          // Already served image.
+          return "";
+        }
+        try {
+          await fs.stat(imagePathForId(config, id));
+          ++recoveredCount;
+          return id;
+        } catch (e) {
+          ++missingFile;
+          // Probably ENOENT, or the image file is otherwise inaccessible.
+          // No need to await.
+          frameStorage.removeItem(id);
+          if (!answerData || !answerData.expiryTs) {
+            answerStorage.removeItem(id);
+          }
+          return "";
+        }
+      }),
+    )
+  )
+    .filter((id) => id)
+    .map((imageId) => {
+      return { imageId };
+    });
+
+  return {
+    recovered,
+    stats: {
+      noAnswer,
+      unservedAnswer,
+      cleanedFileAnswer,
+      servedFile,
+      recoveredCount,
+      missingFile,
+    },
+  };
+}
+
+/**
  * Gets a frame producer queue, which manages generating new frames, returning
  * pregenerated frames, etc.
  * @param config Runtime config options.
@@ -184,7 +269,13 @@ async function getFrameProducerQueueUncached(
     return { imageId };
   }
 
-  return new ProducerQueue(generateFrame, {
+  const { recovered, stats } = await recoverFrames(config);
+  logger.info(
+    `Recovered ${recovered.length} unserved frames from previous runs`,
+    stats,
+  );
+
+  return new ProducerQueue(generateFrame, recovered, {
     length: config.framePregenCount,
     maxPending: config.frameGenMaxParallelism,
     maxRetries: config.frameGenMaxAttempts,

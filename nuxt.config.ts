@@ -68,7 +68,8 @@ export default defineNuxtConfig({
 
     storage: {
       answer: {
-        driver: "memory",
+        base: process.env.FR_ANSWER_DIR || "./frame-randomizer/answer",
+        driver: "fs",
       },
 
       ffprobeCache: {
@@ -79,7 +80,9 @@ export default defineNuxtConfig({
       },
 
       frameState: {
-        driver: "memory",
+        base:
+          process.env.FR_FRAME_STATE_DIR || "./frame-randomizer/frame-state",
+        driver: "fs",
       },
     },
   },

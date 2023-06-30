@@ -14,16 +14,19 @@ export class ProducerQueue<Type> {
   pendingCount: number;
   produceFn: () => Promise<Type>;
   queue: Array<Promise<Type>>;
+  preproduced: Array<Type>;
   limit: LimitFunction;
 
   constructor(
     produceFn: () => Promise<Type>,
+    preproduced: Array<Type>,
     { length, maxPending, maxRetries }: ProducerQueueOptions,
   ) {
     this.maxPending = maxPending;
     this.maxRetries = maxRetries;
     this.pendingCount = 0;
     this.produceFn = produceFn;
+    this.preproduced = preproduced;
     this.queue = [];
 
     this.limit = pLimit(this.maxPending);
@@ -42,6 +45,11 @@ export class ProducerQueue<Type> {
   }
 
   enqueueJob() {
+    const popped = this.preproduced.pop();
+    if (popped) {
+      this.queue.push(Promise.resolve(popped));
+      return;
+    }
     // Call this.produceFn, but retry on failure.
     let retries = 0;
     const reProduce: () => Promise<Type> = () => {
