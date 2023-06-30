@@ -57,10 +57,6 @@ export default defineNuxtConfig({
     strategy: "prefix_except_default",
   },
 
-  imports: {
-    autoImport: false,
-  },
-
   modules: ["@pinia/nuxt", "@nuxtjs/i18n", "nuxt-security"],
 
   nitro: {
