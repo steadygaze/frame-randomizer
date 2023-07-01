@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.13
+
+[compare changes](https://undefined/undefined/compare/v0.0.12...v0.0.13)
+
+### 🚀 Enhancements
+
+- Show number shortcut modifier by browser (da8521f)
+- Make Ctrl + u clear the search input (f688cf1)
+- Load frames and answers from prior runs (1f652ca)
+- Make show data config downloadable in About (8181608)
+
+### 🩹 Fixes
+
+- Fix save button not expanding to full width (6a51464)
+- Make mod input momentarily highlight entry (72e37df)
+- Fix language fallback behavior (2333fa0)
+
+### 💅 Refactors
+
+- Simplify datastore names (58e56eb)
+
+### 📖 Documentation
+
+- Update README with new config format (14b5366)
+
+### 📦 Build
+
+- Stop running tsc separately (092b824)
+- Remove tsc from precommit hook (ebe564e)
+- Update to Nuxt 3.6.1 (58c3627)
+- Update misc deps (f2622bf)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.12
 
 [compare changes](https://undefined/undefined/compare/v0.0.11...v0.0.12)
