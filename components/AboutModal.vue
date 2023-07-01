@@ -162,6 +162,9 @@
             {{ $t("about.licensing.unmodified") }}
           </span>
         </template>
+        <template #showDataUrl>
+          <a href="/api/show.json" download><code>show.json</code></a>
+        </template>
       </i18n-t>
     </p>
     <p>

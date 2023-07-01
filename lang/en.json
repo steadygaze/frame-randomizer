@@ -29,8 +29,8 @@
       "content_disclaimer": "Note that this software is agnostic of what show is randomized from. The content served is the instance operator's sole responsibility. If you have concerns about the content served by an instance, contact the operator of that instance and not the maintainers of the software.",
       "header": "Licensing information",
       "local_tip": "With some setup work and technical knowledge, you can even run an instance of the server on your own computer, either to play with a show that has no existing instance for it, to set up your own instance for others to use, or to play locally without the network latency involved in serving the images.",
-      "main": "This site ({instanceName}) is running an instance of {softwareName}. Know your rights! This software is provided to you under the terms of the {licenseName}. That means you, the user, have a right to access a copy of its source code, including the code run by this instance, if a modified version is running. {modDeclaration}",
-      "modified": "You can find a copy of the code for this instance at: {sourceCodeLink}",
+      "main": "This site ({instanceName}) is running an instance of {softwareName}. Know your rights! This software is provided to you under the terms of the {licenseName}. That means you, the user, have a right to access a copy of its source code, including the code run by this instance, if a modified version is running. {modDeclaration} The TV show data config for this site can be downloaded here: {showDataUrl}.",
+      "modified": "You can find a copy of the code for this instance at: {sourceCodeLink}.",
       "name": "Affero GNU Public License 3.0 (AGPLv3)",
       "unmodified": "(The instance operator did not provide an instance-specific source code URL, and therefore declares that their server software is unmodified.)",
       "url": "https://www.gnu.org/licenses/agpl-3.0.html"

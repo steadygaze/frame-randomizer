@@ -29,8 +29,8 @@
       "content_disclaimer": "请注意，此软件对于是从哪个节目随机化的是不知道的。提供的内容是实例运营者的唯一责任。如果您对实例提供的内容有任何疑虑，请联系该实例的运营者，而不是软件的维护者。",
       "header": "许可信息",
       "local_tip": "通过一些设置工作和技术知识，你甚至可以在你自己的电脑上运行一个服务器实例，无论是要与没有现有实例的节目一起玩，为其他人设置你自己的实例，还是在不涉及提供图像的网络延迟的情况下本地玩。",
-      "main": "此站点({instanceName})正在运行一个{softwareName}的实例。了解你的权利！这款软件根据{licenseName}的条款提供给你。这意味着你，用户，有权访问其源代码的副本，包括此实例运行的代码，如果运行的是修改过的版本。{modDeclaration}",
-      "modified": "你可以在这里找到此实例的代码副本：{sourceCodeLink}",
+      "main": "此站点({instanceName})正在运行一个{softwareName}的实例。了解你的权利！这款软件根据{licenseName}的条款提供给你。这意味着你，用户，有权访问其源代码的副本，包括此实例运行的代码，如果运行的是修改过的版本。{modDeclaration}该网站的电视节目数据配置可以在此处下载：{showDataUrl}。",
+      "modified": "你可以在这里找到此实例的代码副本：{sourceCodeLink}。",
       "name": "Affero GNU公共许可证3.0(AGPLv3)",
       "unmodified": "(实例运营者未提供实例特定的源代码URL，因此声明他们的服务器软件未经修改。)",
       "url": "https://www.gnu.org/licenses/agpl-3.0.zh-cn.html"

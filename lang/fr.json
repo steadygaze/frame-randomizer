@@ -29,8 +29,8 @@
       "content_disclaimer": "Notez que ce logiciel est indépendant de l'émission aléatoire à partir de laquelle. Le contenu servi relève de la seule responsabilité de l'opérateur de l'instance. Si vous avez des inquiétudes concernant le contenu servi par une instance, contactez l'opérateur de cette instance et non les mainteneurs du logiciel.",
       "header": "Informations sur la licence",
       "local_tip": "Avec un peu de travail de configuration et des connaissances techniques, vous pouvez même exécuter une instance du serveur sur votre propre ordinateur, soit pour jouer avec une émission qui n'a pas d'instance existante, pour configurer votre propre instance pour que d'autres l'utilisent, ou pour jouer localement sans la latence du réseau impliquée dans la diffusion des images.",
-      "main": "Ce site ( {instanceName} ) exécute une instance de {softwareName} . Connais tes droits! Ce logiciel vous est fourni selon les termes de la {licenseName} . Cela signifie que vous, l'utilisateur, avez le droit d'accéder à une copie de son code source, y compris le code exécuté par cette instance, si une version modifiée est en cours d'exécution. {modDeclaration}",
-      "modified": "Vous pouvez trouver une copie du code pour cette instance à: {sourceCodeLink}",
+      "main": "Ce site ( {instanceName} ) exécute une instance de {softwareName} . Connais tes droits! Ce logiciel vous est fourni selon les termes de la {licenseName} . Cela signifie que vous, l'utilisateur, avez le droit d'accéder à une copie de son code source, y compris le code exécuté par cette instance, si une version modifiée est en cours d'exécution. {modDeclaration} La configuration des données de l'émission télévisée pour ce site peut être téléchargée ici : {showDataUrl} .",
+      "modified": "Vous pouvez trouver une copie du code pour cette instance à : {sourceCodeLink} .",
       "name": "Licence publique générale GNU Affero 3.0 (AGPLv3)",
       "unmodified": "(L'opérateur d'instance n'a pas fourni d'URL de code source spécifique à l'instance et déclare donc que son logiciel serveur n'a pas été modifié.)",
       "url": "https://www.gnu.org/licenses/agpl-3.0.fr.html"

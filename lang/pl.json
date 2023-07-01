@@ -29,8 +29,8 @@
       "content_disclaimer": "Pamiętaj, że to oprogramowanie jest nie zatwierdzone przez wydawcę serialu z którego są generowane klatki. Udostępniana treść jest wyłączną odpowiedzialnością operatora instancji. Jeśli masz wątpliwości dotyczące zawartości udostępnianej przez nią, skontaktuj się z jej operatorem, a nie z twórcami oprogramowania.",
       "header": "Informacje o licencji",
       "local_tip": "Przy odrobinie pracy i wiedzy możesz uruchomić instancję tego serwera nawet na własnym komputerze, aby grać lokalnie z serialem swojego wyboru, który nie ma istniejącej instancji w internecie. Oczywiście masz możliwość skonfigurowania strony tak, aby była do użytku przez innych.",
-      "main": "Ta witryna ({instanceName}) to instancja {softwareName}. To oprogramowanie jest dostarczane użytkownikowi na warunkach {licenseName}. Oznacza to, że ty, użytkownik, masz prawo dostępu do kopii jego kodu źródłowego, w tym kodu uruchamianego przez tę instancję, jeśli jest to zmodyfikowana wersja. {modDeclaration}",
-      "modified": "Kopię kodu dla tej instancji można znaleźć pod adresem: {sourceCodeLink}",
+      "main": "Ta witryna ({instanceName}) to instancja {softwareName}. To oprogramowanie jest dostarczane użytkownikowi na warunkach {licenseName}. Oznacza to, że ty, użytkownik, masz prawo dostępu do kopii jego kodu źródłowego, w tym kodu uruchamianego przez tę instancję, jeśli jest to zmodyfikowana wersja. {modDeclaration} Konfigurację danych programu telewizyjnego dla tej witryny można pobrać tutaj: {showDataUrl}.",
+      "modified": "Kopię kodu dla tej instancji można znaleźć pod adresem: {sourceCodeLink}.",
       "name": "Affero GNU Public License 3.0 (AGPLv3)",
       "unmodified": "(Operator instancji nie podał adresu URL kodu źródłowego specyficznego dla tej instancji, dlatego oświadcza, że jego oprogramowanie serwera nie zostało zmodyfikowane).",
       "url": "https://www.gnu.org/licenses/agpl-3.0.html"
