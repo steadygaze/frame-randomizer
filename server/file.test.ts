@@ -5,7 +5,26 @@ import {
   checkInputShowData,
   extractPerLanguageData,
   offsetTimeBySkipRanges,
+  parseFramerate,
 } from "./file";
+
+describe("parseFramerate", () => {
+  it("should parse a basic framerate with denominator 1", () => {
+    expect(parseFramerate("30/1")).toEqual(30);
+  });
+
+  it("should parse a fractional framerate", () => {
+    expect(parseFramerate("24000/1001")).toEqual(24000 / 1001);
+  });
+
+  it("should parse a number framerate", () => {
+    expect(parseFramerate("23.976")).toEqual(23.976);
+  });
+
+  it("should return NaN for bad input", () => {
+    expect(parseFramerate("BAD")).toBeNaN();
+  });
+});
 
 describe("generateSkipRanges", () => {
   it("should convert episode skip ranges", () => {
@@ -676,7 +695,8 @@ describe("extractPerLanguageData", () => {
           season_number: 2,
           episode_number: 2,
           filename: "/path/to/example.mp4",
-          lengthSec: 120,
+          length: 120,
+          framerate: 24,
           genLength: 120,
           skipRanges: [],
         },

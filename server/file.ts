@@ -30,7 +30,8 @@ export interface ServerEpisodeData {
   season_number: number;
   episode_number: number;
   filename: string; // Pre shell escaped and quoted.
-  lengthSec: number;
+  length: number;
+  framerate: number;
   genLength: number;
   skipRanges: TimeRange[];
 }
@@ -118,40 +119,106 @@ interface InputShowData {
   commonTimings?: Timings;
 }
 
+interface FfprobeStats {
+  length: number;
+  framerate: number;
+}
+
+const fractionalFramerateRe =
+  /((?<numerator>\d+|(\d+)?\.\d+))\/(?<denominator>\d+|(\d+)?\.\d+)/;
+
 /**
- * Get the length of a video file in seconds using ffprobe.
+ * Parses a framerate in fractional format (e.g. "24000/1001") into a float.
+ * @param rawFramerate Raw framerate string.
+ * @returns Evaluated float framerate.
+ */
+export function parseFramerate(rawFramerate: string) {
+  const match = fractionalFramerateRe.exec(rawFramerate);
+  if (match && match.length > 0 && match.groups) {
+    return (
+      parseFloat(match.groups.numerator) / parseFloat(match.groups.denominator)
+    );
+  }
+  return parseFloat(rawFramerate);
+}
+
+/**
+ * Get video stats from video file using ffprobe.
  * @param ffprobe Path to ffprobe.
  * @param ffprobeCache Cache used to store ffprobe results, for fast server restarts.
  * @param videoPath Path to video file.
  * @returns Length of the video in seconds.
  */
-async function ffprobeLength(
+async function ffprobeStats(
   ffprobe: string,
   ffprobeCache: ReturnType<typeof useStorage> | null,
   videoPath: string,
-): Promise<number> {
+): Promise<FfprobeStats> {
   if (ffprobeCache) {
     const cached = await ffprobeCache.getItem(videoPath);
     if (
       cached &&
       typeof cached === "object" &&
       "length" in cached &&
-      cached.length
+      "framerate" in cached &&
+      cached.length &&
+      cached.framerate
     ) {
-      return cached.length as number;
+      logger.info("stats", cached);
+      return cached as FfprobeStats;
     }
   }
-  const length = parseFloat(
+  const rawStats = JSON.parse(
     (
       await exec(
-        `${ffprobe} -i ${videoPath} -show_entries format=duration -v quiet -of csv="p=0"`,
+        `${ffprobe} -v quiet -print_format json -show_entries format=duration -select_streams v -show_entries stream=r_frame_rate ${videoPath}`,
       )
     ).stdout,
   );
-  if (ffprobeCache) {
-    ffprobeCache.setItem(videoPath, { length });
+
+  if (rawStats.streams.length > 1) {
+    logger.warn("More than one video stream; one will be chosen arbitrarily", {
+      videoPath,
+      count: rawStats.streams.length,
+    });
+  } else if (rawStats.streams.length <= 0) {
+    logger.error("No video streams found", { videoPath });
+    throw createError("No video streams found for " + videoPath);
   }
-  return length;
+
+  const length = parseFloat(rawStats.format.duration);
+  if (!length) {
+    logger.error("Couldn't parse length as float", {
+      length: rawStats.format.duration,
+    });
+    throw createError(
+      "Couldn't parse length \"" + rawStats.format.duration + '" as float',
+    );
+  }
+
+  const framerate = parseFramerate(rawStats.streams[0].r_frame_rate);
+  if (!framerate) {
+    logger.error("Couldn't parse framerate", {
+      rawFramerate: rawStats.streams[0].r_frame_rate,
+      videoPath,
+    });
+    throw createError(
+      "Couldn't parse framerate " +
+        rawStats.streams[0].r_frame_rate +
+        " in " +
+        videoPath,
+    );
+  }
+
+  const stats = {
+    length,
+    framerate,
+  };
+  if (ffprobeCache) {
+    ffprobeCache.setItem(videoPath, stats);
+  }
+  logger.info("stats", stats);
+  return stats;
 }
 
 /**
@@ -476,27 +543,27 @@ export async function findFiles(
             timings,
           } = joinedEp;
           try {
-            const lengthSec = await limit(() =>
-              ffprobeLength(
+            const { length, framerate } = await limit(() =>
+              ffprobeStats(
                 config.ffprobePath,
                 config.useFfprobeCache ? useStorage("ffprobeCache") : null,
                 filename,
               ),
             );
             const skipRanges: TimeRange[] = generateSkipRanges(
-              lengthSec,
+              length,
               timings,
               commonTimings,
             );
             const genLength =
-              lengthSec -
-              skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
+              length - skipRanges.reduce((sum, range) => sum + range.length, 0); // Sum of skipped lengths.
             return [
               {
                 ...joinedEp,
                 skipRanges,
                 genLength,
-                lengthSec,
+                length,
+                framerate,
               },
             ];
           } catch (error) {

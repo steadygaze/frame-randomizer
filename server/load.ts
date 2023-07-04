@@ -66,9 +66,18 @@ function randomTimeInEpisode(episode: ServerEpisodeData): number {
   const randomUnoffsetTime = Math.random() * episode.genLength;
   const offsetTime = Math.min(
     offsetTimeBySkipRanges(randomUnoffsetTime, episode.skipRanges),
-    episode.lengthSec,
+    episode.length,
   );
-  return offsetTime;
+  // Rounded to the nearest frame.
+  const rounded =
+    Math.round(offsetTime * episode.framerate) / episode.framerate;
+  logger.info("rounded time", {
+    offsetTime,
+    rounded,
+    season: episode.season_number,
+    episode: episode.episode_number,
+  });
+  return rounded;
 }
 
 interface RandomEpisode {
