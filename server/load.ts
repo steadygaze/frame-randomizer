@@ -189,8 +189,8 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
     )
   )
     .filter((id) => id)
-    .map((imageId) => {
-      return { imageId };
+    .map((frameId) => {
+      return { frameId };
     });
 
   return {
@@ -214,7 +214,7 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
  */
 async function getFrameProducerQueueUncached(
   config: ReturnType<typeof useRuntimeConfig>,
-): Promise<ProducerQueue<{ imageId: string }>> {
+): Promise<ProducerQueue<{ frameId: string }>> {
   const { episodes } = await getShowData(config);
   const answerStorage = useStorage("answer");
   const frameStateStorage = useStorage("frameState");
@@ -237,11 +237,11 @@ async function getFrameProducerQueueUncached(
    * @returns ID of the image generated.
    */
   async function generateFrame() {
-    const imageId = myUuid(config);
-    const imagePath = imagePathForId(config, imageId);
+    const frameId = myUuid(config);
+    const imagePath = imagePathForId(config, frameId);
 
     // Record that we generated this file.
-    const storeImageIdP = frameStateStorage.setItem(imageId, {
+    const storeFrameIdP = frameStateStorage.setItem(frameId, {
       expiryTs: null,
     });
     const { episode, seekTime } = await ffmpegFrame(
@@ -256,7 +256,7 @@ async function getFrameProducerQueueUncached(
       // We do await on storing the answer despite this not affecting the query
       // result to prevent a rare data race between the answer being stored and
       // the client checking their guess.
-      answerStorage.setItem(imageId, {
+      answerStorage.setItem(frameId, {
         season: episode.season_number,
         episode: episode.episode_number,
         seekTime,
@@ -264,9 +264,9 @@ async function getFrameProducerQueueUncached(
       } as StoredAnswer),
       // We have to await on this because otherwise it can race with setting the
       // expiry time when serving.
-      storeImageIdP,
+      storeFrameIdP,
     ]);
-    return { imageId };
+    return { frameId };
   }
 
   const { recovered, stats } = await recoverFrames(config);

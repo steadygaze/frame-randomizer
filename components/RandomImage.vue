@@ -1,10 +1,10 @@
 <template>
   <img
-    v-if="imageId"
+    v-if="frameId"
     :src="
       showImageError
         ? `data:image/svg+xml,${errorLoadingImageSvg}`
-        : `/api/frame/get/${imageId}.${extension}?cleanuponload=${
+        : `/api/frame/get/${frameId}.${extension}?cleanuponload=${
             browser?.name === 'firefox' || false
           }`
     "
@@ -27,7 +27,7 @@ const { detectBrowser, readout } = appStateStore;
 const {
   browser,
   cleanedUpFrame,
-  imageId,
+  frameId,
   imageIsLoading,
   imageLoadError,
   imageLoadTimestamp,
@@ -35,9 +35,9 @@ const {
 
 const showImageError = ref(false);
 
-watch(imageId, (imageId) => {
+watch(frameId, (frameId) => {
   // Clear error state when getting a new frame.
-  if (imageId) {
+  if (frameId) {
     showImageError.value = false;
   }
 });
@@ -70,7 +70,7 @@ onMounted(() => {
   if (detectBrowser()?.name !== "firefox") {
     document.addEventListener("visibilitychange", function () {
       if (document.visibilityState === "hidden" && !cleanedUpFrame.value) {
-        navigator.sendBeacon(`/api/frame/cleanup/${imageId.value}`);
+        navigator.sendBeacon(`/api/frame/cleanup/${frameId.value}`);
         cleanedUpFrame.value = true;
       }
     });

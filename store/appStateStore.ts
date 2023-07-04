@@ -43,11 +43,11 @@ const initialReadout: Readout = {
 
 export const useAppStateStore = defineStore("appState", () => {
   const browser: Ref<ReturnType<typeof detect>> = ref(null);
+  const cleanedUpFrame = ref(false);
   const correctCounter = ref(0);
   const currentGuessTimeDurationMs = ref(0);
   const currentGuessTimeStartTimestamp = ref(0);
-  const cleanedUpFrame = ref(false);
-  const imageId = ref(0);
+  const frameId = ref(0);
   const imageIsLoading = ref(true);
   const imageLoadError = ref(false);
   const imageLoadTimestamp = ref(0);
@@ -106,14 +106,14 @@ export const useAppStateStore = defineStore("appState", () => {
     currentGuessTimeDurationMs,
     currentGuessTimeStartTimestamp,
     detectBrowser,
-    imageId,
+    frameId,
     imageIsLoading,
     imageLoadError,
     imageLoadTimestamp,
+    readout,
     readouts,
     realTimeDurationMs,
     realTimeStartTimestamp,
-    readout,
     reset,
     streakCounter,
     totalCounter,

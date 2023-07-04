@@ -56,7 +56,7 @@ export default defineLazyEventHandler(async () => {
       } ms for image generation and callback queue`,
     );
     // Don't await on adding an expiry time, because it won't affect the result.
-    addExpiry(result.imageId);
+    addExpiry(result.frameId);
     return result;
   });
 });

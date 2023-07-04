@@ -31,9 +31,9 @@
           🔁 {{ $t("input.reset") }}
         </button>
         <a
-          :href="`/api/frame/get/${imageId}.${config.public.imageOutputExtension}`"
+          :href="`/api/frame/get/${frameId}.${config.public.imageOutputExtension}`"
           download
-          :class="{ disabledAnchor: !imageId }"
+          :class="{ disabledAnchor: !frameId }"
           @click="warnIfFrameMayBeExpired"
           ><button :disabled="imageIsLoading">
             💾 {{ $t("input.save") }}
@@ -117,7 +117,7 @@ const {
   correctCounter,
   streakCounter,
   totalCounter,
-  imageId,
+  frameId,
   imageIsLoading,
   imageLoadError,
   imageLoadTimestamp,
@@ -224,7 +224,7 @@ async function getImage(fetchResult?: typeof fetchGenResult): Promise<void> {
     fetchResult ||
     (await useFetch(
       `/api/frame/gen?cleanupid=${
-        browser.value?.name === "firefox" ? "" : imageId.value
+        browser.value?.name === "firefox" ? "" : frameId.value
       }`,
     ));
   if (error && error.value) {
@@ -238,7 +238,7 @@ async function getImage(fetchResult?: typeof fetchGenResult): Promise<void> {
     imageLoadError.value = true;
     imageIsLoading.value = false;
   } else if (data && data.value) {
-    imageId.value = data.value.imageId;
+    frameId.value = data.value.frameId;
   } else {
     readout("readout.generation_error", {
       error: String(data ? data.value : data),
@@ -362,7 +362,7 @@ async function submitAnswer(index: number) {
   document.body.style.cursor = "wait";
   const found = searchResults.value[index];
   const item = found ? found.item : { season: -1, episode: -1, fullName: "?" };
-  const { data, error } = await useFetch(`/api/frame/check/${imageId.value}`, {
+  const { data, error } = await useFetch(`/api/frame/check/${frameId.value}`, {
     query: { season: item.season, episode: item.episode },
   });
 
