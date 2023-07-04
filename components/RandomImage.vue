@@ -4,7 +4,9 @@
     :src="
       showImageError
         ? `data:image/svg+xml,${errorLoadingImageSvg}`
-        : `/api/frame/get/${imageId}.${extension}`
+        : `/api/frame/get/${imageId}.${extension}?cleanuponload=${
+            browser?.name === 'firefox' || false
+          }`
     "
     @load="endLoading"
     @error="handleError"
@@ -14,7 +16,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
-import { useFetch, useRuntimeConfig } from "nuxt/app";
+import { useRuntimeConfig } from "nuxt/app";
 import { useAppStateStore } from "~~/store/appStateStore";
 
 const errorLoadingImageSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">ERROR ❌</text></svg>`;
@@ -22,7 +24,8 @@ const errorLoadingImageSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0
 const extension = useRuntimeConfig().public.imageOutputExtension;
 const appStateStore = useAppStateStore();
 const { readout } = appStateStore;
-const { imageId, imageIsLoading, imageLoadError } = storeToRefs(appStateStore);
+const { browser, imageId, imageIsLoading, imageLoadError } =
+  storeToRefs(appStateStore);
 
 const showImageError = ref(false);
 
@@ -38,9 +41,6 @@ watch(imageId, (imageId) => {
  */
 function endLoading() {
   imageIsLoading.value = false; // Reactively notifies other components.
-  // Ping server to clean up the image. We don't care about the result. Set
-  // keepalive to still clean up in case the user closes the tab.
-  useFetch(`/api/frame/cleanup/${imageId.value}`, { keepalive: true });
 }
 
 /**

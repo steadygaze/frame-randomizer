@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { detect } from "detect-browser";
 import { ref, Ref } from "vue";
 
 export interface ShortEpisodeData {
@@ -41,6 +42,7 @@ const initialReadout: Readout = {
 };
 
 export const useAppStateStore = defineStore("appState", () => {
+  const browser: Ref<ReturnType<typeof detect>> = ref(null);
   const correctCounter = ref(0);
   const currentGuessTimeDurationMs = ref(0);
   const currentGuessTimeStartTimestamp = ref(0);
@@ -85,6 +87,7 @@ export const useAppStateStore = defineStore("appState", () => {
   }
 
   return {
+    browser,
     correctCounter,
     currentGuessTimeDurationMs,
     currentGuessTimeStartTimestamp,

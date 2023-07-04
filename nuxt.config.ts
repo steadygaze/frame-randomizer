@@ -133,7 +133,7 @@ export default defineNuxtConfig({
     answerExpiryMs: 4 * 60 * 60 * 1000, // 4 hours.
     // How often to check frameOutputDir, frame state storage, and answer
     // storage for expired or orphaned images.
-    cleanupIntervalMs: 30 * 60 * 1000, // 30 minutes.
+    cleanupIntervalMs: 5 * 60 * 1000, // 5 minutes.
     // If given, this will be injected into the ffmpeg command used to generate
     // the images. Useful for specifying image encoding/quality options. Consult
     // ffmpeg documentation (https://ffmpeg.org/ffmpeg-codecs.html).
@@ -148,7 +148,7 @@ export default defineNuxtConfig({
     ffprobePath: "ffprobe",
     // How long to keep a frame image around for after a the API points a user
     // to it.
-    frameExpiryMs: 5 * 60 * 1000, // 5 minutes.
+    frameExpiryMs: 5 * 60 * 1000, // 10 minutes.
     // How many times to attempt frame generation before it's considered
     // unrecoverable.  Additionally, if frameRequiredStandardDeviation is set, a
     // minimum standard deviation is required. If image generation fails this

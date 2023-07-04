@@ -90,7 +90,7 @@
 
 <script setup lang="ts">
 import { detect } from "detect-browser";
-import { computed, nextTick, onMounted, ref, Ref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "#app";
@@ -112,6 +112,7 @@ const { showName, synopsisAvailable, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
 const { reset, readout } = appStateStore;
 const {
+  browser,
   correctCounter,
   streakCounter,
   totalCounter,
@@ -123,8 +124,6 @@ const {
 } = storeToRefs(appStateStore);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
-
-const browser: Ref<ReturnType<typeof detect>> = ref(null);
 
 const fuzzySearchMinMatchLength = computed(() =>
   locale.value === "zh" ? 1 : config.public.fuzzySearchMinMatchLength,
@@ -219,7 +218,13 @@ async function getImage(fetchResult?: typeof fetchGenResult): Promise<void> {
   if (typeof window !== "undefined") {
     window.getSelection()?.removeAllRanges();
   }
-  const { data, error } = fetchResult || (await useFetch("/api/frame/gen"));
+  const { data, error } =
+    fetchResult ||
+    (await useFetch(
+      `/api/frame/gen?cleanupid=${
+        browser.value?.name === "firefox" ? "" : imageId.value
+      }`,
+    ));
   if (error && error.value) {
     if (error.value.statusCode === 429) {
       readout("readout.rate_limit");

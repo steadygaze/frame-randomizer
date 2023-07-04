@@ -2,23 +2,42 @@ import fsAsync from "node:fs";
 import path from "path";
 import { sendStream } from "h3";
 import logger from "~/server/logger";
+import { cleanupFrame } from "~/server/cleanup";
 
 const config = useRuntimeConfig();
 
 const traversingPathRe = /[/\\]|\.\./;
 
 export default defineEventHandler((event) => {
-  const imageBasename = event.context?.params?.basename;
-  if (!imageBasename) {
+  const basename = getRouterParam(event, "basename");
+  const cleanuponload = getQuery(event).cleanuponload;
+
+  if (!basename) {
     throw createError({ statusCode: 404 });
   }
-  if (traversingPathRe.test(imageBasename)) {
-    // Prevent path traversal security vulnerability.
+  if (
+    traversingPathRe.test(basename) ||
+    !basename.endsWith(`.${config.public.imageOutputExtension}`)
+  ) {
+    // Prevent path traversal security vulnerability, or attempt to acces other
+    // file extensions.
     throw createError({ statusCode: 400 });
   }
-  const filePath = path.join(config.frameOutputDir, imageBasename);
+
+  const file = path.join(config.frameOutputDir, basename);
   try {
-    return sendStream(event, fsAsync.createReadStream(filePath));
+    const stream = fsAsync.createReadStream(file);
+    if (cleanuponload && cleanuponload !== "false" && cleanuponload !== "0") {
+      stream.on("close", () => {
+        const id = basename.slice(
+          0,
+          basename.length - (config.public.imageOutputExtension.length + 1),
+        );
+        logger.info("Cleaning up frame on load", { id });
+        cleanupFrame(id);
+      });
+    }
+    return sendStream(event, stream);
   } catch (error) {
     if (
       error &&
@@ -28,8 +47,7 @@ export default defineEventHandler((event) => {
     ) {
       // Tried to get a file path that doesn't exist.
       logger.error("Got request for nonexistent frame", {
-        file: filePath,
-        path: imageBasename,
+        file,
       });
       throw createError({ statusCode: 404 });
     } else {

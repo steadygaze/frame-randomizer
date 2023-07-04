@@ -1,6 +1,7 @@
 import { getFrameProducerQueue } from "../../load";
 import { StoredAnswer, StoredFileState } from "~/server/types";
 import logger from "~/server/logger";
+import { cleanupFrame } from "~/server/cleanup";
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
@@ -31,7 +32,14 @@ async function addExpiry(id: string): Promise<void> {
 export default defineLazyEventHandler(async () => {
   const queue = await getFrameProducerQueue(config);
 
-  return defineEventHandler(async () => {
+  return defineEventHandler(async (event) => {
+    const cleanupid = getQuery(event).cleanupid;
+    if (cleanupid) {
+      // Don't await; this doesn't affect the rest of the request.
+      logger.info("Cleaning up frame on navigation", { id: cleanupid });
+      cleanupFrame(String(cleanupid));
+    }
+
     const start = Date.now();
     let result = null;
     do {
