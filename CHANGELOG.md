@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.14
+
+[compare changes](https://undefined/undefined/compare/v0.0.13...v0.0.14)
+
+### 🩹 Fixes
+
+- Fix save button by tweaking image lifetimes (34d97a4)
+- Warn if image is likely expired when saving (ca984f3)
+- Fix Ctrl-u shortcut being used by browser (06bddf7)
+
+### 📦 Build
+
+- Ignore ./frame-randomizer dir (48972dc)
+- Update dependencies (4aa6911)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.13
 
 [compare changes](https://undefined/undefined/compare/v0.0.12...v0.0.13)
