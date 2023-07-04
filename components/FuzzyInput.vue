@@ -301,6 +301,7 @@ function handleKey(event: KeyboardEvent) {
   let submitIndex = null;
   if (event.ctrlKey && event.key === "u") {
     searchInput.value = "";
+    event.preventDefault(); // Prevent Chrome from opening source code view.
   } else if (event.ctrlKey || event.altKey) {
     if (event.key >= "1" && event.key <= "9") {
       const index = event.key.charCodeAt(0) - "1".charCodeAt(0);
