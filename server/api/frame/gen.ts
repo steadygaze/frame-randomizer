@@ -24,7 +24,7 @@ async function addExpiry(id: string): Promise<void> {
       expiryTs: Date.now() + config.answerExpiryMs,
     } as StoredAnswer),
     frameStateStorage.setItem(id, {
-      expiryTs: Date.now() + config.frameExpiryMs,
+      expiryTs: Date.now() + config.public.frameExpiryMs,
     } as StoredFileState),
   ]);
 }

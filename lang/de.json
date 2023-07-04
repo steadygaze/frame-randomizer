@@ -87,6 +87,7 @@
     "info": "Info",
     "network_error": "Netzwerkfehler oder Server ist möglicherweise wegen Wartungsarbeiten ausgefallen. Überprüfen Sie die Verbindung und versuchen Sie es erneut.",
     "rate_limit": "Anforderungslimit erreicht. Versuchen Sie es später erneut.",
+    "save_maybe_expired": "Wenn das Bild nicht gespeichert werden kann, ist es abgelaufen und kann nicht erneut heruntergeladen werden. Klicken Sie mit der rechten Maustaste oder drücken Sie lange auf das Bild und wählen Sie stattdessen „Bild speichern unter“ oder „Bild herunterladen“.",
     "skipped": "⏩ Übersprungen",
     "skipped_message": "{skipped} . Antwort: {answer} .",
     "unknown_error": "Ein unbekannter Fehler ist aufgetreten. Versuchen Sie es erneut?",

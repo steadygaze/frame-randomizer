@@ -34,6 +34,7 @@
           :href="`/api/frame/get/${imageId}.${config.public.imageOutputExtension}`"
           download
           :class="{ disabledAnchor: !imageId }"
+          @click="warnIfFrameMayBeExpired"
           ><button :disabled="imageIsLoading">
             💾 {{ $t("input.save") }}
           </button></a
@@ -89,7 +90,6 @@
 </template>
 
 <script setup lang="ts">
-import { detect } from "detect-browser";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import Fuse from "fuse.js";
 import { storeToRefs } from "pinia";
@@ -110,15 +110,17 @@ const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
 const { showName, synopsisAvailable, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
-const { reset, readout } = appStateStore;
+const { detectBrowser, reset, readout } = appStateStore;
 const {
   browser,
+  cleanedUpFrame,
   correctCounter,
   streakCounter,
   totalCounter,
   imageId,
   imageIsLoading,
   imageLoadError,
+  imageLoadTimestamp,
   currentGuessTimeStartTimestamp,
   waitingForGuess,
 } = storeToRefs(appStateStore);
@@ -269,8 +271,8 @@ watch(imageIsLoading, async (imageIsLoading) => {
 // reactive things until the client loads the page, otherwise we'll get a
 // hydration mismatch.
 onMounted(() => {
+  detectBrowser();
   getImage(fetchGenResult);
-  browser.value = detect();
 });
 
 /**
@@ -438,6 +440,22 @@ async function submitAnswer(index: number) {
   if (newFrameButton.value && newFrameButton.value) {
     await nextTick();
     newFrameButton.value.focus();
+  }
+}
+
+/**
+ * Checks if the frame is expired and warns the user if it may be.
+ */
+function warnIfFrameMayBeExpired() {
+  if (
+    browser.value?.name !== "firefox" &&
+    (cleanedUpFrame.value ||
+      Date.now() - imageLoadTimestamp.value >
+        config.public.frameExpiryMs - 1000)
+  ) {
+    readout("readout.save_maybe_expired");
+    // Doesn't prevent default, so we still try saving. The image not have been
+    // cleaned up yet, or the browser might be one that doesn't redownload it.
   }
 }
 </script>

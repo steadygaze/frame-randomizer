@@ -46,9 +46,11 @@ export const useAppStateStore = defineStore("appState", () => {
   const correctCounter = ref(0);
   const currentGuessTimeDurationMs = ref(0);
   const currentGuessTimeStartTimestamp = ref(0);
+  const cleanedUpFrame = ref(false);
   const imageId = ref(0);
   const imageIsLoading = ref(true);
   const imageLoadError = ref(false);
+  const imageLoadTimestamp = ref(0);
   const readouts: Ref<Readout[]> = ref([initialReadout]);
   const realTimeDurationMs = ref(0);
   const realTimeStartTimestamp = ref(0);
@@ -86,14 +88,28 @@ export const useAppStateStore = defineStore("appState", () => {
     totalGuessTimeAccDurationMs.value = 0;
   }
 
+  /**
+   * Detects what browser is being used, if it hasn't already been detected.
+   * @returns Browser detection result.
+   */
+  function detectBrowser() {
+    if (!browser.value) {
+      browser.value = detect();
+    }
+    return browser.value;
+  }
+
   return {
     browser,
+    cleanedUpFrame,
     correctCounter,
     currentGuessTimeDurationMs,
     currentGuessTimeStartTimestamp,
+    detectBrowser,
     imageId,
     imageIsLoading,
     imageLoadError,
+    imageLoadTimestamp,
     readouts,
     realTimeDurationMs,
     realTimeStartTimestamp,

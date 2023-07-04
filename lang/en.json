@@ -87,6 +87,7 @@
     "info": "info",
     "network_error": "Network error, or server may be down for maintenance. Check connection and try again.",
     "rate_limit": "Request limit reached. Try again later.",
+    "save_maybe_expired": "If the image fails to save, it expired and can't be redownloaded. Try right clicking or long pressing the image and selecting \"Save image as\" or \"Download image\" instead.",
     "skipped": "⏩ Skipped",
     "skipped_message": "{skipped}. Answer: {answer}.",
     "unknown_error": "An unknown error occurred. Try again?",

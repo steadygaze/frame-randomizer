@@ -87,6 +87,7 @@
     "info": "信息",
     "network_error": "网络错误，或服务器可能正在进行维护。请检查连接并重试。",
     "rate_limit": "请求限制已达。稍后再试。",
+    "save_maybe_expired": "如果图片保存失败，则说明该图片已过期且无法重新下载。尝试右键单击或长按图像并选择“图像另存为”或“下载图像”。",
     "skipped": "⏩ 跳过",
     "skipped_message": "{skipped}。答案：{answer}。",
     "unknown_error": "发生未知错误。再试一次？",

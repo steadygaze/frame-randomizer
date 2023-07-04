@@ -87,6 +87,7 @@
     "info": "informacje",
     "network_error": "Błąd sieci lub serwer może być wyłączony z powodu prac konserwacyjnych. Sprawdź połączenie i spróbuj ponownie.",
     "rate_limit": "Osiągnięto limit żądań. Spróbuj ponownie później.",
+    "save_maybe_expired": "Jeśli obraz nie zostanie zapisany, wygasł i nie można go ponownie pobrać. Spróbuj kliknąć prawym przyciskiem myszy lub przytrzymać obraz i zamiast tego wybrać „Zapisz obraz jako” lub „Pobierz obraz”.",
     "skipped": "⏩ Pominięto",
     "skipped_message": "{skipped}. Odpowiedź: {answer}.",
     "unknown_error": "Wystąpił nieznany błąd. Spróbować ponownie?",

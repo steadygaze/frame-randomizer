@@ -146,9 +146,6 @@ export default defineNuxtConfig({
     ffprobeInitialLoadLimit: Infinity,
     // Path to ffmpeg binary, or "ffmpeg" to use the one from the system PATH.
     ffprobePath: "ffprobe",
-    // How long to keep a frame image around for after a the API points a user
-    // to it.
-    frameExpiryMs: 5 * 60 * 1000, // 10 minutes.
     // How many times to attempt frame generation before it's considered
     // unrecoverable.  Additionally, if frameRequiredStandardDeviation is set, a
     // minimum standard deviation is required. If image generation fails this
@@ -181,6 +178,9 @@ export default defineNuxtConfig({
       // Provide a custom format string for linking the source episode when
       // showing the answer. "{season}" and "{episode}" will be substituted.
       episodeUrlFormat: undefined,
+      // How long to keep a frame image around for after it's released to a user
+      // but not deleted.
+      frameExpiryMs: 5 * 60 * 1000, // 10 minutes.
       // Number of characters required for a match. If the user inputs a search
       // shorter than this, nothing will happen.
       // https://fusejs.io/api/options.html#minmatchcharlength

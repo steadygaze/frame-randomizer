@@ -23,9 +23,15 @@ const errorLoadingImageSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0
 
 const extension = useRuntimeConfig().public.imageOutputExtension;
 const appStateStore = useAppStateStore();
-const { readout } = appStateStore;
-const { browser, imageId, imageIsLoading, imageLoadError } =
-  storeToRefs(appStateStore);
+const { detectBrowser, readout } = appStateStore;
+const {
+  browser,
+  cleanedUpFrame,
+  imageId,
+  imageIsLoading,
+  imageLoadError,
+  imageLoadTimestamp,
+} = storeToRefs(appStateStore);
 
 const showImageError = ref(false);
 
@@ -41,6 +47,8 @@ watch(imageId, (imageId) => {
  */
 function endLoading() {
   imageIsLoading.value = false; // Reactively notifies other components.
+  cleanedUpFrame.value = false;
+  imageLoadTimestamp.value = Date.now();
 }
 
 /**
@@ -56,6 +64,18 @@ function handleError() {
   imageIsLoading.value = false;
   showImageError.value = true;
 }
+
+onMounted(() => {
+  if (!document) return;
+  if (detectBrowser()?.name !== "firefox") {
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden" && !cleanedUpFrame.value) {
+        navigator.sendBeacon(`/api/frame/cleanup/${imageId.value}`);
+        cleanedUpFrame.value = true;
+      }
+    });
+  }
+});
 </script>
 
 <style scoped>

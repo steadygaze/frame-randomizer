@@ -87,6 +87,7 @@
     "info": "Info",
     "network_error": "Erreur réseau, ou le serveur est peut-être en panne pour maintenance. Vérifiez la connexion et réessayez.",
     "rate_limit": "Limite de demandes atteinte. Réessayez plus tard.",
+    "save_maybe_expired": "Si l'image ne s'enregistre pas, elle a expiré et ne peut pas être téléchargée à nouveau. Essayez de faire un clic droit ou d'appuyer longuement sur l'image et de sélectionner \"Enregistrer l'image sous\" ou \"Télécharger l'image\" à la place.",
     "skipped": "⏩ Sauté",
     "skipped_message": "{skipped} . Réponse : {answer} .",
     "unknown_error": "Une erreur inconnue est survenue. Essayer à nouveau?",
