@@ -31,6 +31,7 @@ const {
   imageIsLoading,
   imageLoadError,
   imageLoadTimestamp,
+  waitingForGuess,
 } = storeToRefs(appStateStore);
 
 const showImageError = ref(false);
@@ -67,14 +68,16 @@ function handleError() {
 
 onMounted(() => {
   if (!document) return;
-  if (detectBrowser()?.name !== "firefox") {
-    document.addEventListener("visibilitychange", function () {
-      if (document.visibilityState === "hidden" && !cleanedUpFrame.value) {
-        navigator.sendBeacon(`/api/frame/cleanup/${frameId.value}`);
-        cleanedUpFrame.value = true;
-      }
-    });
-  }
+  document.addEventListener("visibilitychange", function () {
+    if (
+      document.visibilityState === "hidden" &&
+      (detectBrowser()?.name !== "firefox" || waitingForGuess.value) &&
+      !cleanedUpFrame.value
+    ) {
+      navigator.sendBeacon(`/api/frame/cleanup/${frameId.value}`);
+      cleanedUpFrame.value = true;
+    }
+  });
 });
 </script>
 

@@ -37,7 +37,7 @@ export default defineLazyEventHandler(async () => {
     if (cleanupid) {
       // Don't await; this doesn't affect the rest of the request.
       logger.info("Cleaning up frame on navigation", { id: cleanupid });
-      cleanupFrame(String(cleanupid));
+      cleanupFrame(String(cleanupid), false);
     }
 
     const start = Date.now();

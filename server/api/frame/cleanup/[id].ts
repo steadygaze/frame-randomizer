@@ -8,7 +8,7 @@ export default defineEventHandler((event) => {
   }
 
   logger.info("Cleaning up frame on close", { id });
-  cleanupFrame(id);
+  cleanupFrame(id, true);
 
   // User doesn't need to await on or know anything about whether the frame
   // image was successfully cleaned up.

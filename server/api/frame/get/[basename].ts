@@ -34,7 +34,7 @@ export default defineEventHandler((event) => {
           basename.length - (config.public.imageOutputExtension.length + 1),
         );
         logger.info("Cleaning up frame on load", { id });
-        cleanupFrame(id);
+        cleanupFrame(id, false);
       });
     }
     return sendStream(event, stream);
