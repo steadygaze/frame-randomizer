@@ -108,6 +108,13 @@ export default defineNuxtConfig({
         "cache-control": `private, immutable, max-age=${
           process.env.FR_FRAME_CACHE_AGE || 60 * 60 * 24 * 7
         }`,
+        // Change MIME type to image. Otherwise the browser might not know what
+        // file type to save it as, Cloudflare analytics will be messed up, etc.
+        "content-type": `image/${
+          process.env.NUXT_PUBLIC_IMAGE_OUTPUT_EXTENSION === "jpg"
+            ? "jpeg"
+            : process.env.NUXT_PUBLIC_IMAGE_OUTPUT_EXTENSION
+        }`,
       },
     },
     "/api/show": {
