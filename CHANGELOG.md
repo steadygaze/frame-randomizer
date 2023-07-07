@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.15
+
+[compare changes](https://undefined/undefined/compare/v0.0.14...v0.0.15)
+
+### 🚀 Enhancements
+
+- Add basic run verification (768e385)
+- Add cryptographic signing of results (b7767fd)
+
+### 🩹 Fixes
+
+- Fix wrong file extension on right click/save (3e1a37c)
+- Also clean up answer on exit (d61d64f)
+
+### 💅 Refactors
+
+- Rename imageId to frameId (1e79d50)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.14
 
 [compare changes](https://undefined/undefined/compare/v0.0.13...v0.0.14)
