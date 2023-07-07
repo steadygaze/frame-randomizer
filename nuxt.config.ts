@@ -190,6 +190,8 @@ export default defineNuxtConfig({
     frameRequiredStandardDeviation: 2500.0,
     // Path to ImageMagick identify command.
     imageMagickIdentifyPath: "identify",
+    // Private key, used for signing verified runs.
+    privateKey: "",
     // Per Nuxt documentation, these values will be sent to client-side code.
     public: {
       // Whether to include the disclaimer required by TMDB for use of its API
@@ -233,6 +235,8 @@ export default defineNuxtConfig({
       instanceName: undefined,
       // Description added to meta tags.
       metaDescription: "Frame randomizer instance",
+      // Public key, which can be used to verify server signatures.
+      publicKey: "",
       // Software version displayed in UI.
       softwareVersion: "0.0.14",
       // Link to your version of the source code. If you build and run a

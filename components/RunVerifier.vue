@@ -59,12 +59,13 @@ async function saveRun() {
   } else if (data && data.value) {
     const combinedData = {
       runId: runId.value,
-      server: data.value.runState,
+      server: data.value,
       client: {
         realTimeMs: realTimeDurationMs.value,
         guessTimeMs: totalGuessTimeAccDurationMs.value,
         version: config.public.softwareVersion,
       },
+      publicKey: config.public.publicKey,
     };
     // Create a blob and a fake anchor to download the data.
     const blob = new Blob([JSON.stringify(combinedData)], {
