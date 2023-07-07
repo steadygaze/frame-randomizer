@@ -58,7 +58,6 @@ export const useAppStateStore = defineStore("appState", () => {
   const runReadyState = ref(false);
   const showMoreStats = ref(false);
   const streakCounter = ref(0);
-  const trackRun = ref(false);
   const totalCounter = ref(0);
   const totalGuessTimeAccDurationMs = ref(0);
   const waitingForGuess = ref(false);
@@ -128,7 +127,6 @@ export const useAppStateStore = defineStore("appState", () => {
     streakCounter,
     totalCounter,
     totalGuessTimeAccDurationMs,
-    trackRun,
     waitingForGuess,
   };
 });

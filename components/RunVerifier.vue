@@ -4,18 +4,14 @@
     <div class="verifyBar">
       <em>v{{ config.public.softwareVersion }}</em>
       <div>
-        <button v-if="!trackRun" @click="trackRun = true">
+        <button v-if="!runId" @click="startRun">
           🏁 {{ $t("input.start") }}
         </button>
-        <button v-else @click="trackRun = false">
-          ❌ {{ $t("input.clear") }}
-        </button>
-        <button v-if="trackRun" @click="saveRun">
-          💾 {{ $t("input.save") }}
-        </button>
+        <button v-else @click="runId = ''">❌ {{ $t("input.clear") }}</button>
+        <button v-if="runId" @click="saveRun">💾 {{ $t("input.save") }}</button>
       </div>
 
-      <div v-if="trackRun && runId">{{ $t("verify.run_in_progress") }}</div>
+      <div v-if="runId">{{ $t("verify.run_in_progress") }}</div>
       <div v-else class="grayed">{{ $t("verify.no_run") }}</div>
     </div>
   </div>
@@ -29,8 +25,8 @@ const config = useRuntimeConfig();
 const appStateStore = useAppStateStore();
 const { readout, reset } = appStateStore;
 const {
+  frameId,
   runReadyState,
-  trackRun,
   runId,
   imageIsLoading,
   waitingForGuess,
@@ -84,17 +80,16 @@ async function saveRun() {
   }
 }
 
-watch(trackRun, async (track) => {
-  if (!track) {
-    runId.value = "";
-    return;
-  }
-
-  showMoreStats.value = true;
+/**
+ * Starts a new run.
+ */
+async function startRun() {
   reset();
+  showMoreStats.value = true;
   runReadyState.value = true;
   imageIsLoading.value = false;
   waitingForGuess.value = false;
+
   const { data, error } = await useFetch(`/api/run/new`);
 
   if (error && error.value) {
@@ -111,7 +106,9 @@ watch(trackRun, async (track) => {
   } else {
     readout("readout.unknown_error");
   }
-});
+
+  navigator.sendBeacon(`/api/frame/cleanup/${frameId.value}`);
+}
 </script>
 
 <style>

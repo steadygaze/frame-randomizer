@@ -27,7 +27,10 @@
         >
           ⏩ {{ $t("input.skip") }}
         </button>
-        <button :disabled="imageIsLoading || waitingForGuess" @click="reset">
+        <button
+          :disabled="imageIsLoading || waitingForGuess || runReadyState"
+          @click="reset"
+        >
           🔁 {{ $t("input.reset") }}
         </button>
         <a
