@@ -25,7 +25,7 @@ const readySvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320">
 
 const extension = useRuntimeConfig().public.imageOutputExtension;
 const appStateStore = useAppStateStore();
-const { detectBrowser, readout } = appStateStore;
+const { readout } = appStateStore;
 const {
   browser,
   cleanedUpFrame,
@@ -34,7 +34,6 @@ const {
   imageLoadError,
   imageLoadTimestamp,
   runReadyState,
-  waitingForGuess,
 } = storeToRefs(appStateStore);
 
 const showImageError = ref(false);
