@@ -3,14 +3,16 @@ import path from "node:path";
 import { promisify } from "node:util";
 import { glob } from "glob";
 import intersection from "lodash.intersection";
-import { StoredAnswer, StoredFileState } from "../types";
+import { StoredAnswer, StoredFileState, StoredRunData } from "../types";
 import { imagePathForId } from "../file";
 import logger from "../logger";
 
 const config = useRuntimeConfig();
 const sleep = promisify(setTimeout);
 const answerStorage = useStorage("answer");
+const archivedRunStorage = useStorage("archivedRun");
 const frameStateStorage = useStorage("frameState");
+const runStateStorage = useStorage("runState");
 
 /**
  * Clean up expired answers.
@@ -124,10 +126,37 @@ async function cleanupOrphanedAndExpiredImages() {
   ]);
 }
 
+/**
+ * Cleans up expired, unimportant runs and archives the important runs.
+ */
+async function cleanupExpiredRuns() {
+  const keys = await runStateStorage.getKeys();
+  await Promise.all(
+    keys.map(async (runId) => {
+      const data = await runStateStorage.getItem<StoredRunData>(runId);
+      if (data && (!data.expiryTs || data.expiryTs < Date.now())) {
+        const work = [runStateStorage.removeItem(runId)];
+        if (data.history.length >= config.runRetentionThreshold) {
+          data.expiryTs = null;
+          work.push(archivedRunStorage.setItem(runId, data));
+          logger.info("Archived important run", { runId });
+        } else {
+          logger.info("Cleaned up unimportant run", { runId });
+        }
+        await Promise.all(work);
+      }
+    }),
+  );
+}
+
 export default defineNitroPlugin(() => {
   setInterval(async () => {
     const start = Date.now();
-    await Promise.all([cleanupAnswers(), cleanupOrphanedAndExpiredImages()]);
+    await Promise.all([
+      cleanupAnswers(),
+      cleanupOrphanedAndExpiredImages(),
+      cleanupExpiredRuns(),
+    ]);
     logger.info(`Image cleanup done in ${Date.now() - start} ms`);
   }, config.cleanupIntervalMs);
 });

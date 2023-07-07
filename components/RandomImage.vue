@@ -1,6 +1,7 @@
 <template>
+  <img v-if="runReadyState" :src="`data:image/svg+xml,${readySvg}`" />
   <img
-    v-if="frameId"
+    v-else-if="frameId"
     :src="
       showImageError
         ? `data:image/svg+xml,${errorLoadingImageSvg}`
@@ -20,6 +21,7 @@ import { useRuntimeConfig } from "nuxt/app";
 import { useAppStateStore } from "~~/store/appStateStore";
 
 const errorLoadingImageSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">ERROR ❌</text></svg>`;
+const readySvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">READY 🏁</text></svg>`;
 
 const extension = useRuntimeConfig().public.imageOutputExtension;
 const appStateStore = useAppStateStore();
@@ -31,6 +33,7 @@ const {
   imageIsLoading,
   imageLoadError,
   imageLoadTimestamp,
+  runReadyState,
   waitingForGuess,
 } = storeToRefs(appStateStore);
 

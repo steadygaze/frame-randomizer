@@ -54,7 +54,11 @@ export const useAppStateStore = defineStore("appState", () => {
   const readouts: Ref<Readout[]> = ref([initialReadout]);
   const realTimeDurationMs = ref(0);
   const realTimeStartTimestamp = ref(0);
+  const runId = ref("");
+  const runReadyState = ref(false);
+  const showMoreStats = ref(false);
   const streakCounter = ref(0);
+  const trackRun = ref(false);
   const totalCounter = ref(0);
   const totalGuessTimeAccDurationMs = ref(0);
   const waitingForGuess = ref(false);
@@ -79,10 +83,13 @@ export const useAppStateStore = defineStore("appState", () => {
    * Resets the app state (tied to the reset button).
    */
   function reset() {
+    cleanedUpFrame.value = false;
     correctCounter.value = 0;
     currentGuessTimeDurationMs.value = 0;
+    currentGuessTimeStartTimestamp.value = 0;
     realTimeDurationMs.value = 0;
     realTimeStartTimestamp.value = 0;
+    runId.value = "";
     streakCounter.value = 0;
     totalCounter.value = 0;
     totalGuessTimeAccDurationMs.value = 0;
@@ -115,9 +122,13 @@ export const useAppStateStore = defineStore("appState", () => {
     realTimeDurationMs,
     realTimeStartTimestamp,
     reset,
+    runId,
+    runReadyState,
+    showMoreStats,
     streakCounter,
     totalCounter,
     totalGuessTimeAccDurationMs,
+    trackRun,
     waitingForGuess,
   };
 });

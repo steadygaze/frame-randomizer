@@ -59,6 +59,7 @@
   },
   "input": {
     "about": "About",
+    "clear": "Clear",
     "new_frame": "New Frame",
     "placeholder": {
       "fuzzy": "Fuzzy search ({characters}+ characters) or sXXeXX...",
@@ -67,6 +68,7 @@
     "reset": "Reset",
     "save": "Save",
     "skip": "Skip",
+    "start": "Start",
     "use_synopsis": "Use synopsis"
   },
   "language": {
@@ -86,10 +88,12 @@
     "incorrect_message": "{guess} is ❌ {incorrect}. Answer: {answer}.",
     "info": "info",
     "network_error": "Network error, or server may be down for maintenance. Check connection and try again.",
+    "new_run": "New run is ready to start. Request a new frame to begin.",
     "rate_limit": "Request limit reached. Try again later.",
     "save_maybe_expired": "If the image fails to save, it expired and can't be redownloaded. Try right clicking or long pressing the image and selecting \"Save image as\" or \"Download image\" instead.",
     "skipped": "⏩ Skipped",
     "skipped_message": "{skipped}. Answer: {answer}.",
+    "track_next_run": "The next run will be tracked. Click \"{reset}\" and start a new run.",
     "unknown_error": "An unknown error occurred. Try again?",
     "watch": "watch",
     "welcome": "Welcome! The first image will load shortly."
@@ -102,5 +106,9 @@
     "real_time": "real time: ",
     "streak": "streak: ",
     "total_guess_time": "total guess time: "
+  },
+  "verify": {
+    "no_run": "(practice mode)",
+    "run_in_progress": "Run in progress…"
   }
 }

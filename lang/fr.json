@@ -59,6 +59,7 @@
   },
   "input": {
     "about": "À propos",
+    "clear": "Clair",
     "new_frame": "Nouveau cadre",
     "placeholder": {
       "fuzzy": "Recherche floue ({characters} + caractères) ou sXXeXX...",
@@ -67,6 +68,7 @@
     "reset": "Réinitialiser",
     "save": "Sauvegarder",
     "skip": "Sauter",
+    "start": "Commencer",
     "use_synopsis": "Utiliser le synopsis"
   },
   "language": {
@@ -86,10 +88,12 @@
     "incorrect_message": "{guess} est ❌ {incorrect} . Réponse : {answer} .",
     "info": "Info",
     "network_error": "Erreur réseau, ou le serveur est peut-être en panne pour maintenance. Vérifiez la connexion et réessayez.",
+    "new_run": "La nouvelle course est prête à démarrer. Demandez une nouvelle image pour commencer.",
     "rate_limit": "Limite de demandes atteinte. Réessayez plus tard.",
     "save_maybe_expired": "Si l'image ne s'enregistre pas, elle a expiré et ne peut pas être téléchargée à nouveau. Essayez de faire un clic droit ou d'appuyer longuement sur l'image et de sélectionner \"Enregistrer l'image sous\" ou \"Télécharger l'image\" à la place.",
     "skipped": "⏩ Sauté",
     "skipped_message": "{skipped} . Réponse : {answer} .",
+    "track_next_run": "La prochaine course sera suivie. Cliquez sur \" {reset} \" et lancez une nouvelle exécution.",
     "unknown_error": "Une erreur inconnue est survenue. Essayer à nouveau?",
     "watch": "montre",
     "welcome": "Accueillir! La première image se chargera sous peu."
@@ -102,5 +106,9 @@
     "real_time": "temps réel:",
     "streak": "traînée:",
     "total_guess_time": "temps de devinette total :"
+  },
+  "verify": {
+    "no_run": "(mode entraînement)",
+    "run_in_progress": "Course en cours…"
   }
 }

@@ -1,7 +1,9 @@
 import logger from "~/server/logger";
-import { StoredAnswer } from "~/server/types";
+import { StoredAnswer, StoredRunData } from "~/server/types";
 
+const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
+const runStateStorage = useStorage("runState");
 
 /**
  * Cleans up the given answer.
@@ -48,5 +50,49 @@ export default defineEventHandler(async (event) => {
   cleanupAnswer(id);
 
   const correct = answer.season === season && answer.episode === episode;
+
+  // Run state tracking.
+  let runId = query.runId;
+  if (runId) {
+    runId = String(runId);
+    const runState = (await runStateStorage.getItem(runId)) as StoredRunData;
+    if (runState) {
+      const now = Date.now();
+      runState.expiryTs = now + config.runExpiryMs;
+      if (!runState.pending) {
+        runState.errors.push({
+          type: "no_pending",
+          description:
+            "Answer given, but no answer was expected (state incorrect)",
+          ts: now,
+          attemptedId: id,
+        });
+      } else if (runState.pending.id !== id) {
+        runState.errors.push({
+          type: "pending_mismatch",
+          description: "Answer given for the wrong frame (ids mismatched)",
+          ts: now,
+          mismatched: runState.pending,
+          attemptedId: id,
+        });
+      } else {
+        const pending = runState.pending;
+        runState.pending = null;
+        runState.history.push({
+          id,
+          startTs: pending.startTs,
+          guessTs: now,
+          guess: { season, episode },
+          answer: { season: answer.season, episode: answer.episode },
+        });
+      }
+      logger.info("Logging answer check to verified run", { runId });
+
+      await runStateStorage.setItem(runId, runState);
+    } else {
+      logger.error("Run not found when tracking answer check", { runId });
+    }
+  }
+
   return { ...answer, correct };
 });

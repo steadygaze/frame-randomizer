@@ -59,6 +59,7 @@
   },
   "input": {
     "about": "关于",
+    "clear": "清除",
     "new_frame": "新帧",
     "placeholder": {
       "fuzzy": "模糊搜索({characters}+字符)或sXXeXX...",
@@ -67,6 +68,7 @@
     "reset": "重置",
     "save": "保存",
     "skip": "跳过",
+    "start": "开始",
     "use_synopsis": "使用剧情简介"
   },
   "language": {
@@ -86,10 +88,12 @@
     "incorrect_message": "{guess}是❌{incorrect}。答案：{answer}。",
     "info": "信息",
     "network_error": "网络错误，或服务器可能正在进行维护。请检查连接并重试。",
+    "new_run": "新的运行已准备好开始。请求开始新的帧。",
     "rate_limit": "请求限制已达。稍后再试。",
     "save_maybe_expired": "如果图片保存失败，则说明该图片已过期且无法重新下载。尝试右键单击或长按图像并选择“图像另存为”或“下载图像”。",
     "skipped": "⏩ 跳过",
     "skipped_message": "{skipped}。答案：{answer}。",
+    "track_next_run": "将跟踪下一次运行。单击“ {reset} ”并开始新的运行。",
     "unknown_error": "发生未知错误。再试一次？",
     "watch": "观看",
     "welcome": "欢迎！第一张截图将很快加载。"
@@ -102,5 +106,9 @@
     "real_time": "实际时间：",
     "streak": "连胜：",
     "total_guess_time": "总猜测时间："
+  },
+  "verify": {
+    "no_run": "（练习模式）",
+    "run_in_progress": "运行中..."
   }
 }

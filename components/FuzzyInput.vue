@@ -10,7 +10,7 @@
           :class="{ loading: imageIsLoading }"
           class="buttonWithSpinner"
           :disabled="imageIsLoading || waitingForGuess"
-          @click="getImage()"
+          @click="getFrame()"
         >
           <span class="buttonWithSpinnerText"
             >🎞️ {{ $t("input.new_frame") }}</span
@@ -86,6 +86,7 @@
         @click="submitAnswer(index)"
       ></FuzzyResultItem>
     </ol>
+    <RunVerifier />
   </div>
 </template>
 
@@ -123,6 +124,8 @@ const {
   imageLoadTimestamp,
   currentGuessTimeStartTimestamp,
   waitingForGuess,
+  runId,
+  runReadyState,
 } = storeToRefs(appStateStore);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -214,7 +217,7 @@ const fetchGenResult = await useFetch("/api/frame/gen");
  * Request a frame from the API and reactively update the appropriate variables.
  * @param fetchResult Pre-fetched results from calling the frame generation API.
  */
-async function getImage(fetchResult?: typeof fetchGenResult): Promise<void> {
+async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
   imageIsLoading.value = true;
   imageLoadError.value = false;
   if (typeof window !== "undefined") {
@@ -222,11 +225,13 @@ async function getImage(fetchResult?: typeof fetchGenResult): Promise<void> {
   }
   const { data, error } =
     fetchResult ||
-    (await useFetch(
-      `/api/frame/gen?cleanupid=${
-        browser.value?.name === "firefox" ? "" : frameId.value
-      }`,
-    ));
+    (await useFetch("/api/frame/gen", {
+      query: {
+        cleanupid: browser.value?.name === "firefox" ? null : frameId.value,
+        runId: runId.value,
+      },
+    }));
+  runReadyState.value = false;
   if (error && error.value) {
     if (error.value.statusCode === 429) {
       readout("readout.rate_limit");
@@ -272,7 +277,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
 // hydration mismatch.
 onMounted(() => {
   detectBrowser();
-  getImage(fetchGenResult);
+  getFrame(fetchGenResult);
 });
 
 /**
@@ -363,7 +368,11 @@ async function submitAnswer(index: number) {
   const found = searchResults.value[index];
   const item = found ? found.item : { season: -1, episode: -1, fullName: "?" };
   const { data, error } = await useFetch(`/api/frame/check/${frameId.value}`, {
-    query: { season: item.season, episode: item.episode },
+    query: {
+      season: item.season,
+      episode: item.episode,
+      ...(runId.value ? { runId: runId.value } : null),
+    },
   });
 
   if (error && error.value) {

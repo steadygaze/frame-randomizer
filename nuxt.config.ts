@@ -72,6 +72,13 @@ export default defineNuxtConfig({
         driver: "fs",
       },
 
+      archivedRun: {
+        base:
+          process.env.FR_RUN_VERIFICATION_STATE_DIR ||
+          "./frame-randomizer/archived-run",
+        driver: "fs",
+      },
+
       ffprobeCache: {
         base:
           process.env.FR_FFPROBE_CACHE_DIR ||
@@ -82,6 +89,13 @@ export default defineNuxtConfig({
       frameState: {
         base:
           process.env.FR_FRAME_STATE_DIR || "./frame-randomizer/frame-state",
+        driver: "fs",
+      },
+
+      runState: {
+        base:
+          process.env.FR_RUN_VERIFICATION_STATE_DIR ||
+          "./frame-randomizer/run-state",
         driver: "fs",
       },
     },
@@ -230,6 +244,10 @@ export default defineNuxtConfig({
       // If attributing TMDB and this is given, also link the TMDB page.
       tmdbTvShowId: undefined,
     },
+    // How long until unimportant runs are deleted.
+    runExpiryMs: 1 * 60 * 60 * 1000, // 1 hour.
+    // How many entries a run must have to be considered important.
+    runRetentionThreshold: 100,
     // Whether to search subdirectories of videoSourceDir. Directory path is not
     // considered when matching files with the right episode, only filename.
     searchVideoDirRecursively: true,

@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref, watch } from "vue";
+import { computed, Ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useAppStateStore } from "~~/store/appStateStore";
 import { floatIntPartPad } from "~/utils/utils";
@@ -43,13 +43,12 @@ const {
   currentGuessTimeStartTimestamp,
   realTimeDurationMs,
   realTimeStartTimestamp,
+  showMoreStats,
   streakCounter,
   totalCounter,
   totalGuessTimeAccDurationMs,
   waitingForGuess,
 } = storeToRefs(appStateStore);
-
-const showMoreStats = ref(false);
 
 /**
  * Make a "hh:mm:ss"-style timer string.
@@ -78,6 +77,15 @@ const totalGuessTimeText = computed(() =>
 );
 
 /**
+ * Updates the given duration ref to a current value, based on Date.now().
+ * @param startRef Start timestamp.
+ * @param durationRef Duration value to be updated.
+ */
+function updateDuration(startRef: Ref<number>, durationRef: Ref<number>) {
+  durationRef.value = startRef.value === 0 ? 0 : Date.now() - startRef.value;
+}
+
+/**
  * Updates the duration to be shown in a timer. Triggers a reactive update.
  * @param startRef Ref for the start timestamp.
  * @param durationRef Ref for the duration, in milliseconds.
@@ -87,9 +95,7 @@ function setupTimerUpdateInterval(
   startRef: Ref<number>,
   durationRef: Ref<number>,
 ): ReturnType<typeof setInterval> {
-  const updateFn = () => {
-    durationRef.value = startRef.value === 0 ? 0 : Date.now() - startRef.value;
-  };
+  const updateFn = () => updateDuration(startRef, durationRef);
   updateFn();
   return setInterval(updateFn, 10);
 }
@@ -132,8 +138,7 @@ watch(waitingForGuess, (waitingForGuess) => {
       );
     }
   } else {
-    currentGuessTimeDurationMs.value =
-      Date.now() - currentGuessTimeStartTimestamp.value;
+    updateDuration(currentGuessTimeStartTimestamp, currentGuessTimeDurationMs);
     totalGuessTimeAccDurationMs.value += currentGuessTimeDurationMs.value;
     if (showMoreStats.value) {
       clearInterval(currentGuessTimeIntervalId);

@@ -59,6 +59,7 @@
   },
   "input": {
     "about": "Info",
+    "clear": "Klar",
     "new_frame": "Nächstes Bild",
     "placeholder": {
       "fuzzy": "Fuzzy-Suche ({characters} + Zeichen) oder sXXeXX...",
@@ -67,6 +68,7 @@
     "reset": "Zurücksetzen",
     "save": "Speichern",
     "skip": "Überspringen",
+    "start": "Start",
     "use_synopsis": "Zusammenfassung benutzen"
   },
   "language": {
@@ -86,10 +88,12 @@
     "incorrect_message": "{guess} ist ❌ {incorrect} . Antwort: {answer} .",
     "info": "Info",
     "network_error": "Netzwerkfehler oder Server ist möglicherweise wegen Wartungsarbeiten ausgefallen. Überprüfen Sie die Verbindung und versuchen Sie es erneut.",
+    "new_run": "Der neue Lauf kann beginnen. Fordern Sie zunächst einen neuen Rahmen an.",
     "rate_limit": "Anforderungslimit erreicht. Versuchen Sie es später erneut.",
     "save_maybe_expired": "Wenn das Bild nicht gespeichert werden kann, ist es abgelaufen und kann nicht erneut heruntergeladen werden. Klicken Sie mit der rechten Maustaste oder drücken Sie lange auf das Bild und wählen Sie stattdessen „Bild speichern unter“ oder „Bild herunterladen“.",
     "skipped": "⏩ Übersprungen",
     "skipped_message": "{skipped} . Antwort: {answer} .",
+    "track_next_run": "Der nächste Lauf wird verfolgt. Klicken Sie auf „ {reset} “ und starten Sie einen neuen Lauf.",
     "unknown_error": "Ein unbekannter Fehler ist aufgetreten. Versuchen Sie es erneut?",
     "watch": "betrachten",
     "welcome": "Willkommen! Das erste Bild wird in Kürze geladen."
@@ -102,5 +106,9 @@
     "real_time": "Echtzeit:",
     "streak": "Strähne:",
     "total_guess_time": "Gesamte Ratezeit:"
+  },
+  "verify": {
+    "no_run": "(Übungsmodus)",
+    "run_in_progress": "Ausführung läuft…"
   }
 }

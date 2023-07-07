@@ -59,6 +59,7 @@
   },
   "input": {
     "about": "O stronie",
+    "clear": "Jasne",
     "new_frame": "Nowa klatka",
     "placeholder": {
       "fuzzy": "Fuzzy search ({characters}+ znaki) lub sXXeXX...",
@@ -67,6 +68,7 @@
     "reset": "Reset",
     "save": "Ratować",
     "skip": "Pomiń",
+    "start": "Początek",
     "use_synopsis": "Używaj opisów"
   },
   "language": {
@@ -86,10 +88,12 @@
     "incorrect_message": "{guess} to ❌ {incorrect}. Odpowiedź: {answer}.",
     "info": "informacje",
     "network_error": "Błąd sieci lub serwer może być wyłączony z powodu prac konserwacyjnych. Sprawdź połączenie i spróbuj ponownie.",
+    "new_run": "Nowy bieg jest gotowy do rozpoczęcia. Poproś o nową ramkę, aby rozpocząć.",
     "rate_limit": "Osiągnięto limit żądań. Spróbuj ponownie później.",
     "save_maybe_expired": "Jeśli obraz nie zostanie zapisany, wygasł i nie można go ponownie pobrać. Spróbuj kliknąć prawym przyciskiem myszy lub przytrzymać obraz i zamiast tego wybrać „Zapisz obraz jako” lub „Pobierz obraz”.",
     "skipped": "⏩ Pominięto",
     "skipped_message": "{skipped}. Odpowiedź: {answer}.",
+    "track_next_run": "Następny bieg będzie śledzony. Kliknij „ {reset} ” i rozpocznij nowy bieg.",
     "unknown_error": "Wystąpił nieznany błąd. Spróbować ponownie?",
     "watch": "oglądać",
     "welcome": "Witaj! Wkrótce załaduje się pierwszy obrazek."
@@ -102,5 +106,9 @@
     "real_time": "czas rzeczywisty: ",
     "streak": "streak: ",
     "total_guess_time": "czas zgadywania: "
+  },
+  "verify": {
+    "no_run": "(tryb ćwiczeń)",
+    "run_in_progress": "Uruchom w toku…"
   }
 }
