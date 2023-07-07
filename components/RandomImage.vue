@@ -68,20 +68,6 @@ function handleError() {
   imageIsLoading.value = false;
   showImageError.value = true;
 }
-
-onMounted(() => {
-  if (!document) return;
-  document.addEventListener("visibilitychange", function () {
-    if (
-      document.visibilityState === "hidden" &&
-      (detectBrowser()?.name !== "firefox" || waitingForGuess.value) &&
-      !cleanedUpFrame.value
-    ) {
-      navigator.sendBeacon(`/api/frame/cleanup/${frameId.value}`);
-      cleanedUpFrame.value = true;
-    }
-  });
-});
 </script>
 
 <style scoped>
