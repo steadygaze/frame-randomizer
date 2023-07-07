@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.16
+
+[compare changes](https://undefined/undefined/compare/v0.0.15...v0.0.16)
+
+### 🩹 Fixes
+
+- Stop deleting answer/image when tabbing away (6142732)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.15
 
 [compare changes](https://undefined/undefined/compare/v0.0.14...v0.0.15)
