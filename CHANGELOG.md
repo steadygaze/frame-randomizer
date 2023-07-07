@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.17
+
+[compare changes](https://undefined/undefined/compare/v0.0.16...v0.0.17)
+
+### 🩹 Fixes
+
+- Fix reset button behavior with run tracking (a1d2d52)
+
+### 🎨 Styles
+
+- Fix lint errors (319a762)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.16
 
 [compare changes](https://undefined/undefined/compare/v0.0.15...v0.0.16)
