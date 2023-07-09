@@ -124,11 +124,9 @@ export default defineNuxtConfig({
         }`,
         // Change MIME type to image. Otherwise the browser might not know what
         // file type to save it as, Cloudflare analytics will be messed up, etc.
-        "content-type": `image/${
-          process.env.NUXT_PUBLIC_IMAGE_OUTPUT_EXTENSION === "jpg"
-            ? "jpeg"
-            : process.env.NUXT_PUBLIC_IMAGE_OUTPUT_EXTENSION
-        }`,
+        // We would like to read from runtimeConfig.public.imageOutputExtension
+        // directly, but there doesn't seem to be a good way to do this in Nuxt.
+        "content-type": process.env.FR_IMAGE_CONTENT_TYPE,
       },
     },
     "/api/show": {
