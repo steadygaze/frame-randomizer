@@ -221,6 +221,13 @@ const fetchGenResult = await useFetch("/api/frame/gen");
  * @param fetchResult Pre-fetched results from calling the frame generation API.
  */
 async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
+  if (imageIsLoading.value && !fetchResult) {
+    // Already getting a frame; don't double-call the API. Note that
+    // imageIsLoading = true while fetchResult is a real value on first run.
+    // This should never happen due to the button immediately being disabled,
+    // but we check just in case.
+    return;
+  }
   imageIsLoading.value = true;
   imageLoadError.value = false;
   if (typeof window !== "undefined") {
@@ -362,6 +369,10 @@ function changeHighlightedIndex(index: number) {
  * @param index Search result index to submit.
  */
 async function submitAnswer(index: number) {
+  if (answerIsLoading.value) {
+    // Answer is already loading in another callback. Don't double-call the API.
+    return;
+  }
   if (index < -1 || index >= searchResults.value.length) {
     throw new RangeError(`Index ${index} out of range`);
   }
