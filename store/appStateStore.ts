@@ -105,6 +105,19 @@ export const useAppStateStore = defineStore("appState", () => {
     return browser.value;
   }
 
+  /**
+   * Returns the expected image path. This must be deterministic for the same
+   * frame ID so that it matches exactly between the image and the save button
+   * to ensure that caching works properly, if it's used.
+   * @param config Runtime config.
+   * @returns Image path.
+   */
+  function imageUrl(config: ReturnType<typeof useRuntimeConfig>) {
+    return `/api/frame/get/${frameId.value}.${
+      config.public.imageOutputExtension
+    }${browser.value?.name === "firefox" ? "?cleanuponload=true" : ""}`;
+  }
+
   return {
     browser,
     cleanedUpFrame,
@@ -116,6 +129,7 @@ export const useAppStateStore = defineStore("appState", () => {
     imageIsLoading,
     imageLoadError,
     imageLoadTimestamp,
+    imageUrl,
     readout,
     readouts,
     realTimeDurationMs,

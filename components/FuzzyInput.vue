@@ -34,7 +34,7 @@
           🔁 {{ $t("input.reset") }}
         </button>
         <a
-          :href="`/api/frame/get/${frameId}.${config.public.imageOutputExtension}`"
+          :href="imageUrl(config)"
           download
           :class="{ disabledAnchor: !frameId }"
           @click="warnIfFrameMayBeExpired"
@@ -114,7 +114,7 @@ const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
 const { showName, synopsisAvailable, episodeData } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
-const { detectBrowser, reset, readout } = appStateStore;
+const { detectBrowser, imageUrl, reset, readout } = appStateStore;
 const {
   browser,
   cleanedUpFrame,

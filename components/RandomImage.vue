@@ -5,9 +5,7 @@
     :src="
       showImageError
         ? `data:image/svg+xml,${errorLoadingImageSvg}`
-        : `/api/frame/get/${frameId}.${extension}?cleanuponload=${
-            browser?.name === 'firefox' || false
-          }`
+        : imageUrl(config)
     "
     @load="endLoading"
     @error="handleError"
@@ -23,11 +21,9 @@ import { useAppStateStore } from "~~/store/appStateStore";
 const errorLoadingImageSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">ERROR ❌</text></svg>`;
 const readySvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">READY 🏁</text></svg>`;
 
-const extension = useRuntimeConfig().public.imageOutputExtension;
 const appStateStore = useAppStateStore();
-const { readout } = appStateStore;
+const { imageUrl, readout } = appStateStore;
 const {
-  browser,
   cleanedUpFrame,
   frameId,
   imageIsLoading,
@@ -35,6 +31,8 @@ const {
   imageLoadTimestamp,
   runReadyState,
 } = storeToRefs(appStateStore);
+
+const config = useRuntimeConfig();
 
 const showImageError = ref(false);
 
