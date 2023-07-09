@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.18
+
+[compare changes](https://undefined/undefined/compare/v0.0.17...v0.0.18)
+
+### 🩹 Fixes
+
+- Set image content-type separately (c027612)
+- Stop double-triggering of answer submission (f9ef6e4)
+- Fix save button on Firefox (996ea8b)
+
+### 📦 Build
+
+- Upgrade to Nuxt 3.6.2 (5daede3)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.17
 
 [compare changes](https://undefined/undefined/compare/v0.0.16...v0.0.17)
