@@ -59,7 +59,6 @@
   },
   "input": {
     "about": "About",
-    "clear": "Clear",
     "new_frame": "New Frame",
     "placeholder": {
       "fuzzy": "Fuzzy search ({characters}+ characters) or sXXeXX...",
@@ -68,7 +67,6 @@
     "reset": "Reset",
     "save": "Save",
     "skip": "Skip",
-    "start": "Start",
     "use_synopsis": "Use synopsis"
   },
   "language": {
@@ -108,7 +106,10 @@
     "total_guess_time": "total guess time: "
   },
   "verify": {
-    "no_run": "(practice mode)",
-    "run_in_progress": "Run in progress…"
+    "clear": "Clear run",
+    "practice_mode": "(in practice mode)",
+    "run_in_progress": "Run in progress…",
+    "save": "Save run",
+    "start": "Start verified run"
   }
 }

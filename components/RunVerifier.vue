@@ -5,14 +5,16 @@
       <em>v{{ config.public.softwareVersion }}</em>
       <div>
         <button v-if="!runId" @click="startRun">
-          🏁 {{ $t("input.start") }}
+          🏁 {{ $t("verify.start") }}
         </button>
-        <button v-else @click="runId = ''">❌ {{ $t("input.clear") }}</button>
-        <button v-if="runId" @click="saveRun">💾 {{ $t("input.save") }}</button>
+        <button v-else @click="runId = ''">❌ {{ $t("verify.clear") }}</button>
+        <button v-if="runId" @click="saveRun">
+          💾 {{ $t("verify.save") }}
+        </button>
       </div>
 
       <div v-if="runId">{{ $t("verify.run_in_progress") }}</div>
-      <div v-else class="grayed">{{ $t("verify.no_run") }}</div>
+      <div v-else class="grayed">{{ $t("verify.practice_mode") }}</div>
     </div>
   </div>
 </template>
@@ -116,7 +118,7 @@ async function startRun() {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 8px;
+  column-gap: 8px;
 }
 
 .grayed {
