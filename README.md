@@ -91,6 +91,15 @@ $ (source app.env && node path/to/server/index.mjs)
 $ sh -ac '. ./app.env && node path/to/server/index.mjs'
 ```
 
+### Changing the favicon
+
+There are a couple options for favicon in the base version without building a custom app.
+
+- Use the default favicon (don't change anything).
+- Generate an emoji favicon using the `FR_FAVICON_EMOJI` env param. This is intended to include an emoji; if there are multiple they will be drawn on top of one another.
+
+Changing the favicon to a custom image requires building the app yourself. Unfortunately, moving new images into `public/` in the prebuilt version won't work, because the file size of the image is hardcoded.
+
 ### Stability
 
 Currently, the software is in an unstable state; required options, option availability, and option interpretation can change between versions. Check the changelog or commit history when upgrading or merging from upstream.
