@@ -75,12 +75,20 @@ export default defineEventHandler(async (event) => {
           mismatched: runState.pending,
           attemptedId: id,
         });
+      } else if (!runState.pending.startTs) {
+        runState.errors.push({
+          type: "check_unloaded",
+          description: "Checking an answer for a frame that wasn't loaded",
+          ts: now,
+          attemptedId: id,
+        });
       } else {
         const pending = runState.pending;
         runState.pending = null;
         runState.history.push({
           id,
-          startTs: pending.startTs,
+          assignTs: pending.assignTs,
+          startTs: pending.startTs || pending.assignTs,
           guessTs: now,
           guess: { season, episode },
           answer: { season: answer.season, episode: answer.episode },

@@ -105,6 +105,8 @@ export const useAppStateStore = defineStore("appState", () => {
     return browser.value;
   }
 
+  let priorUrl: { [k: string]: string } = {};
+
   /**
    * Returns the expected image path. This must be deterministic for the same
    * frame ID so that it matches exactly between the image and the save button
@@ -113,9 +115,28 @@ export const useAppStateStore = defineStore("appState", () => {
    * @returns Image path.
    */
   function imageUrl(config: ReturnType<typeof useRuntimeConfig>) {
-    return `/api/frame/get/${frameId.value}.${
+    if (priorUrl[frameId.value]) {
+      // When clearing the run, the runId will be reset, but we don't want to
+      // change the image URL, or this will result in an error in Firefox,
+      // because the image will have been cleaned up and can't be reloaded from
+      // a non-cached URL.
+      return priorUrl[frameId.value];
+    }
+
+    const params = [
+      browser.value?.name === "firefox" ? "cleanuponload=true" : "",
+      runId.value ? `runId=${runId.value}` : "",
+    ]
+      .filter((e) => e)
+      .join("&");
+    const url = `/api/frame/get/${frameId.value}.${
       config.public.imageOutputExtension
-    }${browser.value?.name === "firefox" ? "?cleanuponload=true" : ""}`;
+    }${params ? `?${params}` : ""}`;
+
+    priorUrl = {};
+    priorUrl[frameId.value] = url;
+
+    return url;
   }
 
   return {

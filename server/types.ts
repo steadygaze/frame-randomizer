@@ -5,6 +5,13 @@ export interface StoredAnswer {
   expiryTs: number | null;
 }
 
+export interface PendingRunState {
+  id: string;
+  assignTs: number;
+  startTs?: number;
+  assignLatencyMs: number;
+}
+
 export interface StoredFileState {
   expiryTs: number | null;
 }
@@ -13,12 +20,19 @@ export interface RegenerationError {
   type: "regen";
   description: string;
   ts: number;
-  oldPending: { id: string; startTs: number };
-  newPending: { id: string; startTs: number };
+  oldPending: PendingRunState;
+  newPending: PendingRunState;
 }
 
 export interface NoPendingError {
   type: "no_pending";
+  description: string;
+  ts: number;
+  attemptedId: string;
+}
+
+export interface NoPendingOnLoadError {
+  type: "no_pending_on_load";
   description: string;
   ts: number;
   attemptedId: string;
@@ -29,19 +43,38 @@ export interface PendingMismatchError {
   description: string;
   ts: number;
   attemptedId: string;
-  mismatched: { id: string; startTs: number };
+  mismatched: PendingRunState;
+}
+
+export interface PendingMismatchOnLoadError {
+  type: "pending_mismatch_on_load";
+  description: string;
+  ts: number;
+  attemptedId: string;
+  mismatched: PendingRunState;
+}
+
+export interface CheckUnloadedError {
+  type: "check_unloaded";
+  description: string;
+  ts: number;
+  attemptedId: string;
 }
 
 export type RunError =
   | RegenerationError
   | NoPendingError
-  | PendingMismatchError;
+  | NoPendingOnLoadError
+  | PendingMismatchError
+  | PendingMismatchOnLoadError
+  | CheckUnloadedError;
 
 export interface StoredRunData {
   creationTs: number;
-  pending: { id: string; startTs: number; assignLatencyMs: number } | null;
+  pending: PendingRunState | null;
   history: {
     id: string;
+    assignTs: number;
     startTs: number;
     guessTs: number;
     guess: { season: number; episode: number };

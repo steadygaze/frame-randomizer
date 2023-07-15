@@ -60,9 +60,9 @@ export default defineLazyEventHandler(async () => {
       cleanupFrame(String(cleanupid), false);
     }
 
-    const start = Date.now();
+    const startTs = Date.now();
     const frameData = await getQueuedFrame();
-    const assignLatencyMs = Date.now() - start;
+    const assignLatencyMs = Date.now() - startTs;
     logger.info(
       `Request waited ${assignLatencyMs} ms for image generation and callback queue`,
     );
@@ -72,7 +72,7 @@ export default defineLazyEventHandler(async () => {
     let runId = query.runId;
     const newPending = {
       id: frameData.frameId,
-      startTs: start,
+      assignTs: startTs,
       assignLatencyMs,
     };
     if (runId) {
@@ -92,7 +92,7 @@ export default defineLazyEventHandler(async () => {
           type: "regen",
           description:
             "Generated a new frame without answering for the previous frame",
-          ts: start,
+          ts: startTs,
           oldPending: runData.pending,
           newPending,
         });
