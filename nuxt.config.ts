@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from "nuxt/config";
+import GraphemeSplitter from "grapheme-splitter";
+
+const splitter = new GraphemeSplitter();
 
 // Default limit equivalent to 1 frame / 5 seconds average load.
 const frameLimitPerHour =
@@ -10,14 +13,45 @@ const requestLimitPerHour = frameLimitPerHour * 4; // There are 4 requests per f
 export default defineNuxtConfig({
   app: {
     head: {
-      link: [
-        {
-          href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${
-            process.env.FR_FAVICON_EMOJI || "🎞️"
-          }</text></svg>`,
-          rel: "icon",
-        },
-      ],
+      // If given, all the characters in FR_FAVICON_EMOJI will be drawn on top
+      // of each other one by one to create a favicon. Otherwise, we have a
+      // default png favicon.
+      link: process.env.FR_FAVICON_EMOJI // A good example value is 🎞️.
+        ? [
+            {
+              // Emojis aren't split properly by String.prototype.split.
+              href: `data:image/svg+xml,${encodeURI(
+                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">${splitter
+                  .splitGraphemes(process.env.FR_FAVICON_EMOJI)
+                  .map((e) => `<text y="829" font-size="1000">${e}</text>`)
+                  .join("")}</svg>`,
+              )}`,
+              rel: "icon",
+            },
+          ]
+        : [
+            {
+              href: "/apple-touch-icon.png",
+              rel: "apple-touch-icon",
+              sizes: "180x180",
+            },
+            {
+              href: "/favicon-32x32.png",
+              rel: "icon",
+              sizes: "32x32",
+              type: "image/png",
+            },
+            {
+              href: "/favicon-16x16.png",
+              rel: "icon",
+              sizes: "16x16",
+              type: "image/png",
+            },
+            {
+              href: "/site.webmanifest",
+              rel: "manifest",
+            },
+          ],
       meta: [
         {
           content: "width=device-width, initial-scale=1",
