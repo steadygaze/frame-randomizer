@@ -62,16 +62,19 @@ export default defineLazyEventHandler(async () => {
 
     const start = Date.now();
     const frameData = await getQueuedFrame();
+    const assignLatencyMs = Date.now() - start;
     logger.info(
-      `Request waited ${
-        Date.now() - start
-      } ms for image generation and callback queue`,
+      `Request waited ${assignLatencyMs} ms for image generation and callback queue`,
     );
     // Don't await on adding an expiry time, because it won't affect the result.
     addExpiry(frameData.frameId);
 
     let runId = query.runId;
-    const newPending = { id: frameData.frameId, startTs: start };
+    const newPending = {
+      id: frameData.frameId,
+      startTs: start,
+      assignLatencyMs,
+    };
     if (runId) {
       runId = String(runId);
 

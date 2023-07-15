@@ -39,13 +39,14 @@ export type RunError =
 
 export interface StoredRunData {
   creationTs: number;
-  pending: { id: string; startTs: number } | null;
+  pending: { id: string; startTs: number; assignLatencyMs: number } | null;
   history: {
     id: string;
     startTs: number;
     guessTs: number;
     guess: { season: number; episode: number };
     answer: { season: number; episode: number };
+    assignLatencyMs: number;
   }[];
   errors: RunError[];
   expiryTs: number | null;
