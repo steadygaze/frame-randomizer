@@ -47,6 +47,7 @@ export interface StoredRunData {
     guess: { season: number; episode: number };
     answer: { season: number; episode: number };
     assignLatencyMs: number;
+    seekTimeSec: number;
   }[];
   errors: RunError[];
   expiryTs: number | null;

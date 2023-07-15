@@ -73,7 +73,7 @@ function randomTimeInEpisode(episode: ServerEpisodeData): number {
 
 interface RandomEpisode {
   episode: ServerEpisodeData;
-  seekTime: number | string;
+  seekTime: number;
 }
 
 /**

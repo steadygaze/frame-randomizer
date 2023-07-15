@@ -85,6 +85,7 @@ export default defineEventHandler(async (event) => {
           guess: { season, episode },
           answer: { season: answer.season, episode: answer.episode },
           assignLatencyMs: pending.assignLatencyMs,
+          seekTimeSec: answer.seekTime,
         });
       }
       logger.info("Logging answer check to verified run", { runId });
