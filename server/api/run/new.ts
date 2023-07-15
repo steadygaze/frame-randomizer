@@ -15,6 +15,7 @@ export default defineEventHandler(async () => {
     history: [],
     errors: [],
     expiryTs: Date.now() + config.runExpiryMs,
+    version: config.public.softwareVersion,
   } as StoredRunData);
 
   return { runId };

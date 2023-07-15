@@ -50,4 +50,5 @@ export interface StoredRunData {
   }[];
   errors: RunError[];
   expiryTs: number | null;
+  version: string;
 }
