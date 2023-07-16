@@ -104,6 +104,12 @@ Changing the favicon to a custom image requires building the app yourself. Unfor
 
 Currently, the software is in an unstable state; required options, option availability, and option interpretation can change between versions. Check the changelog or commit history when upgrading or merging from upstream.
 
+### Hosting
+
+One of the main constraints for cloud hosting is the amount of disk needed. For a long running TV show, SSD can be quite expensive. Settling for regular disk may be the pragmatic option. At the time of this writing, [Oracle Cloud's free tier](https://www.oracle.com/cloud/) offers a relatively large amount of SSD (200 GB).
+
+Depending on load, the server can also be quite CPU-intensive due to running ffmpeg. However, unless high load is constant, you may be able to get by with less than you think thanks to pregeneration evening out load.
+
 ## Development
 
 This app is built on Nuxt 3; check out the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
