@@ -29,7 +29,7 @@ defineEmits<{ (e: "close"): void }>();
   border: 8px solid #555;
   margin: auto;
   padding: 1em;
-  width: 80ch;
+  width: min(80ch, 100vw);
   background-color: white;
   text-align: justify;
   max-height: 100vh;
@@ -40,7 +40,7 @@ defineEmits<{ (e: "close"): void }>();
   padding: 0.5em 1em;
 }
 
-ul {
+:deep(ul) {
   padding-left: 1.4em;
 }
 
