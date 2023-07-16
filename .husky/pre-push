@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm run formatcheck && npm run lint && npm run vue-tsc && npm run test
