@@ -43,6 +43,8 @@
       "intro": "This site tracks several stats that may be interesting to some players. Most are hidden by default to avoid being distracting; click the button labeled \"{moreLabel}\" to show them.",
       "percent": "Tracks the number of correct guesses, total frames, and percent correct.",
       "real_time": "Tracks the total time taken since the first frame shown.",
+      "real_time_to_correct": "Tracks the total time taken from the first frame until the most recently correctly guessed frame, if not currently guessing.",
+      "real_time_to_guess": "Tracks the total time taken from the first frame until the most recently guessed frame, if not currently guessing.",
       "streak": "Tracks the current number of correct guesses in a row.",
       "total_guess_time": "Tracks the total time spent guessing. Excludes load time and time spent waiting after answering and before getting a new frame."
     },
@@ -108,6 +110,8 @@
     "less": "Less",
     "more": "More",
     "real_time": "real time: ",
+    "real_time_to_correct": "real time to correct: ",
+    "real_time_to_guess": "real time to guess: ",
     "streak": "streak: ",
     "total_guess_time": "total guess time: "
   },

@@ -43,6 +43,8 @@
       "intro": "Auf dieser Website werden mehrere Statistiken erfasst, die für einige Spieler interessant sein könnten. Die meisten sind standardmäßig ausgeblendet, um nicht abzulenken; Klicken Sie auf die Schaltfläche mit der Bezeichnung „ {moreLabel} “, um sie anzuzeigen.",
       "percent": "Verfolgt die Anzahl der richtigen Schätzungen, die Gesamtzahl der Frames und den Prozentwert der richtigen Schätzungen.",
       "real_time": "Verfolgt die Gesamtzeit seit dem ersten angezeigten Bild.",
+      "real_time_to_correct": "Verfolgt die Gesamtzeit vom ersten Bild bis zum zuletzt richtig erratenen Bild, sofern nicht gerade erraten wird.",
+      "real_time_to_guess": "Verfolgt die Gesamtzeit vom ersten Frame bis zum zuletzt erratenen Frame, sofern nicht gerade erraten wird.",
       "streak": "Verfolgt die aktuelle Anzahl richtiger Vermutungen in Folge.",
       "total_guess_time": "Verfolgt die Gesamtzeit, die mit dem Raten verbracht wurde. Ausgenommen sind Ladezeit und Wartezeit nach der Beantwortung und vor Erhalt eines neuen Frames."
     },
@@ -108,6 +110,8 @@
     "less": "Weniger",
     "more": "Mehr",
     "real_time": "Echtzeit:",
+    "real_time_to_correct": "Echtzeit zur Korrektur:",
+    "real_time_to_guess": "Echtzeit zum Erraten:",
     "streak": "Strähne:",
     "total_guess_time": "Gesamte Ratezeit:"
   },

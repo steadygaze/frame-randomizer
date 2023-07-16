@@ -36,7 +36,9 @@ const {
   waitingForGuess,
   showMoreStats,
   totalGuessTimeAccDurationMs,
-  realTimeDurationMs,
+  realTimeStartTimestamp,
+  lastCorrectTimestamp,
+  lastGuessTimestamp,
 } = storeToRefs(appStateStore);
 
 const emit = defineEmits<{ (e: "start"): void }>();
@@ -48,6 +50,7 @@ async function saveRun() {
   if (!runId.value) {
     return;
   }
+  const now = Date.now();
   const { data, error } = await useFetch(`/api/run/${runId.value}/verify`);
 
   if (error && error.value) {
@@ -59,11 +62,23 @@ async function saveRun() {
       readout("readout.unknown_error", { error: error.value.message });
     }
   } else if (data && data.value) {
+    const realTimeMs = now - realTimeStartTimestamp.value;
+    const realTimeGuessMs = waitingForGuess
+      ? realTimeMs
+      : lastGuessTimestamp.value - realTimeStartTimestamp.value;
+    const realTimeCorrectMs = waitingForGuess
+      ? realTimeMs
+      : lastCorrectTimestamp
+      ? lastCorrectTimestamp.value - realTimeStartTimestamp.value
+      : realTimeGuessMs;
+
     const combinedData = {
       runId: runId.value,
       server: data.value,
       client: {
-        realTimeMs: realTimeDurationMs.value,
+        realTimeMs,
+        realTimeGuessMs,
+        realTimeCorrectMs,
         guessTimeMs: totalGuessTimeAccDurationMs.value,
         version: config.public.softwareVersion,
       },

@@ -43,6 +43,8 @@
       "intro": "Ce site suit plusieurs statistiques qui peuvent être intéressantes pour certains joueurs. La plupart sont masqués par défaut pour éviter d'être gênants ; cliquez sur le bouton \"{moreLabel}\" pour les afficher.",
       "percent": "Suit le nombre de suppositions correctes, le nombre total d'images et le pourcentage de réponses correctes.",
       "real_time": "Suit le temps total pris depuis la première image affichée.",
+      "real_time_to_correct": "Suit le temps total pris depuis la première image jusqu'à l'image la plus récemment correctement devinée, si elle n'est pas en train de deviner.",
+      "real_time_to_guess": "Suit le temps total pris depuis la première image jusqu'à l'image la plus récemment devinée, si elle n'est pas en train de deviner.",
       "streak": "Suit le nombre actuel de suppositions correctes d'affilée.",
       "total_guess_time": "Suit le temps total passé à deviner. Exclut le temps de chargement et le temps passé à attendre après avoir répondu et avant d'obtenir une nouvelle image."
     },
@@ -108,6 +110,8 @@
     "less": "Moins",
     "more": "Plus",
     "real_time": "temps réel:",
+    "real_time_to_correct": "temps réel pour corriger :",
+    "real_time_to_guess": "temps réel pour deviner :",
     "streak": "traînée:",
     "total_guess_time": "temps de devinette total :"
   },

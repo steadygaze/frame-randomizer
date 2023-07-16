@@ -123,6 +123,14 @@
         >{{ $t("about.stats.real_time") }}
       </li>
       <li>
+        <strong>{{ $t("stats.real_time_to_guess") }}</strong
+        >{{ $t("about.stats.real_time_to_guess") }}
+      </li>
+      <li>
+        <strong>{{ $t("stats.real_time_to_correct") }}</strong
+        >{{ $t("about.stats.real_time_to_correct") }}
+      </li>
+      <li>
         <strong>{{ $t("stats.total_guess_time") }}</strong
         >{{ $t("about.stats.total_guess_time") }}
       </li>

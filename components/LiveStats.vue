@@ -17,6 +17,14 @@
       {{ realTimeText }}
     </div>
     <div v-if="showMoreStats">
+      <span class="statLabel">{{ $t("stats.real_time_to_guess") }}</span>
+      {{ realTimeToGuessText }}
+    </div>
+    <div v-if="showMoreStats">
+      <span class="statLabel">{{ $t("stats.real_time_to_correct") }}</span>
+      {{ realTimeToCorrectText }}
+    </div>
+    <div v-if="showMoreStats">
       <span class="statLabel">{{ $t("stats.total_guess_time") }}</span>
       {{ totalGuessTimeText }}
     </div>
@@ -41,6 +49,8 @@ const {
   correctCounter,
   currentGuessTimeDurationMs,
   currentGuessTimeStartTimestamp,
+  lastCorrectTimestamp,
+  lastGuessTimestamp,
   realTimeDurationMs,
   realTimeStartTimestamp,
   showMoreStats,
@@ -53,10 +63,11 @@ const {
 /**
  * Make a "hh:mm:ss"-style timer string.
  * @param durationMs Duration in milliseconds.
+ * @param secPlaces Precision to show seconds.
  * @returns String representation of the timer.
  */
-function makeTimerText(durationMs: number): string {
-  const sec = floatIntPartPad((durationMs / 1000) % 60, 2, 1);
+function makeTimerText(durationMs: number, secPlaces = 1): string {
+  const sec = floatIntPartPad((durationMs % 60000) / 1000, 2, secPlaces);
   const min = Math.trunc(durationMs / 1000 / 60) % 60;
   const hour = Math.trunc(durationMs / 1000 / 60 / 60) % 60;
   return hour > 0
@@ -65,16 +76,36 @@ function makeTimerText(durationMs: number): string {
 }
 
 const realTimeText = computed(() => makeTimerText(realTimeDurationMs.value));
-const currentGuessTimeText = computed(() =>
-  makeTimerText(currentGuessTimeDurationMs.value),
+const realTimeToGuessText = computed(() =>
+  waitingForGuess.value
+    ? realTimeText.value
+    : makeTimerText(lastGuessTimestamp.value - realTimeStartTimestamp.value, 3),
 );
-const totalGuessTimeText = computed(() =>
+const realTimeToCorrectText = computed(() =>
+  waitingForGuess.value
+    ? realTimeText.value
+    : lastCorrectTimestamp.value
+    ? makeTimerText(
+        lastCorrectTimestamp.value - realTimeStartTimestamp.value,
+        3,
+      )
+    : // If the user hasn't gotten anything right yet.
+      realTimeToGuessText.value,
+);
+const currentGuessTimeText = computed(() =>
   makeTimerText(
-    waitingForGuess.value
-      ? totalGuessTimeAccDurationMs.value + currentGuessTimeDurationMs.value
-      : totalGuessTimeAccDurationMs.value,
+    currentGuessTimeDurationMs.value,
+    waitingForGuess.value ? 1 : 3,
   ),
 );
+const totalGuessTimeText = computed(() => {
+  if (waitingForGuess.value) {
+    return makeTimerText(
+      totalGuessTimeAccDurationMs.value + currentGuessTimeDurationMs.value,
+    );
+  }
+  return makeTimerText(totalGuessTimeAccDurationMs.value, 3);
+});
 
 /**
  * Updates the given duration ref to a current value, based on Date.now().

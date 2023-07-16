@@ -43,6 +43,8 @@
       "intro": "Strona śledzi kilka statystyk, które mogą być interesujące dla niektórych graczy. Większość jest domyślnie ukryta, żeby zapobiec rozpraszaniu użytkownika. Aby je wyświetlić kliknij przycisk „{moreLabel}”.",
       "percent": "Śledzi liczbę prawidłowych odpowiedzi na całkowitą liczbę klatek i oblicza z nich procent.",
       "real_time": "Mierzy cały czas, jaki upłynął od wyświetlenia pierwszej klatki.",
+      "real_time_to_correct": "Śledzi całkowity czas od pierwszej klatki do ostatniej prawidłowo odgadniętej klatki, jeśli nie jest to aktualnie zgadywanie.",
+      "real_time_to_guess": "Śledzi całkowity czas od pierwszej klatki do ostatniej odgadniętej klatki, jeśli nie jest to aktualnie odgadywane.",
       "streak": "Śledzi bieżącą liczbę poprawnych odpowiedzi pod rząd.",
       "total_guess_time": "Mierzy czas spędzony na zgadywaniu, bez czasu ładowania strony."
     },
@@ -110,6 +112,8 @@
     "less": "Mniej",
     "more": "Więcej",
     "real_time": "czas rzeczywisty: ",
+    "real_time_to_correct": "korekta w czasie rzeczywistym:",
+    "real_time_to_guess": "czas rzeczywisty do odgadnięcia:",
     "streak": "streak: ",
     "total_guess_time": "czas zgadywania: "
   },

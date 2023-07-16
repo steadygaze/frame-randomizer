@@ -134,6 +134,8 @@ const {
   waitingForGuess,
   runId,
   runReadyState,
+  lastCorrectTimestamp,
+  lastGuessTimestamp,
 } = storeToRefs(appStateStore);
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -392,9 +394,12 @@ async function submitAnswer(index: number) {
   if (index < -1 || index >= searchResults.value.length) {
     throw new RangeError(`Index ${index} out of range`);
   }
+
   waitingForGuess.value = false;
+  lastGuessTimestamp.value = Date.now();
   answerIsLoading.value = true;
   document.body.style.cursor = "wait";
+
   const found = searchResults.value[index];
   const item = found ? found.item : { season: -1, episode: -1, fullName: "?" };
   const { data, error } = await useFetch(`/api/frame/check/${frameId.value}`, {
@@ -449,6 +454,7 @@ async function submitAnswer(index: number) {
       });
       ++correctCounter.value;
       ++streakCounter.value;
+      lastCorrectTimestamp.value = lastGuessTimestamp.value;
     } else {
       const correctSeason = data.value.season;
       const correctEpisode = data.value.episode;

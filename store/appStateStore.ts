@@ -51,6 +51,8 @@ export const useAppStateStore = defineStore("appState", () => {
   const imageIsLoading = ref(true);
   const imageLoadError = ref(false);
   const imageLoadTimestamp = ref(0);
+  const lastCorrectTimestamp = ref(0);
+  const lastGuessTimestamp = ref(0);
   const readouts: Ref<Readout[]> = ref([initialReadout]);
   const realTimeDurationMs = ref(0);
   const realTimeStartTimestamp = ref(0);
@@ -86,6 +88,8 @@ export const useAppStateStore = defineStore("appState", () => {
     correctCounter.value = 0;
     currentGuessTimeDurationMs.value = 0;
     currentGuessTimeStartTimestamp.value = 0;
+    lastCorrectTimestamp.value = 0;
+    lastGuessTimestamp.value = 0;
     realTimeDurationMs.value = 0;
     realTimeStartTimestamp.value = 0;
     runId.value = "";
@@ -151,6 +155,8 @@ export const useAppStateStore = defineStore("appState", () => {
     imageLoadError,
     imageLoadTimestamp,
     imageUrl,
+    lastCorrectTimestamp,
+    lastGuessTimestamp,
     readout,
     readouts,
     realTimeDurationMs,
