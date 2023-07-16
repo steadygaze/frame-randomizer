@@ -80,6 +80,7 @@ export default defineNuxtConfig({
       useCookie: true,
     },
     langDir: "lang",
+    lazy: true,
     locales: [
       { code: "de", file: "de.json", iso: "de", name: "Deutsch" },
       { code: "en", file: "en.json", iso: "en", name: "English" },
