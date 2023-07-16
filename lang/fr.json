@@ -120,7 +120,7 @@
     "clear": "Effacer la course",
     "label": "Course vérifiée :",
     "practice_mode": "(en mode entraînement)",
-    "run_in_progress": "Exécution ( {id} ) en cours…",
+    "run_in_progress": "Exécution en cours… ( {id} )",
     "save": "Enregistrer la course",
     "start": "Démarrer l'exécution vérifiée"
   }

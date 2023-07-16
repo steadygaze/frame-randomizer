@@ -119,7 +119,7 @@
   "verify": {
     "clear": "Clear run",
     "practice_mode": "(in practice mode)",
-    "run_in_progress": "Run ({id}) in progress…",
+    "run_in_progress": "Run in progress… ({id})",
     "save": "Save run",
     "start": "Start verified run"
   }

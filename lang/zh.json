@@ -120,7 +120,7 @@
     "clear": "清除运行",
     "label": "验证运行：",
     "practice_mode": "（练习模式下）",
-    "run_in_progress": "运行 ( {id} ) 正在进行中...",
+    "run_in_progress": "正在运行... ( {id} )",
     "save": "保存运行",
     "start": "开始验证运行"
   }

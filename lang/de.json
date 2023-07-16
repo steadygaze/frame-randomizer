@@ -120,7 +120,7 @@
     "clear": "Freier Lauf",
     "label": "Verifizierter Lauf:",
     "practice_mode": "(im Übungsmodus)",
-    "run_in_progress": "Lauf ( {id} ) läuft…",
+    "run_in_progress": "Ausführung läuft… ( {id} )",
     "save": "Lauf speichern",
     "start": "Starten Sie den verifizierten Lauf"
   }
