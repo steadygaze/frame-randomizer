@@ -91,7 +91,12 @@ export default defineNuxtConfig({
     strategy: "prefix_except_default",
   },
 
-  modules: ["@pinia/nuxt", "@nuxtjs/i18n", "nuxt-security"],
+  modules: [
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/i18n",
+    "nuxt-security",
+  ],
 
   nitro: {
     esbuild: {

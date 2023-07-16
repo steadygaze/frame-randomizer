@@ -96,6 +96,12 @@
     "watch": "betrachten",
     "welcome": "Willkommen! Das erste Bild wird in Kürze geladen."
   },
+  "settings": {
+    "header": "Einstellungen",
+    "reset": "Auf Standardeinstellung zurücksetzen",
+    "upsize_description": "Wenn der Rahmen kleiner als der verfügbare Platz ist, wird er vergrößert, um den Platz auszufüllen. Deaktivieren Sie diese Option, um die ursprüngliche Auflösung im Letterbox-Format beizubehalten. (Wenn der Rahmen größer als der verfügbare Platz ist, wird er trotzdem verkleinert.)",
+    "upsize_label": "Vergrößern Sie den Rahmen, um den Platz auszufüllen"
+  },
   "space": " ",
   "stats": {
     "current_guess_time": "aktuelle Schätzzeit:",

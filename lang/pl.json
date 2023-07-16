@@ -98,6 +98,12 @@
     "watch": "oglądać",
     "welcome": "Witaj! Wkrótce załaduje się pierwszy obrazek."
   },
+  "settings": {
+    "header": "Ustawienia",
+    "reset": "Przywróć domyślne",
+    "upsize_description": "Jeśli rama jest mniejsza niż dostępna przestrzeń, zostanie powiększona, aby wypełnić przestrzeń. Wyłącz tę opcję, aby pozostawić go z czarnymi ramkami w oryginalnej rozdzielczości. (Jeżeli ramka jest większa niż dostępna przestrzeń, nadal będzie zmniejszona.)",
+    "upsize_label": "Zwiększ rozmiar ramki, aby wypełnić przestrzeń"
+  },
   "space": " ",
   "stats": {
     "current_guess_time": "czas klatki:",

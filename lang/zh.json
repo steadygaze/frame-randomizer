@@ -96,6 +96,12 @@
     "watch": "观看",
     "welcome": "欢迎！第一张截图将很快加载。"
   },
+  "settings": {
+    "header": "设置",
+    "reset": "重置为默认值",
+    "upsize_description": "如果框架小于可用空间，则会放大框架以填充空间。禁用此选项可使其保持原始分辨率。 （如果框架大于可用空间，它仍然会缩小。）",
+    "upsize_label": "扩大框架以填充空间"
+  },
   "space": " ",
   "stats": {
     "current_guess_time": "当前猜测时间：",

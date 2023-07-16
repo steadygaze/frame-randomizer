@@ -1,9 +1,9 @@
 <template>
-  <section v-if="show" class="modalContainer">
-    <div class="aboutLine">
-      <h2>{{ $t("about.header") }}</h2>
-      <button @click="$emit('close')">X</button>
-    </div>
+  <GenericModal
+    :show="show"
+    :header="$t('about.header')"
+    @close="$emit('close')"
+  >
     <p v-if="locale !== 'en'">
       {{ $t("about.machine_translation_disclaimer") }}
     </p>
@@ -197,8 +197,7 @@
         >
       </p>
     </section>
-    <button @click="$emit('close')">{{ $t("about.close") }}</button>
-  </section>
+  </GenericModal>
 </template>
 
 <script setup lang="ts">
@@ -236,43 +235,7 @@ defineEmits<{ (e: "close"): void }>();
 </script>
 
 <style scoped>
-.modalContainer {
-  box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 8px solid #555;
-  margin: auto;
-  padding: 1em;
-  max-width: 80ch;
-  background-color: white;
-  text-align: justify;
-  max-height: 100vh;
-  overflow-y: auto;
-}
-
-button {
-  padding: 0.5em 1em;
-}
-
-ul {
-  padding-left: 1.4em;
-}
-
 .grayedText {
   color: #555;
-}
-
-.aboutLine {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.aboutLine button {
-  align-self: flex-end;
-}
-.aboutLine h2 {
-  margin: 6px 0 0 0;
 }
 </style>

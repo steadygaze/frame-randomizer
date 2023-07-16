@@ -7,6 +7,7 @@
         ? `data:image/svg+xml,${errorLoadingImageSvg}`
         : imageUrl(config)
     "
+    :class="{ noResize: !upsizeToFit }"
     @load="endLoading"
     @error="handleError"
   />
@@ -17,6 +18,7 @@ import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRuntimeConfig } from "nuxt/app";
 import { useAppStateStore } from "~~/store/appStateStore";
+import { useSettingsStore } from "~/store/settingsStore";
 
 const errorLoadingImageSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">ERROR ❌</text></svg>`;
 const readySvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320"><text x="50" y="205.3" font-size="120" fill="white" style="font-family: sans-serif">READY 🏁</text></svg>`;
@@ -31,6 +33,9 @@ const {
   imageLoadTimestamp,
   runReadyState,
 } = storeToRefs(appStateStore);
+
+const settingsStore = useSettingsStore();
+const { upsizeToFit } = storeToRefs(settingsStore);
 
 const config = useRuntimeConfig();
 
@@ -76,6 +81,10 @@ img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+img.noResize {
+  object-fit: scale-down;
 }
 
 pre {

@@ -96,6 +96,12 @@
     "watch": "montre",
     "welcome": "Accueillir! La première image se chargera sous peu."
   },
+  "settings": {
+    "header": "Paramètres",
+    "reset": "Réinitialiser les paramètres par défaut",
+    "upsize_description": "Si le cadre est plus petit que l'espace disponible, il sera agrandi pour remplir l'espace. Désactivez-le pour le laisser en boîte aux lettres à sa résolution d'origine. (Si le cadre est plus grand que l'espace disponible, il sera quand même réduit.)",
+    "upsize_label": "Agrandir le cadre pour remplir l'espace"
+  },
   "space": " ",
   "stats": {
     "current_guess_time": "heure de devinette actuelle :",

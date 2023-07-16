@@ -96,6 +96,12 @@
     "watch": "watch",
     "welcome": "Welcome! The first image will load shortly."
   },
+  "settings": {
+    "header": "Settings",
+    "reset": "Reset to defaults",
+    "upsize_description": "If the frame is smaller than the space available, it will be upsized to fill the space. Disable this to leave it letterboxed at its original resolution. (If the frame is larger than the available space, it will still be downsized.)",
+    "upsize_label": "Upsize frame to fill space"
+  },
   "space": " ",
   "stats": {
     "current_guess_time": "current guess time: ",

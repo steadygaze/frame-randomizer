@@ -46,6 +46,11 @@
           📖 {{ $t("input.about") }}
         </button>
         <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
+        <button @click="showSettings = !showSettings">⚙️ Settings</button>
+        <SettingsModal
+          :show="showSettings"
+          @close="showSettings = false"
+        ></SettingsModal>
       </div>
     </div>
     <LiveStats></LiveStats>
@@ -176,6 +181,7 @@ const highlightIndex = ref(0);
 const searchInput = ref("");
 const useSynopsis = ref(true);
 const showAbout = ref(false);
+const showSettings = ref(false);
 
 const seasonEpisodeInputRe = /^s?(?<season>\d+)[xe](?<episode>\d+)$/i;
 
