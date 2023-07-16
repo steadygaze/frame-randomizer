@@ -39,6 +39,8 @@ const {
   realTimeDurationMs,
 } = storeToRefs(appStateStore);
 
+const emit = defineEmits<{ (e: "start"): void }>();
+
 /**
  * Save a run using the API.
  */
@@ -112,6 +114,7 @@ async function startRun() {
   }
 
   navigator.sendBeacon(`/api/frame/cleanup/${frameId.value}`);
+  emit("start");
 }
 </script>
 

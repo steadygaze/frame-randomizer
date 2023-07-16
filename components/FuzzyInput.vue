@@ -89,7 +89,7 @@
         @click="submitAnswer(index)"
       ></FuzzyResultItem>
     </ol>
-    <RunVerifier />
+    <RunVerifier @start="focusNewFrameButton" />
   </div>
 </template>
 
@@ -365,6 +365,16 @@ function changeHighlightedIndex(index: number) {
 }
 
 /**
+ * Focus the "New Frame" button.
+ */
+async function focusNewFrameButton() {
+  if (newFrameButton.value && newFrameButton.value) {
+    await nextTick();
+    newFrameButton.value.focus();
+  }
+}
+
+/**
  * Submits an answer to the server and checks if it's correct.
  * @param index Search result index to submit.
  */
@@ -461,10 +471,7 @@ async function submitAnswer(index: number) {
   searchInput.value = "";
   answerIsLoading.value = false;
   document.body.style.cursor = "unset";
-  if (newFrameButton.value && newFrameButton.value) {
-    await nextTick();
-    newFrameButton.value.focus();
-  }
+  await focusNewFrameButton();
 }
 
 /**
