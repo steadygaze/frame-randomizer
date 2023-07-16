@@ -19,7 +19,7 @@
         <button
           id="skipButton"
           ref="skipButton"
-          :disabled="!imageIsLoading && !waitingForGuess"
+          :disabled="imageIsLoading || !waitingForGuess"
           @click="
             searchInput = '';
             submitAnswer(-1);
