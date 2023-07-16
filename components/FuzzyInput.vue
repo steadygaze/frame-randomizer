@@ -46,7 +46,9 @@
           📖 {{ $t("input.about") }}
         </button>
         <AboutModal :show="showAbout" @close="showAbout = false"></AboutModal>
-        <button @click="showSettings = !showSettings">⚙️ Settings</button>
+        <button @click="showSettings = !showSettings">
+          ⚙️ {{ $t("input.settings") }}
+        </button>
         <SettingsModal
           :show="showSettings"
           @close="showSettings = false"
