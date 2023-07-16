@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.19
+
+[compare changes](https://undefined/undefined/compare/v0.0.18...v0.0.19)
+
+### 🚀 Enhancements
+
+- Add raster favicon setup at various sizes (bc972d1)
+- Include frame assignment latency in run data (b4346a6)
+- Include server-side version too (f7cd6aa)
+- Include seek time in run data (8479dc4)
+- Separate assignment/start timestamps (29bca24)
+- Focus the "New Frame" button on run start (09038da)
+- Add settings and object-fit setting (60a7f4c)
+- Add additional real time timers (d8038e0)
+
+### 🩹 Fixes
+
+- Use clearer labels for run verification UI (c1c50d4)
+- Show part of run id in UI (d7278a3)
+- Translate settings button label (625afd7)
+- Enable lazy language loading (77d3e74)
+- Support switching languages during a run (f890d8c)
+
+### 💅 Refactors
+
+- Remove obsolete storage init code (13919eb)
+
+### 📖 Documentation
+
+- Document favicon setup (fbfac2b)
+- Add hosting tips to README (ee08e26)
+
+### 📦 Build
+
+- Add pre-push hook (589e8fe)
+- Upgrade dependencies (c58e022)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.18
 
 [compare changes](https://undefined/undefined/compare/v0.0.17...v0.0.18)
