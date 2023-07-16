@@ -13,7 +13,9 @@
         </button>
       </div>
 
-      <div v-if="runId">{{ $t("verify.run_in_progress") }}</div>
+      <div v-if="runId">
+        {{ $t("verify.run_in_progress", { id: runId.slice(0, 8) + "…" }) }}
+      </div>
       <div v-else class="grayed">{{ $t("verify.practice_mode") }}</div>
     </div>
   </div>

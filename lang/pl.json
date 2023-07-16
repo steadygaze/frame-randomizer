@@ -112,7 +112,7 @@
     "label": "Zweryfikowany przebieg:",
     "no_run": "(w trybie ćwiczeń)",
     "practice_mode": "(w trybie ćwiczeń)",
-    "run_in_progress": "Uruchom w toku…",
+    "run_in_progress": "Uruchom ( {id} ) w toku…",
     "save": "Zapisz bieg",
     "start": "Rozpocznij zweryfikowany bieg"
   }
