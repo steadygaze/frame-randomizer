@@ -297,7 +297,18 @@ watch(imageIsLoading, async (imageIsLoading) => {
 // hydration mismatch.
 onMounted(() => {
   detectBrowser();
-  getFrame(fetchGenResult);
+  if (typeof window !== "undefined" && frameId.value) {
+    // Switching the page language includes the pregenerated frame with
+    // server-side or universal rendering. However, we already have a frame in
+    // this case, so don't use it.
+    if (fetchGenResult.data && fetchGenResult.data.value.frameId) {
+      navigator.sendBeacon(
+        `/api/frame/cleanup/${fetchGenResult.data.value.frameId}`,
+      );
+    }
+  } else {
+    getFrame(fetchGenResult);
+  }
 });
 
 /**
