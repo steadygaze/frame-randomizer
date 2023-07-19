@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.20
+
+[compare changes](https://undefined/undefined/compare/v0.0.19...v0.0.20)
+
+### 🩹 Fixes
+
+- Fix skip button not disabled while loading (a148a11)
+- Fix modals being oversized on mobile (f4a27e4)
+
+### 💅 Refactors
+
+- Shift run id slightly (d69e52a)
+
+### 🏡 Chore
+
+- Upgrade deps (9e1eb16)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.19
 
 [compare changes](https://undefined/undefined/compare/v0.0.18...v0.0.19)
