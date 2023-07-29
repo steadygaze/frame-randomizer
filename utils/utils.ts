@@ -49,8 +49,10 @@ export function floatIntPartPad(
   const decimalIndex = initialStrNumber.indexOf(".");
   if (decimalIndex < 0) {
     return fPartPlaces > 0
-      ? `${initialStrNumber.padStart(2, "0")}.${"0".repeat(fPartPlaces)}`
-      : initialStrNumber.padStart(2, "0");
+      ? `${initialStrNumber.padStart(iPartPlaces, "0")}.${"0".repeat(
+          fPartPlaces,
+        )}`
+      : initialStrNumber.padStart(iPartPlaces, "0");
   }
   const numIPartDigits = decimalIndex;
   const numFPartDigits = initialStrNumber.length - (decimalIndex + 1);
