@@ -10,13 +10,13 @@ export type ClientShowData = iClientShowData;
 const config = useRuntimeConfig();
 
 export default defineLazyEventHandler(async () => {
-  const { defaultLanguage, clientData } = await getShowData(config);
+  const { originalLanguage, clientData } = await getShowData(config);
 
   return defineEventHandler((event) => {
-    let language = String(getQuery(event).language || defaultLanguage);
+    let language = String(getQuery(event).language || originalLanguage);
     if (language === "undefined") {
-      if (defaultLanguage) {
-        language = defaultLanguage;
+      if (originalLanguage) {
+        language = originalLanguage;
       } else {
         throw createError({
           statusCode: 400,
@@ -25,12 +25,12 @@ export default defineLazyEventHandler(async () => {
       }
     }
     if (!(language in clientData)) {
-      if (defaultLanguage) {
-        language = defaultLanguage;
+      if (originalLanguage) {
+        language = originalLanguage;
       } else {
         throw createError({
           statusCode: 404,
-          statusMessage: `language "${language}" not found and no default`,
+          statusMessage: `language "${language}" not found and no original configured`,
         });
       }
     }
