@@ -243,17 +243,21 @@ export default defineNuxtConfig({
       // but not deleted.
       frameExpiryMs: 5 * 60 * 1000, // 10 minutes.
       // Number of characters required for a match. If the user inputs a search
-      // shorter than this, nothing will happen.
+      // query shorter than this, nothing will happen. This is only the default;
+      // the user can change this in the settings.
       // https://fusejs.io/api/options.html#minmatchcharlength
       fuzzySearchMinMatchLength: 3,
       // The threshold used by Fuse for what is considered a match. Increasing
-      // this will relax the match strictness.
+      // this will relax the match strictness. This is only the default; the
+      // user can change this in the settings.
       // https://fusejs.io/api/options.html#threshold.
       fuzzySearchThreshold: 0.2,
-      // Weight assigned to the episode name, relative to synopsis.
+      // Weight assigned to the episode name, relative to synopsis. This is only
+      // the default; the user can change this in the settings.
       // https://fusejs.io/examples.html#weighted-search
       fuzzySearchWeightName: 1.0,
       // Weight assigned to the episode overview/synopsis, relative to name.
+      // This is only the default; the user can change this in the settings.
       // https://fusejs.io/examples.html#weighted-search
       fuzzySearchWeightSynopsis: 0.25,
       // What extension to output images as. Naturally, these have different

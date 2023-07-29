@@ -4,10 +4,83 @@
     :header="$t('settings.header')"
     @close="$emit('close')"
   >
+    <h3>{{ $t("settings.display_header") }}</h3>
     <p>
       <label for="upsizeToFit">{{ $t("settings.upsize_label") }}</label>
       <input id="upsizeToFit" v-model="upsizeToFit" type="checkbox" />
       <br />{{ $t("settings.upsize_description") }}
+    </p>
+    <p>
+      <span class="flexOptions">
+        <label for="minMatchLength">{{
+          $t("settings.min_match_length_label")
+        }}</label>
+        <input
+          id="minMatchLength"
+          v-model="minMatchLength"
+          type="range"
+          min="1"
+          max="10"
+        />
+        {{ minMatchLength }}
+      </span>
+      {{ $t("settings.min_match_length_description") }}
+    </p>
+    <h3>{{ $t("settings.search_header") }}</h3>
+    <p>
+      <span class="flexOptions">
+        <label for="fuzziness">{{ $t("settings.fuzziness_label") }}</label>
+        <input
+          id="fuzziness"
+          v-model="fuzziness"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+        />
+        {{ floatIntPartPad(fuzziness, 1, 2) }}
+      </span>
+      {{ $t("settings.fuzziness_description") }}
+    </p>
+    <p>
+      <span class="flexOptions">
+        <label for="nameWeight">{{ $t("settings.name_weight_label") }}</label>
+        <input
+          id="nameWeight"
+          v-model="nameWeight"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+        />
+        {{ floatIntPartPad(nameWeight, 1, 2) }}
+      </span>
+      {{ $t("settings.name_weight_description") }}
+    </p>
+    <p>
+      <span class="flexOptions">
+        <label for="synopsisWeight">{{
+          $t("settings.synopsis_weight_label")
+        }}</label>
+        <input
+          id="synopsisWeight"
+          v-model="synopsisWeight"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+        />
+        {{ floatIntPartPad(synopsisWeight, 1, 2) }}
+      </span>
+      {{ $t("settings.synopsis_weight_description") }}
+    </p>
+    <p>
+      <label for="caseSensitive">{{
+        $t("settings.case_sensitive_label")
+      }}</label>
+      <input id="caseSensitive" v-model="caseSensitive" type="checkbox" />
+      <br />
+      {{ $t("settings.case_sensitive_description") }}
     </p>
     <template #footer-buttons>
       <button @click="reset">{{ $t("settings.reset") }}</button>
@@ -26,11 +99,24 @@ defineEmits<{ (e: "close"): void }>();
 
 const settingsStore = useSettingsStore();
 const { reset } = settingsStore;
-const { upsizeToFit } = storeToRefs(settingsStore);
+const {
+  caseSensitive,
+  fuzziness,
+  minMatchLength,
+  nameWeight,
+  synopsisWeight,
+  upsizeToFit,
+} = storeToRefs(settingsStore);
 </script>
 
 <style scoped>
 label {
   font-style: italic;
+}
+
+.flexOptions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 </style>

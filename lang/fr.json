@@ -100,8 +100,20 @@
     "welcome": "Accueillir! La première image se chargera sous peu."
   },
   "settings": {
+    "case_sensitive_description": "Si la recherche est sensible à la casse ou non.",
+    "case_sensitive_label": "Sensibilité à la casse",
+    "display_header": "Afficher",
+    "fuzziness_description": "À quel point la recherche est \"floue\". Dans quelle mesure la recherche recherche-t-elle des correspondances approximatives. Défini sur 0 pour exiger des correspondances exactes.",
+    "fuzziness_label": "Flou",
     "header": "Paramètres",
+    "min_match_length_description": "Le nombre de caractères qu'une correspondance doit comporter pour apparaître dans les résultats de la recherche. (Ignoré en chinois.)",
+    "min_match_length_label": "Durée minimale de la correspondance",
+    "name_weight_description": "Le degré de pondération des correspondances dans le nom de l'épisode par rapport aux autres champs.",
+    "name_weight_label": "Poids du nom de l'épisode",
     "reset": "Réinitialiser les paramètres par défaut",
+    "search_header": "Recherche",
+    "synopsis_weight_description": "Le degré de pondération des correspondances dans le synopsis par rapport aux autres champs.",
+    "synopsis_weight_label": "Poids du synopsis",
     "upsize_description": "Si le cadre est plus petit que l'espace disponible, il sera agrandi pour remplir l'espace. Désactivez-le pour le laisser en boîte aux lettres à sa résolution d'origine. (Si le cadre est plus grand que l'espace disponible, il sera quand même réduit.)",
     "upsize_label": "Agrandir le cadre pour remplir l'espace"
   },

@@ -102,8 +102,20 @@
     "welcome": "Witaj! Wkrótce załaduje się pierwszy obrazek."
   },
   "settings": {
+    "case_sensitive_description": "Niezależnie od tego, czy wyszukiwanie uwzględnia wielkość liter, czy nie.",
+    "case_sensitive_label": "Rozróżnianie wielkości liter",
+    "display_header": "Wyświetlacz",
+    "fuzziness_description": "Jak „niewyraźne” jest wyszukiwanie. Jak daleko wyszukiwanie szuka przybliżonych dopasowań. Ustaw na 0, aby wymagać dokładnych dopasowań.",
+    "fuzziness_label": "Brak wyrazistości",
     "header": "Ustawienia",
+    "min_match_length_description": "Ile znaków musi mieć dopasowanie, aby pojawiło się w wynikach wyszukiwania. (Ignorowane w języku chińskim).",
+    "min_match_length_label": "Minimalna długość dopasowania",
+    "name_weight_description": "Jaka jest waga dopasowań w nazwie odcinka w stosunku do innych pól.",
+    "name_weight_label": "Waga nazwy odcinka",
     "reset": "Przywróć domyślne",
+    "search_header": "Szukaj",
+    "synopsis_weight_description": "Jaka jest waga dopasowań w streszczeniu w stosunku do innych pól.",
+    "synopsis_weight_label": "Waga konspektu",
     "upsize_description": "Jeśli rama jest mniejsza niż dostępna przestrzeń, zostanie powiększona, aby wypełnić przestrzeń. Wyłącz tę opcję, aby pozostawić go z czarnymi ramkami w oryginalnej rozdzielczości. (Jeżeli ramka jest większa niż dostępna przestrzeń, nadal będzie zmniejszona.)",
     "upsize_label": "Zwiększ rozmiar ramki, aby wypełnić przestrzeń"
   },

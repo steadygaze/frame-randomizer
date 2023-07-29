@@ -100,8 +100,20 @@
     "welcome": "Welcome! The first image will load shortly."
   },
   "settings": {
+    "case_sensitive_description": "Whether the search is case sensitive or not.",
+    "case_sensitive_label": "Case sensitivity",
+    "display_header": "Display",
+    "fuzziness_description": "How \"fuzzy\" the search is. How far the search looks for approximate matches. Set to 0 to require exact matches.",
+    "fuzziness_label": "Fuzziness",
     "header": "Settings",
+    "min_match_length_description": "How many characters long a match must be to show up in the search results. (Ignored in Chinese.)",
+    "min_match_length_label": "Minimum match length",
+    "name_weight_description": "How highly matches in the episode name are weighted relative to other fields.",
+    "name_weight_label": "Episode name weight",
     "reset": "Reset to defaults",
+    "search_header": "Search",
+    "synopsis_weight_description": "How highly matches in the synopsis are weighted relative to other fields.",
+    "synopsis_weight_label": "Synopsis weight",
     "upsize_description": "If the frame is smaller than the space available, it will be upsized to fill the space. Disable this to leave it letterboxed at its original resolution. (If the frame is larger than the available space, it will still be downsized.)",
     "upsize_label": "Upsize frame to fill space"
   },

@@ -109,6 +109,7 @@ import LiveStats from "./LiveStats.vue";
 import { useI18n } from "#imports";
 import { useAppStateStore } from "~~/store/appStateStore";
 import { ProcessedEpisodeData, useShowDataStore } from "~~/store/showDataStore";
+import { useSettingsStore } from "~~/store/settingsStore";
 import { floatIntPartPad } from "~~/utils/utils";
 
 const { locale } = useI18n();
@@ -139,34 +140,43 @@ const {
   lastCorrectTimestamp,
   lastGuessTimestamp,
 } = storeToRefs(appStateStore);
+const settingsStore = useSettingsStore();
+const { caseSensitive, fuzziness, minMatchLength, nameWeight, synopsisWeight } =
+  storeToRefs(settingsStore);
+
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
 
 const fuzzySearchMinMatchLength = computed(() =>
-  locale.value === "zh" ? 1 : config.public.fuzzySearchMinMatchLength,
+  locale.value === "zh"
+    ? 1
+    : minMatchLength.value || config.public.fuzzySearchMinMatchLength,
 );
 
-const fuseOptions: FuseOptions<ProcessedEpisodeData> = {
-  ignoreLocation: true,
-  includeMatches: true,
-  includeScore: true,
-  isCaseSensitive: false,
-  minMatchCharLength: fuzzySearchMinMatchLength.value,
-  threshold: config.public.fuzzySearchThreshold,
-};
+const fuseOptions: Ref<FuseOptions<ProcessedEpisodeData>> = computed(() => {
+  return {
+    ignoreLocation: true,
+    includeMatches: true,
+    includeScore: true,
+    isCaseSensitive: caseSensitive.value,
+    minMatchCharLength: fuzzySearchMinMatchLength.value,
+    threshold: fuzziness.value || config.public.fuzzySearchThreshold,
+  };
+});
 
 const fuseSynopsis = computed(
   () =>
     new Fuse(episodeData.value as ProcessedEpisodeData[], {
-      ...fuseOptions,
+      ...fuseOptions.value,
       keys: [
         {
           name: "name",
-          weight: config.public.fuzzySearchWeightName,
+          weight: nameWeight.value || config.public.fuzzySearchWeightName,
         },
         {
           name: "synopsis",
-          weight: config.public.fuzzySearchWeightSynopsis,
+          weight:
+            synopsisWeight.value || config.public.fuzzySearchWeightSynopsis,
         },
       ],
     }),
@@ -175,7 +185,7 @@ const fuseSynopsis = computed(
 const fuseNameOnly = computed(
   () =>
     new Fuse(episodeData.value as ProcessedEpisodeData[], {
-      ...fuseOptions,
+      ...fuseOptions.value,
       keys: ["name"],
     }),
 );

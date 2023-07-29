@@ -100,8 +100,20 @@
     "welcome": "欢迎！第一张截图将很快加载。"
   },
   "settings": {
+    "case_sensitive_description": "搜索是否区分大小写。",
+    "case_sensitive_label": "区分大小写",
+    "display_header": "展示",
+    "fuzziness_description": "搜索有多“模糊”。搜索寻找近似匹配的程度。设置为 0 以要求精确匹配。",
+    "fuzziness_label": "模糊性",
     "header": "设置",
+    "min_match_length_description": "匹配项必须有多少个字符才能显示在搜索结果中。 （中文忽略。）",
+    "min_match_length_label": "最小匹配长度",
+    "name_weight_description": "剧集名称中的匹配度相对于其他字段的加权程度。",
+    "name_weight_label": "剧集名称权重",
     "reset": "重置为默认值",
+    "search_header": "搜索",
+    "synopsis_weight_description": "摘要中的匹配度相对于其他字段的加权程度。",
+    "synopsis_weight_label": "重量简介",
     "upsize_description": "如果框架小于可用空间，则会放大框架以填充空间。禁用此选项可使其保持原始分辨率。 （如果框架大于可用空间，它仍然会缩小。）",
     "upsize_label": "扩大框架以填充空间"
   },

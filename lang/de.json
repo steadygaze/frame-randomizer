@@ -100,8 +100,20 @@
     "welcome": "Willkommen! Das erste Bild wird in Kürze geladen."
   },
   "settings": {
+    "case_sensitive_description": "Ob bei der Suche die Groß-/Kleinschreibung beachtet wird oder nicht.",
+    "case_sensitive_label": "Groß- und Kleinschreibung beachten",
+    "display_header": "Anzeige",
+    "fuzziness_description": "Wie „unscharf“ die Suche ist. Wie weit die Suche nach ungefähren Übereinstimmungen sucht. Auf 0 setzen, um genaue Übereinstimmungen zu erfordern.",
+    "fuzziness_label": "Unschärfe",
     "header": "Einstellungen",
+    "min_match_length_description": "Wie viele Zeichen lang ein Treffer sein muss, damit er in den Suchergebnissen angezeigt wird. (Ignoriert auf Chinesisch.)",
+    "min_match_length_label": "Mindestübereinstimmungslänge",
+    "name_weight_description": "Wie stark Übereinstimmungen im Episodennamen im Vergleich zu anderen Feldern gewichtet werden.",
+    "name_weight_label": "Gewicht des Episodennamens",
     "reset": "Auf Standardeinstellung zurücksetzen",
+    "search_header": "Suchen",
+    "synopsis_weight_description": "Wie stark Übereinstimmungen in der Zusammenfassung im Vergleich zu anderen Feldern gewichtet werden.",
+    "synopsis_weight_label": "Gewicht der Inhaltsangabe",
     "upsize_description": "Wenn der Rahmen kleiner als der verfügbare Platz ist, wird er vergrößert, um den Platz auszufüllen. Deaktivieren Sie diese Option, um die ursprüngliche Auflösung im Letterbox-Format beizubehalten. (Wenn der Rahmen größer als der verfügbare Platz ist, wird er trotzdem verkleinert.)",
     "upsize_label": "Vergrößern Sie den Rahmen, um den Platz auszufüllen"
   },
