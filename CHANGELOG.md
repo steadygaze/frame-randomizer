@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.0.21
+
+[compare changes](https:///frame-randomizer/compare/v0.0.20...v0.1.0)
+
+### 🚀 Enhancements
+
+- Add fuzzy search settings (0da658d)
+- Add original language name search (7c063dc)
+
+### 🩹 Fixes
+
+- Fix possible bug with number display (eb7df35)
+
+### 💅 Refactors
+
+- ⚠️ Rename "default" language to original (34e791d)
+
+### 📦 Build
+
+- Add repo to package.json (6b9e7f9)
+
+### 🏡 Chore
+
+- Upgrade deps (9ed6320)
+
+#### ⚠️ Breaking Changes
+
+- ⚠️ Rename "default" language to original (34e791d)
+
+### ❤️ Contributors
+
+- DayBreakerBrony
+- Steady Gaze
+
 ## v0.0.20
 
 [compare changes](https://undefined/undefined/compare/v0.0.19...v0.0.20)
