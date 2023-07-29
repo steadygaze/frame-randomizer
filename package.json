@@ -4,6 +4,7 @@
   "private": true,
   "license": "AGPL-3.0-or-later",
   "type": "module",
+  "repository": "github:steadygaze/frame-randomizer",
   "scripts": {
     "build": "nuxt build",
     "check": "npm run format && npm run lint && npm run vue-tsc",
