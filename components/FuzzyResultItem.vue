@@ -8,6 +8,21 @@
     >
       {{ part?.part }} </span
     ><br />
+    <span
+      v-if="
+        showOriginalLanguageName &&
+        chunkedOriginalLanguageName &&
+        chunkedOriginalLanguageName.length
+      "
+    >
+      <span
+        v-for="(part, index) in chunkedOriginalLanguageName"
+        :key="index"
+        :class="{ matching: part?.matching, title: true }"
+      >
+        {{ part?.part }} </span
+      ><br
+    /></span>
     <span v-if="showSynopsis">
       <span
         v-for="(part, index) in chunkedSynopsis"
@@ -31,6 +46,7 @@ type FuseResult<T> = Fuse.FuseResult<T>;
 
 const props = defineProps<{
   fuseMatch: FuseResult<ProcessedEpisodeData>;
+  showOriginalLanguageName: boolean;
   showSynopsis: boolean;
   highlight: boolean;
 }>();
@@ -45,10 +61,15 @@ function findAndChunkKeyMatches(key: keyof ProcessedEpisodeData): SearchPart[] {
   const nameMatch = props.fuseMatch.matches?.find((match) => match.key === key);
   return nameMatch
     ? chunkMatchText(nameMatch)
-    : [{ part: props.fuseMatch.item[key] as string, matching: false }];
+    : props.fuseMatch.item[key]
+    ? [{ part: props.fuseMatch.item[key] as string, matching: false }]
+    : [];
 }
 
 const chunkedName = computed(() => findAndChunkKeyMatches("name"));
+const chunkedOriginalLanguageName = computed(() =>
+  findAndChunkKeyMatches("originalName"),
+);
 const chunkedSynopsis = computed(() =>
   props.showSynopsis ? findAndChunkKeyMatches("synopsis") : [],
 );

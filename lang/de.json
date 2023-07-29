@@ -70,6 +70,7 @@
     "save": "Speichern",
     "settings": "Einstellungen",
     "skip": "Überspringen",
+    "use_original_language": "Verwenden Sie den Namen in der Originalsprache",
     "use_synopsis": "Zusammenfassung benutzen"
   },
   "language": {
@@ -110,6 +111,8 @@
     "min_match_length_label": "Mindestübereinstimmungslänge",
     "name_weight_description": "Wie stark Übereinstimmungen im Episodennamen im Vergleich zu anderen Feldern gewichtet werden.",
     "name_weight_label": "Gewicht des Episodennamens",
+    "original_language_weight_description": "Wie stark Übereinstimmungen im Episodennamen in der Originalsprache im Verhältnis zu anderen Feldern gewichtet werden.",
+    "original_language_weight_label": "Gewicht des Episodennamens in der Originalsprache",
     "reset": "Auf Standardeinstellung zurücksetzen",
     "search_header": "Suchen",
     "synopsis_weight_description": "Wie stark Übereinstimmungen in der Zusammenfassung im Vergleich zu anderen Feldern gewichtet werden.",

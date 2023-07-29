@@ -10,6 +10,7 @@ export interface ProcessedEpisodeData {
   episode: number;
   name: string;
   fullName: string;
+  originalName?: string;
   synopsis?: string;
 }
 
@@ -17,6 +18,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
   const { locale } = useI18n();
 
   const showName = ref("");
+  const originalLanguage = ref("");
   const synopsisAvailable = ref(false);
   const episodeData = ref([] as ProcessedEpisodeData[]);
 
@@ -42,6 +44,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
     const data = await languageCache[locale.value];
     if (data) {
       showName.value = data.name;
+      originalLanguage.value = data.originalLanguage;
       synopsisAvailable.value = data.synopsisAvailable;
       episodeData.value = data.episodes.map((ep: ClientEpisodeData) => {
         return {
@@ -54,6 +57,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
 
   return {
     showName,
+    originalLanguage,
     synopsisAvailable,
     episodeData,
     initShowData,

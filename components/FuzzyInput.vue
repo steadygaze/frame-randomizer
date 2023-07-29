@@ -80,6 +80,19 @@
         <input id="synopsisCheckbox" v-model="useSynopsis" type="checkbox" />
         <label for="synopsisCheckbox">{{ $t("input.use_synopsis") }}</label>
       </div>
+      <div
+        v-if="originalLanguage !== locale"
+        id="originalLanguageNameCheckboxContainer"
+      >
+        <input
+          id="originalLanguageNameCheckbox"
+          v-model="useOriginalLanguageName"
+          type="checkbox"
+        />
+        <label for="originalLanguageNameCheckbox">{{
+          $t("input.use_original_language")
+        }}</label>
+      </div>
     </div>
     <ol
       id="resultItemList"
@@ -90,6 +103,7 @@
         v-for="(fuseMatch, index) in searchResults"
         :key="fuseMatch.item.fullName"
         :fuse-match="fuseMatch"
+        :show-original-language-name="useOriginalLanguageName"
         :show-synopsis="useSynopsis"
         :highlight="highlightIndex === index"
         @mousemove="changeHighlightedIndex(index)"
@@ -120,7 +134,8 @@ type FuseOptions<ProcessedEpisodeData> =
 const config = useRuntimeConfig();
 const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
-const { showName, synopsisAvailable, episodeData } = storeToRefs(showDataStore);
+const { showName, originalLanguage, synopsisAvailable, episodeData } =
+  storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
 const { detectBrowser, imageUrl, reset, readout } = appStateStore;
 const {
@@ -141,8 +156,14 @@ const {
   lastGuessTimestamp,
 } = storeToRefs(appStateStore);
 const settingsStore = useSettingsStore();
-const { caseSensitive, fuzziness, minMatchLength, nameWeight, synopsisWeight } =
-  storeToRefs(settingsStore);
+const {
+  caseSensitive,
+  fuzziness,
+  minMatchLength,
+  nameWeight,
+  originalNameWeight,
+  synopsisWeight,
+} = storeToRefs(settingsStore);
 
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -164,35 +185,35 @@ const fuseOptions: Ref<FuseOptions<ProcessedEpisodeData>> = computed(() => {
   };
 });
 
-const fuseSynopsis = computed(
-  () =>
-    new Fuse(episodeData.value as ProcessedEpisodeData[], {
-      ...fuseOptions.value,
-      keys: [
-        {
-          name: "name",
-          weight: nameWeight.value || config.public.fuzzySearchWeightName,
-        },
-        {
-          name: "synopsis",
-          weight:
-            synopsisWeight.value || config.public.fuzzySearchWeightSynopsis,
-        },
-      ],
-    }),
-);
-
-const fuseNameOnly = computed(
-  () =>
-    new Fuse(episodeData.value as ProcessedEpisodeData[], {
-      ...fuseOptions.value,
-      keys: ["name"],
-    }),
-);
+const fuse = computed(() => {
+  const keys = [
+    {
+      name: "name",
+      weight: nameWeight.value || config.public.fuzzySearchWeightName,
+    },
+  ];
+  if (useSynopsis.value && synopsisAvailable.value) {
+    keys.push({
+      name: "synopsis",
+      weight: synopsisWeight.value || config.public.fuzzySearchWeightSynopsis,
+    });
+  }
+  if (useOriginalLanguageName.value) {
+    keys.push({
+      name: "originalName",
+      weight: originalNameWeight.value,
+    });
+  }
+  return new Fuse(episodeData.value as ProcessedEpisodeData[], {
+    ...fuseOptions.value,
+    keys,
+  });
+});
 
 const answerIsLoading = ref(false);
 const highlightIndex = ref(0);
 const searchInput = ref("");
+const useOriginalLanguageName = ref(locale.value !== originalLanguage.value);
 const useSynopsis = ref(true);
 const showAbout = ref(false);
 const showSettings = ref(false);
@@ -202,9 +223,7 @@ const seasonEpisodeInputRe = /^s?(?<season>\d+)[xe](?<episode>\d+)$/i;
 await initShowData();
 
 const searchResults = computed(() => {
-  const fuseResults = (
-    useSynopsis.value && synopsisAvailable.value ? fuseSynopsis : fuseNameOnly
-  ).value.search(searchInput.value);
+  const fuseResults = fuse.value.search(searchInput.value);
   const match = seasonEpisodeInputRe.exec(searchInput.value);
   if (!match || match.length <= 0 || !match.groups) {
     return fuseResults;

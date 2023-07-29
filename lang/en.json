@@ -70,6 +70,7 @@
     "save": "Save",
     "settings": "Settings",
     "skip": "Skip",
+    "use_original_language": "Use original language name",
     "use_synopsis": "Use synopsis"
   },
   "language": {
@@ -110,6 +111,8 @@
     "min_match_length_label": "Minimum match length",
     "name_weight_description": "How highly matches in the episode name are weighted relative to other fields.",
     "name_weight_label": "Episode name weight",
+    "original_language_weight_description": "How highly matches in the original language episode name are weighted relative to other fields.",
+    "original_language_weight_label": "Original language episode name weight",
     "reset": "Reset to defaults",
     "search_header": "Search",
     "synopsis_weight_description": "How highly matches in the synopsis are weighted relative to other fields.",

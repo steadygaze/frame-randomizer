@@ -39,17 +39,19 @@ export interface ClientEpisodeData {
   season: number;
   episode: number;
   name: string;
+  originalName?: string;
   synopsis?: string;
 }
 
 export interface ClientShowData {
   name: string;
+  originalLanguage: string;
   synopsisAvailable: boolean;
   episodes: ClientEpisodeData[];
 }
 
 export interface ShowData {
-  originalLanguage?: string;
+  originalLanguage: string;
   episodes: ServerEpisodeData[];
   clientData: {
     [key: string]: ClientShowData;
@@ -111,7 +113,7 @@ interface PerLanguageName {
 
 interface InputShowData {
   name: { name: string; perLanguage: PerLanguageName[] };
-  originalLanguage?: string;
+  originalLanguage: string;
   episodes: ConfigEpisodeData[];
   // Timings that are the same for every episode (e.g. credits always start at
   // MM:SS, intro is always MM:SS long, etc.).
@@ -363,6 +365,13 @@ export function checkInputShowData(showData: InputShowData) {
   if (languages.size !== languagesList.length) {
     throw new Error("Duplicate input languages " + languagesList);
   }
+  const originalLanguage = showData.originalLanguage;
+  if (!originalLanguage) {
+    throw new Error("originalLanguage is required");
+  }
+  if (!languagesList.includes(originalLanguage)) {
+    throw new Error("data for originalLanguage is required");
+  }
   showData.episodes.forEach((episode) => {
     const episodeLanguagesList = episode.perLanguage.map(
       ({ language }) => language,
@@ -393,15 +402,17 @@ export function checkInputShowData(showData: InputShowData) {
 /**
  * Generate per-language client-side data.
  * @param showData Input show data config.
+ * @param originalLanguage Original language, for the originalLanguage field.
  * @param serverEpisodes Server-side filtered episodes.
  * @returns Per-language data.
  */
 export function extractPerLanguageData(
   showData: InputShowData,
+  originalLanguage: string,
   serverEpisodes?: ServerEpisodeData[],
 ): { [key: string]: ClientShowData } {
   const { name, episodes } = showData;
-  return Object.fromEntries(
+  const perLanguage = Object.fromEntries(
     name.perLanguage.map(({ language, name }) => {
       // Filtering using server episodes, in case there are missing episodes.
       const clientEpisodes = (
@@ -441,6 +452,33 @@ export function extractPerLanguageData(
           name,
           synopsisAvailable,
           episodes: clientEpisodes,
+        },
+      ];
+    }),
+  );
+
+  const originalEpisodes = perLanguage[originalLanguage].episodes;
+  return Object.fromEntries(
+    Object.entries(perLanguage).map(([language, value]) => {
+      return [
+        language,
+        {
+          ...value,
+          episodes:
+            language === originalLanguage
+              ? value.episodes
+              : value.episodes.map((ep) => {
+                  return {
+                    ...ep,
+                    originalName:
+                      originalEpisodes.find(
+                        (oEp) =>
+                          ep.season === oEp.season &&
+                          ep.episode === oEp.episode,
+                      )?.name || "",
+                  };
+                }),
+          originalLanguage,
         },
       ];
     }),
@@ -513,7 +551,11 @@ export async function findFiles(
     )
   ).flat();
 
-  const clientData = extractPerLanguageData(showData, serverEpisodes);
+  const clientData = extractPerLanguageData(
+    showData,
+    originalLanguage,
+    serverEpisodes,
+  );
 
   return {
     originalLanguage,

@@ -9,6 +9,9 @@ export const useSettingsStore = defineStore(
     const fuzziness = ref(config.public.fuzzySearchThreshold);
     const minMatchLength = ref(config.public.fuzzySearchMinMatchLength);
     const nameWeight = ref(config.public.fuzzySearchWeightName);
+    const originalNameWeight = ref(
+      config.public.fuzzySearchWeightOriginalLanguage,
+    );
     const synopsisWeight = ref(config.public.fuzzySearchWeightSynopsis);
     const upsizeToFit = ref(true);
 
@@ -29,6 +32,7 @@ export const useSettingsStore = defineStore(
       fuzziness,
       minMatchLength,
       nameWeight,
+      originalNameWeight,
       synopsisWeight,
       upsizeToFit,
       reset,

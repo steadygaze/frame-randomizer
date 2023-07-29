@@ -124,6 +124,7 @@ describe("generateSkipRanges", () => {
 });
 
 const oneLanguageOneEpisodeInputShowData = {
+  originalLanguage: "en",
   name: {
     name: "Test Show",
     perLanguage: [
@@ -149,6 +150,7 @@ const oneLanguageOneEpisodeInputShowData = {
 };
 
 const languageMismatchInputShowData = {
+  originalLanguage: "en",
   name: {
     name: "Test Show",
     perLanguage: [
@@ -178,6 +180,7 @@ const languageMismatchInputShowData = {
 };
 
 const languageDuplicateInputShowData = {
+  originalLanguage: "en",
   name: {
     name: "Test Show",
     perLanguage: [
@@ -212,6 +215,7 @@ const languageDuplicateInputShowData = {
 };
 
 const oneLanguageTwoEpisodeNoOverviewInputShowData = {
+  originalLanguage: "en",
   name: {
     name: "Test Show",
     perLanguage: [
@@ -246,6 +250,7 @@ const oneLanguageTwoEpisodeNoOverviewInputShowData = {
 };
 
 const oneLanguageSixEpisodeInputShowData = {
+  originalLanguage: "en",
   name: {
     name: "Test Show",
     perLanguage: [
@@ -326,6 +331,7 @@ const oneLanguageSixEpisodeInputShowData = {
 };
 
 const twoLanguageSixEpisodeInputShowData = {
+  originalLanguage: "en",
   name: {
     name: "Test Show",
     perLanguage: [
@@ -455,6 +461,7 @@ describe("checkInputShowData", () => {
   it("should throw an error if there are no languages", () => {
     expect(() =>
       checkInputShowData({
+        originalLanguage: "xn",
         name: { name: "X", perLanguage: [] },
         episodes: oneLanguageSixEpisodeInputShowData.episodes,
       }),
@@ -464,6 +471,7 @@ describe("checkInputShowData", () => {
   it("should throw an error if there are duplicated languages", () => {
     expect(() =>
       checkInputShowData({
+        originalLanguage: "xn",
         name: {
           name: "X",
           perLanguage: [
@@ -491,9 +499,12 @@ describe("checkInputShowData", () => {
 
 describe("extractPerLanguageData", () => {
   it("should be ok on a 1-episode show", () => {
-    expect(extractPerLanguageData(oneLanguageOneEpisodeInputShowData)).toEqual({
+    expect(
+      extractPerLanguageData(oneLanguageOneEpisodeInputShowData, "en"),
+    ).toEqual({
       en: {
         name: "Test Show",
+        originalLanguage: "en",
         synopsisAvailable: true,
         episodes: [
           {
@@ -509,10 +520,14 @@ describe("extractPerLanguageData", () => {
 
   it("should indicate if no synopsis", () => {
     expect(
-      extractPerLanguageData(oneLanguageTwoEpisodeNoOverviewInputShowData),
+      extractPerLanguageData(
+        oneLanguageTwoEpisodeNoOverviewInputShowData,
+        "en",
+      ),
     ).toEqual({
       en: {
         name: "Test Show",
+        originalLanguage: "en",
         synopsisAvailable: false,
         episodes: [
           {
@@ -531,9 +546,12 @@ describe("extractPerLanguageData", () => {
   });
 
   it("should be ok on a 6-episode show", () => {
-    expect(extractPerLanguageData(oneLanguageSixEpisodeInputShowData)).toEqual({
+    expect(
+      extractPerLanguageData(oneLanguageSixEpisodeInputShowData, "en"),
+    ).toEqual({
       en: {
         name: "Test Show",
+        originalLanguage: "en",
         synopsisAvailable: true,
         episodes: [
           {
@@ -579,9 +597,12 @@ describe("extractPerLanguageData", () => {
   });
 
   it("should be ok on a 2-language 6-episode show", () => {
-    expect(extractPerLanguageData(twoLanguageSixEpisodeInputShowData)).toEqual({
+    expect(
+      extractPerLanguageData(twoLanguageSixEpisodeInputShowData, "en"),
+    ).toEqual({
       en: {
         name: "Test Show",
+        originalLanguage: "en",
         synopsisAvailable: true,
         episodes: [
           {
@@ -625,36 +646,42 @@ describe("extractPerLanguageData", () => {
       },
       xn: {
         name: "Xest Xhow",
+        originalLanguage: "en",
         synopsisAvailable: true,
         episodes: [
           {
             season: 1,
             episode: 1,
             name: "Xy Xirst Xpisode",
+            originalName: "My First Episode",
             synopsis: "Xn the first episode, the first episode happens.",
           },
           {
             season: 1,
             episode: 2,
             name: "Xy Xecond Xpisode",
+            originalName: "My Second Episode",
             synopsis: "Xn the second episode, the second episode happens.",
           },
           {
             season: 1,
             episode: 3,
             name: "Xy Xhird Xpisode",
+            originalName: "My Third Episode",
             synopsis: "Xn the third episode, the third episode happens.",
           },
           {
             season: 2,
             episode: 1,
             name: "Xy Xirst Xpisode Xedux",
+            originalName: "My First Episode Redux",
             synopsis: "Xn the first episode, the first episode happens again.",
           },
           {
             season: 2,
             episode: 2,
             name: "Xy Xecond Xpisode Xedux",
+            originalName: "My Second Episode Redux",
             synopsis:
               "Xn the second episode, the second episode happens again.",
           },
@@ -662,6 +689,7 @@ describe("extractPerLanguageData", () => {
             season: 2,
             episode: 3,
             name: "Xy Xhird Xpisode Xedux",
+            originalName: "My Third Episode Redux",
             synopsis: "Xn the third episode, the third episode happens again.",
           },
         ],
@@ -671,7 +699,7 @@ describe("extractPerLanguageData", () => {
 
   it("should reduce down to server-side episodes", () => {
     expect(
-      extractPerLanguageData(twoLanguageSixEpisodeInputShowData, [
+      extractPerLanguageData(twoLanguageSixEpisodeInputShowData, "en", [
         {
           season_number: 2,
           episode_number: 2,
@@ -684,6 +712,7 @@ describe("extractPerLanguageData", () => {
     ).toEqual({
       en: {
         name: "Test Show",
+        originalLanguage: "en",
         synopsisAvailable: true,
         episodes: [
           {
@@ -697,12 +726,14 @@ describe("extractPerLanguageData", () => {
       },
       xn: {
         name: "Xest Xhow",
+        originalLanguage: "en",
         synopsisAvailable: true,
         episodes: [
           {
             season: 2,
             episode: 2,
             name: "Xy Xecond Xpisode Xedux",
+            originalName: "My Second Episode Redux",
             synopsis:
               "Xn the second episode, the second episode happens again.",
           },

@@ -57,6 +57,23 @@
       </span>
       {{ $t("settings.name_weight_description") }}
     </p>
+    <p v-if="locale !== originalLanguage">
+      <span class="flexOptions">
+        <label for="originalNameWeight">{{
+          $t("settings.original_language_weight_label")
+        }}</label>
+        <input
+          id="originalNameWeight"
+          v-model="originalNameWeight"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+        />
+        {{ floatIntPartPad(originalNameWeight, 1, 2) }}
+      </span>
+      {{ $t("settings.original_language_weight_description") }}
+    </p>
     <p>
       <span class="flexOptions">
         <label for="synopsisWeight">{{
@@ -90,12 +107,19 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { useI18n } from "#imports";
+import { floatIntPartPad } from "~~/utils/utils";
+import { useShowDataStore } from "~~/store/showDataStore";
 import { useSettingsStore } from "~/store/settingsStore";
 
 defineProps<{
   show: boolean;
 }>();
 defineEmits<{ (e: "close"): void }>();
+
+const { locale } = useI18n();
+const showDataStore = useShowDataStore();
+const { originalLanguage } = storeToRefs(showDataStore);
 
 const settingsStore = useSettingsStore();
 const { reset } = settingsStore;
@@ -104,6 +128,7 @@ const {
   fuzziness,
   minMatchLength,
   nameWeight,
+  originalNameWeight,
   synopsisWeight,
   upsizeToFit,
 } = storeToRefs(settingsStore);

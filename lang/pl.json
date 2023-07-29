@@ -72,6 +72,7 @@
     "settings": "Ustawienia",
     "skip": "Pomiń",
     "start": "Początek",
+    "use_original_language": "Użyj oryginalnej nazwy języka",
     "use_synopsis": "Używaj opisów"
   },
   "language": {
@@ -112,6 +113,8 @@
     "min_match_length_label": "Minimalna długość dopasowania",
     "name_weight_description": "Jaka jest waga dopasowań w nazwie odcinka w stosunku do innych pól.",
     "name_weight_label": "Waga nazwy odcinka",
+    "original_language_weight_description": "Jaka jest waga dopasowań w nazwie odcinka w oryginalnym języku w stosunku do innych pól.",
+    "original_language_weight_label": "Waga nazwy odcinka w języku oryginalnym",
     "reset": "Przywróć domyślne",
     "search_header": "Szukaj",
     "synopsis_weight_description": "Jaka jest waga dopasowań w streszczeniu w stosunku do innych pól.",

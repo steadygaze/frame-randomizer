@@ -70,6 +70,7 @@
     "save": "Sauvegarder",
     "settings": "Paramètres",
     "skip": "Sauter",
+    "use_original_language": "Utiliser le nom de la langue d'origine",
     "use_synopsis": "Utiliser le synopsis"
   },
   "language": {
@@ -110,6 +111,8 @@
     "min_match_length_label": "Durée minimale de la correspondance",
     "name_weight_description": "Le degré de pondération des correspondances dans le nom de l'épisode par rapport aux autres champs.",
     "name_weight_label": "Poids du nom de l'épisode",
+    "original_language_weight_description": "Dans quelle mesure les correspondances dans le nom de l'épisode dans la langue d'origine sont pondérées par rapport aux autres champs.",
+    "original_language_weight_label": "Poids du nom de l'épisode dans la langue d'origine",
     "reset": "Réinitialiser les paramètres par défaut",
     "search_header": "Recherche",
     "synopsis_weight_description": "Le degré de pondération des correspondances dans le synopsis par rapport aux autres champs.",
