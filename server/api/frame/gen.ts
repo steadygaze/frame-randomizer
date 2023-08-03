@@ -2,6 +2,7 @@ import { getFrameProducerQueue } from "../../load";
 import { StoredAnswer, StoredFileState, StoredRunData } from "~/server/types";
 import logger from "~/server/logger";
 import { cleanupFrame } from "~/server/cleanup";
+import { boolUrlParam, optionsToSeries } from "~/server/utils";
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
@@ -36,13 +37,14 @@ export default defineLazyEventHandler(async () => {
   /**
    * Gets a queued frame from the frame producer queue. This involves retries if
    * there are bad frames.
+   * @param genSeries Type of frame to generate.
    * @returns Frame data.
    */
-  async function getQueuedFrame() {
+  async function getQueuedFrame(genSeries: string) {
     let result = null;
     do {
       try {
-        result = await queue.next();
+        result = await queue.next(genSeries);
       } catch (error) {
         logger.error("Error while reserving pregenerated frame", { error });
         result = null;
@@ -59,9 +61,10 @@ export default defineLazyEventHandler(async () => {
       logger.info("Cleaning up frame on navigation", { id: cleanupid });
       cleanupFrame(String(cleanupid), false);
     }
+    const subtitles = boolUrlParam(query.subtitles);
 
     const startTs = Date.now();
-    const frameData = await getQueuedFrame();
+    const frameData = await getQueuedFrame(optionsToSeries({ subtitles }));
     const assignLatencyMs = Date.now() - startTs;
     logger.info(
       `Request waited ${assignLatencyMs} ms for image generation and callback queue`,

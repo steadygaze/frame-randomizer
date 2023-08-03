@@ -30,6 +30,7 @@ export interface ServerEpisodeData {
   season_number: number;
   episode_number: number;
   filename: string; // Pre shell escaped and quoted.
+  subtitleFilename?: string;
   lengthSec: number;
   genLength: number;
   skipRanges: TimeRange[];
@@ -47,6 +48,7 @@ export interface ClientShowData {
   name: string;
   originalLanguage: string;
   synopsisAvailable: boolean;
+  subtitlesAvailable: boolean;
   episodes: ClientEpisodeData[];
 }
 
@@ -84,6 +86,7 @@ interface JoinedEpisodeData {
   season_number: number;
   episode_number: number;
   filename: string;
+  subtitleFilename?: string;
   timings?: Timings;
 }
 
@@ -104,6 +107,7 @@ interface FileEpisodeData {
   season_number: number;
   episode_number: number;
   filename: string;
+  subtitleFilename?: string;
 }
 
 interface PerLanguageName {
@@ -156,6 +160,9 @@ async function ffprobeLength(
   return length;
 }
 
+const seasonEpisodeSubtitleRegex =
+  /^.*?([sS](eason)?)?(?<season_number>\d+)(.|([eE](pisode)?)?)(?<episode_number>\d+).*?\.srt$/;
+
 /**
  * List video files in the configured search path.
  * @param config Nuxt runtime config.
@@ -176,7 +183,15 @@ export async function lsAllFiles(
       ? `**/*.{${config.videoFileExtension}}`
       : `*.{${config.videoFileExtension}}`,
   );
-  const globbed = await glob(globPattern);
+  const subGlobPattern = path.join(
+    config.subtitleSourceDir,
+    config.searchSubtitleDirRecursively ? `**/*.srt` : `*.srt`,
+  );
+  const [globbed, subGlobbed] = await Promise.all([
+    glob(globPattern),
+    config.subtitleSourceDir ? glob(subGlobPattern) : null,
+  ]);
+
   const fileData: FileEpisodeData[] = [];
   globbed.forEach((filename) => {
     const match = seasonEpisodeRegex.exec(path.basename(filename));
@@ -188,6 +203,30 @@ export async function lsAllFiles(
       });
     }
   });
+
+  if (subGlobbed) {
+    subGlobbed.forEach((filename) => {
+      const match = seasonEpisodeSubtitleRegex.exec(path.basename(filename));
+      if (match && match.length > 0 && match.groups) {
+        const seasonN = parseInt(match.groups.season_number);
+        const episodeN = parseInt(match.groups.episode_number);
+        const file = fileData.find(
+          (file) =>
+            file.season_number === seasonN && file.episode_number === episodeN,
+        );
+        if (file) {
+          file.subtitleFilename = shellescape([filename]);
+        } else {
+          logger.warn("Couldn't match subtitle file to video file", {
+            filename,
+            seasonN,
+            episodeN,
+          });
+        }
+      }
+    });
+  }
+
   return fileData;
 }
 
@@ -403,12 +442,14 @@ export function checkInputShowData(showData: InputShowData) {
  * Generate per-language client-side data.
  * @param showData Input show data config.
  * @param originalLanguage Original language, for the originalLanguage field.
+ * @param subtitlesAvailable Whether subtitles are available.
  * @param serverEpisodes Server-side filtered episodes.
  * @returns Per-language data.
  */
 export function extractPerLanguageData(
   showData: InputShowData,
   originalLanguage: string,
+  subtitlesAvailable: boolean,
   serverEpisodes?: ServerEpisodeData[],
 ): { [key: string]: ClientShowData } {
   const { name, episodes } = showData;
@@ -479,6 +520,7 @@ export function extractPerLanguageData(
                   };
                 }),
           originalLanguage,
+          subtitlesAvailable,
         },
       ];
     }),
@@ -554,6 +596,8 @@ export async function findFiles(
   const clientData = extractPerLanguageData(
     showData,
     originalLanguage,
+    !!config.subtitleSourceDir &&
+      serverEpisodes.some(({ subtitleFilename }) => subtitleFilename),
     serverEpisodes,
   );
 

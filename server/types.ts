@@ -13,6 +13,7 @@ export interface PendingRunState {
 }
 
 export interface StoredFileState {
+  genSeries: string;
   expiryTs: number | null;
 }
 

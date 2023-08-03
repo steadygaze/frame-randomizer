@@ -53,6 +53,14 @@
           :show="showSettings"
           @close="showSettings = false"
         ></SettingsModal>
+        <button @click="showGameMode = !showGameMode">
+          🎮 {{ $t("input.game_mode") }}
+        </button>
+        <GameModeModal
+          :show="showGameMode"
+          :subtitles-available="subtitlesAvailable"
+          @close="showGameMode = false"
+        ></GameModeModal>
       </div>
     </div>
     <LiveStats></LiveStats>
@@ -122,6 +130,7 @@ import { useFetch, useRuntimeConfig } from "#app";
 import LiveStats from "./LiveStats.vue";
 import { useI18n } from "#imports";
 import { useAppStateStore } from "~~/store/appStateStore";
+import { useGameModeStore } from "~~/store/gameModeStore";
 import { ProcessedEpisodeData, useShowDataStore } from "~~/store/showDataStore";
 import { useSettingsStore } from "~~/store/settingsStore";
 import { floatIntPartPad } from "~~/utils/utils";
@@ -134,8 +143,13 @@ type FuseOptions<ProcessedEpisodeData> =
 const config = useRuntimeConfig();
 const showDataStore = useShowDataStore();
 const { initShowData } = showDataStore;
-const { showName, originalLanguage, synopsisAvailable, episodeData } =
-  storeToRefs(showDataStore);
+const {
+  showName,
+  originalLanguage,
+  synopsisAvailable,
+  subtitlesAvailable,
+  episodeData,
+} = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
 const { detectBrowser, imageUrl, reset, readout } = appStateStore;
 const {
@@ -164,6 +178,9 @@ const {
   originalNameWeight,
   synopsisWeight,
 } = storeToRefs(settingsStore);
+
+const gameModeStore = useGameModeStore();
+const { subtitlesOn } = storeToRefs(gameModeStore);
 
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -216,6 +233,7 @@ const searchInput = ref("");
 const useOriginalLanguageName = ref(locale.value !== originalLanguage.value);
 const useSynopsis = ref(true);
 const showAbout = ref(false);
+const showGameMode = ref(false);
 const showSettings = ref(false);
 
 const seasonEpisodeInputRe = /^s?(?<season>\d+)[xe](?<episode>\d+)$/i;
@@ -278,6 +296,7 @@ async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
       query: {
         cleanupid: browser.value?.name === "firefox" ? null : frameId.value,
         runId: runId.value,
+        subtitles: subtitlesOn.value,
       },
     }));
   runReadyState.value = false;

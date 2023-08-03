@@ -82,3 +82,26 @@ export function appDataPath(...subpaths: string[]) {
   }
   return path.join(".", "frame-randomizer", ...subpaths);
 }
+
+/**
+ * Converts a URL param to a boolean.
+ * @param value URL param value.
+ * @returns Value converted to boolean.
+ */
+export function boolUrlParam(value: any): boolean {
+  return value && value !== "false" && value !== "0";
+}
+
+export type SeriesOptions = {
+  subtitles: boolean;
+};
+
+/**
+ * Converts a series of options to a "series name", a unique string descriptor
+ * used to fetch the result.
+ * @param options Options describing the series.
+ * @returns Series name.
+ */
+export function optionsToSeries(options: SeriesOptions): string {
+  return options.subtitles ? "frameWithSubtitles" : "frame";
+}

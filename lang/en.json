@@ -55,12 +55,18 @@
       "tmdb_page": "TMDB page."
     }
   },
+  "game_mode": {
+    "header": "Game Mode",
+    "subtitles_description": "Show subtitles, if there is any dialog in the current frame. Original language only.",
+    "subtitles_label": "Subtitles"
+  },
   "head": {
     "description": "Generate a random frame from {show}, and guess what episode it's from.",
     "title": "{instance}: {show} frame randomizer"
   },
   "input": {
     "about": "About",
+    "game_mode": "Game Mode",
     "new_frame": "New Frame",
     "placeholder": {
       "fuzzy": "Fuzzy search ({characters}+ characters) or sXXeXX...",

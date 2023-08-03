@@ -23,7 +23,7 @@ const exec = promisify(execAsync);
  * @param runtimeConfig Runtime config options.
  * @returns Episode data list, with an entry for each episode.
  */
-async function getShowdataUncached(
+async function getShowDataUncached(
   runtimeConfig: ReturnType<typeof useRuntimeConfig>,
 ): Promise<ShowData> {
   const start = Date.now();
@@ -51,7 +51,7 @@ async function getShowdataUncached(
   return showData;
 }
 
-const getShowData = once(getShowdataUncached);
+const getShowData = once(getShowDataUncached);
 
 /**
  * Generates a random time in an episode in seconds, considering skip ranges.
@@ -81,18 +81,22 @@ interface RandomEpisode {
  * @param config Nuxt runtime config.
  * @param chooseFrame Function to call to try another frame.
  * @param outputPath Path to output the image to (including file extension).
+ * @param subtitles Whether to burn subtitles into the image.
  * @returns Promise to await on completion.
  */
 async function ffmpegFrame(
   config: ReturnType<typeof useRuntimeConfig>,
   chooseFrame: () => RandomEpisode,
   outputPath: string,
+  subtitles: boolean,
 ): Promise<RandomEpisode> {
   const ffmpeg = config.ffmpegPath;
   const identify = config.imageMagickIdentifyPath;
   const inject = config.ffmpegImageCommandInject;
   const maxRejects = config.frameGenMaxAttempts;
   const requiredStddev = config.frameRequiredStandardDeviation;
+  const fontName = config.subtitleFontName;
+  const fontSize = config.subtitleFontSize;
 
   const start = Date.now();
   let rejected = -1;
@@ -100,11 +104,14 @@ async function ffmpegFrame(
   do {
     ++rejected;
     random = chooseFrame();
-    await exec(
-      `${ffmpeg} -ss ${random.seekTime} -i ${
-        random.episode.filename
-      } -frames:v 1 -update true ${inject || ""} -y ${outputPath}`,
-    );
+    const command =
+      subtitles && random.episode.subtitleFilename
+        ? `${ffmpeg} -ss ${random.seekTime} -copyts -i ${random.episode.filename} -frames:v 1 -filter_complex "subtitles=filename=${random.episode.subtitleFilename}:force_style='Fontname=${fontName},Fontsize=${fontSize}'" -update true -y ${outputPath}`
+        : `${ffmpeg} -ss ${random.seekTime} -i ${
+            random.episode.filename
+          } -frames:v 1 -update true ${inject || ""} -y ${outputPath}`;
+    logger.verbose("Executing ffmpeg command", { command });
+    await exec(command);
   } while (
     /* eslint-disable-next-line no-unmodified-loop-condition -- Other conditions modified. */
     requiredStddev > 0 &&
@@ -140,58 +147,61 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
 
   const recovered = (
     await Promise.all(
-      ids.map(async (id) => {
+      ids.map(async (frameId) => {
         const [fileData, answerData] = await Promise.all([
-          frameStorage.getItem<StoredFileState>(id),
-          answerStorage.getItem<StoredAnswer>(id),
+          frameStorage.getItem<StoredFileState>(frameId),
+          answerStorage.getItem<StoredAnswer>(frameId),
         ]);
-        if (fileData && !answerData) {
+        if (!fileData) {
+          // This shouldn't actually happen because we're querying by the keys
+          // we just listed, but we handle it anyway.
+          if (answerData) {
+            if (!answerData.expiryTs) {
+              ++unservedAnswer;
+              // Answer is supposedly for an unserved frame, but there is no frame
+              // data. Delete this inconsistent data.
+              answerStorage.removeItem(frameId);
+            } else {
+              ++cleanedFileAnswer;
+            }
+            // Otherwise, file may be cleaned up but there may be a pending answer;
+            // don't delete the answer.
+            return null;
+          }
+          // No file data nor answer data? No problem!
+          return null;
+        }
+
+        if (!answerData) {
           ++noAnswer;
           // Answer lost, so even if we have the file, it's unusable.
-          frameStorage.removeItem(id);
+          frameStorage.removeItem(frameId);
           // Don't care if this fails with ENOENT.
-          fs.rm(imagePathForId(config, id)).catch();
-          return "";
+          fs.rm(imagePathForId(config, frameId)).catch();
+          return null;
         }
-        if (!fileData && answerData) {
-          if (!answerData.expiryTs) {
-            ++unservedAnswer;
-            // Answer is supposedly for an unserved frame, but there is no frame
-            // data. Delete this inconsistent data.
-            answerStorage.removeItem(id);
-          } else {
-            ++cleanedFileAnswer;
-          }
-          // Otherwise, file may be cleaned up but there may be a pending answer;
-          // don't delete the answer.
-          return "";
-        }
-        if (fileData && fileData.expiryTs) {
+        if (fileData.expiryTs) {
           ++servedFile;
           // Already served image.
-          return "";
+          return null;
         }
         try {
-          await fs.stat(imagePathForId(config, id));
+          await fs.stat(imagePathForId(config, frameId));
           ++recoveredCount;
-          return id;
+          return { genSeries: fileData.genSeries, frameId };
         } catch (e) {
           ++missingFile;
           // Probably ENOENT, or the image file is otherwise inaccessible.
           // No need to await.
-          frameStorage.removeItem(id);
+          frameStorage.removeItem(frameId);
           if (!answerData || !answerData.expiryTs) {
-            answerStorage.removeItem(id);
+            answerStorage.removeItem(frameId);
           }
-          return "";
+          return null;
         }
       }),
     )
-  )
-    .filter((id) => id)
-    .map((frameId) => {
-      return { frameId };
-    });
+  ).filter((e) => e && e.frameId) as [{ genSeries: string; frameId: string }];
 
   return {
     recovered,
@@ -207,6 +217,26 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
 }
 
 /**
+ * Sorts recovered frames into separate lists by series.
+ * @param arr Recovered frames to sort.
+ * @returns Frames sorted by series.
+ */
+function sortBySeries(arr: [{ genSeries: string; frameId: string }]): {
+  [key: string]: [{ frameId: string }];
+} {
+  const result: ReturnType<typeof sortBySeries> = {};
+  arr.forEach(({ genSeries, frameId }) => {
+    genSeries = genSeries || "frame";
+    if (genSeries in result) {
+      result[genSeries].push({ frameId });
+    } else {
+      result[genSeries] = [{ frameId }];
+    }
+  });
+  return result;
+}
+
+/**
  * Gets a frame producer queue, which manages generating new frames, returning
  * pregenerated frames, etc.
  * @param config Runtime config options.
@@ -216,6 +246,7 @@ async function getFrameProducerQueueUncached(
   config: ReturnType<typeof useRuntimeConfig>,
 ): Promise<ProducerQueue<{ frameId: string }>> {
   const { episodes } = await getShowData(config);
+
   const answerStorage = useStorage("answer");
   const frameStateStorage = useStorage("frameState");
 
@@ -234,9 +265,10 @@ async function getFrameProducerQueueUncached(
    *
    * This includes generating the frame, and storing the "answer" (what episode
    * the frame is from) in storage.
+   * @param subtitles Whether to burn in subtitles.
    * @returns ID of the image generated.
    */
-  async function generateFrame() {
+  async function generateFrame(subtitles: boolean) {
     const frameId = myUuid(config);
     const imagePath = imagePathForId(config, frameId);
 
@@ -248,6 +280,7 @@ async function getFrameProducerQueueUncached(
       config,
       chooseRandomFrame,
       imagePath,
+      subtitles,
     );
 
     await Promise.all([
@@ -270,16 +303,38 @@ async function getFrameProducerQueueUncached(
   }
 
   const { recovered, stats } = await recoverFrames(config);
+  const recoveredBySeries = sortBySeries(recovered);
   logger.info(
     `Recovered ${recovered.length} unserved frames from previous runs`,
-    stats,
+    {
+      stats,
+      series: Object.fromEntries(
+        Object.entries(recoveredBySeries).map(([series, recovered]) => [
+          series,
+          recovered.length,
+        ]),
+      ),
+    },
   );
 
-  return new ProducerQueue(generateFrame, recovered, {
-    length: config.framePregenCount,
-    maxPending: config.frameGenMaxParallelism,
-    maxRetries: config.frameGenMaxAttempts,
-  });
+  return new ProducerQueue<{ frameId: string }>(
+    {
+      frame: {
+        produceFn: () => generateFrame(false),
+        preproduced: recoveredBySeries.frame || [],
+      },
+      frameWithSubtitles: {
+        produceFn: () => generateFrame(true),
+        preproduced: recoveredBySeries.frameWithSubtitles || [],
+      },
+    },
+    {
+      length: config.framePregenCount,
+      maxPending: config.frameGenMaxParallelism,
+      maxRetries: config.frameGenMaxAttempts,
+      queueExhaustionQueueCount: config.queueExhaustionQueueCount,
+    },
+  );
 }
 
 const getFrameProducerQueue = once(getFrameProducerQueueUncached);

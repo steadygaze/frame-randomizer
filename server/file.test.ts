@@ -500,12 +500,13 @@ describe("checkInputShowData", () => {
 describe("extractPerLanguageData", () => {
   it("should be ok on a 1-episode show", () => {
     expect(
-      extractPerLanguageData(oneLanguageOneEpisodeInputShowData, "en"),
+      extractPerLanguageData(oneLanguageOneEpisodeInputShowData, "en", false),
     ).toEqual({
       en: {
         name: "Test Show",
         originalLanguage: "en",
         synopsisAvailable: true,
+        subtitlesAvailable: false,
         episodes: [
           {
             season: 1,
@@ -523,12 +524,14 @@ describe("extractPerLanguageData", () => {
       extractPerLanguageData(
         oneLanguageTwoEpisodeNoOverviewInputShowData,
         "en",
+        false,
       ),
     ).toEqual({
       en: {
         name: "Test Show",
         originalLanguage: "en",
         synopsisAvailable: false,
+        subtitlesAvailable: false,
         episodes: [
           {
             season: 1,
@@ -547,12 +550,13 @@ describe("extractPerLanguageData", () => {
 
   it("should be ok on a 6-episode show", () => {
     expect(
-      extractPerLanguageData(oneLanguageSixEpisodeInputShowData, "en"),
+      extractPerLanguageData(oneLanguageSixEpisodeInputShowData, "en", false),
     ).toEqual({
       en: {
         name: "Test Show",
         originalLanguage: "en",
         synopsisAvailable: true,
+        subtitlesAvailable: false,
         episodes: [
           {
             season: 1,
@@ -598,12 +602,13 @@ describe("extractPerLanguageData", () => {
 
   it("should be ok on a 2-language 6-episode show", () => {
     expect(
-      extractPerLanguageData(twoLanguageSixEpisodeInputShowData, "en"),
+      extractPerLanguageData(twoLanguageSixEpisodeInputShowData, "en", false),
     ).toEqual({
       en: {
         name: "Test Show",
         originalLanguage: "en",
         synopsisAvailable: true,
+        subtitlesAvailable: false,
         episodes: [
           {
             season: 1,
@@ -648,6 +653,7 @@ describe("extractPerLanguageData", () => {
         name: "Xest Xhow",
         originalLanguage: "en",
         synopsisAvailable: true,
+        subtitlesAvailable: false,
         episodes: [
           {
             season: 1,
@@ -699,7 +705,7 @@ describe("extractPerLanguageData", () => {
 
   it("should reduce down to server-side episodes", () => {
     expect(
-      extractPerLanguageData(twoLanguageSixEpisodeInputShowData, "en", [
+      extractPerLanguageData(twoLanguageSixEpisodeInputShowData, "en", false, [
         {
           season_number: 2,
           episode_number: 2,
@@ -714,6 +720,7 @@ describe("extractPerLanguageData", () => {
         name: "Test Show",
         originalLanguage: "en",
         synopsisAvailable: true,
+        subtitlesAvailable: false,
         episodes: [
           {
             season: 2,
@@ -728,6 +735,7 @@ describe("extractPerLanguageData", () => {
         name: "Xest Xhow",
         originalLanguage: "en",
         synopsisAvailable: true,
+        subtitlesAvailable: false,
         episodes: [
           {
             season: 2,

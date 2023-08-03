@@ -211,7 +211,7 @@ export default defineNuxtConfig({
     frameGenMaxParallelism: 3,
     // Where generated images will be outputted to and served from. Apparently
     // orphaned images will be cleaned out of this directory, so don't point it
-    // to somewhere that has important data!
+    // to somewhere that has existing data!
     frameOutputDir: "./frame-randomizer/frames",
     // Number of images to pregenerate. These will be ready for serving right
     // away, and will be replaced as soon as they're served.
@@ -290,16 +290,28 @@ export default defineNuxtConfig({
       // If attributing TMDB and this is given, also link the TMDB page.
       tmdbTvShowId: undefined,
     },
+    // If a particular combination hasn't been queued, how many to queue at
+    // once.
+    queueExhaustionQueueCount: 3,
     // How long until unimportant runs are deleted.
     runExpiryMs: 1 * 60 * 60 * 1000, // 1 hour.
     // How many entries a run must have to be considered important.
     runRetentionThreshold: 100,
+    // Whether to search subdirectories of subtitleSourceDir recursively.
+    // Directory path is not considered when matching files with the right
+    // episode, only filename.
+    searchSubtitleDirRecursively: true,
     // Whether to search subdirectories of videoSourceDir. Directory path is not
     // considered when matching files with the right episode, only filename.
     searchVideoDirRecursively: true,
     // Required. Where the show data is. See README.md and server/load.ts for
     // more info.
     showDataPath: undefined,
+    subtitleFontName: "Impact",
+    subtitleFontSize: 32,
+    // Where the subtitles can be found. Files should include the season and
+    // episode numbers in SxxExx or xx,xx format or similar.
+    subtitleSourceDir: undefined,
     // Whether the ffprobe FS cache will be used. If video files at the same
     // paths aren't expected to change (as in most use cases), this can remain
     // true for faster server restarts. Note that if this is false, the cache

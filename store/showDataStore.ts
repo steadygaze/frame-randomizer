@@ -20,6 +20,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
   const showName = ref("");
   const originalLanguage = ref("");
   const synopsisAvailable = ref(false);
+  const subtitlesAvailable = ref(false);
   const episodeData = ref([] as ProcessedEpisodeData[]);
 
   const languageCache: { [key: string]: Promise<ClientShowData> } = {};
@@ -46,6 +47,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
       showName.value = data.name;
       originalLanguage.value = data.originalLanguage;
       synopsisAvailable.value = data.synopsisAvailable;
+      subtitlesAvailable.value = data.subtitlesAvailable;
       episodeData.value = data.episodes.map((ep: ClientEpisodeData) => {
         return {
           ...ep,
@@ -59,6 +61,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
     showName,
     originalLanguage,
     synopsisAvailable,
+    subtitlesAvailable,
     episodeData,
     initShowData,
   };

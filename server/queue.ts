@@ -6,31 +6,57 @@ export interface ProducerQueueOptions {
   length: number;
   maxPending: number;
   maxRetries: number;
+  // How many items to queue manually when exhausted.
+  queueExhaustionQueueCount: number;
+}
+
+export interface PerKindOptions<Type> {
+  produceFn: () => Promise<Type>;
+  preproduced: Array<Type>;
+}
+
+export interface ProducerFnData<Type> {
+  produceFn: () => Promise<Type>;
+  trafficCounter: number;
+  queue: Array<Promise<Type>>;
 }
 
 export class ProducerQueue<Type> {
-  maxPending: number;
-  maxRetries: number;
+  options: ProducerQueueOptions;
   pendingCount: number;
-  produceFn: () => Promise<Type>;
-  queue: Array<Promise<Type>>;
-  preproduced: Array<Type>;
+  byKindData: Record<string, ProducerFnData<Type>>;
   limit: LimitFunction;
+  trafficSum: number;
+  queueSum: number;
 
   constructor(
-    produceFn: () => Promise<Type>,
-    preproduced: Array<Type>,
-    { length, maxPending, maxRetries }: ProducerQueueOptions,
+    produceFns: Record<string, PerKindOptions<Type>>,
+    options: ProducerQueueOptions,
   ) {
-    this.maxPending = maxPending;
-    this.maxRetries = maxRetries;
-    this.pendingCount = 0;
-    this.produceFn = produceFn;
-    this.preproduced = preproduced;
-    this.queue = [];
+    if (!Object.keys(produceFns).length) {
+      throw new Error("At least one kind to produce is required");
+    }
 
-    this.limit = pLimit(this.maxPending);
-    for (let i = 0; i < length; ++i) {
+    this.options = options;
+    this.pendingCount = 0;
+    this.byKindData = Object.fromEntries(
+      Object.entries(produceFns).map(([kind, { produceFn, preproduced }]) => [
+        kind,
+        {
+          produceFn,
+          trafficCounter: 0,
+          queue: preproduced.map((e) => Promise.resolve(e)),
+        },
+      ]),
+    );
+    this.trafficSum = 0;
+    this.queueSum = Array.from(
+      Object.values(this.byKindData),
+      ({ queue }) => queue.length,
+    ).reduce((prev, cur) => prev + cur);
+
+    this.limit = pLimit(options.maxPending);
+    for (let i = 0; i < options.length - this.queueSum; ++i) {
       this.enqueueJob();
     }
 
@@ -41,23 +67,77 @@ export class ProducerQueue<Type> {
           `Jobs queueing due to job limit: ${pendingCount} queued, ${this.limit.activeCount} active`,
         );
       }
+
+      if (this.queueSum < options.length) {
+        const n = options.length - this.queueSum;
+        logger.info("Queue total under threshold; requeueing", {
+          n,
+          currentSize: this.queueSum,
+          targetSize: options.length,
+        });
+
+        for (let i = 0; i < n; ++i) {
+          this.enqueueJob();
+        }
+      }
     }, 10000);
+
+    this.logQueueStatus();
+    setInterval(() => this.logQueueStatus(), 300000);
   }
 
-  enqueueJob() {
-    const popped = this.preproduced.pop();
-    if (popped) {
-      this.queue.push(Promise.resolve(popped));
-      return;
+  logQueueStatus(): void {
+    logger.info("Queue status", {
+      trafficSum: this.trafficSum,
+      queueSum: this.queueSum,
+      byKindData: Object.fromEntries(
+        Object.entries(this.byKindData).map(
+          ([kind, { trafficCounter, queue }]) => [
+            kind,
+            { trafficCounter, queueLength: queue.length },
+          ],
+        ),
+      ),
+      jobs: {
+        activeCount: this.limit.activeCount,
+        pendingCount: this.limit.pendingCount,
+      },
+    });
+  }
+
+  /**
+   * Decide what kind of item to generate next. Do this by comparing how many
+   * items are produced versus the ideal ratio based on traffic.
+   * @returns Kind to produce.
+   */
+  decideKind(): string {
+    return Object.entries(this.byKindData)
+      .map(([kind, kindData]) => {
+        const queueRatio = kindData.queue.length / this.queueSum;
+        const trafficRatio = kindData.trafficCounter / this.trafficSum;
+        return { kind, productionRatio: queueRatio - trafficRatio };
+      })
+      .reduce((previous, current) =>
+        current.productionRatio < previous.productionRatio ? current : previous,
+      ).kind;
+  }
+
+  enqueueKind(kind: string) {
+    logger.verbose("Generating kind", { kind });
+    const kindData = this.byKindData[kind];
+    if (!kindData) {
+      logger.error("kind is not a valid produced kind", { kind });
+      throw new Error("kindData not found: " + kind);
     }
-    // Call this.produceFn, but retry on failure.
+
+    // Call this.produceFns, but retry on failure.
     let retries = 0;
     const reProduce: () => Promise<Type> = () => {
-      return this.produceFn().catch((error) => {
-        logger.error(`Frame generation error`, { error, retries });
-        if (retries >= this.maxRetries) {
+      return kindData.produceFn().catch((error) => {
+        logger.error(`Production error`, { kind, error, retries });
+        if (retries >= this.options.maxRetries) {
           logger.error(
-            "Frame generation is failing consistently; this should never happen",
+            "Production is failing consistently; this should never happen",
           );
           throw error;
         }
@@ -65,11 +145,38 @@ export class ProducerQueue<Type> {
         return reProduce();
       });
     };
-    this.queue.push(this.limit(reProduce));
+    ++this.queueSum;
+    kindData.queue.push(this.limit(reProduce));
   }
 
-  next(): Promise<Type> {
+  enqueueJob() {
+    this.enqueueKind(this.decideKind());
+  }
+
+  next(kind: string): Promise<Type> {
+    const kindData = this.byKindData[kind];
+    if (!kindData) {
+      logger.error("kind is not a valid produced kind", { kind });
+      throw new Error("kindData not found: " + kind);
+    }
+    ++kindData.trafficCounter;
+    ++this.trafficSum;
+
     this.enqueueJob();
-    return this.queue.shift()!;
+
+    const initialResult = kindData.queue.shift();
+
+    if (!kindData.queue.length) {
+      logger.warn("Queue exhaustion for kind; manually enqueueing", {
+        kind,
+        n: this.options.queueExhaustionQueueCount,
+      });
+      for (let i = 0; i < this.options.queueExhaustionQueueCount; ++i) {
+        this.enqueueKind(kind);
+      }
+    }
+    --this.queueSum;
+
+    return initialResult || kindData.queue.shift()!;
   }
 }
