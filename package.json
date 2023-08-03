@@ -70,7 +70,8 @@
     "pinia": "^2.1.6",
     "shell-escape": "^0.2.0",
     "uuid": "^9.0.0",
-    "winston": "^3.10.0"
+    "winston": "^3.10.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "config": {
     "commitizen": {

@@ -1,7 +1,10 @@
 import { inspect } from "util";
 import { createLogger, format, transports } from "winston";
 import chalk from "chalk";
-const { colorize, combine, timestamp, printf } = format;
+import DailyRotateFile from "winston-daily-rotate-file";
+import { appDataPath } from "./utils";
+
+const { colorize, combine, json, timestamp, printf } = format;
 
 /**
  * Generates a concise representation of an object.
@@ -26,7 +29,8 @@ const myFormat = printf(({ level, message, timestamp, ...data }) => {
   )}${formattedData === "{  }" ? "" : " " + chalk.gray(formattedData)}`;
 });
 
-export default createLogger({
+const console = new transports.Console({
+  level: process.env.FR_CONSOLE_LOG_LEVEL || "info",
   format: combine(
     colorize(),
     timestamp({
@@ -36,5 +40,30 @@ export default createLogger({
     }),
     myFormat,
   ),
-  transports: [new transports.Console()],
+});
+
+const file = new DailyRotateFile({
+  auditFile: appDataPath("log-audit-info.json"),
+  level: "info",
+  filename: appDataPath("pf-%DATE%.log"),
+  datePattern: "YYYY-MM-DD-HH",
+  zippedArchive: true,
+  maxSize: "500m",
+  maxFiles: "14d",
+  format: json(),
+});
+
+const fileWarn = new DailyRotateFile({
+  auditFile: appDataPath("log-audit-error.json"),
+  level: "warn",
+  filename: appDataPath("pf-warn-%DATE%.log"),
+  datePattern: "YYYY-MM-DD-HH",
+  zippedArchive: true,
+  maxSize: "500m",
+  maxFiles: "14d",
+  format: json(),
+});
+
+export default createLogger({
+  transports: [file, fileWarn, console],
 });
