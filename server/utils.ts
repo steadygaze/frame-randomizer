@@ -1,3 +1,4 @@
+import path from "node:path";
 import { v5 as uuidv5 } from "uuid";
 import difference from "lodash.difference";
 
@@ -68,4 +69,16 @@ export function checkKeys(keys: string[], obj: any): void {
       `Missing required config options: ${missingKeys.join(", ")}`,
     );
   }
+}
+
+/**
+ * Returns a base path within the directory.
+ * @param subpaths Path fragments to forward to path.join.
+ * @returns The specific path within the base directory.
+ */
+export function appDataPath(...subpaths: string[]) {
+  if (process.env.FR_APP_DATA_DIR) {
+    return path.join(process.env.FR_APP_DATA_DIR, ...subpaths);
+  }
+  return path.join(".", "frame-randomizer", ...subpaths);
 }

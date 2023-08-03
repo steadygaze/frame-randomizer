@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from "nuxt/config";
 import GraphemeSplitter from "grapheme-splitter";
+import { appDataPath } from "./server/utils";
 
 const splitter = new GraphemeSplitter();
 
@@ -108,34 +109,27 @@ export default defineNuxtConfig({
 
     storage: {
       answer: {
-        base: process.env.FR_ANSWER_DIR || "./frame-randomizer/answer",
+        base: appDataPath("answer"),
         driver: "fs",
       },
 
       archivedRun: {
-        base:
-          process.env.FR_RUN_VERIFICATION_STATE_DIR ||
-          "./frame-randomizer/archived-run",
+        base: appDataPath("archived-run"),
         driver: "fs",
       },
 
       ffprobeCache: {
-        base:
-          process.env.FR_FFPROBE_CACHE_DIR ||
-          "./frame-randomizer/ffprobe-cache",
+        base: appDataPath("ffprobe-cache"),
         driver: "fs",
       },
 
       frameState: {
-        base:
-          process.env.FR_FRAME_STATE_DIR || "./frame-randomizer/frame-state",
+        base: appDataPath("frame-state"),
         driver: "fs",
       },
 
       runState: {
-        base:
-          process.env.FR_RUN_VERIFICATION_STATE_DIR ||
-          "./frame-randomizer/run-state",
+        base: appDataPath("run-state"),
         driver: "fs",
       },
     },
