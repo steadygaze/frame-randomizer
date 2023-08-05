@@ -21,7 +21,7 @@ export default defineEventHandler((event) => {
     traversingPathRe.test(basename) ||
     !basename.endsWith(`.${config.public.imageOutputExtension}`)
   ) {
-    // Prevent path traversal security vulnerability, or attempt to acces other
+    // Prevent path traversal security vulnerability, or attempt to access other
     // file extensions.
     throw createError({ statusCode: 400 });
   }
@@ -59,7 +59,7 @@ export default defineEventHandler((event) => {
         } else if (runState.pending.id !== id) {
           runState.errors.push({
             type: "pending_mismatch_on_load",
-            description: "Answer given for the wrong frame (ids mismatched)",
+            description: "Attempted to load the wrong frame (unexpected path)",
             ts: now,
             mismatched: runState.pending,
             attemptedId: id,
