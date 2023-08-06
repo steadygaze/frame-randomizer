@@ -4,6 +4,7 @@ import { logger } from "./logger";
 
 export interface ProducerQueueOptions {
   length: number;
+  perKindMinimum: number;
   maxPending: number;
   maxRetries: number;
   // How many items to queue manually when exhausted.
@@ -68,9 +69,25 @@ export class ProducerQueue<Type> {
         );
       }
 
+      // Per-kind top up. It's important this happens before the general top-up.
+      for (const [kind, kindData] of Object.entries(this.byKindData)) {
+        const queueLength = kindData.queue.length;
+        const minimum = this.options.perKindMinimum;
+        if (kindData.queue.length < this.options.perKindMinimum) {
+          logger.info(`Topping up kind queue "${kind}" due to minimum`, {
+            kind,
+            queueLength,
+            minimum,
+          });
+          for (let i = 0; i < minimum - queueLength; ++i) {
+            this.enqueueKind(kind);
+          }
+        }
+      }
+
       if (this.queueSum < options.length) {
         const n = options.length - this.queueSum;
-        logger.info("Queue total under threshold; requeueing", {
+        logger.info("Queue total under threshold; topping up", {
           n,
           currentSize: this.queueSum,
           targetSize: options.length,
