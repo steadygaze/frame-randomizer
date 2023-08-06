@@ -13,6 +13,7 @@ import {
   lsAllFiles,
   offsetTimeBySkipRanges,
   randomTimeRangeInEpisode,
+  resourcePathForId,
 } from "./file";
 import { myUuid } from "./utils";
 import { logger } from "./logger";
@@ -215,13 +216,9 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
           return null;
         }
         try {
-          await fs.stat(
-            fileData.kind.startsWith("audio")
-              ? audioPathForId(config, id)
-              : imagePathForId(config, id),
-          );
+          await fs.stat(resourcePathForId(config, id, fileData));
           ++recoveredCount;
-          return { kind: fileData.kind, id: id };
+          return { kind: fileData.kind, id };
         } catch (e) {
           ++missingFile;
           // Probably ENOENT, or the image file is otherwise inaccessible.
@@ -356,7 +353,6 @@ async function getFrameProducerQueueUncached(
     const audioId = myUuid(config);
     const audioPath = audioPathForId(config, audioId);
 
-    logger.error(`audio${length}s`);
     const storeAudioIdP = frameStateStorage.setItem<StoredFileState>(audioId, {
       kind: `audio${length}s`,
       expiryTs: null,

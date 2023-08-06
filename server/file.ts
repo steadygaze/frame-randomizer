@@ -8,6 +8,7 @@ import pLimit from "p-limit";
 import { seasonEpisodeTag } from "../utils/utils";
 import { timecodeToSec } from "./utils";
 import { logger } from "./logger";
+import { StoredFileState } from "./types";
 
 const exec = promisify(execAsync);
 
@@ -757,4 +758,21 @@ export function audioPathForId(
     config.frameOutputDir,
     `${id}.${config.public.audioOutputExtension}`,
   );
+}
+
+/**
+ * Gets the file path for a resource, handling all kinds.
+ * @param config Nuxt runtime config.
+ * @param id Resource ID.
+ * @param fileState File state object.
+ * @returns Expected resource path.
+ */
+export function resourcePathForId(
+  config: ReturnType<typeof useRuntimeConfig>,
+  id: string,
+  fileState: StoredFileState,
+) {
+  return fileState.kind.startsWith("audio")
+    ? audioPathForId(config, id)
+    : imagePathForId(config, id);
 }
