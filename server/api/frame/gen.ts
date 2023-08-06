@@ -1,6 +1,6 @@
 import { getFrameProducerQueue } from "../../load";
 import { StoredAnswer, StoredFileState, StoredRunData } from "~/server/types";
-import logger from "~/server/logger";
+import { logger } from "~/server/logger";
 import { cleanupFrame } from "~/server/cleanup";
 import { boolUrlParam, optionsToSeries } from "~/server/utils";
 

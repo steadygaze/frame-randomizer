@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import logger from "~/server/logger";
+import { logger } from "~/server/logger";
 import { imagePathForId } from "~/server/file";
 
 const config = useRuntimeConfig();

@@ -13,7 +13,7 @@ import {
   offsetTimeBySkipRanges,
 } from "./file";
 import { myUuid } from "./utils";
-import logger from "./logger";
+import { logger } from "./logger";
 
 const exec = promisify(execAsync);
 

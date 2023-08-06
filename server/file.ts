@@ -7,7 +7,7 @@ import merge from "lodash.merge";
 import pLimit from "p-limit";
 import { seasonEpisodeTag } from "../utils/utils";
 import { timecodeToSec } from "./utils";
-import logger from "./logger";
+import { logger } from "./logger";
 
 const exec = promisify(execAsync);
 

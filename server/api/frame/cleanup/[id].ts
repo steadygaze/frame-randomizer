@@ -1,4 +1,4 @@
-import logger from "~/server/logger";
+import { logger } from "~/server/logger";
 import { cleanupFrame } from "~/server/cleanup";
 
 export default defineEventHandler((event) => {

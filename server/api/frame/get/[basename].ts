@@ -1,7 +1,7 @@
 import fsAsync from "node:fs";
 import path from "path";
 import { sendStream } from "h3";
-import logger from "~/server/logger";
+import { logger } from "~/server/logger";
 import { cleanupFrame } from "~/server/cleanup";
 import { StoredRunData } from "server/types";
 

@@ -64,6 +64,6 @@ const fileWarn = new DailyRotateFile({
   format: json(),
 });
 
-export default createLogger({
+export const logger = createLogger({
   transports: [file, fileWarn, console],
 });

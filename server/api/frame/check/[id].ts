@@ -1,4 +1,4 @@
-import logger from "~/server/logger";
+import { logger } from "~/server/logger";
 import { StoredAnswer, StoredRunData } from "~/server/types";
 
 const config = useRuntimeConfig();

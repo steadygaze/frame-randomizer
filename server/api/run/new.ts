@@ -1,6 +1,6 @@
 import { myUuid } from "~/server/utils";
 import { StoredRunData } from "~/server/types";
-import logger from "~/server/logger";
+import { logger } from "~/server/logger";
 
 const config = useRuntimeConfig();
 const runStateStorage = useStorage("runState");

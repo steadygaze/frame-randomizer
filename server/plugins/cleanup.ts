@@ -5,7 +5,7 @@ import { glob } from "glob";
 import intersection from "lodash.intersection";
 import { StoredAnswer, StoredFileState, StoredRunData } from "../types";
 import { imagePathForId } from "../file";
-import logger from "../logger";
+import { logger } from "../logger";
 
 const config = useRuntimeConfig();
 const sleep = promisify(setTimeout);
