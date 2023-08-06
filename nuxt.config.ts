@@ -238,6 +238,11 @@ export default defineNuxtConfig({
     frameRequiredStandardDeviation: 2500.0,
     // Path to ImageMagick identify command.
     imageMagickIdentifyPath: "identify",
+    // For all different pregenerated kinds of resources (e.g. frames
+    // with/without subtitles, audio clips length 5, 10, 15 seconds, etc.), how
+    // many to keep pregenerated minimum, regardless of traffic patterns and
+    // pregen caps.
+    perKindMinimum: 2,
     // Private key, used for signing verified runs.
     privateKey: "",
     // Per Nuxt documentation, these values will be sent to client-side code.

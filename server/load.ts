@@ -416,6 +416,7 @@ async function getFrameProducerQueueUncached(
     },
     {
       length: config.framePregenCount,
+      perKindMinimum: config.perKindMinimum,
       maxPending: config.frameGenMaxParallelism,
       maxRetries: config.frameGenMaxAttempts,
       queueExhaustionQueueCount: config.queueExhaustionQueueCount,
