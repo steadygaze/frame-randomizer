@@ -608,8 +608,18 @@ ol.resultItemList {
 }
 ol.resultItemList li {
   counter-increment: searchCounter;
-  flex: 1 1 350px;
+  flex: 1 1 22em;
 }
+
+@media screen and (min-width: 62.5em) {
+  ol.resultItemList {
+    flex-flow: column nowrap;
+  }
+  ol.resultItemList li {
+    flex: 1 1 0;
+  }
+}
+
 ol.resultItemList li:nth-child(-n + 9):before {
   content: "Alt-" counter(searchCounter) " ";
   color: #888;
