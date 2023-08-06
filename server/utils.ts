@@ -6,6 +6,15 @@ const timecodeRegex =
   /^((?<hours>\d+)(:|h)(?=\d{2}(:|m)))?((?<minutes>\d+)(:|m))?(?<seconds>\d{2}(.\d+)?)s?$/;
 
 /**
+ * Gets an int from query params.
+ * @param rawValue URL param raw value.
+ * @returns Integer from the given query param.
+ */
+export function intUrlParam(rawValue: any): number | null {
+  return rawValue ? parseInt(String(rawValue)) : null;
+}
+
+/**
  * Generates a UUID using uuidv5 and information about the instance.
  * @param config Has information used to generate UUID.
  * @param purpose What the UUID will be used for, to differentiate it from other UUIDs generated.
@@ -92,16 +101,32 @@ export function boolUrlParam(value: any): boolean {
   return value && value !== "false" && value !== "0";
 }
 
-export type SeriesOptions = {
+export type KindOptions = {
   subtitles: boolean;
 };
 
 /**
- * Converts a series of options to a "series name", a unique string descriptor
+ * Converts a kind of options to a "kind name", a unique string descriptor
  * used to fetch the result.
- * @param options Options describing the series.
- * @returns Series name.
+ * @param query Options describing the kind.
+ * @returns Kind name.
  */
-export function optionsToSeries(options: SeriesOptions): string {
-  return options.subtitles ? "frameWithSubtitles" : "frame";
+export function queryToKind(query: ReturnType<typeof getQuery>): string {
+  const resourceType = query.resourceType;
+  const subtitles = boolUrlParam(query.subtitles);
+  const audioLength = intUrlParam(query.audioLength);
+  if (resourceType === "audio") {
+    if (audioLength === 5) {
+      return "audio5s";
+    } else if (audioLength === 10) {
+      return "audio10s";
+    } else if (audioLength === 15) {
+      return "audio15s";
+    }
+    throw createError({
+      statusCode: 400,
+      statusMessage: "audioLength value invalid",
+    });
+  }
+  return subtitles ? "frameWithSubtitles" : "frame";
 }

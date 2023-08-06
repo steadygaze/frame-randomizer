@@ -1,4 +1,5 @@
 import { logger } from "~/server/logger";
+import { intUrlParam } from "~/server/utils";
 import { StoredAnswer, StoredRunData } from "~/server/types";
 
 const config = useRuntimeConfig();
@@ -19,25 +20,14 @@ export async function cleanupAnswer(id: string): Promise<void> {
   logger.info(`Cleaned up stored answer`, { id });
 }
 
-/**
- * Gets an int from query params.
- * @param query Query object from Nitro.
- * @param key Query param name.
- * @returns Integer from the given query param.
- */
-function getInt(query: ReturnType<typeof getQuery>, key: string): number {
-  const rawValue = query[key] as string;
-  return rawValue ? parseInt(rawValue) : -1;
-}
-
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, "id");
   const query = getQuery(event);
   if (!id) {
     throw createError({ statusCode: 400, statusMessage: "Missing id param" });
   }
-  const season = getInt(query, "season");
-  const episode = getInt(query, "episode");
+  const season = intUrlParam(query.season) || -1;
+  const episode = intUrlParam(query.episode) || -1;
 
   const answer = (await answerStorage.getItem(id)) as StoredAnswer | null;
   if (!answer) {
@@ -91,7 +81,7 @@ export default defineEventHandler(async (event) => {
           startTs: pending.startTs || pending.assignTs,
           guessTs: now,
           guess: { season, episode },
-          answer: { season: answer.season, episode: answer.episode },
+          answer: { season, episode },
           assignLatencyMs: pending.assignLatencyMs,
           seekTimeSec: answer.seekTime,
         });

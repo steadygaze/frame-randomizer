@@ -5,6 +5,7 @@ import {
   checkInputShowData,
   extractPerLanguageData,
   offsetTimeBySkipRanges,
+  offsetRangeBySkipRanges,
 } from "./file";
 
 describe("generateSkipRanges", () => {
@@ -785,6 +786,12 @@ describe("offsetTimeBySkipRanges", () => {
       ]),
     ).toEqual(30 + 8 + 3);
   });
+
+  it("should return time with skip range length extended", () => {
+    expect(offsetTimeBySkipRanges(30, [{ start: 10, length: 10 }], 5)).toEqual(
+      30 + 15,
+    );
+  });
 });
 
 describe("imagePathForId", () => {
@@ -798,5 +805,62 @@ describe("imagePathForId", () => {
         "01234567-89ab-cdef-0123-456789abcdef",
       ),
     );
+  });
+});
+
+describe("offsetRangeBySkipRanges", () => {
+  it("should return same offset if no skip ranges", () => {
+    expect(offsetRangeBySkipRanges(10, 2, [], 100)).toEqual(10);
+  });
+
+  it("should move offset back if too close to end", () => {
+    expect(offsetRangeBySkipRanges(10, 2, [], 11)).toEqual(9);
+  });
+
+  it("should move offset as far back as possible if total length too short", () => {
+    // Range is intended to be 20 seconds, but total length is 11, so starting
+    // from 0 is the best we can do.
+    expect(offsetRangeBySkipRanges(10, 20, [], 11)).toEqual(0);
+  });
+
+  it("should move offset as far back as possible if up against the end", () => {
+    expect(
+      offsetRangeBySkipRanges(5, 5, [{ start: 2, length: 300 }], 305),
+    ).toEqual(302);
+  });
+
+  it("should return same offset if later irrelevant skip range", () => {
+    expect(
+      offsetRangeBySkipRanges(10, 5, [{ start: 200, length: 8 }], 300),
+    ).toEqual(10);
+  });
+
+  it("should skip over multiple skip ranges", () => {
+    expect(
+      offsetRangeBySkipRanges(
+        500,
+        5,
+        [
+          { start: 10, length: 10 },
+          { start: 30, length: 10 },
+          { start: 50, length: 10 },
+        ],
+        800,
+      ),
+    ).toEqual(500 + (10 + 5) * 3);
+  });
+
+  it("should figure something out if in a too-small skip range", () => {
+    expect(
+      offsetRangeBySkipRanges(
+        1.5,
+        5,
+        [
+          { start: 1, length: 10 },
+          { start: 12, length: 8 },
+        ],
+        21,
+      ),
+    ).toEqual(20);
   });
 });

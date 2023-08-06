@@ -394,6 +394,9 @@ function setEquals<Type>(setA: Set<Type>, setB: Set<Type>): boolean {
  * @param showData Input show data to check.
  */
 export function checkInputShowData(showData: InputShowData) {
+  if (!showData) {
+    throw new Error("Show data is undefined/null");
+  }
   const languagesList = showData.name.perLanguage.map(
     ({ language }) => language,
   );
@@ -617,21 +620,111 @@ export async function findFiles(
  * skipped time] then passing it to this.
  * @param unoffsetTime Initial time before offsetting.
  * @param skipRanges List of time ranges to skip.
+ * @param length If given, offset such that the range (time, time + length) is
+ * not ignored.
  * @returns New time, offset by all the skip ranges before it.
  */
 export function offsetTimeBySkipRanges(
   unoffsetTime: number,
   skipRanges: TimeRange[],
-) {
+  length = 0,
+): number {
   let offsetTime = unoffsetTime;
   for (
     let i = 0;
-    i < skipRanges.length && skipRanges[i].start < offsetTime;
+    i < skipRanges.length && skipRanges[i].start - length < offsetTime;
     ++i
   ) {
-    offsetTime += skipRanges[i].length;
+    offsetTime += skipRanges[i].length + length;
   }
   return offsetTime;
+}
+
+/**
+ * Offset a time range by a certain amount, such that the whole range won't be
+ * in an ignorelisted region.
+ *
+ * Note that there is a statistical flaw/optimization where unignored ranges
+ * smaller than length will instead be placed at the next valid region, making
+ * the probability slightly non-uniform if there are such regions.
+ * @param episode Episode data.
+ * @param rangeLength Length data.
+ * @returns New time, such that the range (time, time + length) is not in a skip range.
+ */
+export function randomTimeRangeInEpisode(
+  episode: ServerEpisodeData,
+  rangeLength: number,
+): number {
+  const usableLength =
+    episode.genLength - rangeLength * episode.skipRanges.length;
+  if (usableLength <= 0 || episode.genLength < rangeLength) {
+    return 0; // Just give up.
+  }
+  const unoffsetTime = Math.random() * usableLength;
+  return offsetRangeBySkipRanges(
+    unoffsetTime,
+    rangeLength,
+    episode.skipRanges,
+    episode.lengthSec,
+  );
+}
+
+/**
+ * Given an unoffset time generated with the range generation scheme (see
+ * randomTimeRangeInEpisode), returns a new time range.
+ * @param unoffsetTime Unoffset time, using the range offset scheme.
+ * @param rangeLength Length of the range that should be valid.
+ * @param skipRanges Skip ranges/invalid times.
+ * @param lengthSec Length of the video file.
+ * @returns New time, such that the range (time, time + length) doesn't include a skip range (if possible).
+ */
+export function offsetRangeBySkipRanges(
+  unoffsetTime: number,
+  rangeLength: number,
+  skipRanges: TimeRange[],
+  lengthSec: number,
+): number {
+  let offsetTime = offsetTimeBySkipRanges(
+    unoffsetTime,
+    skipRanges,
+    rangeLength,
+  );
+  if (!skipRanges.length) {
+    return Math.max(Math.min(offsetTime, lengthSec - rangeLength), 0);
+  }
+  while (true) {
+    if (skipRanges[0].start > offsetTime) {
+      if (skipRanges.length < 2) {
+        return offsetTime;
+      }
+      return Math.max(
+        Math.min(offsetTime, skipRanges[1].start - rangeLength),
+        0,
+      );
+    }
+
+    const endSkip =
+      skipRanges[skipRanges.length - 1].start +
+      skipRanges[skipRanges.length - 1].length;
+    if (offsetTime > endSkip) {
+      return Math.max(Math.min(offsetTime, lengthSec - rangeLength), endSkip);
+    }
+
+    for (let i = 0; i < skipRanges.length - 1; ++i) {
+      const lowerBound = skipRanges[i].start + skipRanges[i].length;
+      const upperBound = skipRanges[i + 1].start;
+      if (lowerBound <= offsetTime && upperBound >= offsetTime) {
+        if (upperBound - lowerBound < rangeLength) {
+          offsetTime = skipRanges[i + 1].start + skipRanges[i + 1].length;
+        } else if (upperBound - offsetTime < rangeLength) {
+          return upperBound - rangeLength;
+        } else {
+          return offsetTime;
+        }
+        break;
+      }
+    }
+  }
 }
 
 /**
@@ -647,5 +740,21 @@ export function imagePathForId(
   return path.join(
     config.frameOutputDir,
     `${id}.${config.public.imageOutputExtension}`,
+  );
+}
+
+/**
+ * Get the expected server-side path for an ID.
+ * @param config Nuxt runtime config.
+ * @param id Image ID.
+ * @returns Expected image path.
+ */
+export function audioPathForId(
+  config: ReturnType<typeof useRuntimeConfig>,
+  id: string,
+) {
+  return path.join(
+    config.frameOutputDir,
+    `${id}.${config.public.audioOutputExtension}`,
   );
 }

@@ -29,6 +29,7 @@ const config = useRuntimeConfig();
 const appStateStore = useAppStateStore();
 const { readout, reset } = appStateStore;
 const {
+  audioId,
   frameId,
   runReadyState,
   runId,
@@ -128,7 +129,7 @@ async function startRun() {
     readout("readout.unknown_error");
   }
 
-  navigator.sendBeacon(`/api/frame/cleanup/${frameId.value}`);
+  navigator.sendBeacon(`/api/frame/cleanup/${frameId.value || audioId.value}`);
   emit("start");
 }
 </script>

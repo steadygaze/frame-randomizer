@@ -3,11 +3,19 @@
     <div id="inputpane">
       <FuzzyInput />
     </div>
-    <div id="imagepane">
+    <div v-if="resourceType === 'frame'" id="imagepane">
       <RandomImage />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useGameModeStore } from "~~/store/gameModeStore";
+
+const gameModeStore = useGameModeStore();
+const { resourceType } = storeToRefs(gameModeStore);
+</script>
 
 <style>
 html,
@@ -27,7 +35,7 @@ body > * {
 }
 
 #main {
-  background-color: white;
+  background-color: #eee;
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -41,12 +49,12 @@ body > * {
   overflow-y: scroll; /* Otherwise scrollbar appears/disappears as searches happen, which is distracting. */
   background-color: #eee;
   width: 100%;
-  max-width: 500px;
-  min-width: 200px;
+  max-width: 50em;
+  min-width: 12.5em;
   height: 100%;
   flex: 1 3 20%;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
 }
 
 #imagepane {

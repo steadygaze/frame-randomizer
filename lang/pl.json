@@ -55,6 +55,20 @@
       "tmdb_page": "Strona TMDB."
     }
   },
+  "game_mode": {
+    "audio": "audio",
+    "audio_length_description": "Jak długi powinien być dźwięk.",
+    "audio_length_label": "Długość dźwięku",
+    "fifteen_seconds": "15 sekund",
+    "five_seconds": "5 sekund",
+    "frame": "rama",
+    "header": "Tryb gry",
+    "resource_type_description": "Typ generowanego zasobu.",
+    "resource_type_label": "Typ zasobu",
+    "subtitles_description": "Pokaż napisy, jeśli w bieżącej klatce jest jakieś okno dialogowe. Tylko język oryginalny.",
+    "subtitles_label": "Napisy na filmie obcojęzycznym",
+    "ten_seconds": "10 sekund"
+  },
   "head": {
     "description": "Wygeneruj losową klatkę z {show} i zgadnij, z jakiego odcinka pochodzi.",
     "title": "{instance}: {show} frame randomizer"
@@ -62,6 +76,8 @@
   "input": {
     "about": "O stronie",
     "clear": "Jasne",
+    "game_mode": "Tryb gry",
+    "new_audio": "Nowy dźwięk",
     "new_frame": "Nowa klatka",
     "placeholder": {
       "fuzzy": "Fuzzy search ({characters}+ znaki) lub sXXeXX...",
@@ -87,7 +103,8 @@
     "correct_message": "{correct}: {answer}.",
     "entry_select_fail": "Brak wpisu o numerze {number} w wynikach wyszukiwania.",
     "generation_error": "Błąd generowania klatki: {error}. Spróbować ponownie?",
-    "guess_prompt": "Korzystając z pola wyszukiwania, odgadnij odcinek {show} z którego wybrano losowo klatkę.",
+    "guess_prompt": "Odgadnij odcinek {show} , z którego wybrano losowo klatkę, korzystając z pola wyszukiwania.",
+    "guess_prompt_audio": "Odgadnij {show} odcinków, z których wybrano losowo dźwięk, korzystając z pola wyszukiwania.",
     "incorrect": "zły odcinek",
     "incorrect_message": "{guess} to ❌ {incorrect}. Odpowiedź: {answer}.",
     "info": "informacje",

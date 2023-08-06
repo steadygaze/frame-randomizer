@@ -42,12 +42,13 @@ const initialReadout: Readout = {
 };
 
 export const useAppStateStore = defineStore("appState", () => {
+  const audioId = ref("");
   const browser: Ref<ReturnType<typeof detect>> = ref(null);
   const cleanedUpFrame = ref(false);
   const correctCounter = ref(0);
   const currentGuessTimeDurationMs = ref(0);
   const currentGuessTimeStartTimestamp = ref(0);
-  const frameId = ref(0);
+  const frameId = ref("");
   const imageIsLoading = ref(true);
   const imageLoadError = ref(false);
   const imageLoadTimestamp = ref(0);
@@ -58,6 +59,7 @@ export const useAppStateStore = defineStore("appState", () => {
   const realTimeStartTimestamp = ref(0);
   const runId = ref("");
   const runReadyState = ref(false);
+  const showImageError = ref(false);
   const showMoreStats = ref(false);
   const streakCounter = ref(0);
   const totalCounter = ref(0);
@@ -93,9 +95,11 @@ export const useAppStateStore = defineStore("appState", () => {
     realTimeDurationMs.value = 0;
     realTimeStartTimestamp.value = 0;
     runId.value = "";
+    showImageError.value = false;
     streakCounter.value = 0;
     totalCounter.value = 0;
     totalGuessTimeAccDurationMs.value = 0;
+    waitingForGuess.value = false;
   }
 
   /**
@@ -143,7 +147,61 @@ export const useAppStateStore = defineStore("appState", () => {
     return url;
   }
 
+  let priorAudioUrl: { [k: string]: string } = {};
+
+  /**
+   * Returns the expected audio path.
+   * @param config Runtime config.
+   * @returns Audio path.
+   */
+  function audioUrl(config: ReturnType<typeof useRuntimeConfig>) {
+    if (priorAudioUrl[audioId.value]) {
+      return priorAudioUrl[audioId.value];
+    }
+
+    const params = [
+      // browser.value?.name === "firefox" ? "cleanuponload=true" : "",
+      runId.value ? `runId=${runId.value}` : "",
+    ]
+      .filter((e) => e)
+      .join("&");
+    const url = `/api/frame/getAudio/${audioId.value}.${
+      config.public.audioOutputExtension
+    }${params ? `?${params}` : ""}`;
+
+    priorAudioUrl = {};
+    priorAudioUrl[audioId.value] = url;
+
+    return url;
+  }
+
+  /**
+   * Set loading state to false on load.
+   */
+  function endLoading() {
+    imageIsLoading.value = false; // Reactively notifies other components.
+    cleanedUpFrame.value = false;
+    imageLoadTimestamp.value = Date.now();
+  }
+
+  /**
+   * Handle an error loading the image. Will be called if the image is a broken
+   * link/404, which can happen if the server fails to generate an image but
+   * doesn't realize.
+   */
+  function handleError() {
+    readout(
+      "Error loading image. The server may have failed when generating this frame. Try again?",
+    );
+    imageLoadError.value = true;
+    imageIsLoading.value = false;
+    showImageError.value = true;
+  }
+
   return {
+    endLoading,
+    audioId,
+    audioUrl,
     browser,
     cleanedUpFrame,
     correctCounter,
@@ -157,6 +215,7 @@ export const useAppStateStore = defineStore("appState", () => {
     imageUrl,
     lastCorrectTimestamp,
     lastGuessTimestamp,
+    handleError,
     readout,
     readouts,
     realTimeDurationMs,
@@ -164,6 +223,7 @@ export const useAppStateStore = defineStore("appState", () => {
     reset,
     runId,
     runReadyState,
+    showImageError,
     showMoreStats,
     streakCounter,
     totalCounter,

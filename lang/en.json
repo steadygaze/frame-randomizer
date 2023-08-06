@@ -56,9 +56,18 @@
     }
   },
   "game_mode": {
+    "audio": "audio",
+    "audio_length_description": "How long the audio should be.",
+    "audio_length_label": "Audio length",
+    "fifteen_seconds": "15 seconds",
+    "five_seconds": "5 seconds",
+    "frame": "frame",
     "header": "Game Mode",
+    "resource_type_description": "The type of resource generated.",
+    "resource_type_label": "Resource type",
     "subtitles_description": "Show subtitles, if there is any dialog in the current frame. Original language only.",
-    "subtitles_label": "Subtitles"
+    "subtitles_label": "Subtitles",
+    "ten_seconds": "10 seconds"
   },
   "head": {
     "description": "Generate a random frame from {show}, and guess what episode it's from.",
@@ -67,6 +76,7 @@
   "input": {
     "about": "About",
     "game_mode": "Game Mode",
+    "new_audio": "New Audio",
     "new_frame": "New Frame",
     "placeholder": {
       "fuzzy": "Fuzzy search ({characters}+ characters) or sXXeXX...",
@@ -92,6 +102,7 @@
     "entry_select_fail": "No entry number {number} in search results.",
     "generation_error": "Error generating frame: {error}. Try again?",
     "guess_prompt": "Guess the {show} episode that the frame is randomly selected from using the search box.",
+    "guess_prompt_audio": "Guess the {show} episode that the audio is randomly selected from using the search box.",
     "incorrect": "incorrect",
     "incorrect_message": "{guess} is ❌ {incorrect}. Answer: {answer}.",
     "info": "info",

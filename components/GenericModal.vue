@@ -1,5 +1,9 @@
 <template>
-  <section v-if="show" class="modalContainer">
+  <section
+    v-if="show"
+    class="modalContainer"
+    :class="{ center: resourceType === 'audio' }"
+  >
     <div class="headerLine">
       <h2>{{ header }}</h2>
       <button @click="$emit('close')">X</button>
@@ -13,11 +17,17 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useGameModeStore } from "~~/store/gameModeStore";
+
 defineProps<{
   show: boolean;
   header: string;
 }>();
 defineEmits<{ (e: "close"): void }>();
+
+const gameModeStore = useGameModeStore();
+const { resourceType } = storeToRefs(gameModeStore);
 </script>
 
 <style scoped>
@@ -27,13 +37,17 @@ defineEmits<{ (e: "close"): void }>();
   top: 0;
   left: 0;
   border: 8px solid #555;
-  margin: auto;
   padding: 1em;
   width: min(80ch, 100vw);
   background-color: white;
   text-align: justify;
   max-height: 100vh;
   overflow-y: auto;
+}
+
+.center {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 :deep(button) {
