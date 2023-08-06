@@ -4,7 +4,7 @@ import { promisify } from "node:util";
 import { glob } from "glob";
 import intersection from "lodash.intersection";
 import { StoredAnswer, StoredFileState, StoredRunData } from "../types";
-import { imagePathForId } from "../file";
+import { resourcePathForId } from "../file";
 import { logger } from "../logger";
 
 const config = useRuntimeConfig();
@@ -37,34 +37,35 @@ async function cleanupAnswers() {
 
 /**
  * Cleans up images in the output dir not tracked or owned by the server.
- * @param frameFileIds File IDs of all current frames.
- * @param frames1 List of frames, first sample.
- * @param frames2 List of frames, second sample.
+ * @param ids IDs of all current files.
+ * @param files1 List of frames, first sample.
+ * @param files2 List of frames, second sample.
+ * @param idExtractionRe Regex to extract id.
+ * @returns Promise to await on completion.
  */
-async function cleanupOrphanedImages(
-  frameFileIds: string[],
-  frames1: string[],
-  frames2: string[],
+function cleanupOrphanedResources(
+  ids: string[],
+  files1: string[],
+  files2: string[],
+  idExtractionRe: RegExp,
 ) {
-  const ext = config.public.imageOutputExtension;
-  const filenameToKeyRe = new RegExp(`/(?<key>[0-9a-f\\-]+)\\.${ext}$`);
-  await Promise.all(
-    intersection(frames1, frames2)
-      .map((frameFile) => {
-        const match = filenameToKeyRe.exec(frameFile);
+  return Promise.all(
+    intersection(files1, files2)
+      .map((file) => {
+        const match = idExtractionRe.exec(file);
         if (
           match &&
           match.length > 0 &&
           match.groups &&
-          !frameFileIds.includes(match.groups.key)
+          !ids.includes(match.groups.key)
         ) {
-          logger.info(`Cleaning up apparently orphaned image`, {
-            file: frameFile,
+          logger.info(`Cleaning up apparently orphaned audio`, {
+            file,
           });
           return [
-            fs.rm(frameFile).catch((error) => {
-              logger.error(`Failed to clean up orphaned image: ${error}`, {
-                file: frameFile,
+            fs.rm(file).catch((error) => {
+              logger.error(`Failed to clean up orphaned audio: ${error}`, {
+                file,
               });
             }),
           ];
@@ -79,25 +80,28 @@ async function cleanupOrphanedImages(
  * Cleans up frames that have expired.
  * @param frameFileIds List of frames tracked.
  */
-async function cleanupExpiredImages(frameFileIds: string[]) {
+async function cleanupExpiredResources(frameFileIds: string[]) {
   await Promise.all(
     frameFileIds.map(async (fileId) => {
-      const storedFileState = (await frameStateStorage.getItem(
+      const storedFileState = await frameStateStorage.getItem<StoredFileState>(
         fileId,
-      )) as StoredFileState | null;
+      );
       if (
         storedFileState &&
         storedFileState?.expiryTs &&
         storedFileState?.expiryTs <= Date.now()
       ) {
-        const frameFile = imagePathForId(config, fileId);
-        logger.info(`Cleaning up expired image`, { file: frameFile });
+        const file = resourcePathForId(config, fileId, storedFileState);
+        logger.info(`Cleaning up expired resource`, {
+          kind: storedFileState.kind,
+          file,
+        });
         await Promise.all([
           frameStateStorage.removeItem(fileId),
-          fs.rm(frameFile).catch((error) => {
+          fs.rm(file).catch((error) => {
             if (error.code !== "ENOENT") {
-              logger.error(`Failed to clean up expired image: ${error}`, {
-                file: frameFile,
+              logger.error(`Failed to clean up expired resource: ${error}`, {
+                file,
               });
             }
           }),
@@ -111,18 +115,36 @@ async function cleanupExpiredImages(frameFileIds: string[]) {
  * Cleans up orphaned and expired frames.
  */
 async function cleanupOrphanedAndExpiredImages() {
-  const ext = config.public.imageOutputExtension;
-  const globPattern = path.join(config.frameOutputDir, `*.${ext}`);
-  const [frameFileIds, frames1, frames2] = await Promise.all([
+  const frameExt = config.public.imageOutputExtension;
+  const audioExt = config.public.audioOutputExtension;
+  const frameGlobPattern = path.join(config.frameOutputDir, `*.${frameExt}`);
+  const audioGlobPattern = path.join(config.frameOutputDir, `*.${audioExt}`);
+  const frameFilenameToKeyRe = new RegExp(
+    `/(?<key>[0-9a-f\\-]+)\\.${frameExt}$`,
+  );
+  const audioFilenameToKeyRe = new RegExp(
+    `/(?<key>[0-9a-f\\-]+)\\.${audioExt}$`,
+  );
+
+  const [resourceIds, frames1, frames2, audio1, audio2] = await Promise.all([
     frameStateStorage.getKeys(),
     // List the files twice to avoid race conditions with storage cleanup.
     // Frames will be cleaned up only if they are present both times.
-    glob(globPattern),
-    sleep(1000).then(() => glob(globPattern)),
+    glob(frameGlobPattern),
+    sleep(1000).then(() => glob(frameGlobPattern)),
+    glob(audioGlobPattern),
+    sleep(1000).then(() => glob(audioGlobPattern)),
   ]);
+
   await Promise.all([
-    cleanupOrphanedImages(frameFileIds, frames1, frames2),
-    cleanupExpiredImages(frameFileIds),
+    cleanupOrphanedResources(
+      resourceIds,
+      frames1,
+      frames2,
+      frameFilenameToKeyRe,
+    ),
+    cleanupOrphanedResources(resourceIds, audio1, audio2, audioFilenameToKeyRe),
+    cleanupExpiredResources(resourceIds),
   ]);
 }
 
@@ -157,6 +179,6 @@ export default defineNitroPlugin(() => {
       cleanupOrphanedAndExpiredImages(),
       cleanupExpiredRuns(),
     ]);
-    logger.info(`Image cleanup done in ${Date.now() - start} ms`);
+    logger.info(`Cleanup job done in ${Date.now() - start} ms`);
   }, config.cleanupIntervalMs);
 });

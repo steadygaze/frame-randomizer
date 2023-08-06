@@ -99,6 +99,45 @@
       <br />
       {{ $t("settings.case_sensitive_description") }}
     </p>
+    <h3>{{ $t("settings.audio_header") }}</h3>
+    <p>
+      <span class="flexOptions">
+        <label for="audioVolume">{{ $t("settings.audio_volume_label") }}</label>
+        <input
+          id="audioVolume"
+          v-model="audioVolume"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+        />
+        {{ audioVolume * 100 }}
+      </span>
+      {{ $t("settings.audio_volume_description") }}
+    </p>
+    <p>
+      <span class="flexOptions">
+        <label for="playbackRate">{{
+          $t("settings.playback_rate_label")
+        }}</label>
+        <input
+          id="playbackRate"
+          v-model="playbackRate"
+          type="range"
+          min="0.25"
+          max="2"
+          step="0.25"
+        />
+        {{ playbackRate }}x
+      </span>
+      {{ $t("settings.playback_rate_description") }}
+    </p>
+    <p>
+      <label for="loopAudio">{{ $t("settings.loop_audio_label") }}</label>
+      <input id="loopAudio" v-model="loopAudio" type="checkbox" />
+      <br />
+      {{ $t("settings.loop_audio_description") }}
+    </p>
     <template #footer-buttons>
       <button @click="reset">{{ $t("settings.reset") }}</button>
     </template>
@@ -131,6 +170,9 @@ const {
   originalNameWeight,
   synopsisWeight,
   upsizeToFit,
+  audioVolume,
+  loopAudio,
+  playbackRate,
 } = storeToRefs(settingsStore);
 </script>
 

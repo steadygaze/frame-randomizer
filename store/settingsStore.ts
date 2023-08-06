@@ -14,6 +14,9 @@ export const useSettingsStore = defineStore(
     );
     const synopsisWeight = ref(config.public.fuzzySearchWeightSynopsis);
     const upsizeToFit = ref(true);
+    const audioVolume = ref(0.8);
+    const loopAudio = ref(false);
+    const playbackRate = ref(1.0);
 
     /**
      * Resets the settings.
@@ -25,6 +28,9 @@ export const useSettingsStore = defineStore(
       fuzziness.value = config.public.fuzzySearchThreshold;
       synopsisWeight.value = config.public.fuzzySearchWeightSynopsis;
       upsizeToFit.value = true;
+      loopAudio.value = false;
+      audioVolume.value = 0.8;
+      playbackRate.value = 1.0;
     }
 
     return {
@@ -35,6 +41,9 @@ export const useSettingsStore = defineStore(
       originalNameWeight,
       synopsisWeight,
       upsizeToFit,
+      audioVolume,
+      loopAudio,
+      playbackRate,
       reset,
     };
   },

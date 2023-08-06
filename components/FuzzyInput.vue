@@ -327,9 +327,9 @@ async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
     imageIsLoading.value = false;
   } else if (data && data.value) {
     if (resourceType.value === "audio") {
-      audioId.value = data.value.frameId;
+      audioId.value = data.value.id;
     } else {
-      frameId.value = data.value.frameId;
+      frameId.value = data.value.id;
     }
   } else {
     readout("readout.generation_error", {
