@@ -55,12 +55,28 @@
       "tmdb_page": "Страница ТМДБ."
     }
   },
+  "game_mode": {
+    "audio": "аудио",
+    "audio_length_description": "Какой длины должно быть аудио.",
+    "audio_length_label": "Длина аудио",
+    "fifteen_seconds": "15 секунд",
+    "five_seconds": "5 секунд",
+    "frame": "рамка",
+    "header": "Игровой режим",
+    "resource_type_description": "Тип создаваемого ресурса.",
+    "resource_type_label": "Тип ресурса",
+    "subtitles_description": "Показывать субтитры, если в текущем кадре есть диалог. Только оригинальный язык.",
+    "subtitles_label": "Субтитры",
+    "ten_seconds": "10 секунд"
+  },
   "head": {
     "description": "Создайте случайный кадр из {show} и угадайте, из какого он эпизода.",
     "title": "{instance} : {show} рандомизатор кадров"
   },
   "input": {
     "about": "О нас",
+    "game_mode": "Игровой режим",
+    "new_audio": "Новое аудио",
     "new_frame": "Новый кадр",
     "placeholder": {
       "fuzzy": "Поиск ({characters}+ букв) или sXXeXX...",
@@ -86,6 +102,7 @@
     "entry_select_fail": "Нет записи номер {number} в результатах поиска.",
     "generation_error": "Ошибка генерации кадра: {error} . Попробуйте еще раз?",
     "guess_prompt": "Угадайте эпизод {show} , из которого случайно выбран кадр, введя название в окно поиска.",
+    "guess_prompt_audio": "Угадайте эпизод {show} , из которого звук выбран случайным образом, с помощью окна поиска.",
     "incorrect": "- это неправильный ответ.",
     "incorrect_message": "{guess}  ❌ {incorrect} . Правильный ответ: {answer} .",
     "info": "Информация",

@@ -55,12 +55,28 @@
       "tmdb_page": "Page TMDB."
     }
   },
+  "game_mode": {
+    "audio": "l'audio",
+    "audio_length_description": "Combien de temps l'audio devrait être.",
+    "audio_length_label": "Longueur audio",
+    "fifteen_seconds": "15 secondes",
+    "five_seconds": "5 secondes",
+    "frame": "cadre",
+    "header": "Mode de jeu",
+    "resource_type_description": "Le type de ressource générée.",
+    "resource_type_label": "Type de ressource",
+    "subtitles_description": "Afficher les sous-titres, s'il y a une boîte de dialogue dans l'image actuelle. Langue originale uniquement.",
+    "subtitles_label": "Les sous-titres",
+    "ten_seconds": "10 secondes"
+  },
   "head": {
     "description": "Générez une image aléatoire à partir de {show} et devinez de quel épisode elle provient.",
     "title": "{instance} : {show} cadre randomiseur"
   },
   "input": {
     "about": "À propos",
+    "game_mode": "Mode de jeu",
+    "new_audio": "Nouveau son",
     "new_frame": "Nouveau cadre",
     "placeholder": {
       "fuzzy": "Recherche floue ({characters} + caractères) ou sXXeXX...",
@@ -86,6 +102,7 @@
     "entry_select_fail": "Pas d'entrée numéro {number} dans les résultats de recherche.",
     "generation_error": "Erreur lors de la génération de la trame : {error} . Essayer à nouveau?",
     "guess_prompt": "Devinez l'épisode {show} dont le cadre est sélectionné au hasard à l'aide du champ de recherche.",
+    "guess_prompt_audio": "Devinez l'épisode {show} dont l'audio est sélectionné au hasard à l'aide du champ de recherche.",
     "incorrect": "Incorrect",
     "incorrect_message": "{guess} est ❌ {incorrect} . Réponse : {answer} .",
     "info": "Info",

@@ -160,7 +160,23 @@ export default defineNuxtConfig({
         // file type to save it as, Cloudflare analytics will be messed up, etc.
         // We would like to read from runtimeConfig.public.imageOutputExtension
         // directly, but there doesn't seem to be a good way to do this in Nuxt.
-        "content-type": process.env.FR_IMAGE_CONTENT_TYPE,
+        "content-type": process.env.FR_IMAGE_CONTENT_TYPE || "image/webp",
+      },
+    },
+    "/api/frame/getAudio/**": {
+      headers: {
+        // private: browser cache only, no CDN or Cloudflare cache.
+        // immutable: image path is a UUID that will not change.
+        // max-age: one week default, a reasonable guess for how long a user
+        // might want the image to stick around
+        "cache-control": `private, immutable, max-age=${
+          process.env.FR_FRAME_CACHE_AGE || 60 * 60 * 24 * 7
+        }`,
+        // Change MIME type to image. Otherwise the browser might not know what
+        // file type to save it as, Cloudflare analytics will be messed up, etc.
+        // We would like to read from runtimeConfig.public.imageOutputExtension
+        // directly, but there doesn't seem to be a good way to do this in Nuxt.
+        "content-type": process.env.FR_AUDIO_CONTENT_TYPE || "audio/mpeg",
       },
     },
     "/api/show": {
@@ -230,6 +246,10 @@ export default defineNuxtConfig({
       // (see
       // https://developer.themoviedb.org/docs/faq#what-are-the-attribution-requirements).
       attributeTmdb: false,
+      // What extension to output audio files as. Naturally, these have
+      // different tradeoffs in terms of output filesize, generation/encoding
+      // time, etc.
+      audioOutputExtension: "mp3",
       // Provide a custom format string for linking the source episode when
       // showing the answer. "{season}" and "{episode}" will be substituted.
       episodeUrlFormat: undefined,

@@ -13,7 +13,14 @@
           @click="getFrame()"
         >
           <span class="buttonWithSpinnerText"
-            >🎞️ {{ $t("input.new_frame") }}</span
+            >{{ resourceType === "audio" ? "🔊" : "🎞️" }}
+            {{
+              $t(
+                resourceType === "audio"
+                  ? "input.new_audio"
+                  : "input.new_frame",
+              )
+            }}</span
           >
         </button>
         <button
@@ -34,11 +41,12 @@
           🔁 {{ $t("input.reset") }}
         </button>
         <a
-          :href="imageUrl(config)"
+          :href="resourceType === 'audio' ? audioUrl(config) : imageUrl(config)"
           download
-          :class="{ disabledAnchor: !frameId }"
+          :class="{ disabledAnchor: imageIsLoading || (!frameId && !audioId) }"
+          :disabled="imageIsLoading || (!frameId && !audioId)"
           @click="warnIfFrameMayBeExpired"
-          ><button :disabled="imageIsLoading">
+          ><button :disabled="imageIsLoading || (!frameId && !audioId)">
             💾 {{ $t("input.save") }}
           </button></a
         >
@@ -67,6 +75,7 @@
     <div id="readouts">
       <ReadoutDisplay></ReadoutDisplay>
     </div>
+    <RandomAudio></RandomAudio>
     <div id="inputRow">
       <input
         id="searchInput"
@@ -151,8 +160,9 @@ const {
   episodeData,
 } = storeToRefs(showDataStore);
 const appStateStore = useAppStateStore();
-const { detectBrowser, imageUrl, reset, readout } = appStateStore;
+const { detectBrowser, audioUrl, imageUrl, reset, readout } = appStateStore;
 const {
+  audioId,
   browser,
   cleanedUpFrame,
   correctCounter,
@@ -180,7 +190,7 @@ const {
 } = storeToRefs(settingsStore);
 
 const gameModeStore = useGameModeStore();
-const { subtitlesOn } = storeToRefs(gameModeStore);
+const { audioLength, resourceType, subtitlesOn } = storeToRefs(gameModeStore);
 
 const searchTextInput = ref<HTMLInputElement>();
 const newFrameButton = ref<HTMLButtonElement>();
@@ -294,9 +304,14 @@ async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
     fetchResult ||
     (await useFetch("/api/frame/gen", {
       query: {
-        cleanupid: browser.value?.name === "firefox" ? null : frameId.value,
+        // cleanupid:
+        //   browser.value?.name === "firefox"
+        //     ? null
+        //     : frameId.value || audioId.value,
         runId: runId.value,
         subtitles: subtitlesOn.value,
+        audioLength: audioLength.value,
+        resourceType: resourceType.value,
       },
     }));
   runReadyState.value = false;
@@ -311,7 +326,11 @@ async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
     imageLoadError.value = true;
     imageIsLoading.value = false;
   } else if (data && data.value) {
-    frameId.value = data.value.frameId;
+    if (resourceType.value === "audio") {
+      audioId.value = data.value.frameId;
+    } else {
+      frameId.value = data.value.frameId;
+    }
   } else {
     readout("readout.generation_error", {
       error: String(data ? data.value : data),
@@ -331,7 +350,12 @@ watch(imageIsLoading, async (imageIsLoading) => {
     if (!imageLoadError.value) {
       waitingForGuess.value = true;
       currentGuessTimeStartTimestamp.value = Date.now();
-      readout("readout.guess_prompt", { show: showName.value });
+      readout(
+        resourceType.value === "audio"
+          ? "readout.guess_prompt_audio"
+          : "readout.guess_prompt",
+        { show: showName.value },
+      );
       if (searchTextInput.value && searchTextInput.value) {
         await nextTick();
         searchTextInput.value.focus();
@@ -463,13 +487,18 @@ async function submitAnswer(index: number) {
 
   const found = searchResults.value[index];
   const item = found ? found.item : { season: -1, episode: -1, fullName: "?" };
-  const { data, error } = await useFetch(`/api/frame/check/${frameId.value}`, {
-    query: {
-      season: item.season,
-      episode: item.episode,
-      ...(runId.value ? { runId: runId.value } : null),
+  const { data, error } = await useFetch(
+    `/api/frame/check/${
+      resourceType.value === "audio" ? audioId.value : frameId.value
+    }`,
+    {
+      query: {
+        season: item.season,
+        episode: item.episode,
+        ...(runId.value ? { runId: runId.value } : null),
+      },
     },
-  });
+  );
 
   if (error && error.value) {
     if (error.value.statusCode === 404) {

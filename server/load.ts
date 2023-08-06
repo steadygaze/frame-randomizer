@@ -7,10 +7,12 @@ import { StoredAnswer, StoredFileState } from "./types";
 import {
   ServerEpisodeData,
   ShowData,
+  audioPathForId,
   findFiles,
   imagePathForId,
   lsAllFiles,
   offsetTimeBySkipRanges,
+  randomTimeRangeInEpisode,
 } from "./file";
 import { myUuid } from "./utils";
 import { logger } from "./logger";
@@ -121,11 +123,38 @@ async function ffmpegFrame(
         .stdout,
     ) < requiredStddev
   );
-  logger.info(`New image generated in ${Date.now() - start} ms`, {
+  logger.info(`New frame generated in ${Date.now() - start} ms`, {
     file: outputPath,
     rejected,
   });
   return random;
+}
+
+/**
+ * Generates an audio file over the given range.
+ * @param config RuntimeConfig options.
+ * @param episode Random episode and seek time.
+ * @param outputPath Path to output the image to (including file extension).
+ * @param audioLength Length of the audio range.
+ * @returns Promise to await on completion.
+ */
+async function ffmpegAudio(
+  config: ReturnType<typeof useRuntimeConfig>,
+  episode: RandomEpisode,
+  outputPath: string,
+  audioLength: number,
+): Promise<RandomEpisode> {
+  const ffmpeg = config.ffmpegPath;
+
+  const start = Date.now();
+  const command = `${ffmpeg} -ss ${episode.seekTime} -i ${episode.episode.filename} -t ${audioLength} -vn -map a:0 -ac 1 -y ${outputPath}`;
+  logger.verbose("Executing ffmpeg command", { command });
+  await exec(command);
+
+  logger.info(`New audio generated in ${Date.now() - start} ms`, {
+    file: outputPath,
+  });
+  return episode;
 }
 
 /**
@@ -147,10 +176,10 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
 
   const recovered = (
     await Promise.all(
-      ids.map(async (frameId) => {
+      ids.map(async (id) => {
         const [fileData, answerData] = await Promise.all([
-          frameStorage.getItem<StoredFileState>(frameId),
-          answerStorage.getItem<StoredAnswer>(frameId),
+          frameStorage.getItem<StoredFileState>(id),
+          answerStorage.getItem<StoredAnswer>(id),
         ]);
         if (!fileData) {
           // This shouldn't actually happen because we're querying by the keys
@@ -160,7 +189,7 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
               ++unservedAnswer;
               // Answer is supposedly for an unserved frame, but there is no frame
               // data. Delete this inconsistent data.
-              answerStorage.removeItem(frameId);
+              answerStorage.removeItem(id);
             } else {
               ++cleanedFileAnswer;
             }
@@ -175,9 +204,9 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
         if (!answerData) {
           ++noAnswer;
           // Answer lost, so even if we have the file, it's unusable.
-          frameStorage.removeItem(frameId);
+          frameStorage.removeItem(id);
           // Don't care if this fails with ENOENT.
-          fs.rm(imagePathForId(config, frameId)).catch();
+          fs.rm(imagePathForId(config, id)).catch();
           return null;
         }
         if (fileData.expiryTs) {
@@ -186,22 +215,26 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
           return null;
         }
         try {
-          await fs.stat(imagePathForId(config, frameId));
+          await fs.stat(
+            fileData.kind.startsWith("audio")
+              ? audioPathForId(config, id)
+              : imagePathForId(config, id),
+          );
           ++recoveredCount;
-          return { genSeries: fileData.genSeries, frameId };
+          return { kind: fileData.kind, id: id };
         } catch (e) {
           ++missingFile;
           // Probably ENOENT, or the image file is otherwise inaccessible.
           // No need to await.
-          frameStorage.removeItem(frameId);
+          frameStorage.removeItem(id);
           if (!answerData || !answerData.expiryTs) {
-            answerStorage.removeItem(frameId);
+            answerStorage.removeItem(id);
           }
           return null;
         }
       }),
     )
-  ).filter((e) => e && e.frameId) as [{ genSeries: string; frameId: string }];
+  ).filter((e) => e && e.id) as [{ kind: string; id: string }];
 
   return {
     recovered,
@@ -217,20 +250,20 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
 }
 
 /**
- * Sorts recovered frames into separate lists by series.
+ * Sorts recovered frames into separate lists by kind.
  * @param arr Recovered frames to sort.
- * @returns Frames sorted by series.
+ * @returns Frames sorted by kind.
  */
-function sortBySeries(arr: [{ genSeries: string; frameId: string }]): {
-  [key: string]: [{ frameId: string }];
+function sortByKind(arr: [{ kind: string; id: string }]): {
+  [key: string]: [{ id: string }];
 } {
-  const result: ReturnType<typeof sortBySeries> = {};
-  arr.forEach(({ genSeries, frameId }) => {
-    genSeries = genSeries || "frame";
-    if (genSeries in result) {
-      result[genSeries].push({ frameId });
+  const result: ReturnType<typeof sortByKind> = {};
+  arr.forEach(({ kind, id }) => {
+    kind = kind || "frame";
+    if (kind in result) {
+      result[kind].push({ id });
     } else {
-      result[genSeries] = [{ frameId }];
+      result[kind] = [{ id }];
     }
   });
   return result;
@@ -244,7 +277,7 @@ function sortBySeries(arr: [{ genSeries: string; frameId: string }]): {
  */
 async function getFrameProducerQueueUncached(
   config: ReturnType<typeof useRuntimeConfig>,
-): Promise<ProducerQueue<{ frameId: string }>> {
+): Promise<ProducerQueue<{ id: string }>> {
   const { episodes } = await getShowData(config);
 
   const answerStorage = useStorage("answer");
@@ -273,9 +306,13 @@ async function getFrameProducerQueueUncached(
     const imagePath = imagePathForId(config, frameId);
 
     // Record that we generated this file.
-    const storeFrameIdP = frameStateStorage.setItem(frameId, {
-      expiryTs: null,
-    });
+    const storeFrameIdP = resourceStateStorage.setItem<StoredFileState>(
+      frameId,
+      {
+        kind: subtitles ? "frameWithSubtitles" : "frame",
+        expiryTs: null,
+      },
+    );
     const { episode, seekTime } = await ffmpegFrame(
       config,
       chooseRandomFrame,
@@ -299,33 +336,89 @@ async function getFrameProducerQueueUncached(
       // expiry time when serving.
       storeFrameIdP,
     ]);
-    return { frameId };
+    return { id: frameId };
+  }
+
+  /**
+   * Select a random episode and generate a random time in it.
+   * @param length Length of the audio range to generate.
+   * @returns Start offset in video.
+   */
+  function chooseRandomAudio(length: number): RandomEpisode {
+    const episode = episodes[Math.floor(Math.random() * episodes.length)];
+    const seekTime = randomTimeRangeInEpisode(episode, length);
+    return { episode, seekTime };
+  }
+
+  /**
+   * Generate a random audio clip.
+   * @param length Length of the audio range to generate.
+   * @returns Promise to await on completion.
+   */
+  async function generateAudio(length: number): Promise<{ id: string }> {
+    const audioId = myUuid(config);
+    const audioPath = audioPathForId(config, audioId);
+
+    logger.error(`audio${length}s`);
+    const storeAudioIdP = frameStateStorage.setItem<StoredFileState>(audioId, {
+      kind: `audio${length}s`,
+      expiryTs: null,
+    });
+    const { episode, seekTime } = await ffmpegAudio(
+      config,
+      chooseRandomAudio(length),
+      audioPath,
+      length,
+    );
+
+    await Promise.all([
+      answerStorage.setItem<StoredAnswer>(audioId, {
+        season: episode.season_number,
+        episode: episode.episode_number,
+        seekTime,
+        expiryTs: null,
+      }),
+      storeAudioIdP,
+    ]);
+    return { id: audioId };
   }
 
   const { recovered, stats } = await recoverFrames(config);
-  const recoveredBySeries = sortBySeries(recovered);
+  const recoveredByKind = sortByKind(recovered);
   logger.info(
-    `Recovered ${recovered.length} unserved frames from previous runs`,
+    `Recovered ${recovered.length} unserved resources from previous runs`,
     {
       stats,
-      series: Object.fromEntries(
-        Object.entries(recoveredBySeries).map(([series, recovered]) => [
-          series,
+      kind: Object.fromEntries(
+        Object.entries(recoveredByKind).map(([kind, recovered]) => [
+          kind,
           recovered.length,
         ]),
       ),
     },
   );
 
-  return new ProducerQueue<{ frameId: string }>(
+  return new ProducerQueue<{ id: string }>(
     {
       frame: {
         produceFn: () => generateFrame(false),
-        preproduced: recoveredBySeries.frame || [],
+        preproduced: recoveredByKind.frame || [],
       },
       frameWithSubtitles: {
         produceFn: () => generateFrame(true),
-        preproduced: recoveredBySeries.frameWithSubtitles || [],
+        preproduced: recoveredByKind.frameWithSubtitles || [],
+      },
+      audio5s: {
+        produceFn: () => generateAudio(5),
+        preproduced: recoveredByKind.audio5s || [],
+      },
+      audio10s: {
+        produceFn: () => generateAudio(10),
+        preproduced: recoveredByKind.audio10s || [],
+      },
+      audio15s: {
+        produceFn: () => generateAudio(15),
+        preproduced: recoveredByKind.audio15s || [],
       },
     },
     {

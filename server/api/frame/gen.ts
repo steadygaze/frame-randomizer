@@ -2,7 +2,7 @@ import { getFrameProducerQueue } from "../../load";
 import { StoredAnswer, StoredFileState, StoredRunData } from "~/server/types";
 import { logger } from "~/server/logger";
 import { cleanupFrame } from "~/server/cleanup";
-import { boolUrlParam, optionsToSeries } from "~/server/utils";
+import { queryToKind } from "~/server/utils";
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
@@ -37,14 +37,14 @@ export default defineLazyEventHandler(async () => {
   /**
    * Gets a queued frame from the frame producer queue. This involves retries if
    * there are bad frames.
-   * @param genSeries Type of frame to generate.
+   * @param kind Type of frame to generate.
    * @returns Frame data.
    */
-  async function getQueuedFrame(genSeries: string) {
+  async function getQueuedResource(kind: string) {
     let result = null;
     do {
       try {
-        result = await queue.next(genSeries);
+        result = await queue.next(kind);
       } catch (error) {
         logger.error("Error while reserving pregenerated frame", { error });
         result = null;
@@ -61,20 +61,19 @@ export default defineLazyEventHandler(async () => {
       logger.info("Cleaning up frame on navigation", { id: cleanupid });
       cleanupFrame(String(cleanupid), false);
     }
-    const subtitles = boolUrlParam(query.subtitles);
 
     const startTs = Date.now();
-    const frameData = await getQueuedFrame(optionsToSeries({ subtitles }));
+    const resourceData = await getQueuedResource(queryToKind(query));
     const assignLatencyMs = Date.now() - startTs;
     logger.info(
       `Request waited ${assignLatencyMs} ms for image generation and callback queue`,
     );
     // Don't await on adding an expiry time, because it won't affect the result.
-    addExpiry(frameData.frameId);
+    addExpiry(resourceData.id);
 
     let runId = query.runId;
     const newPending = {
-      id: frameData.frameId,
+      id: resourceData.id,
       assignTs: startTs,
       assignLatencyMs,
     };
@@ -108,6 +107,6 @@ export default defineLazyEventHandler(async () => {
       runStateStorage.setItem(runId, runData);
     }
 
-    return { ...frameData };
+    return { ...resourceData };
   });
 });

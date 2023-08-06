@@ -55,12 +55,28 @@
       "tmdb_page": "TMDB-Seite."
     }
   },
+  "game_mode": {
+    "audio": "Audio-",
+    "audio_length_description": "Wie lang soll der Ton sein?",
+    "audio_length_label": "Audiolänge",
+    "fifteen_seconds": "15 Sekunden",
+    "five_seconds": "5 Sekunden",
+    "frame": "rahmen",
+    "header": "Spielmodus",
+    "resource_type_description": "Der Typ der generierten Ressource.",
+    "resource_type_label": "Ressourcentyp",
+    "subtitles_description": "Untertitel anzeigen, wenn im aktuellen Frame ein Dialog vorhanden ist. Nur Originalsprache.",
+    "subtitles_label": "Untertitel",
+    "ten_seconds": "10 Sekunden"
+  },
   "head": {
     "description": "Generieren Sie einen zufälligen Frame aus {show} und erraten Sie, aus welcher Episode er stammt.",
     "title": "{instance} : {show} Frame-Randomizer"
   },
   "input": {
     "about": "Info",
+    "game_mode": "Spielmodus",
+    "new_audio": "Neues Audio",
     "new_frame": "Nächstes Bild",
     "placeholder": {
       "fuzzy": "Fuzzy-Suche ({characters} + Zeichen) oder sXXeXX...",
@@ -85,7 +101,8 @@
     "correct_message": "{correct} : {answer} .",
     "entry_select_fail": "Kein Eintrag Nummer {number} in den Suchergebnissen.",
     "generation_error": "Fehler beim Generieren des Frames: {error} . Versuchen Sie es erneut?",
-    "guess_prompt": "Errate die Episode {show}, aus der das ausgewählte Bild stammt.",
+    "guess_prompt": "Erraten Sie mithilfe des Suchfelds die Episode {show} , aus der das Bild zufällig ausgewählt wird.",
+    "guess_prompt_audio": "Erraten Sie mithilfe des Suchfelds die Episode {show} , aus der der Ton zufällig ausgewählt wird.",
     "incorrect": "falsch",
     "incorrect_message": "{guess} ist ❌ {incorrect} . Antwort: {answer} .",
     "info": "Info",

@@ -55,12 +55,28 @@
       "tmdb_page": "TMDB页面。"
     }
   },
+  "game_mode": {
+    "audio": "声音的",
+    "audio_length_description": "音频应该多长。",
+    "audio_length_label": "音频长度",
+    "fifteen_seconds": "15秒",
+    "five_seconds": "5秒",
+    "frame": "框架",
+    "header": "游戏模式",
+    "resource_type_description": "生成的资源类型。",
+    "resource_type_label": "资源类型",
+    "subtitles_description": "如果当前帧中有任何对话框，则显示字幕。仅原始语言。",
+    "subtitles_label": "字幕",
+    "ten_seconds": "10秒"
+  },
   "head": {
     "description": "从{show}生成一个随机帧，猜猜它是从哪一集来的。",
     "title": "{instance}:{show}帧随机生成器"
   },
   "input": {
     "about": "关于",
+    "game_mode": "游戏模式",
+    "new_audio": "新音频",
     "new_frame": "新帧",
     "placeholder": {
       "fuzzy": "模糊搜索({characters}+字符)或sXXeXX...",
@@ -86,6 +102,7 @@
     "entry_select_fail": "搜索结果中没有条目号{number} 。",
     "generation_error": "生成帧错误：{error}。再试一次？",
     "guess_prompt": "猜猜这个随机截图来自{show}的哪一集。",
+    "guess_prompt_audio": "猜测使用搜索框随机选择音频的第{show}集。",
     "incorrect": "错误",
     "incorrect_message": "{guess}是❌{incorrect}。答案：{answer}。",
     "info": "信息",

@@ -2,7 +2,7 @@ import fsAsync from "node:fs";
 import path from "path";
 import { sendStream } from "h3";
 import { logger } from "~/server/logger";
-import { cleanupFrame } from "~/server/cleanup";
+import { cleanupAudio } from "~/server/cleanup";
 import { logFetchToRun } from "~/server/serve";
 
 const config = useRuntimeConfig();
@@ -19,7 +19,7 @@ export default defineEventHandler((event) => {
   }
   if (
     traversingPathRe.test(basename) ||
-    !basename.endsWith(`.${config.public.imageOutputExtension}`)
+    !basename.endsWith(`.${config.public.audioOutputExtension}`)
   ) {
     // Prevent path traversal security vulnerability, or attempt to access other
     // file extensions.
@@ -33,7 +33,7 @@ export default defineEventHandler((event) => {
     const stream = fsAsync.createReadStream(file);
     const id = basename.slice(
       0,
-      basename.length - (config.public.imageOutputExtension.length + 1),
+      basename.length - (config.public.audioOutputExtension.length + 1),
     );
     if (runId) {
       // The "close" and "ready" events usually occur within milliseconds, and
@@ -45,8 +45,8 @@ export default defineEventHandler((event) => {
     }
     if (cleanuponload && cleanuponload !== "false" && cleanuponload !== "0") {
       stream.on("close", () => {
-        logger.info("Cleaning up frame on load", { id });
-        cleanupFrame(id, false);
+        logger.info("Cleaning up audio on load", { id });
+        cleanupAudio(id, false);
       });
     }
     return sendStream(event, stream);
@@ -58,12 +58,12 @@ export default defineEventHandler((event) => {
       error.code === "ENOENT"
     ) {
       // Tried to get a file path that doesn't exist.
-      logger.error("Got request for nonexistent frame", {
+      logger.error("Got request for nonexistent audio", {
         file,
       });
       throw createError({ statusCode: 404 });
     } else {
-      logger.error("Unknown error when serving frame", {
+      logger.error("Unknown error when serving audio", {
         error,
       });
       throw createError({ statusCode: 500 });
