@@ -61,7 +61,7 @@
           :show="showSettings"
           @close="showSettings = false"
         ></SettingsModal>
-        <button @click="showGameMode = !showGameMode">
+        <button :disabled="!!runId" @click="showGameMode = !showGameMode">
           🎮 {{ $t("input.game_mode") }}
         </button>
         <GameModeModal
