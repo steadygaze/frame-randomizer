@@ -34,7 +34,7 @@ async function getShowDataUncached(
     fs.readFile(runtimeConfig.showDataPath, { encoding: "utf-8" }),
     lsAllFiles(runtimeConfig),
     fs
-      .mkdir(runtimeConfig.frameOutputDir, { recursive: true })
+      .mkdir(runtimeConfig.resourceOutputDir, { recursive: true })
       .catch((error) => {
         if (
           !(error instanceof Object) ||
@@ -97,7 +97,7 @@ async function ffmpegFrame(
   const identify = config.imageMagickIdentifyPath;
   const inject = config.ffmpegImageCommandInject;
   const maxRejects = config.frameGenMaxAttempts;
-  const requiredStddev = config.frameRequiredStandardDeviation;
+  const requiredStddev = config.frameRequiredStandardDeviation256;
   const fontName = config.subtitleFontName;
   const fontSize = config.subtitleFontSize;
 
@@ -120,8 +120,11 @@ async function ffmpegFrame(
     requiredStddev > 0 &&
     rejected < maxRejects &&
     parseInt(
-      (await exec(`${identify} -format '%[standard_deviation]' ${outputPath}`))
-        .stdout,
+      (
+        await exec(
+          `${identify} -format '%[fx:standard_deviation*256]' ${outputPath}`,
+        )
+      ).stdout,
     ) < requiredStddev
   );
   logger.info(`New frame generated in ${Date.now() - start} ms`, {
@@ -166,9 +169,9 @@ async function ffmpegAudio(
  */
 async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
   const answerStorage = useStorage("answer");
-  const frameStorage = useStorage("frameState");
+  const resourceStorage = useStorage("resourceState");
 
-  const ids = await frameStorage.getKeys();
+  const ids = await resourceStorage.getKeys();
   let noAnswer = 0;
   let unservedAnswer = 0;
   let cleanedFileAnswer = 0;
@@ -180,7 +183,7 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
     await Promise.all(
       ids.map(async (id) => {
         const [fileData, answerData] = await Promise.all([
-          frameStorage.getItem<StoredFileState>(id),
+          resourceStorage.getItem<StoredFileState>(id),
           answerStorage.getItem<StoredAnswer>(id),
         ]);
         if (!fileData) {
@@ -206,7 +209,7 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
         if (!answerData) {
           ++noAnswer;
           // Answer lost, so even if we have the file, it's unusable.
-          frameStorage.removeItem(id);
+          resourceStorage.removeItem(id);
           // Don't care if this fails with ENOENT.
           fs.rm(imagePathForId(config, id)).catch();
           return null;
@@ -224,7 +227,7 @@ async function recoverFrames(config: ReturnType<typeof useRuntimeConfig>) {
           ++missingFile;
           // Probably ENOENT, or the image file is otherwise inaccessible.
           // No need to await.
-          frameStorage.removeItem(id);
+          resourceStorage.removeItem(id);
           if (!answerData || !answerData.expiryTs) {
             answerStorage.removeItem(id);
           }
@@ -279,7 +282,7 @@ async function getFrameProducerQueueUncached(
   const { episodes } = await getShowData(config);
 
   const answerStorage = useStorage("answer");
-  const frameStateStorage = useStorage("frameState");
+  const resourceStateStorage = useStorage("resourceState");
 
   /**
    * Generate a random episode and a random time in the episode.
@@ -357,10 +360,13 @@ async function getFrameProducerQueueUncached(
     const audioId = myUuid(config);
     const audioPath = audioPathForId(config, audioId);
 
-    const storeAudioIdP = frameStateStorage.setItem<StoredFileState>(audioId, {
-      kind: `audio${length}s`,
-      expiryTs: null,
-    });
+    const storeAudioIdP = resourceStateStorage.setItem<StoredFileState>(
+      audioId,
+      {
+        kind: `audio${length}s`,
+        expiryTs: null,
+      },
+    );
     const { episode, seekTime } = await ffmpegAudio(
       config,
       chooseRandomAudio(length),
@@ -419,9 +425,9 @@ async function getFrameProducerQueueUncached(
       },
     },
     {
-      length: config.framePregenCount,
+      length: config.pregenTotal,
       perKindMinimum: config.perKindMinimum,
-      maxPending: config.frameGenMaxParallelism,
+      maxPending: config.resourceGenMaxParallelism,
       maxRetries: config.frameGenMaxAttempts,
       queueExhaustionQueueCount: config.queueExhaustionQueueCount,
     },

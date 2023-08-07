@@ -739,7 +739,7 @@ export function imagePathForId(
   id: string,
 ) {
   return path.join(
-    config.frameOutputDir,
+    config.resourceOutputDir,
     `${id}.${config.public.imageOutputExtension}`,
   );
 }
@@ -755,7 +755,7 @@ export function audioPathForId(
   id: string,
 ) {
   return path.join(
-    config.frameOutputDir,
+    config.resourceOutputDir,
     `${id}.${config.public.audioOutputExtension}`,
   );
 }

@@ -6,7 +6,7 @@ import { queryToKind } from "~/server/utils";
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
-const frameStateStorage = useStorage("frameState");
+const resourceStateStorage = useStorage("resourceState");
 const runStateStorage = useStorage("runState");
 
 /**
@@ -25,7 +25,7 @@ async function addExpiry(id: string): Promise<void> {
       ...answer,
       expiryTs: Date.now() + config.answerExpiryMs,
     } as StoredAnswer),
-    frameStateStorage.setItem(id, {
+    resourceStateStorage.setItem(id, {
       expiryTs: Date.now() + config.public.frameExpiryMs,
     } as StoredFileState),
   ]);

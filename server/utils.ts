@@ -25,7 +25,7 @@ export function myUuid(
   purpose = "image_generation",
 ) {
   return uuidv5(
-    [config.instanceName, config.frameOutputDir, purpose, Date.now()].join(
+    [config.instanceName, config.resourceOutputDir, purpose, Date.now()].join(
       "___",
     ),
     config.uuidNamespace,

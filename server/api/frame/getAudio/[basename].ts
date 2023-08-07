@@ -12,7 +12,7 @@ const traversingPathRe = /[/\\]|\.\./;
 
 export default defineEventHandler((event) => {
   const basename = getRouterParam(event, "basename");
-  const cleanuponload = getQuery(event).cleanuponload;
+  const cleanup = getQuery(event).cleanup;
 
   if (!basename) {
     throw createError({ statusCode: 404 });
@@ -28,7 +28,7 @@ export default defineEventHandler((event) => {
 
   const runId = getQuery(event).runId;
 
-  const file = path.join(config.frameOutputDir, basename);
+  const file = path.join(config.resourceOutputDir, basename);
   try {
     const stream = fsAsync.createReadStream(file);
     const id = basename.slice(
@@ -43,7 +43,7 @@ export default defineEventHandler((event) => {
         async () => await logFetchToRun(id, String(runId), runStateStorage),
       );
     }
-    if (cleanuponload && cleanuponload !== "false" && cleanuponload !== "0") {
+    if (cleanup && cleanup !== "false" && cleanup !== "0") {
       stream.on("close", () => {
         logger.info("Cleaning up audio on load", { id });
         cleanupAudio(id, false);

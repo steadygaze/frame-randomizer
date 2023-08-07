@@ -132,7 +132,7 @@ export const useAppStateStore = defineStore("appState", () => {
     }
 
     const params = [
-      browser.value?.name === "firefox" ? "cleanuponload=true" : "",
+      browser.value?.name === "firefox" ? "cleanup=true" : "",
       runId.value ? `runId=${runId.value}` : "",
     ]
       .filter((e) => e)
@@ -160,7 +160,7 @@ export const useAppStateStore = defineStore("appState", () => {
     }
 
     const params = [
-      // browser.value?.name === "firefox" ? "cleanuponload=true" : "",
+      // browser.value?.name === "firefox" ? "cleanup=true" : "",
       runId.value ? `runId=${runId.value}` : "",
     ]
       .filter((e) => e)

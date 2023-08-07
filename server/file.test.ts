@@ -799,7 +799,7 @@ describe("imagePathForId", () => {
     expect(
       imagePathForId(
         {
-          frameOutputDir: "/path/to/output/dir",
+          resourceOutputDir: "/path/to/output/dir",
           public: { imageOutputExtension: "webp" },
         } as unknown as ReturnType<typeof useRuntimeConfig>,
         "01234567-89ab-cdef-0123-456789abcdef",

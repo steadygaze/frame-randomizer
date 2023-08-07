@@ -123,8 +123,8 @@ export default defineNuxtConfig({
         driver: "fs",
       },
 
-      frameState: {
-        base: appDataPath("frame-state"),
+      resourceState: {
+        base: appDataPath("resource-state"),
         driver: "fs",
       },
 
@@ -200,7 +200,7 @@ export default defineNuxtConfig({
     allowMissingEpisodes: true,
     // How long to keep an answer around for after a frame is served.
     answerExpiryMs: 4 * 60 * 60 * 1000, // 4 hours.
-    // How often to check frameOutputDir, frame state storage, and answer
+    // How often to check resourceOutputDir, frame state storage, and answer
     // storage for expired or orphaned images.
     cleanupIntervalMs: 5 * 60 * 1000, // 5 minutes.
     // If given, this will be injected into the ffmpeg command used to generate
@@ -220,26 +220,18 @@ export default defineNuxtConfig({
     // Path to ffmpeg binary, or "ffmpeg" to use the one from the system PATH.
     ffprobePath: "ffprobe",
     // How many times to attempt frame generation before it's considered
-    // unrecoverable.  Additionally, if frameRequiredStandardDeviation is set, a
+    // unrecoverable.  Additionally, if frameRequiredStandardDeviation256 is set, a
     // minimum standard deviation is required. If image generation fails this
     // many times, give up and use the last generated image, waiving the
     // standard deviation requirement. While it will prevent frame generation
     // from hanging on frame generation indefinitely, hitting the limit will
     // still increase frame generation times significantly.
     frameGenMaxAttempts: 5,
-    // Limit number of simultaneously generated frames to this amount.
-    frameGenMaxParallelism: 3,
-    // Where generated images will be outputted to and served from. Apparently
-    // orphaned images will be cleaned out of this directory, so don't point it
-    // to somewhere that has existing data!
-    frameOutputDir: "./frame-randomizer/frames",
-    // Number of images to pregenerate. These will be ready for serving right
-    // away, and will be replaced as soon as they're served.
-    framePregenCount: 3,
     // Require a standard deviation (from ImageMagick's identify command) of
-    // more than this amount. If unsure, consider testing with identify on some
-    // borderline frames. Set to 0 to disable.
-    frameRequiredStandardDeviation: 2500.0,
+    // more than this amount. This is related to the standard deviation of RGB
+    // values on a scale from 0 to 256. If unsure, consider testing with
+    // identify on some borderline frames. Set to 0 to disable.
+    frameRequiredStandardDeviation256: 9.765,
     // Path to ImageMagick identify command.
     imageMagickIdentifyPath: "identify",
     // For all different pregenerated kinds of resources (e.g. frames
@@ -247,6 +239,9 @@ export default defineNuxtConfig({
     // many to keep pregenerated minimum, regardless of traffic patterns and
     // pregen caps.
     perKindMinimum: 2,
+    // Number of audio clips and images to pregenerate. These will be ready for
+    // serving right away, and will be replaced as soon as they're served.
+    pregenTotal: 3,
     // Private key, used for signing verified runs.
     privateKey: "",
     // Per Nuxt documentation, these values will be sent to client-side code.
@@ -322,6 +317,14 @@ export default defineNuxtConfig({
     // If a particular combination hasn't been queued, how many to queue at
     // once.
     queueExhaustionQueueCount: 3,
+    // Limit number of simultaneously generated resources to this amount.
+    // Assuming resource generation is a CPU-bound task, common advice is to set
+    // this to 1 more than the number of CPU cores available.
+    resourceGenMaxParallelism: 3,
+    // Where generated audio and images will be outputted to and served from.
+    // Apparently orphaned files will be cleaned out of this directory, so
+    // don't point it to somewhere that has existing data!
+    resourceOutputDir: "./frame-randomizer/resources",
     // How long until unimportant runs are deleted.
     runExpiryMs: 1 * 60 * 60 * 1000, // 1 hour.
     // How many entries a run must have to be considered important.

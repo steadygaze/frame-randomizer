@@ -11,7 +11,7 @@ const config = useRuntimeConfig();
 const sleep = promisify(setTimeout);
 const answerStorage = useStorage("answer");
 const archivedRunStorage = useStorage("archivedRun");
-const frameStateStorage = useStorage("frameState");
+const resourceStateStorage = useStorage("resourceState");
 const runStateStorage = useStorage("runState");
 
 /**
@@ -83,9 +83,8 @@ function cleanupOrphanedResources(
 async function cleanupExpiredResources(frameFileIds: string[]) {
   await Promise.all(
     frameFileIds.map(async (fileId) => {
-      const storedFileState = await frameStateStorage.getItem<StoredFileState>(
-        fileId,
-      );
+      const storedFileState =
+        await resourceStateStorage.getItem<StoredFileState>(fileId);
       if (
         storedFileState &&
         storedFileState?.expiryTs &&
@@ -97,7 +96,7 @@ async function cleanupExpiredResources(frameFileIds: string[]) {
           file,
         });
         await Promise.all([
-          frameStateStorage.removeItem(fileId),
+          resourceStateStorage.removeItem(fileId),
           fs.rm(file).catch((error) => {
             if (error.code !== "ENOENT") {
               logger.error(`Failed to clean up expired resource: ${error}`, {
@@ -117,8 +116,8 @@ async function cleanupExpiredResources(frameFileIds: string[]) {
 async function cleanupOrphanedAndExpiredImages() {
   const frameExt = config.public.imageOutputExtension;
   const audioExt = config.public.audioOutputExtension;
-  const frameGlobPattern = path.join(config.frameOutputDir, `*.${frameExt}`);
-  const audioGlobPattern = path.join(config.frameOutputDir, `*.${audioExt}`);
+  const frameGlobPattern = path.join(config.resourceOutputDir, `*.${frameExt}`);
+  const audioGlobPattern = path.join(config.resourceOutputDir, `*.${audioExt}`);
   const frameFilenameToKeyRe = new RegExp(
     `/(?<key>[0-9a-f\\-]+)\\.${frameExt}$`,
   );
@@ -127,7 +126,7 @@ async function cleanupOrphanedAndExpiredImages() {
   );
 
   const [resourceIds, frames1, frames2, audio1, audio2] = await Promise.all([
-    frameStateStorage.getKeys(),
+    resourceStateStorage.getKeys(),
     // List the files twice to avoid race conditions with storage cleanup.
     // Frames will be cleaned up only if they are present both times.
     glob(frameGlobPattern),

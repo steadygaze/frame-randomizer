@@ -4,7 +4,7 @@ import { audioPathForId, imagePathForId } from "~/server/file";
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
-const frameStateStorage = useStorage("frameState");
+const resourceStateStorage = useStorage("resourceState");
 
 /**
  * Delete the file and storage entry for a generic resource.
@@ -22,7 +22,7 @@ async function cleanupResource(
     !(
       await Promise.all([
         cleanupAnswer ? answerStorage.hasItem(id) : false,
-        frameStateStorage.hasItem(id),
+        resourceStateStorage.hasItem(id),
       ])
     ).some((e) => e)
   ) {
@@ -34,7 +34,7 @@ async function cleanupResource(
 
   await Promise.all([
     cleanupAnswer ? answerStorage.removeItem(id) : false,
-    frameStateStorage.removeItem(id),
+    resourceStateStorage.removeItem(id),
     fs.rm(file).catch((error) => {
       if (error.code !== "ENOENT") {
         logger.error(`Failed to clean up fetched image: ${error}`, {
