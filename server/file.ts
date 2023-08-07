@@ -772,7 +772,7 @@ export function resourcePathForId(
   id: string,
   fileState: StoredFileState,
 ) {
-  return fileState.kind.startsWith("audio")
+  return fileState.kind && fileState.kind.startsWith("audio")
     ? audioPathForId(config, id)
     : imagePathForId(config, id);
 }
