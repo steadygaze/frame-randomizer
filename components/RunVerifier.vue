@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useAppStateStore } from "~~/store/appStateStore";
+import { useGameModeStore } from "~~/store/gameModeStore";
 
 const config = useRuntimeConfig();
 const appStateStore = useAppStateStore();
@@ -41,6 +42,9 @@ const {
   lastCorrectTimestamp,
   lastGuessTimestamp,
 } = storeToRefs(appStateStore);
+
+const gameModeStore = useGameModeStore();
+const { resourceType } = storeToRefs(gameModeStore);
 
 const emit = defineEmits<{ (e: "start"): void }>();
 
@@ -124,7 +128,11 @@ async function startRun() {
     }
   } else if (data && data.value) {
     runId.value = data.value.runId;
-    readout("readout.new_run");
+    readout(
+      resourceType.value === "audio"
+        ? "readout.new_run_audio"
+        : "readout.new_run",
+    );
   } else {
     readout("readout.unknown_error");
   }
