@@ -336,7 +336,10 @@ export default defineNuxtConfig({
     // Required. Where the show data is. See README.md and server/load.ts for
     // more info.
     showDataPath: undefined,
+    // Font to use when generating subtitles. The underlying ffmpeg library will
+    // fall back to some other font if this is unavailable.
     subtitleFontName: "Impact",
+    // Font size when generating subtitles.
     subtitleFontSize: 32,
     // Where the subtitles can be found. Files should include the season and
     // episode numbers in SxxExx or xx,xx format or similar.
