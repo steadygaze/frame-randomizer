@@ -36,7 +36,6 @@ watch(frameId, (frameId) => {
   // Clear error state when getting a new frame.
   if (frameId) {
     showImageError.value = false;
-    console.log(frameId);
   }
 });
 </script>
