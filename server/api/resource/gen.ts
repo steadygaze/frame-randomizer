@@ -55,11 +55,11 @@ export default defineLazyEventHandler(async () => {
 
   return defineEventHandler(async (event) => {
     const query = getQuery(event);
-    const cleanupid = query.cleanupid;
-    if (cleanupid) {
+    const cleanupId = query.cleanupId;
+    if (cleanupId) {
       // Don't await; this doesn't affect the rest of the request.
-      logger.info("Cleaning up frame on navigation", { id: cleanupid });
-      cleanupFrame(String(cleanupid), false);
+      logger.info("Cleaning up frame on navigation", { id: cleanupId });
+      cleanupFrame(String(cleanupId), false);
     }
 
     const startTs = Date.now();
