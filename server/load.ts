@@ -146,9 +146,10 @@ async function ffmpegAudio(
   audioLength: number,
 ): Promise<RandomEpisode> {
   const ffmpeg = config.ffmpegPath;
+  const inject = config.ffmpegAudioCommandInject;
 
   const start = Date.now();
-  const command = `${ffmpeg} -ss ${episode.seekTime} -i ${episode.episode.filename} -t ${audioLength} -vn -map a:0 -ac 1 -y ${outputPath}`;
+  const command = `${ffmpeg} -ss ${episode.seekTime} -i ${episode.episode.filename} -t ${audioLength} -vn -map a:0 -ac 1 ${inject} -y ${outputPath}`;
   logger.verbose("Executing ffmpeg command", { command });
   await exec(command);
 
