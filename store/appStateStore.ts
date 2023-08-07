@@ -137,7 +137,7 @@ export const useAppStateStore = defineStore("appState", () => {
     ]
       .filter((e) => e)
       .join("&");
-    const url = `/api/frame/get/${frameId.value}.${
+    const url = `/api/resource/get/${frameId.value}.${
       config.public.imageOutputExtension
     }${params ? `?${params}` : ""}`;
 
@@ -165,7 +165,7 @@ export const useAppStateStore = defineStore("appState", () => {
     ]
       .filter((e) => e)
       .join("&");
-    const url = `/api/frame/getAudio/${audioId.value}.${
+    const url = `/api/resource/getAudio/${audioId.value}.${
       config.public.audioOutputExtension
     }${params ? `?${params}` : ""}`;
 

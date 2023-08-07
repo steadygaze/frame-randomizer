@@ -100,13 +100,13 @@ defineEmits<{
 watch(resourceType, (resourceType) => {
   if (resourceType === "frame") {
     if (audioId.value) {
-      navigator.sendBeacon(`/api/frame/cleanup/${audioId.value}`);
+      navigator.sendBeacon(`/api/resource/${audioId.value}/cleanup`);
     }
     audioId.value = "";
     reset();
   } else {
     if (frameId.value) {
-      navigator.sendBeacon(`/api/frame/cleanup/${audioId.value}`);
+      navigator.sendBeacon(`/api/resource/${audioId.value}/cleanup`);
     }
     frameId.value = "";
     reset();

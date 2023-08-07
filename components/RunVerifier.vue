@@ -129,7 +129,9 @@ async function startRun() {
     readout("readout.unknown_error");
   }
 
-  navigator.sendBeacon(`/api/frame/cleanup/${frameId.value || audioId.value}`);
+  navigator.sendBeacon(
+    `/api/resource/${frameId.value || audioId.value}/cleanup`,
+  );
   emit("start");
 }
 </script>

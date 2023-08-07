@@ -281,7 +281,7 @@ const searchResults = computed(() => {
 // awaiting with no result while the fetch is still pending. I suspect it may
 // have to do with the way our code will be preprocessed in Vue's composition
 // API, but I really don't know.
-const fetchGenResult = await useFetch("/api/frame/gen");
+const fetchGenResult = await useFetch("/api/resource/gen");
 
 /**
  * Request a frame from the API and reactively update the appropriate variables.
@@ -302,7 +302,7 @@ async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
   }
   const { data, error } =
     fetchResult ||
-    (await useFetch("/api/frame/gen", {
+    (await useFetch("/api/resource/gen", {
       query: {
         // cleanupid:
         //   browser.value?.name === "firefox"
@@ -375,7 +375,7 @@ onMounted(() => {
     // this case, so don't use it.
     if (fetchGenResult.data && fetchGenResult.data.value.frameId) {
       navigator.sendBeacon(
-        `/api/frame/cleanup/${fetchGenResult.data.value.frameId}`,
+        `/api/resource/${fetchGenResult.data.value.frameId}/cleanup`,
       );
     }
   } else {
@@ -488,9 +488,9 @@ async function submitAnswer(index: number) {
   const found = searchResults.value[index];
   const item = found ? found.item : { season: -1, episode: -1, fullName: "?" };
   const { data, error } = await useFetch(
-    `/api/frame/check/${
+    `/api/resource/${
       resourceType.value === "audio" ? audioId.value : frameId.value
-    }`,
+    }/check`,
     {
       query: {
         season: item.season,

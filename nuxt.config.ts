@@ -136,7 +136,7 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    "/api/frame/gen": {
+    "/api/resource/gen": {
       headers: {
         "cache-control": "no-cache, no-store",
       },
@@ -147,7 +147,7 @@ export default defineNuxtConfig({
         },
       },
     },
-    "/api/frame/get/**": {
+    "/api/resource/get/**": {
       headers: {
         // private: browser cache only, no CDN or Cloudflare cache.
         // immutable: image path is a UUID that will not change.
@@ -163,7 +163,7 @@ export default defineNuxtConfig({
         "content-type": process.env.FR_IMAGE_CONTENT_TYPE || "image/webp",
       },
     },
-    "/api/frame/getAudio/**": {
+    "/api/resource/getAudio/**": {
       headers: {
         // private: browser cache only, no CDN or Cloudflare cache.
         // immutable: image path is a UUID that will not change.
