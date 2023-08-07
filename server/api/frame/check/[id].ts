@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
   let runId = query.runId;
   if (runId) {
     runId = String(runId);
-    const runState = (await runStateStorage.getItem(runId)) as StoredRunData;
+    const runState = await runStateStorage.getItem<StoredRunData>(runId);
     if (runState) {
       const now = Date.now();
       runState.expiryTs = now + config.runExpiryMs;
@@ -76,13 +76,11 @@ export default defineEventHandler(async (event) => {
         const pending = runState.pending;
         runState.pending = null;
         runState.history.push({
-          id,
-          assignTs: pending.assignTs,
+          ...pending,
           startTs: pending.startTs || pending.assignTs,
           guessTs: now,
           guess: { season, episode },
           answer: { season, episode },
-          assignLatencyMs: pending.assignLatencyMs,
           seekTimeSec: answer.seekTime,
         });
       }

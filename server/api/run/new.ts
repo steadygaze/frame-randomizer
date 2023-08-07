@@ -9,14 +9,14 @@ export default defineEventHandler(async () => {
   const runId = myUuid(config, "run_tracking");
 
   logger.info("Assigning new run id", { runId });
-  await runStateStorage.setItem(runId, {
+  await runStateStorage.setItem<StoredRunData>(runId, {
     creationTs: Date.now(),
     pending: null,
     history: [],
     errors: [],
     expiryTs: Date.now() + config.runExpiryMs,
     version: config.public.softwareVersion,
-  } as StoredRunData);
+  });
 
   return { runId };
 });

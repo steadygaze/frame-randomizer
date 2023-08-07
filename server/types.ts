@@ -7,6 +7,7 @@ export interface StoredAnswer {
 
 export interface PendingRunState {
   id: string;
+  kind: string;
   assignTs: number;
   startTs?: number;
   assignLatencyMs: number;
@@ -75,6 +76,7 @@ export interface StoredRunData {
   pending: PendingRunState | null;
   history: {
     id: string;
+    kind: string;
     assignTs: number;
     startTs: number;
     guessTs: number;

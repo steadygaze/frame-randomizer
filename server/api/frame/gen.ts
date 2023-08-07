@@ -63,7 +63,8 @@ export default defineLazyEventHandler(async () => {
     }
 
     const startTs = Date.now();
-    const resourceData = await getQueuedResource(queryToKind(query));
+    const kind = queryToKind(query);
+    const resourceData = await getQueuedResource(kind);
     const assignLatencyMs = Date.now() - startTs;
     logger.info(
       `Request waited ${assignLatencyMs} ms for image generation and callback queue`,
@@ -74,13 +75,14 @@ export default defineLazyEventHandler(async () => {
     let runId = query.runId;
     const newPending = {
       id: resourceData.id,
+      kind,
       assignTs: startTs,
       assignLatencyMs,
     };
     if (runId) {
       runId = String(runId);
 
-      const runData = (await runStateStorage.getItem(runId)) as StoredRunData;
+      const runData = await runStateStorage.getItem<StoredRunData>(runId);
 
       if (!runData) {
         throw createError({
