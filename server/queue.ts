@@ -3,7 +3,7 @@ import pLimit, { LimitFunction } from "p-limit";
 import { logger } from "./logger";
 
 export interface ProducerQueueOptions {
-  length: number;
+  totalLength: number;
   perKindMinimum: number;
   maxPending: number;
   maxRetries: number;
@@ -57,7 +57,7 @@ export class ProducerQueue<Type> {
     ).reduce((prev, cur) => prev + cur);
 
     this.limit = pLimit(options.maxPending);
-    for (let i = 0; i < options.length - this.queueSum; ++i) {
+    for (let i = 0; i < options.totalLength - this.queueSum; ++i) {
       this.enqueueJob();
     }
 
@@ -103,12 +103,12 @@ export class ProducerQueue<Type> {
    * Top up to desired length, using usage ratios.
    */
   topUpAllKinds() {
-    if (this.queueSum < this.options.length) {
-      const n = this.options.length - this.queueSum;
+    if (this.queueSum < this.options.totalLength) {
+      const n = this.options.totalLength - this.queueSum;
       logger.info("Queue total under threshold; topping up", {
         n,
         currentSize: this.queueSum,
-        targetSize: this.options.length,
+        targetSize: this.options.totalLength,
       });
 
       for (let i = 0; i < n; ++i) {

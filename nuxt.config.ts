@@ -234,14 +234,6 @@ export default defineNuxtConfig({
     frameRequiredStandardDeviation256: 9.765,
     // Path to ImageMagick identify command.
     imageMagickIdentifyPath: "identify",
-    // For all different pregenerated kinds of resources (e.g. frames
-    // with/without subtitles, audio clips length 5, 10, 15 seconds, etc.), how
-    // many to keep pregenerated minimum, regardless of traffic patterns and
-    // pregen caps.
-    perKindMinimum: 2,
-    // Number of audio clips and images to pregenerate. These will be ready for
-    // serving right away, and will be replaced as soon as they're served.
-    pregenTotal: 3,
     // Private key, used for signing verified runs.
     privateKey: "",
     // Per Nuxt documentation, these values will be sent to client-side code.
@@ -325,6 +317,14 @@ export default defineNuxtConfig({
     // Apparently orphaned files will be cleaned out of this directory, so
     // don't point it to somewhere that has existing data!
     resourceOutputDir: "./frame-randomizer/resources",
+    // For all different pregenerated kinds of resources (e.g. frames
+    // with/without subtitles, audio clips length 5, 10, 15 seconds, etc.), how
+    // many to keep pregenerated minimum, regardless of traffic patterns and
+    // pregen caps.
+    resourcePerKindMinimum: 2,
+    // Number of audio clips and images to pregenerate. These will be ready for
+    // serving right away, and will be replaced as soon as they're served.
+    resourcePregenCount: 3,
     // How long until unimportant runs are deleted.
     runExpiryMs: 1 * 60 * 60 * 1000, // 1 hour.
     // How many entries a run must have to be considered important.
