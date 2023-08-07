@@ -96,7 +96,9 @@ async function saveRun() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `run_${data.value.runState.creationTs}.json`;
+    anchor.download = `run_${new Date(data.value.runState.creationTs)
+      .toISOString()
+      .replaceAll(":", "")}.json`;
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);

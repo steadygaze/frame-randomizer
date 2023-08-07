@@ -42,7 +42,11 @@
         </button>
         <a
           :href="resourceType === 'audio' ? audioUrl(config) : imageUrl(config)"
-          download
+          :download="
+            resourceType === 'audio'
+              ? `${audioId.slice(0, 8)}.${config.public.audioOutputExtension}`
+              : `${frameId.slice(0, 8)}.${config.public.frameOutputExtension}`
+          "
           :class="{ disabledAnchor: imageIsLoading || (!frameId && !audioId) }"
           :disabled="imageIsLoading || (!frameId && !audioId)"
           @click="warnIfFrameMayBeExpired"
@@ -304,10 +308,6 @@ async function getFrame(fetchResult?: typeof fetchGenResult): Promise<void> {
     fetchResult ||
     (await useFetch("/api/resource/gen", {
       query: {
-        // cleanupid:
-        //   browser.value?.name === "firefox"
-        //     ? null
-        //     : frameId.value || audioId.value,
         runId: runId.value,
         subtitles: subtitlesOn.value,
         audioLength: audioLength.value,

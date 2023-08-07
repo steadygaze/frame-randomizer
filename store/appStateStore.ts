@@ -160,7 +160,7 @@ export const useAppStateStore = defineStore("appState", () => {
     }
 
     const params = [
-      // browser.value?.name === "firefox" ? "cleanup=true" : "",
+      browser.value?.name === "firefox" ? "cleanup=true" : "",
       runId.value ? `runId=${runId.value}` : "",
     ]
       .filter((e) => e)
