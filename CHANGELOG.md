@@ -2,6 +2,62 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.1.0
+
+[compare changes](https:///frame-randomizer/compare/v0.0.21...v0.1.0)
+
+`v0.0.x` migration guide:
+
+- Back up the `./frame-randomizer` directory.
+- Either run `rm -r ./frame-randomizer` (the easy way) or run `mv ./frame-randomizer/frames ./frame-randomizer/resouces` or set resourceOutputDir to `./frame-randomizer/frames` and `mv ./frame-randomizer/frame-state ./frame-randomizer/resource-state` (the hard way).
+- If you're setting them in environment variables or code, rename the options `frameGenMaxParallelism` to `resourceGenMaxParallelism`, `frameOutputDir` to `resourceOutputDir`, `framePregenCount` to `resourcePregenCount`, `frameRequiredStandardDeviation` to `frameRequiredStandardDeviation` to `frameRequiredStandardDeviation256` (and make it out of 256 instead of 65536).
+- Tell users to refresh the page if they were using it when the server upgraded before they continue.
+
+### 🚀 Enhancements
+
+- Store server logs (dfb7194)
+- Add option to include subtitles in frame (b3d68b2)
+- Add audio mode (1f64aec)
+- Add audio settings (1e80761)
+- Disallow changing game mode during a run (7e5229f)
+- Set per-kind minimums to pregenerate (eff44e2)
+- Allow injecting audio encoding options (d70b821)
+- Include kind in verified run data (1bc62c7)
+- Shorten downloaded file names (de5edb0)
+
+### 🩹 Fixes
+
+- Fix message for run verification error (68a69d8)
+- Show one column results on desktop (469d665)
+- Fix cleanup of old version files without kind (f6e3f99)
+- Distinguish frame/audio in verifier text (c6fcbf9)
+- Remove extra spaces from translations (d2ee9b9)
+
+### 💅 Refactors
+
+- Add helper for getting app data path (33b2fe2)
+- Use named export for logger (a75cd75)
+- ⚠️ Rename frame options to reflect usage (fc9e09d)
+- Refactor out queue top-up helpers (6de3496)
+- ⚠️ Restructure/rename API endpoints (0b9d9ad)
+- ⚠️ Use camelcase param cleanupId (2b58529)
+- ⚠️ Rename resource options for consistency (04e0c1c)
+
+### 📖 Documentation
+
+- Add doc for subtitle options (0bb1ada)
+
+#### ⚠️ Breaking Changes
+
+- ⚠️ Rename frame options to reflect usage (fc9e09d)
+- ⚠️ Restructure/rename API endpoints (0b9d9ad)
+- ⚠️ Use camelcase param cleanupId (2b58529)
+- ⚠️ Rename resource options for consistency (04e0c1c)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.0.21
 
 [compare changes](https:///frame-randomizer/compare/v0.0.20...v0.1.0)
