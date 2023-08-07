@@ -204,6 +204,10 @@ export default defineNuxtConfig({
     // storage for expired or orphaned images.
     cleanupIntervalMs: 5 * 60 * 1000, // 5 minutes.
     // If given, this will be injected into the ffmpeg command used to generate
+    // the audio clips. Useful for specifying image encoding/quality options.
+    // Consult ffmpeg documentation (https://ffmpeg.org/ffmpeg-codecs.html).
+    ffmpegAudioCommandInject: undefined,
+    // If given, this will be injected into the ffmpeg command used to generate
     // the images. Useful for specifying image encoding/quality options. Consult
     // ffmpeg documentation (https://ffmpeg.org/ffmpeg-codecs.html).
     ffmpegImageCommandInject: undefined,
