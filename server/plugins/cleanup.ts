@@ -44,7 +44,7 @@ async function cleanupAnswers() {
  * @returns Promise to await on completion.
  */
 function cleanupOrphanedResources(
-  ids: string[],
+  ids: Set<string>,
   files1: string[],
   files2: string[],
   idExtractionRe: RegExp,
@@ -57,7 +57,7 @@ function cleanupOrphanedResources(
           match &&
           match.length > 0 &&
           match.groups &&
-          !ids.includes(match.groups.key)
+          !ids.has(match.groups.key)
         ) {
           logger.info(`Cleaning up apparently orphaned resource`, {
             file,
@@ -77,37 +77,46 @@ function cleanupOrphanedResources(
 }
 
 /**
- * Cleans up frames that have expired.
- * @param frameFileIds List of frames tracked.
+ * Checks a single fileId to see if it's expired, and cleans it up if so.
+ * @param fileId File ID to check.
  */
-async function cleanupExpiredResources(frameFileIds: string[]) {
-  await Promise.all(
-    frameFileIds.map(async (fileId) => {
-      const storedFileState =
-        await resourceStateStorage.getItem<StoredFileState>(fileId);
-      if (
-        storedFileState &&
-        storedFileState?.expiryTs &&
-        storedFileState?.expiryTs <= Date.now()
-      ) {
-        const file = resourcePathForId(config, fileId, storedFileState);
-        logger.info(`Cleaning up expired resource`, {
-          kind: storedFileState.kind,
-          file,
-        });
-        await Promise.all([
-          resourceStateStorage.removeItem(fileId),
-          fs.rm(file).catch((error) => {
-            if (error.code !== "ENOENT") {
-              logger.error(`Failed to clean up expired resource: ${error}`, {
-                file,
-              });
-            }
-          }),
-        ]);
-      }
-    }),
+async function cleanupOneResource(fileId: string) {
+  const storedFileState = await resourceStateStorage.getItem<StoredFileState>(
+    fileId,
   );
+  if (
+    storedFileState &&
+    storedFileState?.expiryTs &&
+    storedFileState?.expiryTs <= Date.now()
+  ) {
+    const file = resourcePathForId(config, fileId, storedFileState);
+    logger.info(`Cleaning up expired resource`, {
+      kind: storedFileState.kind,
+      file,
+    });
+    await Promise.all([
+      resourceStateStorage.removeItem(fileId),
+      fs.rm(file).catch((error) => {
+        if (error.code !== "ENOENT") {
+          logger.error(`Failed to clean up expired resource: ${error}`, {
+            file,
+          });
+        }
+      }),
+    ]);
+  }
+}
+
+/**
+ * Cleans up frames that have expired.
+ * @param resourceIds List of frames tracked.
+ */
+async function cleanupExpiredResources(resourceIds: Set<string>) {
+  const cleanups: Promise<void>[] = [];
+  resourceIds.forEach((resourceId) =>
+    cleanups.push(cleanupOneResource(resourceId)),
+  );
+  await Promise.all(cleanups);
 }
 
 /**
@@ -126,7 +135,7 @@ async function cleanupOrphanedAndExpiredImages() {
   );
 
   const [resourceIds, frames1, frames2, audio1, audio2] = await Promise.all([
-    resourceStateStorage.getKeys(),
+    resourceStateStorage.getKeys().then((keys) => new Set(keys)),
     // List the files twice to avoid race conditions with storage cleanup.
     // Frames will be cleaned up only if they are present both times.
     glob(frameGlobPattern),
