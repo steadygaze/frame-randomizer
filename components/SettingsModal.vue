@@ -111,7 +111,7 @@
           max="1"
           step="0.05"
         />
-        {{ audioVolume * 100 }}
+        {{ Math.round(audioVolume * 100) }}
       </span>
       {{ $t("settings.audio_volume_description") }}
     </p>
