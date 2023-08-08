@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.1.1
+
+[compare changes](https:///frame-randomizer/compare/v0.1.0...v0.1.1)
+
+### 🩹 Fixes
+
+- Retain kind on serving (d12d6f5)
+- Fix rare duped resource ID race condition (2f8c755)
+- Fix float volume display issue (2f3e652)
+- Fix audio player drawing over modals (1db3146)
+
+### 💅 Refactors
+
+- Convert resource IDs to a set in cleanup (bce4c39)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.1.0
 
 [compare changes](https:///frame-randomizer/compare/v0.0.21...v0.1.0)
