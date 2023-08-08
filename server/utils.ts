@@ -17,17 +17,23 @@ export function intUrlParam(rawValue: any): number | null {
 /**
  * Generates a UUID using uuidv5 and information about the instance.
  * @param config Has information used to generate UUID.
+ * @param uniquifier Will be added to the seed used to generate the UUID.
  * @param purpose What the UUID will be used for, to differentiate it from other UUIDs generated.
  * @returns Standard UUID.
  */
 export function myUuid(
   config: ReturnType<typeof useRuntimeConfig>,
+  uniquifier: any,
   purpose = "image_generation",
 ) {
   return uuidv5(
-    [config.instanceName, config.resourceOutputDir, purpose, Date.now()].join(
-      "___",
-    ),
+    [
+      config.instanceName,
+      config.resourceOutputDir,
+      purpose,
+      uniquifier,
+      Date.now(),
+    ].join("___"),
     config.uuidNamespace,
   );
 }

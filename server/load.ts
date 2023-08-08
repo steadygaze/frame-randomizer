@@ -294,6 +294,8 @@ async function getFrameProducerQueueUncached(
     return { episode, seekTime };
   }
 
+  let frameCounter = 0;
+
   /**
    * Performs all jobs associated with generating a frame.
    *
@@ -303,14 +305,15 @@ async function getFrameProducerQueueUncached(
    * @returns ID of the image generated.
    */
   async function generateFrame(subtitles: boolean) {
-    const frameId = myUuid(config);
+    const kind = subtitles ? "frameWithSubtitles" : "frame";
+    const frameId = myUuid(config, frameCounter++, kind);
     const imagePath = imagePathForId(config, frameId);
 
     // Record that we generated this file.
     const storeFrameIdP = resourceStateStorage.setItem<StoredFileState>(
       frameId,
       {
-        kind: subtitles ? "frameWithSubtitles" : "frame",
+        kind,
         expiryTs: null,
       },
     );
@@ -351,19 +354,22 @@ async function getFrameProducerQueueUncached(
     return { episode, seekTime };
   }
 
+  let audioCounter = 0;
+
   /**
    * Generate a random audio clip.
    * @param length Length of the audio range to generate.
    * @returns Promise to await on completion.
    */
   async function generateAudio(length: number): Promise<{ id: string }> {
-    const audioId = myUuid(config);
+    const kind = `audio${length}s`;
+    const audioId = myUuid(config, audioCounter++, kind);
     const audioPath = audioPathForId(config, audioId);
 
     const storeAudioIdP = resourceStateStorage.setItem<StoredFileState>(
       audioId,
       {
-        kind: `audio${length}s`,
+        kind,
         expiryTs: null,
       },
     );

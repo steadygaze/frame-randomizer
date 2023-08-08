@@ -4,9 +4,10 @@ import { logger } from "~/server/logger";
 
 const config = useRuntimeConfig();
 const runStateStorage = useStorage("runState");
+let runCounter = 0;
 
 export default defineEventHandler(async () => {
-  const runId = myUuid(config, "run_tracking");
+  const runId = myUuid(config, runCounter++, "run_tracking");
 
   logger.info("Assigning new run id", { runId });
   await runStateStorage.setItem<StoredRunData>(runId, {
