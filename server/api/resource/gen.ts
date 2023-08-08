@@ -18,17 +18,29 @@ const runStateStorage = useStorage("runState");
  */
 async function addExpiry(id: string): Promise<void> {
   logger.info(`Adding expiry on serving`, { id });
-  const answer = (await answerStorage.getItem(id)) as StoredAnswer;
-  // Rare race condition between cleaning up answer and setting expiry.
-  await Promise.all([
-    answerStorage.setItem(id, {
-      ...answer,
-      expiryTs: Date.now() + config.answerExpiryMs,
-    } as StoredAnswer),
-    resourceStateStorage.setItem(id, {
-      expiryTs: Date.now() + config.public.frameExpiryMs,
-    } as StoredFileState),
+  const [answer, fileState] = await Promise.all([
+    answerStorage.getItem<StoredAnswer>(id),
+    resourceStateStorage.getItem<StoredFileState>(id),
   ]);
+  // Avoid rare race condition between cleaning up answer and setting expiry.
+  const writes = [];
+  if (answer) {
+    writes.push(
+      answerStorage.setItem<StoredAnswer>(id, {
+        ...answer,
+        expiryTs: Date.now() + config.answerExpiryMs,
+      }),
+    );
+  }
+  if (fileState) {
+    writes.push(
+      resourceStateStorage.setItem<StoredFileState>(id, {
+        ...fileState,
+        expiryTs: Date.now() + config.public.frameExpiryMs,
+      }),
+    );
+  }
+  await Promise.all(writes);
 }
 
 export default defineLazyEventHandler(async () => {

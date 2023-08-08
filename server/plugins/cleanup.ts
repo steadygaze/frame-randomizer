@@ -59,12 +59,12 @@ function cleanupOrphanedResources(
           match.groups &&
           !ids.includes(match.groups.key)
         ) {
-          logger.info(`Cleaning up apparently orphaned audio`, {
+          logger.info(`Cleaning up apparently orphaned resource`, {
             file,
           });
           return [
             fs.rm(file).catch((error) => {
-              logger.error(`Failed to clean up orphaned audio: ${error}`, {
+              logger.error(`Failed to clean up orphaned resource: ${error}`, {
                 file,
               });
             }),
