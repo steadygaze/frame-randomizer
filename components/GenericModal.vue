@@ -43,6 +43,7 @@ const { resourceType } = storeToRefs(gameModeStore);
   text-align: justify;
   max-height: 100vh;
   overflow-y: auto;
+  z-index: 100;
 }
 
 .center {
