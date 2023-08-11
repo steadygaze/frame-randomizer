@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.1.2
+
+[compare changes](https:///frame-randomizer/compare/v0.1.1...v0.1.2)
+
+### 🩹 Fixes
+
+- Fix writing incorrect answer data to runs (6e813bc)
+
+### 💅 Refactors
+
+- Refer to resources instead of frames (854d8f9)
+- Size pane with rem (by text size) (4c4a3ee)
+
+### 📦 Build
+
+- Upgrade nuxt-security to latest (a20fb92)
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.1.1
 
 [compare changes](https:///frame-randomizer/compare/v0.1.0...v0.1.1)
