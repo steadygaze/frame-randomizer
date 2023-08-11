@@ -80,7 +80,7 @@ export default defineEventHandler(async (event) => {
           startTs: pending.startTs || pending.assignTs,
           guessTs: now,
           guess: { season, episode },
-          answer: { season, episode },
+          answer: { season: answer.season, episode: answer.episode },
           seekTimeSec: answer.seekTime,
         });
       }
