@@ -49,10 +49,10 @@ body > * {
   overflow-y: scroll; /* Otherwise scrollbar appears/disappears as searches happen, which is distracting. */
   background-color: #eee;
   width: 100%;
-  max-width: 50em;
+  max-width: 33vw;
   min-width: 12.5em;
   height: 100%;
-  flex: 1 3 20%;
+  flex: 1 3 24rem;
   padding: 0;
   margin: 0 auto;
 }
