@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
       } else if (runState.pending.id !== id) {
         runState.errors.push({
           type: "pending_mismatch",
-          description: "Answer given for the wrong frame (ids mismatched)",
+          description: "Answer given for the wrong resource (ids mismatched)",
           ts: now,
           mismatched: runState.pending,
           attemptedId: id,
@@ -68,7 +68,7 @@ export default defineEventHandler(async (event) => {
       } else if (!runState.pending.startTs) {
         runState.errors.push({
           type: "check_unloaded",
-          description: "Checking an answer for a frame that wasn't loaded",
+          description: "Checking an answer for a resource that wasn't loaded",
           ts: now,
           attemptedId: id,
         });
