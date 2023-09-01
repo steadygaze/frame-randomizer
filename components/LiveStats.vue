@@ -90,69 +90,61 @@ const totalGuessTimeText = computed(() => {
  * Updates the given duration ref to a current value, based on Date.now().
  * @param startRef Start timestamp.
  * @param durationRef Duration value to be updated.
+ * @param now Current timestamp.
  */
-function updateDuration(startRef: Ref<number>, durationRef: Ref<number>) {
-  durationRef.value = startRef.value === 0 ? 0 : Date.now() - startRef.value;
+function updateDuration(
+  startRef: Ref<number>,
+  durationRef: Ref<number>,
+  now = 0,
+) {
+  durationRef.value =
+    startRef.value === 0 ? 0 : (now || Date.now()) - startRef.value;
 }
 
 /**
- * Updates the duration to be shown in a timer. Triggers a reactive update.
- * @param startRef Ref for the start timestamp.
- * @param durationRef Ref for the duration, in milliseconds.
- * @returns Interval ID, to pass to clearInterval later.
+ * Updates all the durations to be shown in the UI. It is important that these
+ * all be on the same interval, so that there are no inconsistencies due to
+ * running at different times due to Javascript async.
  */
-function setupTimerUpdateInterval(
-  startRef: Ref<number>,
-  durationRef: Ref<number>,
-): ReturnType<typeof setInterval> {
-  const updateFn = () => updateDuration(startRef, durationRef);
-  updateFn();
-  return setInterval(updateFn, 10);
+function updateAllDurations(): void {
+  const now = Date.now();
+  updateDuration(realTimeStartTimestamp, realTimeDurationMs, now);
+  if (waitingForGuess.value) {
+    updateDuration(
+      currentGuessTimeStartTimestamp,
+      currentGuessTimeDurationMs,
+      now,
+    );
+  }
 }
 
-let realTimeIntervalId: ReturnType<typeof setInterval>;
-let currentGuessTimeIntervalId: ReturnType<typeof setInterval>;
+let timerUpdateIntervalId: ReturnType<typeof setInterval>;
 
 watch(showMoreStats, (showMoreStats) => {
   if (showMoreStats) {
-    realTimeIntervalId = setupTimerUpdateInterval(
-      realTimeStartTimestamp,
-      realTimeDurationMs,
-    );
-    if (waitingForGuess.value) {
-      currentGuessTimeIntervalId = setupTimerUpdateInterval(
-        currentGuessTimeStartTimestamp,
-        currentGuessTimeDurationMs,
-      );
-    }
+    updateAllDurations();
+    timerUpdateIntervalId = setInterval(() => {
+      updateAllDurations();
+    }, 10);
   } else {
-    clearInterval(realTimeIntervalId);
-    // clearInterval on null or an already cleared interval does nothing, so
-    // this is safe.
-    clearInterval(currentGuessTimeIntervalId);
+    clearInterval(timerUpdateIntervalId);
   }
 });
 
 watch(waitingForGuess, (waitingForGuess) => {
   if (waitingForGuess) {
+    const now = Date.now();
     if (realTimeStartTimestamp.value === 0) {
-      realTimeStartTimestamp.value = Date.now();
+      realTimeStartTimestamp.value = now;
     }
-    if (currentGuessTimeStartTimestamp.value === 0) {
-      currentGuessTimeStartTimestamp.value = Date.now();
-    }
-    if (showMoreStats.value) {
-      currentGuessTimeIntervalId = setupTimerUpdateInterval(
-        currentGuessTimeStartTimestamp,
-        currentGuessTimeDurationMs,
-      );
-    }
+    currentGuessTimeStartTimestamp.value = now;
   } else {
-    updateDuration(currentGuessTimeStartTimestamp, currentGuessTimeDurationMs);
+    updateDuration(
+      currentGuessTimeStartTimestamp,
+      currentGuessTimeDurationMs,
+      lastGuessTimestamp.value,
+    );
     totalGuessTimeAccDurationMs.value += currentGuessTimeDurationMs.value;
-    if (showMoreStats.value) {
-      clearInterval(currentGuessTimeIntervalId);
-    }
   }
 });
 </script>

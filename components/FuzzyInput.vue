@@ -176,7 +176,6 @@ const {
   imageIsLoading,
   imageLoadError,
   imageLoadTimestamp,
-  currentGuessTimeStartTimestamp,
   waitingForGuess,
   runId,
   runReadyState,
@@ -348,18 +347,17 @@ watch(imageIsLoading, async (imageIsLoading) => {
     // Switched from loading to done loading.
     document.body.style.cursor = "unset";
     if (!imageLoadError.value) {
-      waitingForGuess.value = true;
-      currentGuessTimeStartTimestamp.value = Date.now();
+      waitingForGuess.value = true; // Trigger timer updates.
+      if (searchTextInput.value) {
+        await nextTick();
+        searchTextInput.value.focus();
+      }
       readout(
         resourceType.value === "audio"
           ? "readout.guess_prompt_audio"
           : "readout.guess_prompt",
         { show: showName.value },
       );
-      if (searchTextInput.value && searchTextInput.value) {
-        await nextTick();
-        searchTextInput.value.focus();
-      }
     }
   }
 });
