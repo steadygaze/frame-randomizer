@@ -62,3 +62,18 @@ export function floatIntPartPad(
     Math.max(fPartPlaces - numFPartDigits, 0),
   )}`;
 }
+
+/**
+ * Make a "hh:mm:ss"-style timer string.
+ * @param durationMs Duration in milliseconds.
+ * @param secPlaces Precision to show seconds.
+ * @returns String representation of the timer.
+ */
+export function timerText(durationMs: number, secPlaces = 1): string {
+  const sec = floatIntPartPad((durationMs % 60000) / 1000, 2, secPlaces);
+  const min = Math.trunc(durationMs / 1000 / 60) % 60;
+  const hour = Math.trunc(durationMs / 1000 / 60 / 60) % 60;
+  return hour > 0
+    ? `${hour}:${("" + min).padStart(2, "0")}:${sec}`
+    : `${("" + min).padStart(2, "0")}:${sec}`;
+}

@@ -42,7 +42,7 @@
 import { computed, Ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useAppStateStore } from "~~/store/appStateStore";
-import { floatIntPartPad } from "~/utils/utils";
+import { timerText } from "~/utils/utils";
 
 const appStateStore = useAppStateStore();
 const {
@@ -60,51 +60,30 @@ const {
   waitingForGuess,
 } = storeToRefs(appStateStore);
 
-/**
- * Make a "hh:mm:ss"-style timer string.
- * @param durationMs Duration in milliseconds.
- * @param secPlaces Precision to show seconds.
- * @returns String representation of the timer.
- */
-function makeTimerText(durationMs: number, secPlaces = 1): string {
-  const sec = floatIntPartPad((durationMs % 60000) / 1000, 2, secPlaces);
-  const min = Math.trunc(durationMs / 1000 / 60) % 60;
-  const hour = Math.trunc(durationMs / 1000 / 60 / 60) % 60;
-  return hour > 0
-    ? `${hour}:${("" + min).padStart(2, "0")}:${sec}`
-    : `${("" + min).padStart(2, "0")}:${sec}`;
-}
-
-const realTimeText = computed(() => makeTimerText(realTimeDurationMs.value));
+const realTimeText = computed(() => timerText(realTimeDurationMs.value));
 const realTimeToGuessText = computed(() =>
   waitingForGuess.value
     ? realTimeText.value
-    : makeTimerText(lastGuessTimestamp.value - realTimeStartTimestamp.value, 3),
+    : timerText(lastGuessTimestamp.value - realTimeStartTimestamp.value, 3),
 );
 const realTimeToCorrectText = computed(() =>
   waitingForGuess.value
     ? realTimeText.value
     : lastCorrectTimestamp.value
-    ? makeTimerText(
-        lastCorrectTimestamp.value - realTimeStartTimestamp.value,
-        3,
-      )
+    ? timerText(lastCorrectTimestamp.value - realTimeStartTimestamp.value, 3)
     : // If the user hasn't gotten anything right yet.
       realTimeToGuessText.value,
 );
 const currentGuessTimeText = computed(() =>
-  makeTimerText(
-    currentGuessTimeDurationMs.value,
-    waitingForGuess.value ? 1 : 3,
-  ),
+  timerText(currentGuessTimeDurationMs.value, waitingForGuess.value ? 1 : 3),
 );
 const totalGuessTimeText = computed(() => {
   if (waitingForGuess.value) {
-    return makeTimerText(
+    return timerText(
       totalGuessTimeAccDurationMs.value + currentGuessTimeDurationMs.value,
     );
   }
-  return makeTimerText(totalGuessTimeAccDurationMs.value, 3);
+  return timerText(totalGuessTimeAccDurationMs.value, 3);
 });
 
 /**
