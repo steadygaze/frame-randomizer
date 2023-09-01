@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.1.3
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.1.2...v0.1.3)
+
+### 🩹 Fixes
+
+- Fix real time/guess time inconsistencies ([f57d046](https://github.com/steadygaze/frame-randomizer/commit/f57d046))
+
+### ✅ Tests
+
+- Add tests for timer text generation ([37822d9](https://github.com/steadygaze/frame-randomizer/commit/37822d9))
+
+### ❤️ Contributors
+
+- Steady Gaze
+
 ## v0.1.2
 
 [compare changes](https:///frame-randomizer/compare/v0.1.1...v0.1.2)
