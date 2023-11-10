@@ -589,6 +589,7 @@ export async function findFiles(
                 seasonN,
                 episodeN,
               )} at ${filename}`,
+              error,
             );
             return [];
           }
