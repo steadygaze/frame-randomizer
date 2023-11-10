@@ -131,10 +131,7 @@ export const useAppStateStore = defineStore("appState", () => {
       return priorUrl[frameId.value];
     }
 
-    const params = [
-      browser.value?.name === "firefox" ? "cleanup=true" : "",
-      runId.value ? `runId=${runId.value}` : "",
-    ]
+    const params = [runId.value ? `runId=${runId.value}` : ""]
       .filter((e) => e)
       .join("&");
     const url = `/api/resource/get/${frameId.value}.${
@@ -159,10 +156,7 @@ export const useAppStateStore = defineStore("appState", () => {
       return priorAudioUrl[audioId.value];
     }
 
-    const params = [
-      browser.value?.name === "firefox" ? "cleanup=true" : "",
-      runId.value ? `runId=${runId.value}` : "",
-    ]
+    const params = [runId.value ? `runId=${runId.value}` : ""]
       .filter((e) => e)
       .join("&");
     const url = `/api/resource/getAudio/${audioId.value}.${
