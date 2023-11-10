@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { detect } from "detect-browser";
-import { ref, Ref } from "vue";
+import { ref } from "vue";
+import type { Ref } from "vue";
 
 export interface ShortEpisodeData {
   fullName: string;

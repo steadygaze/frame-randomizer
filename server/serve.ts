@@ -1,5 +1,5 @@
 import { logger } from "./logger";
-import { StoredRunData } from "./types";
+import type { StoredRunData } from "./types";
 
 /**
  * Log an image fetch to a verified run.

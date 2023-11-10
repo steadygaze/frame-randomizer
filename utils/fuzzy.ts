@@ -1,4 +1,4 @@
-import Fuse from "fuse.js";
+import type { FuseResultMatch } from "fuse.js";
 
 export interface SearchPart {
   part: string;
@@ -20,7 +20,7 @@ export interface FuseMatch {
  * @param match Match objects returned from Fuse.
  * @returns Displayable form.
  */
-export function chunkMatchText(match: Fuse.FuseResultMatch): SearchPart[] {
+export function chunkMatchText(match: FuseResultMatch): SearchPart[] {
   if (match.indices.length <= 0) {
     throw new Error("No matches");
   }

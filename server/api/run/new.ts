@@ -1,5 +1,5 @@
 import { myUuid } from "~/server/utils";
-import { StoredRunData } from "~/server/types";
+import type { StoredRunData } from "~/server/types";
 import { logger } from "~/server/logger";
 
 const config = useRuntimeConfig();

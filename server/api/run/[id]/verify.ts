@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import stringify from "json-stringify-deterministic";
-import { StoredRunData } from "~/server/types";
+import type { StoredRunData } from "~/server/types";
 import { logger } from "~/server/logger";
 
 const config = useRuntimeConfig();

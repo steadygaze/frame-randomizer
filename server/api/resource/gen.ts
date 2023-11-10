@@ -1,8 +1,20 @@
 import { getFrameProducerQueue } from "../../load";
-import { StoredAnswer, StoredFileState, StoredRunData } from "~/server/types";
+import type {
+  StoredAnswer,
+  StoredFileState,
+  StoredRunData,
+} from "~/server/types";
 import { logger } from "~/server/logger";
 import { cleanupFrame } from "~/server/cleanup";
-import { queryToKind } from "~/server/utils";
+import { boolUrlParam, intUrlParam } from "~/server/utils";
+
+interface GenQueryString {
+  resourceType: string | null;
+  subtitles: string | null;
+  audioLength: string | null;
+  cleanupId: string | null;
+  runId: string | null;
+}
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");
@@ -43,6 +55,34 @@ async function addExpiry(id: string): Promise<void> {
   await Promise.all(writes);
 }
 
+/**
+ * Converts a kind of options to a "kind name", a unique string descriptor
+ * used to fetch the result.
+ * @param query Options describing the kind.
+ * @returns Kind name.
+ */
+export function queryToKind(
+  query: ReturnType<typeof getQuery<GenQueryString>>,
+): string {
+  const resourceType = query.resourceType;
+  const subtitles = boolUrlParam(query.subtitles);
+  const audioLength = intUrlParam(query.audioLength);
+  if (resourceType === "audio") {
+    if (audioLength === 5) {
+      return "audio5s";
+    } else if (audioLength === 10) {
+      return "audio10s";
+    } else if (audioLength === 15) {
+      return "audio15s";
+    }
+    throw createError({
+      statusCode: 400,
+      statusMessage: "audioLength value invalid",
+    });
+  }
+  return subtitles ? "frameWithSubtitles" : "frame";
+}
+
 export default defineLazyEventHandler(async () => {
   const queue = await getFrameProducerQueue(config);
 
@@ -66,7 +106,7 @@ export default defineLazyEventHandler(async () => {
   }
 
   return defineEventHandler(async (event) => {
-    const query = getQuery(event);
+    const query = getQuery<GenQueryString>(event);
     const cleanupId = query.cleanupId;
     if (cleanupId) {
       // Don't await; this doesn't affect the rest of the request.

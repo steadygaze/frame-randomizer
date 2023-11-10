@@ -1,6 +1,6 @@
 import { logger } from "~/server/logger";
 import { intUrlParam } from "~/server/utils";
-import { StoredAnswer, StoredRunData } from "~/server/types";
+import type { StoredAnswer, StoredRunData } from "~/server/types";
 
 const config = useRuntimeConfig();
 const answerStorage = useStorage("answer");

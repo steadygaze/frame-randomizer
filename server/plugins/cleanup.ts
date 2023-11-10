@@ -3,7 +3,7 @@ import path from "node:path";
 import { promisify } from "node:util";
 import { glob } from "glob";
 import intersection from "lodash.intersection";
-import { StoredAnswer, StoredFileState, StoredRunData } from "../types";
+import type { StoredAnswer, StoredFileState, StoredRunData } from "../types";
 import { resourcePathForId } from "../file";
 import { logger } from "../logger";
 
@@ -81,9 +81,8 @@ function cleanupOrphanedResources(
  * @param fileId File ID to check.
  */
 async function cleanupOneResource(fileId: string) {
-  const storedFileState = await resourceStateStorage.getItem<StoredFileState>(
-    fileId,
-  );
+  const storedFileState =
+    await resourceStateStorage.getItem<StoredFileState>(fileId);
   if (
     storedFileState &&
     storedFileState?.expiryTs &&

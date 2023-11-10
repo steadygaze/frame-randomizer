@@ -1,5 +1,5 @@
-// eslint-disable-next-line import/named -- Can't find LimitFunction for some reason.
-import pLimit, { LimitFunction } from "p-limit";
+import pLimit from "p-limit";
+import type { LimitFunction } from "p-limit";
 import { logger } from "./logger";
 
 export interface ProducerQueueOptions {

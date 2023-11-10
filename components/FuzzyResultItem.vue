@@ -37,12 +37,11 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import Fuse from "fuse.js";
-import { ProcessedEpisodeData } from "~~/store/showDataStore";
+import type { FuseResult } from "fuse.js";
+import type { ProcessedEpisodeData } from "~~/store/showDataStore";
 import { seasonEpisodeTag } from "~~/utils/utils";
-import { SearchPart, chunkMatchText } from "~~/utils/fuzzy";
-
-type FuseResult<T> = Fuse.FuseResult<T>;
+import { chunkMatchText } from "~~/utils/fuzzy";
+import type { SearchPart } from "~~/utils/fuzzy";
 
 const props = defineProps<{
   fuseMatch: FuseResult<ProcessedEpisodeData>;

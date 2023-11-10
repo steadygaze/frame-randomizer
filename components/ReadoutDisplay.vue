@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { NamedValue } from "#i18n";
+import type { NamedValue } from "#i18n";
 import { storeToRefs } from "pinia";
 import { useAppStateStore } from "~~/store/appStateStore";
 

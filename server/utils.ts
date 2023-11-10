@@ -110,29 +110,3 @@ export function boolUrlParam(value: any): boolean {
 export type KindOptions = {
   subtitles: boolean;
 };
-
-/**
- * Converts a kind of options to a "kind name", a unique string descriptor
- * used to fetch the result.
- * @param query Options describing the kind.
- * @returns Kind name.
- */
-export function queryToKind(query: ReturnType<typeof getQuery>): string {
-  const resourceType = query.resourceType;
-  const subtitles = boolUrlParam(query.subtitles);
-  const audioLength = intUrlParam(query.audioLength);
-  if (resourceType === "audio") {
-    if (audioLength === 5) {
-      return "audio5s";
-    } else if (audioLength === 10) {
-      return "audio10s";
-    } else if (audioLength === 15) {
-      return "audio15s";
-    }
-    throw createError({
-      statusCode: 400,
-      statusMessage: "audioLength value invalid",
-    });
-  }
-  return subtitles ? "frameWithSubtitles" : "frame";
-}

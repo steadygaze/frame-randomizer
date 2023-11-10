@@ -1,5 +1,5 @@
 import { getShowData } from "../load";
-import {
+import type {
   ClientEpisodeData as iClientEpisodeData,
   ClientShowData as iClientShowData,
 } from "../file";

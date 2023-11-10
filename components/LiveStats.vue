@@ -39,7 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, Ref, watch } from "vue";
+import { computed, watch } from "vue";
+import type { Ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useAppStateStore } from "~~/store/appStateStore";
 import { timerText } from "~/utils/utils";

@@ -138,20 +138,22 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import Fuse from "fuse.js";
+import type { IFuseOptions } from "fuse.js";
 import { storeToRefs } from "pinia";
 import { useFetch, useRuntimeConfig } from "#app";
 import LiveStats from "./LiveStats.vue";
 import { useI18n } from "#imports";
 import { useAppStateStore } from "~~/store/appStateStore";
 import { useGameModeStore } from "~~/store/gameModeStore";
-import { ProcessedEpisodeData, useShowDataStore } from "~~/store/showDataStore";
+import { useShowDataStore } from "~~/store/showDataStore";
+import type { ProcessedEpisodeData } from "~~/store/showDataStore";
 import { useSettingsStore } from "~~/store/settingsStore";
 import { floatIntPartPad } from "~~/utils/utils";
+import type { GenResourceData } from "~/server/types";
 
 const { locale } = useI18n();
 
-type FuseOptions<ProcessedEpisodeData> =
-  Fuse.IFuseOptions<ProcessedEpisodeData>;
+type FuseOptions<ProcessedEpisodeData> = IFuseOptions<ProcessedEpisodeData>;
 
 const config = useRuntimeConfig();
 const showDataStore = useShowDataStore();
@@ -284,7 +286,7 @@ const searchResults = computed(() => {
 // awaiting with no result while the fetch is still pending. I suspect it may
 // have to do with the way our code will be preprocessed in Vue's composition
 // API, but I really don't know.
-const fetchGenResult = await useFetch("/api/resource/gen");
+const fetchGenResult = await useFetch<GenResourceData>("/api/resource/gen");
 
 /**
  * Request a frame from the API and reactively update the appropriate variables.
@@ -371,9 +373,9 @@ onMounted(() => {
     // Switching the page language includes the pregenerated frame with
     // server-side or universal rendering. However, we already have a frame in
     // this case, so don't use it.
-    if (fetchGenResult.data && fetchGenResult.data.value.frameId) {
+    if (fetchGenResult.data && fetchGenResult.data.value?.id) {
       navigator.sendBeacon(
-        `/api/resource/${fetchGenResult.data.value.frameId}/cleanup`,
+        `/api/resource/${fetchGenResult.data.value?.id}/cleanup`,
       );
     }
   } else {

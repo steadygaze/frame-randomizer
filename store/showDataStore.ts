@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useFetch } from "#app";
 import { useI18n } from "#imports";
 import { episodeName } from "~/utils/utils";
-import { ClientEpisodeData, ClientShowData } from "~/server/api/show";
+import type { ClientEpisodeData, ClientShowData } from "~/server/api/show";
 
 export interface ProcessedEpisodeData {
   season: number;
@@ -23,7 +23,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
   const subtitlesAvailable = ref(false);
   const episodeData = ref([] as ProcessedEpisodeData[]);
 
-  const languageCache: { [key: string]: Promise<ClientShowData> } = {};
+  const languageCache: { [key: string]: Promise<ClientShowData | null> } = {};
 
   /**
    * Initializes show data, using the API if needed.
@@ -33,7 +33,7 @@ export const useShowDataStore = defineStore("episodeData", () => {
    */
   async function initShowData() {
     if (!(locale.value in languageCache)) {
-      languageCache[locale.value] = useFetch(
+      languageCache[locale.value] = useFetch<ClientShowData>(
         `/api/show?language=${locale.value}`,
       ).then(({ data, error }) => {
         if (error && error.value) {

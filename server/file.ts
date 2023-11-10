@@ -8,7 +8,7 @@ import pLimit from "p-limit";
 import { seasonEpisodeTag } from "../utils/utils";
 import { timecodeToSec } from "./utils";
 import { logger } from "./logger";
-import { StoredFileState } from "./types";
+import type { StoredFileState } from "./types";
 
 const exec = promisify(execAsync);
 

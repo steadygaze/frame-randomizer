@@ -89,3 +89,7 @@ export interface StoredRunData {
   expiryTs: number | null;
   version: string;
 }
+
+export interface GenResourceData {
+  id: string;
+}

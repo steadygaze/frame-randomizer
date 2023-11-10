@@ -3,10 +3,8 @@ import fs from "fs/promises";
 import { promisify } from "node:util";
 import once from "lodash.once";
 import { ProducerQueue } from "./queue";
-import { StoredAnswer, StoredFileState } from "./types";
+import type { GenResourceData, StoredAnswer, StoredFileState } from "./types";
 import {
-  ServerEpisodeData,
-  ShowData,
   audioPathForId,
   findFiles,
   imagePathForId,
@@ -15,6 +13,7 @@ import {
   randomTimeRangeInEpisode,
   resourcePathForId,
 } from "./file";
+import type { ServerEpisodeData, ShowData } from "./file";
 import { myUuid } from "./utils";
 import { logger } from "./logger";
 
@@ -278,7 +277,7 @@ function sortByKind(arr: [{ kind: string; id: string }]): {
  */
 async function getFrameProducerQueueUncached(
   config: ReturnType<typeof useRuntimeConfig>,
-): Promise<ProducerQueue<{ id: string }>> {
+): Promise<ProducerQueue<GenResourceData>> {
   const { episodes } = await getShowData(config);
 
   const answerStorage = useStorage("answer");
