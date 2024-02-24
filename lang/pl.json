@@ -2,31 +2,31 @@
   "about": {
     "close": "Zamknij",
     "header": "O stronie",
-    "instance_specific_disclaimer": "(Operator instancji dostarczył następujące informacje specyficzne dla tej instancji witryny).",
+    "instance_specific_disclaimer": "(Administrator witryny podał następujące informacje dotyczące tej strony).",
     "instructions": {
       "controls": {
         "alt_num": "Alt + numer",
         "ctrl_num": "Ctrl + numer",
         "ctrl_u": "Ctrl + u",
-        "info": "Aby wyszukać odcinek, wpisz co najmniej {fuzzySearchMinMatchLength} znaki w polu wyszukiw ania. Kontynuuj pisanie, aż żądany odcinek pojawi się na górze. Możesz także użyć {upDown}, myszy, {ctrlNum } lub {altNum}, aby wybrać konkretny wpis. Wpisanie {ctrlU} w polu wyszukiwania spowoduje wyczyszczenie bieżącego wpisu wyszukiwania.",
+        "info": "Aby wyszukać odcinek, wpisz co najmniej {fuzzySearchMinMatchLength} znaki w polu wyszukiwania. Kontynuuj pisanie, aż żądany odcinek pojawi się na górze. Możesz także użyć {upDown}, myszy, {ctrlNum } lub {altNum}, aby wybrać konkretny wpis. Wpisanie {ctrlU} w polu wyszukiwania spowoduje wyczyszczenie bieżącego wyszukiwania.",
         "up_down": "strzałek w górę/w dół + Enter"
       },
       "episode_search_tip": {
         "example1": "s2e3",
         "example2": "2x3",
-        "tip": "Możesz także wyszukiwać według numeru sezonu i odcinka, na przykład wpisując {example1} lub {example2}."
+        "tip": "Możesz także szukać według numeru sezonu i odcinka, na przykład wpisując {example1} lub {example2}."
       },
-      "font_size_tip": "Wielkość pisma jest oparta na domyślnych ustawieniach przeglądarki. Jeśli chcesz ją zwiększyć, na przykład podczas prezentacji lub streamowania, możesz przybliżyć stronę bez obawy o zmianę jej układu.",
+      "font_size_tip": "Wielkość czcionki jest oparta na domyślnych ustawieniach przeglądarki. Jeśli chcesz ją zwiększyć, na przykład podczas wyświetlania lub streamowania, możesz przybliżyć stronę bez obawy o zmianę jej układu.",
       "header": "Instrukcja",
-      "image_lifetime_tip": "Obrazy są usuwane zaraz po ich wygenerowaniu, więc odświeżenie strony, wyczyszczenie cache-u przeglądarki lub wyświetlenie tego samego adresu URL obrazu na innym urządzeniu nie da takiego samego wyniku. Gdy znajdziesz klatkę wartą zapisania, nadal możesz kliknąć prawym przyciskiem myszy i normalnie zapisać obraz.",
+      "image_lifetime_tip": "Obrazy są usuwane zaraz po ich wygenerowaniu, więc odświeżenie strony, wyczyszczenie cache-u przeglądarki lub wyświetlenie tego samego adresu URL obrazu na innym urządzeniu nie da takiego samego wyniku. Gdy znajdziesz klatkę wartą zapisania, możesz kliknąć prawym przyciskiem myszy i zapisać obraz.",
       "no_synopsis": "Niestety, opisy odcinków nie są dostępne w tym języku.",
-      "skip_tip": "Oprócz przycisku „{skipLabel}”, jeśli chcesz pominąć obrazek, ponieważ nie znasz odpowiedzi lub po prostu chcesz cieszyć się generowanymi klatkami, możesz zatwierdzić wyszukanie bez żadnego odcinka.",
+      "skip_tip": "Oprócz przycisku „{skipLabel}”, jeśli chcesz pominąć obrazek, ponieważ nie znasz odpowiedzi lub po prostu chcesz cieszyć się generowanymi klatkami, możesz zatwierdzić wyszukanie bez wpisywania odcinka.",
       "synopsis": "Za pomocą przełącznika „{synopsisLabel}” można włączyć lub wyłączyć wyświetlanie i wyszukiwanie opisów odcinków.",
-      "synopsis_update_tmdb_hint": "Rozważ przesłanie opisów odcinków do TMDB i powiadom właściciela tej instancji.",
+      "synopsis_update_tmdb_hint": "Rozważ przesłanie opisów odcinków do TMDB i powiadom właściciela tej witryny.",
       "what_is_this_site": "Strona generuje i pokazuje całkowicie losową klatkę z {showName}. Zagraj, aby sprawdzić swoją wiedzę lub po prostu ciesz się wygenerowanymi obrazami."
     },
     "licensing": {
-      "content_disclaimer": "Pamiętaj, że to oprogramowanie jest nie zatwierdzone przez wydawcę serialu z którego są generowane klatki. Udostępniana treść jest wyłączną odpowiedzialnością operatora instancji. Jeśli masz wątpliwości dotyczące zawartości udostępnianej przez nią, skontaktuj się z jej operatorem, a nie z twórcami oprogramowania.",
+      "content_disclaimer": "Pamiętaj, że to oprogramowanie jest nie zatwierdzone przez wydawcę serialu z którego są generowane klatki. Udostępniana treść jest wyłączną odpowiedzialnością administatora witryny. Jeśli masz wątpliwości dotyczące zawartości udostępnianej przez nią, skontaktuj się z administatorem, a nie z twórcami oprogramowania.",
       "header": "Informacje o licencji",
       "local_tip": "Przy odrobinie pracy i wiedzy możesz uruchomić instancję tego serwera nawet na własnym komputerze, aby grać lokalnie z serialem swojego wyboru, który nie ma istniejącej instancji w internecie. Oczywiście masz możliwość skonfigurowania strony tak, aby była do użytku przez innych.",
       "main": "Ta witryna ({instanceName}) to instancja {softwareName}. To oprogramowanie jest dostarczane użytkownikowi na warunkach {licenseName}. Oznacza to, że ty, użytkownik, masz prawo dostępu do kopii jego kodu źródłowego, w tym kodu uruchamianego przez tę instancję, jeśli jest to zmodyfikowana wersja. {modDeclaration} Konfigurację danych programu telewizyjnego dla tej witryny można pobrać tutaj: {showDataUrl}.",
@@ -44,13 +44,13 @@
       "percent": "Śledzi liczbę prawidłowych odpowiedzi na całkowitą liczbę klatek i oblicza z nich procent.",
       "real_time": "Mierzy cały czas, jaki upłynął od wyświetlenia pierwszej klatki.",
       "real_time_to_correct": "Śledzi całkowity czas od pierwszej klatki do ostatniej prawidłowo odgadniętej klatki, jeśli nie jest to aktualnie zgadywanie.",
-      "real_time_to_guess": "Śledzi całkowity czas od pierwszej klatki do ostatniej odgadniętej klatki, jeśli nie jest to aktualnie odgadywane.",
+      "real_time_to_guess": "Śledzi całkowity czas od pierwszej klatki do ostatniej odgadniętej klatki, jeśli nie jest ona aktualnie odgadywana.",
       "streak": "Śledzi bieżącą liczbę poprawnych odpowiedzi pod rząd.",
       "total_guess_time": "Mierzy czas spędzony na zgadywaniu, bez czasu ładowania strony."
     },
     "tmdb": {
       "attribution": "Ten produkt używa {tmdbApiLink}, ale nie jest zatwierdzony ani certyfikowany przez {tmdbLink}.",
-      "explanation": "Dane odcinków, takie jak: nazwy i opisy, zostały pobrane z TMDB. Jeśli występują błędy lub pominięcia, rozważ wprowadzenie poprawek i poproś operatora instancji tej witryny o pobranie zaktualizowanych danych.",
+      "explanation": "Dane odcinków, takie jak: nazwy i opisy, zostały pobrane z TMDB. Jeśli występują błędy lub pominięcia, rozważ wprowadzenie poprawek i poproś administratora tej witryny o pobranie zaktualizowanych danych.",
       "header": "Informacje o użyciu TMDB",
       "tmdb_page": "Strona TMDB."
     }
@@ -61,12 +61,12 @@
     "audio_length_label": "Długość dźwięku",
     "fifteen_seconds": "15 sekund",
     "five_seconds": "5 sekund",
-    "frame": "rama",
+    "frame": "klatka",
     "header": "Tryb gry",
-    "resource_type_description": "Typ generowanego zasobu.",
-    "resource_type_label": "Typ zasobu",
-    "subtitles_description": "Pokaż napisy, jeśli w bieżącej klatce jest jakieś okno dialogowe. Tylko język oryginalny.",
-    "subtitles_label": "Napisy na filmie obcojęzycznym",
+    "resource_type_description": "Typ generowanego materiału.",
+    "resource_type_label": "Typ materiału",
+    "subtitles_description": "Pokaż napisy, jeśli w bieżącej klatce znajduje się dialogi. Tylko oryginalny język.",
+    "subtitles_label": "Napisy",
     "ten_seconds": "10 sekund"
   },
   "head": {
@@ -83,12 +83,12 @@
       "fuzzy": "Fuzzy search ({characters}+ znaki) lub sXXeXX...",
       "new": "Wygenerować nową klatkę?"
     },
-    "reset": "Reset",
-    "save": "Ratować",
+    "reset": "Resetuj",
+    "save": "Zapisz",
     "settings": "Ustawienia",
     "skip": "Pomiń",
-    "start": "Początek",
-    "use_original_language": "Użyj oryginalnej nazwy języka",
+    "start": "Rozpocznij",
+    "use_original_language": "Użyj oryginalnych tytułów",
     "use_synopsis": "Używaj opisów"
   },
   "language": {
@@ -103,27 +103,27 @@
     "correct_message": "{correct}: {answer}.",
     "entry_select_fail": "Brak wpisu o numerze {number} w wynikach wyszukiwania.",
     "generation_error": "Generowanie błędów: {error}. Spróbuj ponownie?",
-    "guess_prompt": "Odgadnij odcinek {show} , z którego wybrano losowo klatkę, korzystając z pola wyszukiwania.",
-    "guess_prompt_audio": "Odgadnij {show} odcinków, z których wybrano losowo dźwięk, korzystając z pola wyszukiwania.",
+    "guess_prompt": "Odgadnij odcinek z {show} , z którego wybrano losowo klatkę, korzystając z pola wyszukiwania.",
+    "guess_prompt_audio": "Odgadnij odcinek z {show}, z którego wybrano losowo dźwięk, korzystając z pola wyszukiwania.",
     "incorrect": "zły odcinek",
     "incorrect_message": "{guess} to ❌ {incorrect}. Odpowiedź: {answer}.",
     "info": "informacje",
     "network_error": "Błąd sieci lub serwer może być wyłączony z powodu prac konserwacyjnych. Sprawdź połączenie i spróbuj ponownie.",
-    "new_run": "Nowy bieg jest gotowy do rozpoczęcia. Poproś o nową ramkę, aby rozpocząć.",
-    "new_run_audio": "Nowy bieg jest gotowy do rozpoczęcia. Aby rozpocząć, poproś o nowy klip audio.",
+    "new_run": "Nowy cykl jest gotowy do rozpoczęcia. Poproś o nową ramkę, aby rozpocząć.",
+    "new_run_audio": "Nowy cykl jest gotowy do rozpoczęcia. Aby rozpocząć, poproś o nowy klip audio.",
     "rate_limit": "Osiągnięto limit żądań. Spróbuj ponownie później.",
     "save_maybe_expired": "Jeśli obraz nie zostanie zapisany, wygasł i nie można go ponownie pobrać. Spróbuj kliknąć prawym przyciskiem myszy lub przytrzymać obraz i zamiast tego wybrać „Zapisz obraz jako” lub „Pobierz obraz”.",
     "skipped": "⏩ Pominięto",
     "skipped_message": "{skipped}. Odpowiedź: {answer}.",
-    "track_next_run": "Następny bieg będzie śledzony. Kliknij „ {reset} ” i rozpocznij nowy bieg.",
+    "track_next_run": "Następny cykl będzie śledzony. Kliknij „ {reset} ” i rozpocznij nowy cykl.",
     "unknown_error": "Wystąpił nieznany błąd. Spróbować ponownie?",
-    "watch": "oglądać",
+    "watch": "obejrzyj odcinek",
     "welcome": "Witaj! Wkrótce załaduje się pierwszy obrazek."
   },
   "settings": {
     "audio_header": "Audio",
     "audio_volume_description": "Jak głośno odtwarzany jest dźwięk.",
-    "audio_volume_label": "Tom",
+    "audio_volume_label": "Głośność",
     "case_sensitive_description": "Niezależnie od tego, czy wyszukiwanie uwzględnia wielkość liter, czy nie.",
     "case_sensitive_label": "Rozróżnianie wielkości liter",
     "display_header": "Wyświetlacz",
@@ -142,10 +142,10 @@
     "playback_rate_label": "Szybkość odtwarzania",
     "reset": "Przywróć domyślne",
     "search_header": "Szukaj",
-    "synopsis_weight_description": "Jaka jest waga dopasowań w streszczeniu w stosunku do innych pól.",
-    "synopsis_weight_label": "Waga konspektu",
-    "upsize_description": "Jeśli rama jest mniejsza niż dostępna przestrzeń, zostanie powiększona, aby wypełnić przestrzeń. Wyłącz tę opcję, aby pozostawić go z czarnymi ramkami w oryginalnej rozdzielczości. (Jeżeli ramka jest większa niż dostępna przestrzeń, nadal będzie zmniejszona.)",
-    "upsize_label": "Zwiększ rozmiar ramki, aby wypełnić przestrzeń"
+    "synopsis_weight_description": "Jaka jest waga dopasowań opisów w stosunku do innych pól.",
+    "synopsis_weight_label": "Waga opisu",
+    "upsize_description": "Jeśli klatka jest mniejsza niż dostępna przestrzeń, zostanie powiększona, by ją wypełnić. Wyłącz tę opcję, aby pozostawić obraz w oryginalnej rozdzielczości. (Jeśli klatka jest większa niż dostępne miejsce, zostanie zmniejszona)",
+    "upsize_label": "Zwiększ rozmiar klatki, aby wypełnić przestrzeń"
   },
   "space": " ",
   "stats": {
@@ -155,16 +155,16 @@
     "real_time": "czas rzeczywisty: ",
     "real_time_to_correct": "korekta w czasie rzeczywistym:",
     "real_time_to_guess": "czas rzeczywisty do odgadnięcia:",
-    "streak": "streak: ",
+    "streak": "pasmo: ",
     "total_guess_time": "czas zgadywania: "
   },
   "verify": {
-    "clear": "Wyczyść bieg",
-    "label": "Zweryfikowany przebieg:",
+    "clear": "Wyczyść cykl",
+    "label": "Zweryfikowany cykl:",
     "no_run": "(w trybie ćwiczeń)",
     "practice_mode": "(w trybie ćwiczeń)",
     "run_in_progress": "Uruchom w toku… ( {id} )",
-    "save": "Zapisz bieg",
-    "start": "Rozpocznij zweryfikowany bieg"
+    "save": "Zapisz cykl",
+    "start": "Rozpocznij zweryfikowany cykl"
   }
 }
