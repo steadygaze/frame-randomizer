@@ -45,7 +45,7 @@
           :download="
             resourceType === 'audio'
               ? `${audioId.slice(0, 8)}.${config.public.audioOutputExtension}`
-              : `${frameId.slice(0, 8)}.${config.public.frameOutputExtension}`
+              : `${frameId.slice(0, 8)}.${config.public.imageOutputExtension}`
           "
           :class="{ disabledAnchor: imageIsLoading || (!frameId && !audioId) }"
           :disabled="imageIsLoading || (!frameId && !audioId)"
