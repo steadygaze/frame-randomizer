@@ -6,6 +6,37 @@
   >
     <h3>{{ $t("settings.display_header") }}</h3>
     <p>
+      <label>Theme</label>
+      <input
+        id="auto"
+        v-model="theme"
+        type="radio"
+        name="auto"
+        :value="Theme.DefaultAuto"
+      />
+      <label for="auto">auto</label>
+
+      <input
+        id="light"
+        v-model="theme"
+        type="radio"
+        name="light"
+        :value="Theme.DefaultLight"
+      />
+      <label for="light">light</label>
+
+      <input
+        id="dark"
+        v-model="theme"
+        type="radio"
+        name="dark"
+        :value="Theme.DefaultDark"
+      />
+      <label for="dark">dark</label>
+      <br />
+      {{ $t("game_mode.resource_type_description") }}
+    </p>
+    <p>
       <label for="upsizeToFit">{{ $t("settings.upsize_label") }}</label>
       <input id="upsizeToFit" v-model="upsizeToFit" type="checkbox" />
       <br />{{ $t("settings.upsize_description") }}
@@ -145,11 +176,12 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useI18n } from "#imports";
 import { floatIntPartPad } from "~~/utils/utils";
 import { useShowDataStore } from "~~/store/showDataStore";
-import { useSettingsStore } from "~/store/settingsStore";
+import { Theme, useSettingsStore } from "~/store/settingsStore";
 
 defineProps<{
   show: boolean;
@@ -173,7 +205,22 @@ const {
   audioVolume,
   loopAudio,
   playbackRate,
+  theme,
 } = storeToRefs(settingsStore);
+
+/**
+ * Sets a theme on the body tag.
+ * @param theme Theme enum value (secretly a string).
+ */
+function setBodyThemeClass(theme: Theme) {
+  for (const className of Object.values(Theme)) {
+    document.body.classList.remove(className);
+  }
+  document.body.classList.add(theme);
+}
+
+watch(theme, setBodyThemeClass);
+onMounted(() => setBodyThemeClass(theme.value));
 </script>
 
 <style scoped>

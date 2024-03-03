@@ -1,5 +1,12 @@
 import { defineStore } from "pinia";
 
+// Values are CSS class names and must match CSS.
+export enum Theme {
+  DefaultAuto = "theme-default-auto",
+  DefaultLight = "theme-default-light",
+  DefaultDark = "theme-default-dark",
+}
+
 export const useSettingsStore = defineStore(
   "settings",
   () => {
@@ -17,6 +24,7 @@ export const useSettingsStore = defineStore(
     const audioVolume = ref(0.8);
     const loopAudio = ref(false);
     const playbackRate = ref(1.0);
+    const theme = ref(Theme.DefaultAuto);
 
     /**
      * Resets the settings.
@@ -31,6 +39,7 @@ export const useSettingsStore = defineStore(
       loopAudio.value = false;
       audioVolume.value = 0.8;
       playbackRate.value = 1.0;
+      theme.value = Theme.DefaultAuto;
     }
 
     return {
@@ -44,6 +53,7 @@ export const useSettingsStore = defineStore(
       audioVolume,
       loopAudio,
       playbackRate,
+      theme,
       reset,
     };
   },

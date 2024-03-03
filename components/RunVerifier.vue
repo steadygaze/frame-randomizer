@@ -153,8 +153,4 @@ async function startRun() {
   flex-wrap: wrap;
   column-gap: 8px;
 }
-
-.grayed {
-  color: #555;
-}
 </style>

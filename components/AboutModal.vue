@@ -15,7 +15,7 @@
       "
     >
       <h3>{{ $t("about.site_info_header") }}</h3>
-      <p class="grayedText">
+      <p class="grayed">
         {{ $t("about.instance_specific_disclaimer") }}
       </p>
       <!-- eslint-disable vue/no-v-html -- Provided by instance operator. -->
@@ -241,9 +241,3 @@ defineProps<{
 }>();
 defineEmits<{ (e: "close"): void }>();
 </script>
-
-<style scoped>
-.grayedText {
-  color: #555;
-}
-</style>

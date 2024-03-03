@@ -82,7 +82,7 @@ const appStateStore = useAppStateStore();
 const { readouts } = storeToRefs(appStateStore);
 </script>
 
-<style>
+<style scoped>
 .correct {
   color: green;
   font-weight: bold;
@@ -94,7 +94,6 @@ const { readouts } = storeToRefs(appStateStore);
 }
 
 .skipped {
-  color: #555;
   font-weight: bold;
 }
 </style>

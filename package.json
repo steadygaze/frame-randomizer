@@ -68,6 +68,7 @@
     "nuxt-security": "^0.14.4",
     "p-limit": "^5.0.0",
     "pinia": "^2.1.7",
+    "sass": "^1.69.5",
     "shell-escape": "^0.2.0",
     "uuid": "^9.0.1",
     "winston": "^3.11.0",
