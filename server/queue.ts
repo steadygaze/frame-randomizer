@@ -7,7 +7,7 @@ export interface ProducerQueueOptions {
   perKindMinimum: number;
   maxPending: number;
   maxRetries: number;
-  // How many items to queue manually when exhausted.
+  // How many extra items to queue when exhausted.
   queueExhaustionQueueCount: number;
 }
 
@@ -193,14 +193,19 @@ export class ProducerQueue<Type> {
     ++kindData.trafficCounter;
     ++this.trafficSum;
 
-    this.enqueueJob();
+    // Extras may be queued by topping up of specific kinds or from a prior
+    // instance with a higher limit, so we must check before enqueuing more to
+    // not keep growing the queue.
+    if (this.queueSum < this.options.totalLength) {
+      this.enqueueJob();
+    }
 
     const initialResult = kindData.queue.shift();
 
     if (!kindData.queue.length) {
-      logger.warn("Queue exhaustion for kind; manually enqueueing", {
+      logger.warn("Queue exhaustion for kind; enqueueing extras", {
         kind,
-        n: this.options.queueExhaustionQueueCount,
+        extraEnqueueCount: this.options.queueExhaustionQueueCount,
       });
       for (let i = 0; i < this.options.queueExhaustionQueueCount; ++i) {
         this.enqueueKind(kind);
