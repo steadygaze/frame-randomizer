@@ -71,9 +71,9 @@ const realTimeToCorrectText = computed(() =>
   waitingForGuess.value
     ? realTimeText.value
     : lastCorrectTimestamp.value
-    ? timerText(lastCorrectTimestamp.value - realTimeStartTimestamp.value, 3)
-    : // If the user hasn't gotten anything right yet.
-      realTimeToGuessText.value,
+      ? timerText(lastCorrectTimestamp.value - realTimeStartTimestamp.value, 3)
+      : // If the user hasn't gotten anything right yet.
+        realTimeToGuessText.value,
 );
 const currentGuessTimeText = computed(() =>
   timerText(currentGuessTimeDurationMs.value, waitingForGuess.value ? 1 : 3),

@@ -61,8 +61,8 @@ function findAndChunkKeyMatches(key: keyof ProcessedEpisodeData): SearchPart[] {
   return nameMatch
     ? chunkMatchText(nameMatch)
     : props.fuseMatch.item[key]
-    ? [{ part: props.fuseMatch.item[key] as string, matching: false }]
-    : [];
+      ? [{ part: props.fuseMatch.item[key] as string, matching: false }]
+      : [];
 }
 
 const chunkedName = computed(() => findAndChunkKeyMatches("name"));

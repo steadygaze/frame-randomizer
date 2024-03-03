@@ -74,8 +74,8 @@ async function saveRun() {
     const realTimeCorrectMs = waitingForGuess
       ? realTimeMs
       : lastCorrectTimestamp
-      ? lastCorrectTimestamp.value - realTimeStartTimestamp.value
-      : realTimeGuessMs;
+        ? lastCorrectTimestamp.value - realTimeStartTimestamp.value
+        : realTimeGuessMs;
 
     const combinedData = {
       runId: runId.value,
