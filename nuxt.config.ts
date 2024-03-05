@@ -5,10 +5,13 @@ import { appDataPath } from "./server/utils";
 
 const splitter = new GraphemeSplitter();
 
-// Default limit equivalent to 1 frame / 5 seconds average load.
-const frameLimitPerHour =
-  parseInt(process.env.FR_REQUEST_LIMIT || "0") || Math.round((60 * 60) / 5);
-const requestLimitPerHour = frameLimitPerHour * 4; // There are 4 requests per frame.
+const rateLimitIntervalMs = 10 * 60 * 1000; // 10 minutes (in ms)
+// Default limit equivalent to 1 frame / second average load. There are 4
+// requests per frame.
+const frameLimitPerInterval =
+  parseInt(process.env.FR_REQUEST_LIMIT || "0") ||
+  Math.round(rateLimitIntervalMs / 1000) + 1;
+const requestLimitPerInterval = frameLimitPerInterval * 4;
 
 /* eslint sort-keys: "error" */
 export default defineNuxtConfig({
@@ -142,8 +145,8 @@ export default defineNuxtConfig({
       },
       security: {
         rateLimiter: {
-          interval: "hour",
-          tokensPerInterval: frameLimitPerHour,
+          interval: rateLimitIntervalMs,
+          tokensPerInterval: frameLimitPerInterval,
         },
       },
     },
@@ -377,9 +380,9 @@ export default defineNuxtConfig({
         process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
     },
     rateLimiter: {
-      interval: "hour",
+      interval: rateLimitIntervalMs,
       throwError: true,
-      tokensPerInterval: requestLimitPerHour,
+      tokensPerInterval: requestLimitPerInterval,
     },
   },
 
