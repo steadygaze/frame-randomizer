@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.1.3...v0.2.0
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.1.3...v0.2.0)
+
+### 🚀 Enhancements
+
+- Add dark mode and themeing infra ([d2cdd2b8](https://github.com/steadygaze/frame-randomizer/commit/d2cdd2b8))
+
+### 🩹 Fixes
+
+- Fix Polish translation ([#4](https://github.com/steadygaze/frame-randomizer/pull/4))
+- Fix saving audio on Firefox ([bb56f460](https://github.com/steadygaze/frame-randomizer/commit/bb56f460))
+- Fix saved frame filename ([7990a0f4](https://github.com/steadygaze/frame-randomizer/commit/7990a0f4))
+- Add check to prevent blindly growing queue ([207799f5](https://github.com/steadygaze/frame-randomizer/commit/207799f5))
+- Revert vue-tsc to old version ([0f976281](https://github.com/steadygaze/frame-randomizer/commit/0f976281))
+- Load prettier sort plugin ([06fd90c5](https://github.com/steadygaze/frame-randomizer/commit/06fd90c5))
+
+### 💅 Refactors
+
+- Add error object to ffprobe error log ([7e6a9190](https://github.com/steadygaze/frame-randomizer/commit/7e6a9190))
+- Upgrade deps and refactor types ([1072ebb5](https://github.com/steadygaze/frame-randomizer/commit/1072ebb5))
+
+### 📖 Documentation
+
+- Add procedure for releasing a new version ([c790c637](https://github.com/steadygaze/frame-randomizer/commit/c790c637))
+
+### 🏡 Chore
+
+- Upgrade dev dependencies ([9f6051db](https://github.com/steadygaze/frame-randomizer/commit/9f6051db))
+- Migrate to husky v9 ([b6f0304f](https://github.com/steadygaze/frame-randomizer/commit/b6f0304f))
+- Upgrade Nuxt, nuxt-security, and more ([75d3d006](https://github.com/steadygaze/frame-randomizer/commit/75d3d006))
+- **release:** V0.2.0 ([4703afc0](https://github.com/steadygaze/frame-randomizer/commit/4703afc0))
+
+### ❤ Contributors
+
+- Steady Gaze
+- GPH-28
+
 ## v0.1.3
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.1.2...v0.1.3)
