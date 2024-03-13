@@ -155,6 +155,8 @@ npm run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
+Known issue: Nuxt appears to hardcode some paths at build time, so running `npm run build` and then deploying on a server as a user with a different username will result in it looking for paths with the user it was originally built as. An easy, disgusting workaround is to symlink the entire user directory (`/home/username`) to the real user.
+
 ### Linting
 
 A Husky precommit hook is set up to check the formatting and lint the code before committing. You can run `npm run format` and `npm run check` to format and lint your code periodically.
