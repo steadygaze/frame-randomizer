@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.2.1
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.2.0...v0.2.1)
+
+### 🩹 Fixes
+
+- Fix light scrollbar in dark mode ([40fff28b](https://github.com/steadygaze/frame-randomizer/commit/40fff28b))
+
+### 📖 Documentation
+
+- Add note about build/path known issue ([80d9cefe](https://github.com/steadygaze/frame-randomizer/commit/80d9cefe))
+- Stage package-lock.json ([1f3c11b5](https://github.com/steadygaze/frame-randomizer/commit/1f3c11b5))
+
+### 🏡 Chore
+
+- Really upgrade nuxt-security ([4dcd1acf](https://github.com/steadygaze/frame-randomizer/commit/4dcd1acf))
+
+### ❤️ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+
 ## v0.1.3...v0.2.0
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.1.3...v0.2.0)
