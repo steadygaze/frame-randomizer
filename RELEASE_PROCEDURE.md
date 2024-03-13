@@ -12,7 +12,7 @@ This is a description of the rough steps required to release a new version.
 
 Yes, this is probably needlessly convoluted. Don't tell anyone how I live.
 
-1. Stage `package.json` and `nuxt.config.ts` and commit with description `chore(release): v<version>`.
+1. Stage `package.json`, `package-lock.json`, and `nuxt.config.ts` and commit with description `chore(release): v<version>`.
 1. Generate a tag at the new commit with `git tag --force v<version>`.
 1. Generate a changelog with `npx changelogen@latest` and copy it into `CHANGELOG.md`.
 1. Stage `CHANGELOG.md` and amend the commit.
