@@ -146,12 +146,14 @@ body > * {
 }
 
 body.theme-default-dark {
+  color-scheme: dark;
   @include dark-styles();
   @include dark-link-styles();
 }
 
 @media screen and (prefers-color-scheme: dark) {
   body:not(.theme-default-light) {
+    color-scheme: dark;
     @include dark-styles();
     @include dark-link-styles();
   }
