@@ -65,7 +65,7 @@
     "lodash.intersection": "^4.4.0",
     "lodash.merge": "^4.6.2",
     "lodash.once": "^4.1.1",
-    "nuxt-security": "^0.14.4",
+    "nuxt-security": "^1.2.2",
     "p-limit": "^5.0.0",
     "pinia": "^2.1.7",
     "sass": "^1.71.1",
