@@ -126,36 +126,39 @@ body > * {
   button:disabled {
     background-color: $disabled-color;
   }
+
+  .invisible-links {
+    a {
+      color: $text-color;
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:active {
+      text-decoration: underline;
+    }
+
+    a:visited {
+      color: $text-color;
+    }
+  }
 }
 
 @mixin dark-styles {
   @include theme-styles(#333, #ccc, #aaa, lawngreen, salmon, #000, #000, #555);
 }
 
-@mixin dark-link-styles {
-  color: #ddd;
-
-  a {
-    color: aquamarine;
-  }
-
-  a:active,
-  a:hover {
-    color: azure;
-  }
-}
-
 body.theme-default-dark {
+  color: #ddd;
   color-scheme: dark;
   @include dark-styles();
-  @include dark-link-styles();
 }
 
 @media screen and (prefers-color-scheme: dark) {
   body:not(.theme-default-light) {
+    color: #ddd;
     color-scheme: dark;
     @include dark-styles();
-    @include dark-link-styles();
   }
 }
 

@@ -1,17 +1,19 @@
 <template>
-  <a v-if="watchUrl" :href="watchUrl">{{ name }}</a>
-  <span v-else>{{ name }}</span
-  ><span v-if="props.moreButtons"
-    >&nbsp;<a v-if="watchUrl" :href="watchUrl" target="_blank"
-      ><button>📺 {{ $t("readout.watch") }}</button></a
+  <span class="invisible-links">
+    <a v-if="watchUrl" :href="watchUrl">{{ name }}</a>
+    <span v-else>{{ name }}</span
+    ><span v-if="props.moreButtons"
+      >&nbsp;<a v-if="watchUrl" :href="watchUrl" target="_blank"
+        ><button>📺 {{ $t("readout.watch") }}</button></a
+      >
+      <a v-if="tmdbUrl" :href="tmdbUrl" target="_blank"
+        ><button>ℹ️ {{ $t("readout.info") }}</button></a
+      >
+      <button @click="copy">
+        📋 {{ copied ? $t("readout.copied") : $t("readout.copy") }}
+      </button></span
     >
-    <a v-if="tmdbUrl" :href="tmdbUrl" target="_blank"
-      ><button>ℹ️ {{ $t("readout.info") }}</button></a
-    >
-    <button @click="copy">
-      📋 {{ copied ? $t("readout.copied") : $t("readout.copy") }}
-    </button></span
-  >
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -64,21 +66,3 @@ onBeforeUnmount(() => {
   clearTimeout(copyExpireTimeout);
 });
 </script>
-
-<style scoped>
-/* Make links barely distinguishable from regular text; regular links are
- * too visually distracting. */
-a {
-  color: #444;
-  text-decoration: none;
-}
-
-a:hover,
-a:active {
-  text-decoration: underline;
-}
-
-a:visited {
-  color: #333;
-}
-</style>
