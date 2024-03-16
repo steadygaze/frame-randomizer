@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.2.2
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.2.1...v0.2.2)
+
+### 🩹 Fixes
+
+- Fix episode URL styles in dark mode ([954a286f](https://github.com/steadygaze/frame-randomizer/commit/954a286f))
+
+### 🏡 Chore
+
+- Update deps ([d2a2be15](https://github.com/steadygaze/frame-randomizer/commit/d2a2be15))
+
+### ❤️ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+
 ## v0.2.1
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.2.0...v0.2.1)
