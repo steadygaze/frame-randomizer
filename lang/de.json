@@ -93,7 +93,7 @@
     "language": "Sprache:"
   },
   "miscellaneous": {
-    "epilepsy_warning": "Diese Website kann bei Menschen mit lichtempfindlicher Epilepsie möglicherweise Anfälle auslösen. Bitte klicken Sie hier, um diese Warnung zu bestätigen und fortzufahren."
+    "epilepsy_warning": "Diese Website kann bei Menschen mit lichtempfindlicher Epilepsie oder Übelkeit möglicherweise Anfälle auslösen. Bitte klicken Sie hier, um diese Warnung zu bestätigen und fortzufahren."
   },
   "readout": {
     "answer_error": "Fehler beim Erhalten der Antwort: {error}. Versuchen Sie es erneut?",

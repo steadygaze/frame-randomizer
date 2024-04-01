@@ -93,7 +93,7 @@
     "language": "Langue:"
   },
   "miscellaneous": {
-    "epilepsy_warning": "Ce site peut potentiellement déclencher des convulsions chez les personnes souffrant d'épilepsie photosensible. Veuillez cliquer ici pour accuser réception de cet avertissement et continuer."
+    "epilepsy_warning": "Ce site peut potentiellement déclencher des convulsions chez les personnes souffrant d'épilepsie photosensible ou des nausées. Veuillez cliquer ici pour accuser réception de cet avertissement et continuer."
   },
   "readout": {
     "answer_error": "Erreur lors de la réponse : {error}. Essayer à nouveau?",
