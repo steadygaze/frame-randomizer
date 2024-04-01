@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.3.1
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.0...v0.3.1)
+
+### 🩹 Fixes
+
+- Make April 1 animation less predictable ([b92d7342](https://github.com/steadygaze/frame-randomizer/commit/b92d7342))
+- Also warn about April 1 nauseau ([8ed63820](https://github.com/steadygaze/frame-randomizer/commit/8ed63820))
+
+### ❤️ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+
 ## v0.3.0
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.2.2...v0.3.0)
