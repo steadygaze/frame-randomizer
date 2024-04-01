@@ -92,6 +92,9 @@
   "language": {
     "language": "Language:"
   },
+  "miscellaneous": {
+    "epilepsy_warning": "This site may potentially trigger seizures for people with photosensitive epilepsy. Please click here to acknowledge this warning and proceed."
+  },
   "readout": {
     "answer_error": "Error getting answer: {error}. Try again?",
     "answer_not_found": "Answer not found. It may have expired. Try again.",

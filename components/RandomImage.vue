@@ -1,4 +1,10 @@
 <template>
+  <p
+    :class="{ invisible: !showEpilepsyWarning || !isAprilFoolsDay }"
+    @click="acknowledgeEpilepsyWarning"
+  >
+    {{ $t("miscellaneous.epilepsy_warning") }}
+  </p>
   <img v-if="runReadyState" :src="`data:image/svg+xml,${readySvg}`" />
   <img
     v-else-if="frameId"
@@ -7,9 +13,14 @@
         ? `data:image/svg+xml,${errorLoadingImageSvg}`
         : imageUrl(config)
     "
-    :class="{ noResize: !upsizeToFit }"
+    :class="{
+      colorChanging: config.public.aprilFoolsColorChanging && isAprilFoolsDay,
+      noResize: !upsizeToFit,
+      invisible: showEpilepsyWarning && isAprilFoolsDay,
+    }"
     @load="endLoading"
     @error="handleError"
+    @click="acknowledgeEpilepsyWarning"
   />
 </template>
 
@@ -32,6 +43,23 @@ const { upsizeToFit } = storeToRefs(settingsStore);
 
 const config = useRuntimeConfig();
 
+const showEpilepsyWarning = ref(false);
+const isAprilFoolsDay = ref(false);
+onMounted(() => {
+  showEpilepsyWarning.value = true;
+
+  const today = new Date();
+  // Month (but not day) starts from zero.
+  isAprilFoolsDay.value = today.getMonth() === 3 && today.getDate() === 1;
+});
+
+/**
+ * Handler for when the epilepsy warning is acknowledged.
+ */
+function acknowledgeEpilepsyWarning() {
+  showEpilepsyWarning.value = false;
+}
+
 watch(frameId, (frameId) => {
   // Clear error state when getting a new frame.
   if (frameId) {
@@ -45,10 +73,37 @@ watch(frameId, (frameId) => {
   color: white;
 }
 
+p {
+  font-size: 200%;
+  padding: 1em;
+  background-color: black;
+  color: white;
+}
+
+.invisible {
+  display: none;
+}
+
 img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.colorChanging {
+  animation-direction: alternate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: colorChanging;
+}
+
+@keyframes colorChanging {
+  0% {
+    filter: hue-rotate(70deg) saturate(2);
+  }
+  100% {
+    filter: hue-rotate(290deg) saturate(2);
+  }
 }
 
 img.noResize {

@@ -92,6 +92,9 @@
   "language": {
     "language": "Sprache:"
   },
+  "miscellaneous": {
+    "epilepsy_warning": "Diese Website kann bei Menschen mit lichtempfindlicher Epilepsie möglicherweise Anfälle auslösen. Bitte klicken Sie hier, um diese Warnung zu bestätigen und fortzufahren."
+  },
   "readout": {
     "answer_error": "Fehler beim Erhalten der Antwort: {error}. Versuchen Sie es erneut?",
     "answer_not_found": "Antwort nicht gefunden. Möglicherweise ist es abgelaufen. Versuchen Sie es erneut.",

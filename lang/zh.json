@@ -92,6 +92,9 @@
   "language": {
     "language": "语言："
   },
+  "miscellaneous": {
+    "epilepsy_warning": "该网站可能会引发光敏性癫痫患者的癫痫发作。 请单击此处确认此警告并继续。"
+  },
   "readout": {
     "answer_error": "答案错误：{error}。再试一次？",
     "answer_not_found": "找不到答案。可能已过期。再试一次。",

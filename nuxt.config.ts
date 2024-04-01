@@ -241,6 +241,8 @@ export default defineNuxtConfig({
     privateKey: "",
     // Per Nuxt documentation, these values will be sent to client-side code.
     public: {
+      // Enable color changing animation effect for April Fools Day only.
+      aprilFoolsColorChanging: false,
       // Whether to include the disclaimer required by TMDB for use of its API
       // (see
       // https://developer.themoviedb.org/docs/faq#what-are-the-attribution-requirements).

@@ -94,6 +94,9 @@
   "language": {
     "language": "Język:"
   },
+  "miscellaneous": {
+    "epilepsy_warning": "Ta strona może potencjalnie wywołać drgawki u osób cierpiących na padaczkę światłoczułą. Kliknij tutaj, aby potwierdzić to ostrzeżenie i kontynuować."
+  },
   "readout": {
     "answer_error": "Błąd podczas uzyskiwania odpowiedzi: {error}. Spróbować ponownie?",
     "answer_not_found": "Nie dostano odpowiedzi, mogła wygasnąć. Spróbuj ponownie.",
