@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.3.0
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.2.2...v0.3.0)
+
+### 🚀 Enhancements
+
+- Add April Fools color changing effect ([8876c84a](https://github.com/steadygaze/frame-randomizer/commit/8876c84a))
+
+### 🩹 Fixes
+
+- Make episode links less visible in light mode ([542df578](https://github.com/steadygaze/frame-randomizer/commit/542df578))
+
+### ❤️ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+
 ## v0.2.2
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.2.1...v0.2.2)
