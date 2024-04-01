@@ -95,11 +95,12 @@ img {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-name: colorChanging;
+  animation-timing-function: linear;
 }
 
 @keyframes colorChanging {
   0% {
-    filter: hue-rotate(70deg) saturate(2);
+    filter: hue-rotate(70deg) saturate(1.5);
   }
   100% {
     filter: hue-rotate(290deg) saturate(2);
