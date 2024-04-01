@@ -162,6 +162,44 @@ body.theme-default-dark {
   }
 }
 
+body.theme-default-light {
+  .invisible-links {
+    a {
+      color: black;
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:active {
+      text-decoration: underline;
+    }
+
+    a:visited {
+      color: black;
+    }
+  }
+}
+
+@media screen and (prefers-color-scheme: light) {
+  body {
+    .invisible-links {
+      a {
+        color: black;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:active {
+        text-decoration: underline;
+      }
+
+      a:visited {
+        color: black;
+      }
+    }
+  }
+}
+
 @media screen and (max-aspect-ratio: 12/10) {
   #main {
     flex-direction: column;
