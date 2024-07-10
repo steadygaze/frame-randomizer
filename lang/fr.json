@@ -16,11 +16,11 @@
         "example2": "2x3",
         "tip": "Vous pouvez également effectuer une recherche par saison et par numéro d'épisode en saisissant une requête telle que {example1} ou {example2}."
       },
-      "font_size_tip": "La taille de la police dans le volet de saisie est basée sur les valeurs par défaut de votre navigateur. Si vous souhaitez qu'elle soit plus grande, par exemple lors d'une présentation ou d'un streaming, vous pouvez zoomer sans trop affecter la mise en page.",
+      "font_size_tip": "La taille de la police dans le volet de saisie est basée sur les valeurs par défaut de votre navigateur. Si vous souhaitez qu'elle soit plus grande, par exemple lors d'une présentation ou d'un stream, vous pouvez zoomer sans trop affecter la mise en page.",
       "header": "Instructions",
-      "image_lifetime_tip": "Les images sont détruites dès qu'elles sont chargées, donc recharger une image en actualisant la page, en vidant le cache de votre navigateur ou en affichant la même URL d'image sur un autre appareil ne fonctionnera pas. Lorsque vous trouvez une image qui mérite d'être enregistrée, vous pouvez toujours cliquer avec le bouton droit de la souris et enregistrer une image normalement.",
+      "image_lifetime_tip": "Les images sont détruites dès qu'elles sont chargées, donc recharger une image en actualisant la page, en vidant le cache de votre navigateur ou en affichant la même URL d'image sur un autre appareil ne fonctionnera pas. Lorsque vous trouvez une image qui mérite d'être enregistrée, vous pouvez toujours cliquer dessus avec le bouton droit de la souris et l'enregistrer normalement.",
       "no_synopsis": "Malheureusement, les synopsis des épisodes ne sont pas disponibles dans cette langue, désolé.",
-      "skip_tip": "En plus du bouton \"{skipLabel}\", si vous voulez ignorer les devinettes, soit parce qu'elles vous posent unne colle, soit parce que vous voulez simplement profiter des images générées, vous pouvez soumettre une entrée vide dans le champ de recherche.",
+      "skip_tip": "En plus du bouton \"{skipLabel}\", si vous voulez ignorer les devinettes, soit parce qu'elles vous posent une colle, soit parce que vous voulez simplement profiter des images générées, vous pouvez soumettre une entrée vide dans le champ de recherche.",
       "synopsis": "La case à cocher \"{synopsisLabel}\" peut être utilisée pour activer ou désactiver l'affichage et la recherche des descriptions d'épisodes.",
       "synopsis_update_tmdb_hint": "Envisagez de fournir des synopsis d'épisodes à la TMDB et d'informer le propriétaire de l'instance de site.",
       "what_is_this_site": "Ce site génère et affiche une image complètement aléatoire à partir de {showName} , en sélectionnant parmi tous les épisodes avec une probabilité égale. Jouez à un jeu de devinettes pour tester vos connaissances, ou profitez simplement des images générées."
@@ -80,7 +80,7 @@
     "new_frame": "Nouvelle image",
     "placeholder": {
       "fuzzy": "Recherche approximative ({characters} + caractères) ou sXXeXX...",
-      "new": "Obtenir un nouvelle image ?"
+      "new": "Obtenir une nouvelle image ?"
     },
     "reset": "Réinitialiser",
     "save": "Sauvegarder",
@@ -110,8 +110,8 @@
     "incorrect_message": "{guess} est ❌ {incorrect}. Réponse : {answer}.",
     "info": "Info",
     "network_error": "Erreur réseau, ou le serveur est peut-être en panne pour maintenance. Vérifiez la connexion et réessayez.",
-    "new_run": "La nouvelle course est prête à démarrer. Demandez une nouvelle image pour commencer.",
-    "new_run_audio": "La nouvelle course est prête à démarrer. Demandez un nouveau clip audio pour commencer.",
+    "new_run": "La nouvelle tentative est prête à démarrer. Demandez une nouvelle image pour commencer.",
+    "new_run_audio": "La nouvelle tentative est prête à démarrer. Demandez un nouveau clip audio pour commencer.",
     "rate_limit": "Limite de demandes atteinte. Réessayez plus tard.",
     "save_maybe_expired": "Si l'image ne s'enregistre pas, elle a expiré et ne peut pas être téléchargée à nouveau. Essayez de faire un clic droit ou d'appuyer longuement sur l'image et de sélectionner \"Enregistrer l'image sous\" ou \"Télécharger l'image\" à la place.",
     "skipped": "⏩ Passé",
