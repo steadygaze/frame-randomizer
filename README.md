@@ -69,7 +69,7 @@ Consult the `RuntimeConfig` section of `nuxt.config.ts` for all the settings tha
 `app.env`:
 
 ```shell
-export NUXT_EPISODE_DATA_PATH="/path/to/episode_config.json"
+export NUXT_SHOW_DATA_PATH="/path/to/episode_config.json"
 export NUXT_PUBLIC_INSTANCE_NAME="My Randomizer"
 export NUXT_VIDEO_SOURCE_DIR="/path/to/video/files/"
 # Include file contents in variable.
