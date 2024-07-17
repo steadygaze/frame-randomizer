@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## v0.3.1
 
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.1...HEAD)
+
+### 🩹 Fixes
+
+- Improve French translation ([#5](https://github.com/steadygaze/frame-randomizer/pull/5))
+- Fix language switcher ([cb89b2cc](https://github.com/steadygaze/frame-randomizer/commit/cb89b2cc))
+
+### 📖 Documentation
+
+- Fix out of date show config ([0d02f483](https://github.com/steadygaze/frame-randomizer/commit/0d02f483))
+
+### 🏡 Chore
+
+- Update deps ([1a2b0381](https://github.com/steadygaze/frame-randomizer/commit/1a2b0381))
+
+### ❤ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+- Marine Le Poney <marine.le.poney.officiel@gmail.com>
+
+## v0.3.1
+
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.0...v0.3.1)
 
 ### 🩹 Fixes
