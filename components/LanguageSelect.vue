@@ -29,7 +29,8 @@ const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
 watch(locale, (locale) => {
-  navigateTo(switchLocalePath(locale));
+  // Trigger a page reload because translations doesn't load properly otherwise.
+  navigateTo(switchLocalePath(locale), { external: true });
 });
 </script>
 
