@@ -1,6 +1,6 @@
 <template>
   <span class="invisible-links">
-    <a v-if="watchUrl" :href="watchUrl">{{ name }}</a>
+    <a v-if="watchUrl" :href="watchUrl" target="_blank">{{ name }}</a>
     <span v-else>{{ name }}</span
     ><span v-if="props.moreButtons"
       >&nbsp;<a v-if="watchUrl" :href="watchUrl" target="_blank"
