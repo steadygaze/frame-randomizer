@@ -2,7 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## v0.3.1
+## v0.3.3
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.2...main)
+
+### 🩹 Fixes
+
+- Make episode links open in a new tab ([c8c0318](https://github.com/steadygaze/frame-randomizer/commit/c8c0318))
+- Set explicit compatibilityDate ([a51eb81](https://github.com/steadygaze/frame-randomizer/commit/a51eb81))
+
+### 📖 Documentation
+
+- Simplify release procedure slightly ([aa78ea3](https://github.com/steadygaze/frame-randomizer/commit/aa78ea3))
+
+### 📦 Build
+
+- Remove commitlint git hook for now ([2249858](https://github.com/steadygaze/frame-randomizer/commit/2249858))
+
+### ❤ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+
+## v0.3.2
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.1...HEAD)
 
