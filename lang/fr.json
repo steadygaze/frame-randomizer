@@ -108,7 +108,7 @@
     "guess_prompt_audio": "Devinez l'épisode {show} dont l'audio est sélectionné au hasard à l'aide du champ de recherche.",
     "incorrect": "Incorrect",
     "incorrect_message": "{guess} est ❌ {incorrect}. Réponse : {answer}.",
-    "info": "Info",
+    "info": "info",
     "network_error": "Erreur réseau, ou le serveur est peut-être en panne pour maintenance. Vérifiez la connexion et réessayez.",
     "new_run": "La nouvelle tentative est prête à démarrer. Demandez une nouvelle image pour commencer.",
     "new_run_audio": "La nouvelle tentative est prête à démarrer. Demandez un nouveau clip audio pour commencer.",
@@ -118,7 +118,7 @@
     "skipped_message": "{skipped}. Réponse : {answer}.",
     "track_next_run": "La prochaine tentative sera suivie. Cliquez sur \" {reset} \" et lancez une nouvelle tentative.",
     "unknown_error": "Une erreur inconnue est survenue. Essayez à nouveau?",
-    "watch": "montre",
+    "watch": "visionner",
     "welcome": "Accueillir! La première image se chargera sous peu."
   },
   "settings": {
