@@ -25,10 +25,12 @@ import { watch } from "vue";
 import { navigateTo } from "#app";
 import { useI18n, useSwitchLocalePath } from "#imports";
 
-const { locale, locales } = useI18n();
+const { locale, locales, setLocale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
 watch(locale, (locale) => {
+  // Update saved language setting, or the default language will redirect back.
+  setLocale(locale);
   // Trigger a page reload because translations doesn't load properly otherwise.
   navigateTo(switchLocalePath(locale), { external: true });
 });
