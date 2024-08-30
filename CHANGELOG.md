@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.3.4
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.3...main)
+
+### 🩹 Fixes
+
+- Add French translation fixes ([#7](https://github.com/steadygaze/frame-randomizer/pull/7))
+- Fix default redirect language bug ([b8a406ba](https://github.com/steadygaze/frame-randomizer/commit/b8a406ba))
+
+### ❤ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+- Marine Le Poney <marine.le.poney.officiel@gmail.com>
+
 ## v0.3.3
 
 [compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.2...main)

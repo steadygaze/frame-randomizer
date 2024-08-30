@@ -303,7 +303,7 @@ export default defineNuxtConfig({
       // Public key, which can be used to verify server signatures.
       publicKey: "",
       // Software version displayed in UI.
-      softwareVersion: "0.3.3",
+      softwareVersion: "0.3.4",
       // Link to your version of the source code. If you build and run a
       // modified version of this software to users over a network, the AGPL
       // requires you to provide users with a link to view/download your
