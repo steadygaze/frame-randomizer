@@ -2,9 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v0.3.5
+
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.4...v0.3.5)
+
+### 🚀 Enhancements
+
+- Option to name downloaded file after answer ([12c3ee7](https://github.com/steadygaze/frame-randomizer/commit/12c3ee7))
+
+### ❤ Contributors
+
+- Steady Gaze ([@steadygaze](http://github.com/steadygaze))
+
 ## v0.3.4
 
-[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.3...main)
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.3...v0.3.4)
 
 ### 🩹 Fixes
 
@@ -18,7 +30,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## v0.3.3
 
-[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.2...main)
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.2...v0.3.3)
 
 ### 🩹 Fixes
 
@@ -39,7 +51,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## v0.3.2
 
-[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.1...HEAD)
+[compare changes](https://github.com/steadygaze/frame-randomizer/compare/v0.3.1...v0.3.2)
 
 ### 🩹 Fixes
 
