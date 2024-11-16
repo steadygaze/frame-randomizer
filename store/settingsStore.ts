@@ -7,12 +7,18 @@ export enum Theme {
   DefaultDark = "theme-default-dark",
 }
 
+export enum DownloadFilename {
+  Random = "random",
+  EpisodeAndTimestamp = "episode-and-timestamp",
+}
+
 export const useSettingsStore = defineStore(
   "settings",
   () => {
     const config = useRuntimeConfig();
 
     const caseSensitive = ref(false);
+    const downloadFilename = ref(DownloadFilename.Random);
     const fuzziness = ref(config.public.fuzzySearchThreshold);
     const minMatchLength = ref(config.public.fuzzySearchMinMatchLength);
     const nameWeight = ref(config.public.fuzzySearchWeightName);
@@ -31,6 +37,7 @@ export const useSettingsStore = defineStore(
      */
     function reset() {
       caseSensitive.value = false;
+      downloadFilename.value = DownloadFilename.Random;
       minMatchLength.value = config.public.fuzzySearchMinMatchLength;
       nameWeight.value = config.public.fuzzySearchWeightName;
       fuzziness.value = config.public.fuzzySearchThreshold;
@@ -44,6 +51,7 @@ export const useSettingsStore = defineStore(
 
     return {
       caseSensitive,
+      downloadFilename,
       fuzziness,
       minMatchLength,
       nameWeight,

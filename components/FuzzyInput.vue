@@ -43,9 +43,12 @@
         <a
           :href="resourceType === 'audio' ? audioUrl(config) : imageUrl(config)"
           :download="
-            resourceType === 'audio'
-              ? `${audioId.slice(0, 8)}.${config.public.audioOutputExtension}`
-              : `${frameId.slice(0, 8)}.${config.public.imageOutputExtension}`
+            downloadFilename === DownloadFilename.EpisodeAndTimestamp &&
+            savedFilename
+              ? savedFilename
+              : resourceType === 'audio'
+                ? `${audioId.slice(0, 8)}.${config.public.audioOutputExtension}`
+                : `${frameId.slice(0, 8)}.${config.public.imageOutputExtension}`
           "
           :class="{ disabledAnchor: imageIsLoading || (!frameId && !audioId) }"
           :disabled="imageIsLoading || (!frameId && !audioId)"
@@ -147,8 +150,8 @@ import { useAppStateStore } from "~~/store/appStateStore";
 import { useGameModeStore } from "~~/store/gameModeStore";
 import { useShowDataStore } from "~~/store/showDataStore";
 import type { ProcessedEpisodeData } from "~~/store/showDataStore";
-import { useSettingsStore } from "~~/store/settingsStore";
-import { floatIntPartPad } from "~~/utils/utils";
+import { useSettingsStore, DownloadFilename } from "~~/store/settingsStore";
+import { seasonEpisodeTag, secondsToTimestamp } from "~~/utils/utils";
 import type { GenResourceData } from "~/server/types";
 
 const { locale } = useI18n();
@@ -187,6 +190,7 @@ const {
 const settingsStore = useSettingsStore();
 const {
   caseSensitive,
+  downloadFilename,
   fuzziness,
   minMatchLength,
   nameWeight,
@@ -250,6 +254,7 @@ const useSynopsis = ref(true);
 const showAbout = ref(false);
 const showGameMode = ref(false);
 const showSettings = ref(false);
+const savedFilename = ref("");
 
 const seasonEpisodeInputRe = /^s?(?<season>\d+)[xe](?<episode>\d+)$/i;
 
@@ -350,6 +355,7 @@ watch(imageIsLoading, async (imageIsLoading) => {
     document.body.style.cursor = "unset";
     if (!imageLoadError.value) {
       waitingForGuess.value = true; // Trigger timer updates.
+      savedFilename.value = ""; // Default to random if we can't get the answer.
       if (searchTextInput.value) {
         await nextTick();
         searchTextInput.value.focus();
@@ -514,10 +520,24 @@ async function submitAnswer(index: number) {
     ++totalCounter.value;
     const correct = data.value.correct;
     const seekTimeSec = data.value.seekTime;
-    const minute = seekTimeSec ? Math.floor(seekTimeSec / 60) : -1;
-    const second = floatIntPartPad(
-      seekTimeSec ? Math.floor((seekTimeSec % 60) * 1000) / 1000 : -1,
-    );
+    const correctTimestamp = seekTimeSec
+      ? secondsToTimestamp(seekTimeSec)
+      : "?";
+    const extension =
+      resourceType.value === "audio"
+        ? config.public.audioOutputExtension
+        : config.public.imageOutputExtension;
+    // User may change the setting for filename after getting the answer, so we
+    // have to generate this regardless of the current setting.
+    if (data.value.season && data.value.episode) {
+      savedFilename.value = `${seasonEpisodeTag(
+        data.value.season,
+        data.value.episode,
+      )}T${correctTimestamp}.${extension}`;
+    } else {
+      savedFilename.value = "";
+    }
+
     if (index < 0) {
       const correctSeason = data.value.season;
       const correctEpisode = data.value.episode;
@@ -527,7 +547,7 @@ async function submitAnswer(index: number) {
       readout({
         type: "skipped",
         answer: {
-          fullName: `${correctItem?.fullName} @ ${minute}:${second}`,
+          fullName: `${correctItem?.fullName} @ ${correctTimestamp}`,
           season: correctSeason,
           episode: correctEpisode,
         },
@@ -537,7 +557,7 @@ async function submitAnswer(index: number) {
       readout({
         type: "correct",
         answer: {
-          fullName: `${item.fullName} @ ${minute}:${second}`,
+          fullName: `${item.fullName} @ ${correctTimestamp}`,
           season: item.season,
           episode: item.episode,
         },
@@ -559,7 +579,7 @@ async function submitAnswer(index: number) {
           episode: item.episode,
         },
         answer: {
-          fullName: `${correctItem?.fullName} @ ${minute}:${second}`,
+          fullName: `${correctItem?.fullName} @ ${correctTimestamp}`,
           season: correctSeason,
           episode: correctEpisode,
         },

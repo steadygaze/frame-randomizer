@@ -77,3 +77,27 @@ export function timerText(durationMs: number, secPlaces = 1): string {
     ? `${hour}:${("" + min).padStart(2, "0")}:${sec}`
     : `${("" + min).padStart(2, "0")}:${sec}`;
 }
+
+/**
+ * Make a "12m34.567s" style time string.
+ * @param seekTimeSec Time in seconds.
+ * @returns String representation of the timestamp.
+ */
+export function secondsToTimestamp(seekTimeSec: number): string {
+  // Note the extra or skipped % depending on how big we know seekTimeSec is.
+  if (seekTimeSec < 60) {
+    return `${floatIntPartPad(seekTimeSec, 1, 3)}s`;
+  }
+
+  const second = floatIntPartPad(seekTimeSec % 60);
+
+  // Don't forget: 3600 seconds = 1 hour.
+  if (seekTimeSec < 3600) {
+    const minute = floatIntPartPad(Math.floor(seekTimeSec / 60), 1, 0);
+    return `${minute}m${second}s`;
+  }
+
+  const minute = floatIntPartPad(Math.floor((seekTimeSec % 3600) / 60), 2, 0);
+  const hour = floatIntPartPad(Math.floor(seekTimeSec / 3600), 1, 0);
+  return `${hour}h${minute}m${second}s`;
+}

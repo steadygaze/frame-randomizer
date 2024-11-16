@@ -169,6 +169,31 @@
       <br />
       {{ $t("settings.loop_audio_description") }}
     </p>
+    <h3>{{ $t("settings.other_header") }}</h3>
+    <p>
+      <label>Download filename</label>
+      <input
+        id="random"
+        v-model="downloadFilename"
+        type="radio"
+        name="random"
+        :value="DownloadFilename.Random"
+      />
+      <label for="random">{{ $t("settings.random_filename_label") }}</label>
+
+      <input
+        id="episodeAndTimestamp"
+        v-model="downloadFilename"
+        type="radio"
+        name="episodeAndTimestamp"
+        :value="DownloadFilename.EpisodeAndTimestamp"
+      />
+      <label for="episodeAndTimestamp">{{
+        $t("settings.episode_and_timestamp_filename_label")
+      }}</label>
+      <br />
+      {{ $t("settings.download_filename_description") }}
+    </p>
     <template #footer-buttons>
       <button @click="reset">{{ $t("settings.reset") }}</button>
     </template>
@@ -181,7 +206,11 @@ import { storeToRefs } from "pinia";
 import { useI18n } from "#imports";
 import { floatIntPartPad } from "~~/utils/utils";
 import { useShowDataStore } from "~~/store/showDataStore";
-import { Theme, useSettingsStore } from "~/store/settingsStore";
+import {
+  DownloadFilename,
+  Theme,
+  useSettingsStore,
+} from "~/store/settingsStore";
 
 defineProps<{
   show: boolean;
@@ -196,6 +225,7 @@ const settingsStore = useSettingsStore();
 const { reset } = settingsStore;
 const {
   caseSensitive,
+  downloadFilename,
   fuzziness,
   minMatchLength,
   nameWeight,

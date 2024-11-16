@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { floatIntPartPad, timerText } from "./utils";
+import { floatIntPartPad, timerText, secondsToTimestamp } from "./utils";
 
 describe("floatIntPartPad", () => {
   it("should pad a float <10", () => {
@@ -62,5 +62,29 @@ describe("timerText", () => {
 
     expect(timerText(8198877, 1)).toEqual("2:16:38.9");
     expect(timerText(8198877, 3)).toEqual("2:16:38.877");
+  });
+});
+
+describe("secondsToTimestamp", () => {
+  it("should work for <1m", () => {
+    expect(secondsToTimestamp(1)).toEqual("1.000s");
+    expect(secondsToTimestamp(1.234)).toEqual("1.234s");
+    expect(secondsToTimestamp(12.345)).toEqual("12.345s");
+    expect(secondsToTimestamp(2.00003)).toEqual("2.000s");
+  });
+
+  it("should work for <1h", () => {
+    expect(secondsToTimestamp(60)).toEqual("1m00.000s");
+    expect(secondsToTimestamp(121.234)).toEqual("2m01.234s");
+    expect(secondsToTimestamp(72.345)).toEqual("1m12.345s");
+    expect(secondsToTimestamp(122.00003)).toEqual("2m02.000s");
+  });
+
+  it("should work for >1h", () => {
+    expect(secondsToTimestamp(3600)).toEqual("1h00m00.000s");
+    expect(secondsToTimestamp(7200)).toEqual("2h00m00.000s");
+    expect(secondsToTimestamp(3721.234)).toEqual("1h02m01.234s");
+    expect(secondsToTimestamp(3672.345)).toEqual("1h01m12.345s");
+    expect(secondsToTimestamp(3722.00003)).toEqual("1h02m02.000s");
   });
 });
